@@ -1,369 +1,69 @@
-<div class="wellbeing-layout">
+<router-outlet *ngIf="isAuthPage"></router-outlet>
+
+<ng-container *ngIf="!isAuthPage">
   <!-- Mobile Header -->
-  <header *ngIf="sidebarOpen === false" class="mobile-header">
-    <button (click)="toggleSidebar()" class="menu-btn">☰</button>
-    <div class="logo">
-      <span class="logo-icon">❤️</span>
-      <span>well<strong>being</strong></span>
+  <header class="mobile-header">
+    <button class="icon-button" (click)="openSidebar()" aria-label="Меню">
+      <app-icon name="menu" [size]="22" [strokeWidth]="2"></app-icon>
+    </button>
+
+    <div class="mobile-logo">
+      <div class="logo-mark"><app-icon name="heart" [size]="14" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
+      <div class="logo-text">well<strong>being</strong></div>
     </div>
-    <button class="notifications-btn">
-      🔔
-      <span *ngIf="notificationsCount > 0" class="badge-count">{{ notificationsCount }}</span>
+
+    <button class="icon-button bell-btn" (click)="navigate('notifications')" aria-label="Сповіщення">
+      <app-icon name="bell" [size]="22"></app-icon>
+      <span *ngIf="notificationsCount > 0" class="badge-dot">{{ notificationsCount }}</span>
     </button>
   </header>
 
-  <div class="main-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar" [class.open]="sidebarOpen">
-      <div class="logo-section">
-        <div class="logo">
-          <span class="logo-icon">❤️</span>
-          <div>
-            <div class="logo-text">well<strong>being</strong></div>
-            <div class="logo-subtext">Портал підтримки</div>
-          </div>
-        </div>
+  <!-- Drawer overlay (mobile only) -->
+  <div class="drawer-overlay" *ngIf="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="desktop-sidebar" [class.open]="sidebarOpen">
+    <div class="logo-section">
+      <div class="logo-mark logo-mark-lg"><app-icon name="heart" [size]="18" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
+      <div>
+        <div class="logo-text">well<strong>being</strong></div>
+        <div class="logo-subtext">Портал підтримки</div>
       </div>
+    </div>
 
-      <!-- User Mini Card -->
-      <div class="user-mini" (click)="navigate('profile')">
-        <div class="avatar-mini" [innerHTML]="user?.first_name?.charAt(0) || 'U'"></div>
-        <div class="user-info-mini">
-          <div class="username-mini">{{ user?.first_name }} {{ user?.last_name }}</div>
-          <div class="company-mini">{{ user?.company }}</div>
-        </div>
+    <div class="user-mini" (click)="navigate('profile')">
+      <div class="avatar-mini">
+        <img *ngIf="user?.avatar_url" [src]="user.avatar_url" [alt]="user?.first_name" />
+        <span *ngIf="!user?.avatar_url">{{ (user?.first_name || 'U').charAt(0) }}</span>
       </div>
-
-      <!-- Navigation -->
-      <nav class="nav-menu">
-        <button *ngFor="let item of navItems" 
-                (click)="navigate(item.id)"
-                [class.active]="activeTab === item.id"
-                class="nav-item">
-          <span class="nav-icon">{{ item.icon }}</span>
-          <span class="nav-label">{{ item.label }}</span>
-          <span *ngIf="item.badge && item.badge > 0" class="nav-badge">{{ item.badge }}</span>
-        </button>
-      </nav>
-
-      <!-- Logout Button -->
-      <div class="sidebar-footer">
-        <button (click)="logout()" class="btn-logout">
-          ← Вийти
-        </button>
+      <div class="user-info-mini">
+        <div class="username-mini">{{ user?.first_name }} {{ user?.last_name }}</div>
+        <div class="company-mini">{{ user?.company }}</div>
       </div>
-    </aside>
+    </div>
 
-    <!-- Overlay for mobile -->
-    <div *ngIf="sidebarOpen" class="overlay" (click)="toggleSidebar()" class="mobile-only"></div>
+    <nav class="nav-menu">
+      <button *ngFor="let item of navItems"
+              (click)="navigate(item.id)"
+              [class.active]="activeTab === item.id"
+              class="nav-item">
+        <app-icon [name]="item.icon" [size]="18"></app-icon>
+        <span class="nav-label">{{ item.label }}</span>
+        <span *ngIf="item.badge && item.badge > 0" class="nav-badge">{{ item.badge }}</span>
+      </button>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="content-wrapper">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-  </div>
-</div>
+    <div class="sidebar-footer">
+      <button (click)="logout()" class="btn-logout">
+        <app-icon name="logout" [size]="18"></app-icon>
+        <span>Вийти</span>
+      </button>
+    </div>
+  </aside>
 
-<style>
-  :host {
-    --green: #2DB928;
-    --green-dark: #1E9020;
-    --green-light: #E8F5E9;
-    --text: #1C2B20;
-    --text-muted: #6B8879;
-    --border: #DCE9DC;
-    --bg: #F2F7F3;
-    --card: #FFFFFF;
-    --sidebar-w: 256px;
-  }
-
-  .wellbeing-layout {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mobile-header {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 8;
-    height: 56px;
-    background: white;
-    border-bottom: 1px solid var(--border);
-    align-items: center;
-    padding: 0 16px;
-    gap: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-
-  @media (max-width: 768px) {
-    .mobile-header {
-      display: flex;
-    }
-  }
-
-  .menu-btn, .notifications-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 8px;
-    color: var(--text);
-  }
-
-  .notifications-btn {
-    position: relative;
-    margin-left: auto;
-  }
-
-  .badge-count {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: var(--green);
-    color: white;
-    border-radius: 8px;
-    font-size: 10px;
-    padding: 2px 4px;
-    min-width: 16px;
-    text-align: center;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    color: var(--text);
-    flex: 1;
-  }
-
-  .logo-icon {
-    font-size: 24px;
-  }
-
-  .main-layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    margin-top: 0;
-  }
-
-  @media (max-width: 768px) {
-    .main-layout {
-      margin-top: 56px;
-    }
-  }
-
-  .sidebar {
-    width: var(--sidebar-w);
-    background: white;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
-    transition: transform 0.28s cubic-bezier(.4,0,.2,1);
-  }
-
-  @media (max-width: 768px) {
-    .sidebar {
-      transform: translateX(-100%);
-      top: 56px;
-      bottom: 0;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.15);
-    }
-
-    .sidebar.open {
-      transform: translateX(0);
-    }
-  }
-
-  .logo-section {
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo-text {
-    font-size: 15px;
-    letter-spacing: -0.3px;
-  }
-
-  .logo-text strong {
-    color: var(--green);
-  }
-
-  .logo-subtext {
-    font-size: 10px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .user-mini {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .user-mini:hover {
-    background: var(--green-light);
-  }
-
-  .avatar-mini {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #2DB928, #1E9020);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-
-  .user-info-mini {
-    min-width: 0;
-  }
-
-  .username-mini {
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .company-mini {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .nav-menu {
-    flex: 1;
-    padding: 12px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-weight: 400;
-    font-size: 14px;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-  }
-
-  .nav-item:hover {
-    background: var(--green-light);
-  }
-
-  .nav-item.active {
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 600;
-  }
-
-  .nav-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .nav-label {
-    flex: 1;
-  }
-
-  .nav-badge {
-    background: var(--green);
-    color: white;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 1px 7px;
-  }
-
-  .sidebar-footer {
-    padding: 12px;
-  }
-
-  .btn-logout {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: #C62828;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
-  .btn-logout:hover {
-    background: #FFEBEE;
-  }
-
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: 9;
-  }
-
-  @media (max-width: 768px) {
-    .overlay {
-      display: block;
-    }
-  }
-
-  .main-content {
-    flex: 1;
-    overflow-y: auto;
-    margin-left: var(--sidebar-w);
-    background: var(--bg);
-    padding: 24px;
-  }
-
-  @media (max-width: 768px) {
-    .main-content {
-      margin-left: 0;
-      padding: 16px;
-    }
-  }
-
-  .content-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-</style>
+  <main class="main-content">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</ng-container>

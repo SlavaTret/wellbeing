@@ -54,6 +54,9 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                // Companies (public)
+                'GET  v1/company'               => 'v1/company/index',
+
                 // Auth
                 'POST v1/user/login'            => 'v1/user/login',
                 'POST v1/user/register'         => 'v1/user/register',

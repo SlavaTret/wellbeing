@@ -1,0 +1,81 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">❤️</div>
+      <div>
+        <div class="logo-text">well<strong>being</strong></div>
+        <div class="logo-sub">Портал підтримки</div>
+      </div>
+    </div>
+
+    <h1 class="auth-title">Реєстрація</h1>
+    <p class="auth-desc">Створіть новий акаунт</p>
+
+    <div *ngIf="error" class="error-box">{{ error }}</div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Ім'я</label>
+        <input type="text" [(ngModel)]="firstName" placeholder="Олена" [disabled]="loading" />
+      </div>
+      <div class="form-field">
+        <label>Прізвище</label>
+        <input type="text" [(ngModel)]="lastName" placeholder="Бондар" [disabled]="loading" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+    </div>
+
+    <div class="form-field">
+      <label>Компанія</label>
+      <div class="select-wrap">
+        <select [(ngModel)]="companyId" [disabled]="loading || loadingCompanies">
+          <option [ngValue]="null" disabled>
+            {{ loadingCompanies ? 'Завантаження…' : 'Оберіть компанію' }}
+          </option>
+          <option *ngFor="let c of companies" [ngValue]="c.id">{{ c.name }}</option>
+        </select>
+        <span class="select-arrow">▾</span>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Пароль</label>
+      <div class="password-wrap">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          placeholder="Мінімум 8 символів"
+          [disabled]="loading"
+          (keyup.enter)="submit()" />
+        <button
+          type="button"
+          class="icon-btn"
+          (click)="togglePasswordVisibility()"
+          [title]="showPassword ? 'Сховати' : 'Показати'">
+          {{ showPassword ? '🙈' : '👁' }}
+        </button>
+        <button
+          type="button"
+          class="icon-btn"
+          (click)="generatePassword()"
+          title="Згенерувати пароль">
+          🎲
+        </button>
+      </div>
+      <div class="password-hint">Підкажемо: натисніть 🎲 щоб створити надійний пароль</div>
+    </div>
+
+    <button class="btn-primary" (click)="submit()" [disabled]="loading">
+      <span *ngIf="!loading">Зареєструватися</span>
+      <span *ngIf="loading" class="spinner"></span>
+    </button>
+
+    <p class="auth-link">
+      Вже є акаунт? <a routerLink="/login">Увійти</a>
+    </p>
+  </div>
+</div>

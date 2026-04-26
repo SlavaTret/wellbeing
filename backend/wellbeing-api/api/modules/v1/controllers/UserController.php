@@ -43,6 +43,11 @@ class UserController extends Controller
         $data = Yii::$app->request->post();
         $user = new User();
 
+        // Username is required by the schema; derive from email if not given.
+        if (empty($data['username']) && !empty($data['email'])) {
+            $data['username'] = $data['email'];
+        }
+
         if (!$user->load($data, '') || !$user->validate()) {
             Yii::$app->response->statusCode = 422;
             return ['errors' => $user->getErrors()];
@@ -52,15 +57,18 @@ class UserController extends Controller
         $user->generateAuthKey();
         $user->generateAccessToken();
 
+        // Mirror company name into legacy `company` string column for backwards compatibility.
+        if (!empty($user->company_id)) {
+            $branding = \common\models\Company::findOne($user->company_id);
+            if ($branding) {
+                $user->company = $branding->name;
+            }
+        }
+
         if ($user->save()) {
             return [
                 'success' => true,
-                'user' => [
-                    'id' => $user->id,
-                    'email' => $user->email,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                ],
+                'user' => $this->getUserData($user),
                 'access_token' => $user->access_token,
             ];
         }
@@ -132,7 +140,7 @@ class UserController extends Controller
         $data = Yii::$app->request->post();
 
         // Only allow these fields to be updated
-        $allowedFields = ['first_name', 'last_name', 'patronymic', 'phone', 'company', 'avatar_url', 'accepted_terms'];
+        $allowedFields = ['first_name', 'last_name', 'patronymic', 'phone', 'company', 'company_id', 'avatar_url', 'accepted_terms'];
         foreach ($allowedFields as $field) {
             if (isset($data[$field])) {
                 $user->$field = $data[$field];
@@ -157,10 +165,11 @@ class UserController extends Controller
     }
 
     /**
-     * Get grouped user data
+     * Get grouped user data including company branding info.
      */
     private function getUserData($user)
     {
+        $branding = $user->companyBranding;
         return [
             'id' => $user->id,
             'email' => $user->email,
@@ -169,6 +178,8 @@ class UserController extends Controller
             'patronymic' => $user->patronymic,
             'phone' => $user->phone,
             'company' => $user->company,
+            'company_id' => $user->company_id,
+            'company_branding' => $branding ? $branding->toBrandingArray() : null,
             'avatar_url' => $user->avatar_url,
             'accepted_terms' => $user->accepted_terms,
             'created_at' => $user->created_at,

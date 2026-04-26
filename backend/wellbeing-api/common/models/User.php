@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\Company;
 
 /**
  * User model
@@ -66,7 +67,18 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique'],
             [['patronymic', 'phone', 'company', 'avatar_url'], 'string'],
             ['accepted_terms', 'boolean'],
+            ['company_id', 'integer'],
+            ['company_id', 'exist', 'targetClass' => Company::class, 'targetAttribute' => 'id', 'skipOnEmpty' => true],
         ];
+    }
+
+    /**
+     * Relation: company branding info.
+     * Named getCompanyBranding (not getCompany) to avoid clash with legacy `company` string column.
+     */
+    public function getCompanyBranding()
+    {
+        return $this->hasOne(Company::class, ['id' => 'company_id']);
     }
 
     /**

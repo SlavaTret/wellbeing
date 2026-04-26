@@ -1,0 +1,35 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">❤️</div>
+      <div>
+        <div class="logo-text">well<strong>being</strong></div>
+        <div class="logo-sub">Портал підтримки</div>
+      </div>
+    </div>
+
+    <h1 class="auth-title">Вхід до кабінету</h1>
+    <p class="auth-desc">Введіть ваші дані для входу</p>
+
+    <div *ngIf="error" class="error-box">{{ error }}</div>
+
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+    </div>
+
+    <div class="form-field">
+      <label>Пароль</label>
+      <input type="password" [(ngModel)]="password" placeholder="••••••••" [disabled]="loading" (keyup.enter)="submit()" />
+    </div>
+
+    <button class="btn-primary" (click)="submit()" [disabled]="loading">
+      <span *ngIf="!loading">Увійти</span>
+      <span *ngIf="loading" class="spinner"></span>
+    </button>
+
+    <p class="auth-link">
+      Немає акаунту? <a routerLink="/register">Зареєструватися</a>
+    </p>
+  </div>
+</div>

@@ -15,11 +15,17 @@ export class ApiService {
   }
 
   // ==================== AUTH ====================
-  register(email: string, password: string, firstName: string, lastName: string): Observable<any> {
+  register(payload: {
+    email: string; password: string; firstName: string; lastName: string; companyId?: number | null;
+  }): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/register`, {
-      email, password, first_name: firstName, last_name: lastName
+      email: payload.email,
+      password: payload.password,
+      first_name: payload.firstName,
+      last_name: payload.lastName,
+      company_id: payload.companyId ?? null
     }).pipe(
-      tap(response => {
+      tap((response: any) => {
         if (response.access_token) {
           this.setAccessToken(response.access_token);
         }
@@ -27,9 +33,14 @@ export class ApiService {
     );
   }
 
+  // ==================== COMPANIES ====================
+  getCompanies(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/company`);
+  }
+
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/login`, { email, password }).pipe(
-      tap(response => {
+      tap((response: any) => {
         if (response.access_token) {
           this.setAccessToken(response.access_token);
         }
