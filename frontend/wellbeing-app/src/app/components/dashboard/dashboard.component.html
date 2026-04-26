@@ -1,1 +1,91 @@
-<p>dashboard works!</p>
+<h2 class="section-title">Дашборд</h2>
+
+<!-- Stats row -->
+<div class="stats-grid">
+  <div class="card stat-card" *ngFor="let s of stats">
+    <div class="stat-top">
+      <div class="stat-icon-wrap" [style.background]="s.bg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" [attr.stroke]="s.color" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ng-container *ngIf="s.icon === 'calendar'">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </ng-container>
+          <ng-container *ngIf="s.icon === 'check'">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </ng-container>
+          <ng-container *ngIf="s.icon === 'shield'">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </ng-container>
+          <ng-container *ngIf="s.icon === 'x'">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </ng-container>
+        </svg>
+      </div>
+    </div>
+    <div class="stat-value" [style.color]="s.color">{{ s.value }}</div>
+    <div class="stat-label">{{ s.label }}</div>
+  </div>
+</div>
+
+<!-- Free sessions progress -->
+<div class="card" style="margin-bottom: 24px">
+  <div class="progress-header-row">
+    <div>
+      <div class="progress-title">Безкоштовні консультації</div>
+      <div class="progress-sub">{{ freeSessionsUsed }} з {{ freeSessionsTotal }} залишилось</div>
+    </div>
+    <div class="progress-pct">{{ freePercent }}%</div>
+  </div>
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" [style.width]="freePercent + '%'"></div>
+  </div>
+  <div class="progress-tip">💡 Після вичерпання безкоштовних консультацій ви зможете продовжити на платній основі</div>
+</div>
+
+<!-- Two-column row -->
+<div class="two-col">
+  <!-- Upcoming appointments -->
+  <div class="card">
+    <div class="upcoming-header">
+      <span class="upcoming-title">Найближчі записи</span>
+      <span class="link-green" (click)="goToAppointments()">Всі записи →</span>
+    </div>
+    <div *ngFor="let u of upcoming; let last = last" class="upcoming-item" [class.no-border]="last">
+      <div class="avatar-circle">{{ u.avatar }}</div>
+      <div class="upcoming-info">
+        <div class="upcoming-name">{{ u.specialist }}</div>
+        <div class="upcoming-meta">{{ u.type }} · {{ u.date }}, {{ u.time }}</div>
+      </div>
+      <span class="status-badge" [ngClass]="getStatusClass(u.status)">{{ getStatusLabel(u.status) }}</span>
+    </div>
+  </div>
+
+  <!-- Google Calendar -->
+  <div class="card">
+    <div class="upcoming-title" style="margin-bottom: 16px">Google Календар</div>
+    <div class="calendar-zone">
+      <div class="calendar-icon-wrap">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+      <div class="calendar-sync-title">Синхронізувати календар</div>
+      <div class="calendar-sync-desc">Отримуйте нагадування про консультації у своєму Google Calendar</div>
+      <button class="btn-google">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        Підключити Google
+      </button>
+    </div>
+    <div class="calendar-hint">Після підключення всі ваші записи та нагадування за 12 годин до консультації з'являться у вашому календарі.</div>
+  </div>
+</div>

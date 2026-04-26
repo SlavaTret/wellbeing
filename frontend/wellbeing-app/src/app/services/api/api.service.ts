@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8000/api/v1'; // Update with your backend URL
+  private apiUrl = '/api/v1';
   private accessToken: string | null = null;
 
   constructor(private http: HttpClient) {

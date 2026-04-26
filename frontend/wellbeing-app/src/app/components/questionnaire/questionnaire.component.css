@@ -1,0 +1,40 @@
+:host { --green: #2DB928; --green-light: #E8F5E9; --text: #1C2B20; --text-muted: #6B8879; --border: #DCE9DC; --bg: #F2F7F3; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+.card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
+
+.mood-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.mood-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+.mood-row { display: flex; gap: 12px; justify-content: center; }
+.mood-btn {
+  font-size: 32px; background: none; border: 2px solid var(--border);
+  border-radius: 14px; padding: 10px 16px; cursor: pointer;
+  transition: all 0.15s; font-family: inherit;
+}
+.mood-btn:hover { border-color: var(--green); }
+.mood-btn.mood-active { border-color: var(--green); background: var(--green-light); }
+.mood-saved { text-align: center; margin-top: 12px; font-size: 13px; color: var(--green); font-weight: 500; }
+
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.q-title { font-weight: 600; font-size: 15px; }
+.q-counter { font-size: 13px; color: var(--text-muted); }
+.q-progress-bar { height: 4px; background: var(--green-light); border-radius: 4px; margin-bottom: 24px; overflow: hidden; }
+.q-progress-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width 0.3s; }
+.q-text { font-weight: 500; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+.q-options { display: flex; flex-direction: column; gap: 10px; }
+.q-option {
+  padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border);
+  background: #fff; color: var(--text); font-size: 14px; text-align: left;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.q-option:hover { border-color: var(--green); }
+.q-option.q-selected { border: 1.5px solid var(--green); background: var(--green-light); font-weight: 600; }
+
+.done-card { text-align: center; padding: 40px !important; }
+.done-emoji { font-size: 48px; margin-bottom: 16px; }
+.done-title { font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+.done-text { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; max-width: 440px; margin-left: auto; margin-right: auto; }
+.btn-restart {
+  padding: 12px 28px; border: 1px solid var(--green); border-radius: 12px;
+  background: transparent; color: var(--green); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}

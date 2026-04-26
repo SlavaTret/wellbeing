@@ -1,1 +1,32 @@
-<p>documents works!</p>
+<h2 class="section-title">Документи</h2>
+
+<!-- Upload zone -->
+<div class="upload-zone"
+  [class.drag-over]="dragOver"
+  (dragover)="$event.preventDefault(); dragOver = true"
+  (dragleave)="dragOver = false"
+  (drop)="$event.preventDefault(); dragOver = false">
+  <div class="upload-icon-wrap">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" y1="3" x2="12" y2="15"></line>
+    </svg>
+  </div>
+  <div class="upload-title">Перетягніть файл або натисніть для завантаження</div>
+  <div class="upload-sub">Підтримуються PDF, JPG, PNG до 10 MB</div>
+  <button class="btn-select">Вибрати файл</button>
+</div>
+
+<!-- Doc list -->
+<div class="card">
+  <div class="list-title">Завантажені документи</div>
+  <div *ngFor="let d of docs; let last = last" class="doc-row" [class.no-border]="last">
+    <div class="doc-type-badge" [style.color]="typeColor(d.type)">{{ d.type.toUpperCase() }}</div>
+    <div class="doc-info">
+      <div class="doc-name">{{ d.name }}</div>
+      <div class="doc-meta">{{ d.size }} · {{ d.date }}</div>
+    </div>
+    <button class="btn-download">Завантажити</button>
+  </div>
+</div>

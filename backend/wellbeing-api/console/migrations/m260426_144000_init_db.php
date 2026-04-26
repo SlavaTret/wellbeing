@@ -10,6 +10,7 @@ class m260426_144000_init_db extends Migration
     public function up()
     {
         // User table (extend existing)
+        $this->addColumn('{{%user}}', 'access_token', $this->string(40)->unique());
         $this->addColumn('{{%user}}', 'first_name', $this->string(50));
         $this->addColumn('{{%user}}', 'last_name', $this->string(50));
         $this->addColumn('{{%user}}', 'patronymic', $this->string(50));
@@ -136,6 +137,7 @@ class m260426_144000_init_db extends Migration
         $this->dropTable('{{%appointment}}');
 
         // Drop user columns
+        $this->dropColumn('{{%user}}', 'access_token');
         $this->dropColumn('{{%user}}', 'first_name');
         $this->dropColumn('{{%user}}', 'last_name');
         $this->dropColumn('{{%user}}', 'patronymic');

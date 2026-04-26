@@ -1,0 +1,47 @@
+:host { --green: #2DB928; --green-light: #E8F5E9; --text: #1C2B20; --text-muted: #6B8879; --border: #DCE9DC; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+.card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
+.text-center { text-align: center; }
+
+.support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+.support-icon-wrap {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+}
+.green-bg { background: var(--green-light); }
+.yellow-bg { background: #FFF8E1; }
+
+.support-card-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.support-card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+
+.messenger-btns { display: flex; gap: 8px; justify-content: center; }
+.btn-telegram {
+  padding: 9px 18px; background: #0088CC; color: #fff;
+  border-radius: 10px; font-size: 13px; font-weight: 600; text-decoration: none;
+}
+.btn-viber {
+  padding: 9px 18px; background: #7360F2; color: #fff;
+  border-radius: 10px; font-size: 13px; font-weight: 600; text-decoration: none;
+}
+.btn-emergency {
+  display: block; padding: 10px 18px; background: #FFF8E1;
+  border: 1px solid #FDE68A; border-radius: 10px;
+  font-size: 14px; font-weight: 700; color: #8B6200; text-decoration: none;
+}
+
+.form-title { font-weight: 600; font-size: 15px; margin-bottom: 16px; }
+.msg-textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: 12px; font-size: 14px; font-family: inherit;
+  resize: none; outline: none; margin-bottom: 12px; box-sizing: border-box;
+}
+.msg-textarea:focus { border-color: var(--green); }
+.btn-send {
+  padding: 11px 24px; border: none; border-radius: 10px;
+  background: #ccc; color: #fff; font-size: 14px; font-weight: 600;
+  cursor: default; font-family: inherit;
+}
+.btn-send.active { background: var(--green); cursor: pointer; }
+
+@media (max-width: 600px) { .support-grid { grid-template-columns: 1fr; } }

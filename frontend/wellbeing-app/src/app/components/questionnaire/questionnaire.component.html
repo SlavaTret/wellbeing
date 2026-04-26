@@ -1,1 +1,39 @@
-<p>questionnaire works!</p>
+<h2 class="section-title">Анкета стану</h2>
+
+<!-- Mood quick -->
+<div class="card" style="margin-bottom: 24px">
+  <div class="mood-title">Як ви почуваєтесь сьогодні?</div>
+  <div class="mood-sub">Швидка оцінка вашого стану</div>
+  <div class="mood-row">
+    <button *ngFor="let m of moods; let i = index"
+      class="mood-btn" [class.mood-active]="mood === i"
+      (click)="mood = i">{{ m }}</button>
+  </div>
+  <div *ngIf="mood !== null" class="mood-saved">✓ Оцінку збережено</div>
+</div>
+
+<!-- PHQ questionnaire -->
+<div class="card" *ngIf="!done">
+  <div class="q-header">
+    <span class="q-title">Опитування PHQ-9</span>
+    <span class="q-counter">{{ step + 1 }} / {{ questions.length }}</span>
+  </div>
+  <div class="q-progress-bar">
+    <div class="q-progress-fill" [style.width]="progress + '%'"></div>
+  </div>
+  <div class="q-text">{{ questions[step].q }}</div>
+  <div class="q-options">
+    <button *ngFor="let opt of questions[step].options"
+      class="q-option"
+      [class.q-selected]="answers[step] === opt"
+      (click)="answer(opt)">{{ opt }}</button>
+  </div>
+</div>
+
+<!-- Done screen -->
+<div class="card done-card" *ngIf="done">
+  <div class="done-emoji">🌱</div>
+  <div class="done-title">Дякуємо за відповіді!</div>
+  <div class="done-text">Ваші відповіді збережено. Вони допоможуть нашим спеціалістам краще підготуватись до консультації та запропонувати відповідну допомогу.</div>
+  <button class="btn-restart" (click)="restart()">Пройти ще раз</button>
+</div>

@@ -1,1 +1,94 @@
-<p>appointments works!</p>
+<div class="section-header">
+  <h2 class="section-title">Мої записи</h2>
+  <button class="btn-new">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+    Новий запис
+  </button>
+</div>
+
+<!-- Filters -->
+<div class="filter-row">
+  <button *ngFor="let f of filters"
+    class="filter-btn"
+    [class.active]="filter === f.id"
+    (click)="filter = f.id">{{ f.label }}</button>
+</div>
+
+<!-- List -->
+<div class="appts-list">
+  <div class="card appt-card" *ngFor="let a of filtered">
+    <div class="appt-top">
+      <div class="avatar-circle">{{ a.avatar }}</div>
+      <div class="appt-info">
+        <div class="appt-name">{{ a.specialist }}</div>
+        <div class="appt-meta">{{ a.type }} · {{ a.date }}, {{ a.time }}</div>
+      </div>
+      <span class="status-badge" [ngClass]="'badge-' + a.status">{{ getStatusLabel(a.status) }}</span>
+    </div>
+
+    <div class="appt-bottom">
+      <div class="pay-info" [class.paid]="a.paid" [class.unpaid]="!a.paid">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="a.paid ? 'var(--green)' : '#8B6200'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+        </svg>
+        {{ a.paid ? 'Оплачено' : 'Не оплачено' }}
+      </div>
+
+      <div class="appt-actions">
+        <button *ngIf="a.status === 'confirmed' || a.status === 'pending'"
+          class="btn-cancel" (click)="openCancel(a)">Скасувати</button>
+
+        <button *ngIf="a.status === 'completed' && !ratings[a.id]"
+          class="btn-review" (click)="openRating(a)">Залишити відгук</button>
+
+        <div *ngIf="ratings[a.id]" class="stars-display">
+          <span *ngFor="let s of stars" class="star" [class.filled]="s <= ratings[a.id]">★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="filtered.length === 0" class="empty-state">Записів не знайдено</div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal-overlay" *ngIf="cancelModal" (click)="closeCancel()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-title">Скасування запису</div>
+    <div class="modal-sub">{{ cancelModal.specialist }} · {{ cancelModal.date }}, {{ cancelModal.time }}</div>
+    <div class="form-field">
+      <label>Причина скасування</label>
+      <textarea [(ngModel)]="cancelReason" placeholder="Вкажіть причину..." rows="3"></textarea>
+    </div>
+    <div class="cancel-warn">⚠️ Скасування менш ніж за 2 години потребує обов'язкової причини</div>
+    <div class="modal-footer">
+      <button class="btn-modal-back" (click)="closeCancel()">Назад</button>
+      <button class="btn-modal-red" (click)="confirmCancel()">Підтвердити скасування</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rating Modal -->
+<div class="modal-overlay" *ngIf="ratingModal" (click)="closeRating()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-title">Оцінка консультації</div>
+    <div class="modal-sub">{{ ratingModal.specialist }} · {{ ratingModal.date }}</div>
+    <div class="stars-input">
+      <button *ngFor="let s of stars" class="star-btn" (click)="ratingValue = s">
+        <span class="star-lg" [class.filled]="s <= ratingValue">★</span>
+      </button>
+    </div>
+    <textarea class="review-text" [(ngModel)]="ratingText" placeholder="Ваш коментар (необов'язково)..." rows="3"></textarea>
+    <div *ngIf="ratingValue <= 2 && ratingValue > 0" class="low-rating-warn">
+      Нам шкода. Наш оператор зв'яжеться з вами найближчим часом.
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-back" (click)="closeRating()">Скасувати</button>
+      <button class="btn-modal-green" [class.disabled]="!ratingValue" (click)="submitRating()">Надіслати відгук</button>
+    </div>
+  </div>
+</div>
