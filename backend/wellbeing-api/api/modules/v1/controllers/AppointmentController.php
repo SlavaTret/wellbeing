@@ -3,6 +3,9 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Appointment;
+use common\models\Company;
+use common\models\Payment;
+use common\models\SpecialistReview;
 use Yii;
 use yii\rest\Controller;
 use yii\data\ActiveDataProvider;
@@ -55,8 +58,28 @@ class AppointmentController extends Controller
             ],
         ]);
 
+        $models = $dataProvider->getModels();
+
+        // Batch-load review rating per appointment (appointment_id → rating)
+        $ids = array_map(fn($a) => $a->id, $models);
+        $reviewRatings = [];
+        if ($ids) {
+            $rows = SpecialistReview::find()
+                ->select(['appointment_id', 'rating'])
+                ->where(['appointment_id' => $ids])
+                ->asArray()
+                ->all();
+            foreach ($rows as $r) {
+                $reviewRatings[$r['appointment_id']] = (int)$r['rating'];
+            }
+        }
+
+        $items = array_map(function ($a) use ($reviewRatings) {
+            return $this->formatAppointment($a, $reviewRatings[$a->id] ?? null);
+        }, $models);
+
         return [
-            'items' => $dataProvider->getModels(),
+            'items' => $items,
             'total' => $dataProvider->totalCount,
         ];
     }
@@ -72,7 +95,7 @@ class AppointmentController extends Controller
         
         $this->checkUserAccess($appointment->user_id);
 
-        return $appointment;
+        return $this->formatAppointment($appointment);
     }
 
     /**
@@ -93,8 +116,9 @@ class AppointmentController extends Controller
         }
 
         if ($appointment->save()) {
+            $this->handlePaymentForNewAppointment($user, $appointment);
             Yii::$app->response->statusCode = 201;
-            return $appointment;
+            return $this->formatAppointment($appointment);
         }
 
         Yii::$app->response->statusCode = 400;
@@ -157,9 +181,9 @@ class AppointmentController extends Controller
         $appointment->status = Appointment::STATUS_CANCELLED;
         if ($appointment->save(false)) {
             return [
-                'success' => true,
-                'message' => 'Запис скасовано',
-                'appointment' => $appointment,
+                'success'     => true,
+                'message'     => 'Запис скасовано',
+                'appointment' => $this->formatAppointment($appointment),
             ];
         }
 
@@ -190,6 +214,82 @@ class AppointmentController extends Controller
 
         Yii::$app->response->statusCode = 400;
         return ['error' => 'Failed to save review'];
+    }
+
+    private function handlePaymentForNewAppointment($user, Appointment $appointment): void
+    {
+        $price = (float)$appointment->price;
+        if ($price <= 0) {
+            $appointment->payment_status = 'paid';
+            $appointment->save(false);
+            return;
+        }
+
+        // Determine free sessions quota
+        $freeTotal = 0;
+        if ($user->company_id) {
+            $company = Company::findOne($user->company_id);
+            if ($company && $company->free_sessions_per_user > 0) {
+                $freeTotal = (int)$company->free_sessions_per_user;
+            }
+        }
+
+        if ($freeTotal > 0) {
+            // Count non-cancelled appointments excluding this new one
+            $usedFree = (int)Appointment::find()
+                ->where(['user_id' => $user->id])
+                ->andWhere(['NOT IN', 'status', [Appointment::STATUS_CANCELLED]])
+                ->andWhere(['!=', 'id', $appointment->id])
+                ->count();
+            $freeRemaining = max(0, $freeTotal - $usedFree);
+        } else {
+            $freeRemaining = 0;
+        }
+
+        if ($freeRemaining > 0) {
+            $appointment->payment_status = 'paid';
+            $appointment->save(false);
+        } else {
+            $payment = new Payment();
+            $payment->user_id = $user->id;
+            $payment->appointment_id = $appointment->id;
+            $payment->amount = $price;
+            $payment->currency = 'UAH';
+            $payment->status = Payment::STATUS_PENDING;
+            $payment->payment_method = Payment::PAYMENT_METHOD_CARD;
+            $payment->save();
+        }
+    }
+
+    private function formatAppointment($a, ?int $reviewRating = null): array
+    {
+        $ukrainianMonths = ['', 'січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
+        $date = \DateTime::createFromFormat('Y-m-d', $a->appointment_date);
+        $dateLabel = $date
+            ? $date->format('j') . ' ' . $ukrainianMonths[(int)$date->format('n')] . ' ' . $date->format('Y')
+            : $a->appointment_date;
+
+        return [
+            'id'               => $a->id,
+            'specialist_id'    => $a->specialist_id,
+            'specialist'       => $a->specialist_name,
+            'type'             => $a->specialist_type,
+            'date'             => $dateLabel,
+            'date_raw'         => $a->appointment_date,
+            'time'             => $a->appointment_time,
+            'status'           => $a->status,
+            'paid'             => $a->payment_status === 'paid',
+            'payment_status'   => $a->payment_status,
+            'notes'            => $a->notes,
+            'price'            => (float)$a->price,
+            'review_rating'    => $reviewRating,
+            'avatar'           => mb_strtoupper(
+                mb_substr($a->specialist_name, 0, 1) .
+                (strpos($a->specialist_name, ' ') !== false
+                    ? mb_substr(substr($a->specialist_name, strpos($a->specialist_name, ' ') + 1), 0, 1)
+                    : '')
+            ),
+        ];
     }
 
     private function findModel($id)

@@ -1,24 +1,30 @@
+<!-- ══ HEADER ══ -->
 <div class="section-header">
   <h2 class="section-title">Мої записи</h2>
-  <button class="btn-new">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-    </svg>
+  <button class="btn-new" (click)="openBooking()">
+    <app-icon name="plus" [size]="16" stroke="#fff" [strokeWidth]="2.5"></app-icon>
     Новий запис
   </button>
 </div>
 
-<!-- Filters -->
+<!-- ══ FILTERS ══ -->
 <div class="filter-row">
-  <button *ngFor="let f of filters"
-    class="filter-btn"
-    [class.active]="filter === f.id"
-    (click)="filter = f.id">{{ f.label }}</button>
+  <button *ngFor="let f of filters" class="filter-btn"
+    [class.active]="filter === f.id" (click)="filter = f.id">{{ f.label }}</button>
 </div>
 
-<!-- List -->
-<div class="appts-list">
+<!-- ══ LOADING ══ -->
+<div *ngIf="loading" class="loading-wrap">
+  <div class="spinner-lg"></div>
+</div>
+
+<!-- ══ ERROR ══ -->
+<div *ngIf="error && !loading" class="error-notice">
+  <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>{{ error }}
+</div>
+
+<!-- ══ LIST ══ -->
+<div *ngIf="!loading" class="appts-list">
   <div class="card appt-card" *ngFor="let a of filtered">
     <div class="appt-top">
       <div class="avatar-circle">{{ a.avatar }}</div>
@@ -28,34 +34,31 @@
       </div>
       <span class="status-badge" [ngClass]="'badge-' + a.status">{{ getStatusLabel(a.status) }}</span>
     </div>
-
     <div class="appt-bottom">
       <div class="pay-info" [class.paid]="a.paid" [class.unpaid]="!a.paid">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="a.paid ? 'var(--green)' : '#8B6200'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-          <line x1="1" y1="10" x2="23" y2="10"></line>
-        </svg>
+        <app-icon name="card" [size]="14" [stroke]="a.paid ? 'var(--green)' : '#8B6200'"></app-icon>
         {{ a.paid ? 'Оплачено' : 'Не оплачено' }}
       </div>
-
       <div class="appt-actions">
+        <button *ngIf="!a.paid && (a.status === 'confirmed' || a.status === 'pending')"
+          class="btn-pay-appt" [disabled]="paying[a.id]" (click)="payAppointment(a)">
+          <span *ngIf="!paying[a.id]">Оплатити</span>
+          <span *ngIf="paying[a.id]" class="spinner-sm spinner-green"></span>
+        </button>
         <button *ngIf="a.status === 'confirmed' || a.status === 'pending'"
           class="btn-cancel" (click)="openCancel(a)">Скасувати</button>
-
         <button *ngIf="a.status === 'completed' && !ratings[a.id]"
           class="btn-review" (click)="openRating(a)">Залишити відгук</button>
-
         <div *ngIf="ratings[a.id]" class="stars-display">
           <span *ngFor="let s of stars" class="star" [class.filled]="s <= ratings[a.id]">★</span>
         </div>
       </div>
     </div>
   </div>
-
   <div *ngIf="filtered.length === 0" class="empty-state">Записів не знайдено</div>
 </div>
 
-<!-- Cancel Modal -->
+<!-- ══════════ CANCEL MODAL ══════════ -->
 <div class="modal-overlay" *ngIf="cancelModal" (click)="closeCancel()">
   <div class="modal" (click)="$event.stopPropagation()">
     <div class="modal-title">Скасування запису</div>
@@ -64,15 +67,20 @@
       <label>Причина скасування</label>
       <textarea [(ngModel)]="cancelReason" placeholder="Вкажіть причину..." rows="3"></textarea>
     </div>
-    <div class="cancel-warn">⚠️ Скасування менш ніж за 2 години потребує обов'язкової причини</div>
+    <div class="cancel-warn">
+      ⚠ Скасування менш ніж за 2 години потребує обов'язкової причини
+    </div>
     <div class="modal-footer">
-      <button class="btn-modal-back" (click)="closeCancel()">Назад</button>
-      <button class="btn-modal-red" (click)="confirmCancel()">Підтвердити скасування</button>
+      <button class="btn-modal-back" (click)="closeCancel()" [disabled]="cancelling">Назад</button>
+      <button class="btn-modal-red" (click)="confirmCancel()" [disabled]="cancelling">
+        <span *ngIf="!cancelling">Підтвердити скасування</span>
+        <span *ngIf="cancelling" class="spinner-sm"></span>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- Rating Modal -->
+<!-- ══════════ RATING MODAL ══════════ -->
 <div class="modal-overlay" *ngIf="ratingModal" (click)="closeRating()">
   <div class="modal" (click)="$event.stopPropagation()">
     <div class="modal-title">Оцінка консультації</div>
@@ -91,4 +99,268 @@
       <button class="btn-modal-green" [class.disabled]="!ratingValue" (click)="submitRating()">Надіслати відгук</button>
     </div>
   </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BOOKING MODAL (5 кроків)
+══════════════════════════════════════ -->
+<div class="bk-overlay" *ngIf="bookingOpen" (click)="closeBooking()">
+  <div class="bk-modal" (click)="$event.stopPropagation()">
+
+    <!-- ── Fixed Header ── -->
+    <div class="bk-header">
+      <div class="bk-title-row">
+        <div class="bk-title">
+          {{ bookingStep === 5 ? 'Запис підтверджено!' : 'Новий запис' }}
+        </div>
+        <button class="bk-close" (click)="closeBooking()">
+          <app-icon name="x" [size]="22"></app-icon>
+        </button>
+      </div>
+
+      <!-- Stepper (кроки 1–4) -->
+      <div *ngIf="bookingStep < 5" class="bk-stepper">
+        <ng-container *ngFor="let label of stepLabels; let i = index">
+          <div class="bk-step-col">
+            <div class="bk-step-circle"
+              [class.bk-step-active]="bookingStep === i + 1"
+              [class.bk-step-done]="bookingStep > i + 1">
+              <app-icon *ngIf="bookingStep > i + 1" name="check" [size]="14" stroke="#fff" [strokeWidth]="2.5"></app-icon>
+              <span *ngIf="bookingStep <= i + 1">{{ i + 1 }}</span>
+            </div>
+            <div class="bk-step-label"
+              [class.bk-step-label-active]="bookingStep === i + 1">{{ label }}</div>
+          </div>
+          <div *ngIf="i < stepLabels.length - 1"
+            class="bk-step-line"
+            [class.bk-step-line-done]="bookingStep > i + 1"></div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- ── Scrollable Body ── -->
+    <div class="bk-body">
+
+      <!-- ──────── STEP 1: Каталог ──────── -->
+      <div *ngIf="bookingStep === 1">
+        <div class="bk-hint">Оберіть категорію або переглядайте всіх спеціалістів</div>
+
+        <!-- Category chips -->
+        <div class="bk-chips">
+          <button *ngFor="let c of categories" class="bk-chip"
+            [class.bk-chip-active]="catFilter === c.id"
+            (click)="catFilter = c.id">{{ c.label }}</button>
+        </div>
+
+        <!-- Loading -->
+        <div *ngIf="specialistsLoading" class="loading-wrap"><div class="spinner-lg"></div></div>
+
+        <!-- Cards -->
+        <div *ngIf="!specialistsLoading" class="bk-spec-list">
+          <div *ngFor="let sp of filteredSpecialists"
+            class="bk-spec-card"
+            (click)="selectSpec(sp)">
+            <div class="bk-spec-avatar">{{ sp.avatar_initials }}</div>
+            <div class="bk-spec-info">
+              <div class="bk-spec-name-row">
+                <span class="bk-spec-name">{{ sp.name }}</span>
+                <span class="bk-spec-type-tag">{{ sp.type }}</span>
+                <span class="bk-spec-price-tag">{{ sp.price | number:'1.0-0' }} грн</span>
+              </div>
+              <div class="bk-spec-meta">
+                {{ sp.categories?.join(' · ') }} · {{ sp.experience_years }} р. досвіду
+              </div>
+              <div class="bk-spec-rating-row" *ngIf="sp.reviews_count > 0">
+                <span class="bk-star-icon">★</span>
+                <span class="bk-spec-rating">{{ sp.rating }}</span>
+                <span class="bk-spec-reviews">({{ sp.reviews_count }} відгуків)</span>
+              </div>
+              <div class="bk-spec-rating-row" *ngIf="sp.reviews_count === 0">
+                <span class="bk-spec-reviews">Відгуків ще немає</span>
+              </div>
+            </div>
+            <app-icon name="chevronDown" [size]="18" stroke="var(--text-muted)"
+              style="transform: rotate(-90deg); flex-shrink:0"></app-icon>
+          </div>
+          <div *ngIf="filteredSpecialists.length === 0" class="empty-state">Спеціалістів не знайдено</div>
+        </div>
+      </div>
+
+      <!-- ──────── STEP 2: Спеціаліст ──────── -->
+      <div *ngIf="bookingStep === 2 && selectedSpec">
+        <!-- Profile -->
+        <div class="bk-profile-row">
+          <div class="bk-profile-avatar">{{ selectedSpec.avatar_initials }}</div>
+          <div>
+            <div class="bk-profile-name">{{ selectedSpec.name }}</div>
+            <div class="bk-profile-meta">{{ selectedSpec.type }} · {{ selectedSpec.experience_years }} р. досвіду</div>
+            <div class="bk-cat-tags">
+              <span *ngFor="let c of selectedSpec.categories" class="bk-cat-tag">{{ c }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio -->
+        <div class="bk-bio-box">
+          <div class="bk-box-label">Про спеціаліста</div>
+          <div class="bk-bio-text">{{ selectedSpec.bio }}</div>
+        </div>
+
+        <!-- Rating -->
+        <div class="bk-rating-box" *ngIf="selectedSpec.reviews_count > 0">
+          <span class="bk-star-big">★</span>
+          <div>
+            <span class="bk-rating-num">{{ selectedSpec.rating }}</span>
+            <span class="bk-rating-count">{{ selectedSpec.reviews_count }} відгуків клієнтів</span>
+          </div>
+        </div>
+        <div class="bk-rating-box" *ngIf="selectedSpec.reviews_count === 0">
+          <span class="bk-rating-count">Відгуків ще немає — будьте першим!</span>
+        </div>
+
+        <!-- Booking method -->
+        <div class="bk-method-label">Спосіб запису</div>
+        <div class="bk-method-grid">
+          <div class="bk-method-card" [class.bk-method-active]="bookVia === 'online'"
+            (click)="bookVia = 'online'">
+            <div class="bk-method-top">
+              <app-icon name="calendar" [size]="16"
+                [stroke]="bookVia === 'online' ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
+              <span class="bk-method-title"
+                [style.color]="bookVia === 'online' ? 'var(--green-dark)' : 'var(--text)'">
+                Онлайн-запис
+              </span>
+            </div>
+            <div class="bk-method-sub">Самостійно через портал</div>
+          </div>
+          <div class="bk-method-card" [class.bk-method-active]="bookVia === 'phone'"
+            (click)="bookVia = 'phone'">
+            <div class="bk-method-top">
+              <app-icon name="phone" [size]="16"
+                [stroke]="bookVia === 'phone' ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
+              <span class="bk-method-title"
+                [style.color]="bookVia === 'phone' ? 'var(--green-dark)' : 'var(--text)'">
+                Запис через WO
+              </span>
+            </div>
+            <div class="bk-method-sub">Відображення у кабінеті після підтвердження</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ──────── STEP 3: Слоти ──────── -->
+      <div *ngIf="bookingStep === 3 && selectedSpec">
+        <div class="bk-hint">Оберіть зручний день та час</div>
+
+        <!-- Day buttons -->
+        <div class="bk-days">
+          <button *ngFor="let d of availableDates" class="bk-day-btn"
+            [class.bk-day-active]="selectedDay === d.date"
+            (click)="selectedDay = d.date; selectedTime = ''">{{ d.label }}</button>
+        </div>
+
+        <!-- Time slots -->
+        <div *ngIf="selectedDay">
+          <div class="bk-time-label">Доступний час</div>
+          <div class="bk-times">
+            <button *ngFor="let t of selectedDaySlots" class="bk-time-btn"
+              [class.bk-time-active]="selectedTime === t"
+              (click)="selectedTime = t">{{ t }}</button>
+          </div>
+        </div>
+        <div *ngIf="!selectedDay" class="bk-hint bk-hint-center">
+          ← Оберіть день, щоб побачити доступний час
+        </div>
+      </div>
+
+      <!-- ──────── STEP 4: Підтвердження ──────── -->
+      <div *ngIf="bookingStep === 4 && selectedSpec">
+
+        <!-- Details card (green light) -->
+        <div class="bk-confirm-card">
+          <div class="bk-confirm-title">Деталі запису</div>
+          <div class="bk-confirm-row">
+            <span class="bk-confirm-label">Спеціаліст</span>
+            <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ selectedSpec.type }})</span>
+          </div>
+          <div class="bk-confirm-row">
+            <span class="bk-confirm-label">Дата та час</span>
+            <span class="bk-confirm-val">{{ formatDateLabel(selectedDay) }} о {{ selectedTime }}</span>
+          </div>
+          <div class="bk-confirm-row">
+            <span class="bk-confirm-label">Формат</span>
+            <span class="bk-confirm-val">{{ bookVia === 'online' ? 'Онлайн-запис' : 'Запис через WO' }}</span>
+          </div>
+          <div class="bk-confirm-row bk-confirm-row-last">
+            <span class="bk-confirm-label">Вартість</span>
+            <span class="bk-confirm-val" *ngIf="freeRemaining > 0">
+              <span class="bk-price-strike">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
+              <span class="bk-free-badge bk-free-tip"
+                    [attr.data-tip]="'Покривається корпоративною підпискою вашої компанії. Залишилось безкоштовних: ' + freeRemaining">
+                Безкоштовно
+              </span>
+            </span>
+            <span class="bk-confirm-val" *ngIf="freeRemaining === 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <!-- Info notice -->
+        <div class="bk-info-notice">
+          <app-icon name="info" [size]="16" stroke="#8B6200" style="flex-shrink:0; margin-top:1px"></app-icon>
+          <div>
+            Після підтвердження вам прийде лист на пошту та з'явиться подія у кабінеті.
+            Нагадування — за 12 годин до консультації.<br>
+            <strong>Скасування</strong> — мінімум за 2 години. При скасуванні менш ніж за 2 год
+            необхідно вказати причину.
+          </div>
+        </div>
+
+        <!-- Payment row -->
+        <div class="bk-payment-row">
+          <div>
+            <div class="bk-payment-title">Оплата</div>
+            <div class="bk-payment-sub" *ngIf="freeRemaining > 0">Покрито підпискою компанії</div>
+            <div class="bk-payment-sub" *ngIf="freeRemaining === 0">Через UA Pay після підтвердження</div>
+          </div>
+          <div class="bk-payment-amount" *ngIf="freeRemaining === 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
+          <div class="bk-payment-amount bk-payment-free" *ngIf="freeRemaining > 0">Безкоштовно</div>
+        </div>
+      </div>
+
+      <!-- ──────── STEP 5: Успіх ──────── -->
+      <div *ngIf="bookingStep === 5" class="bk-success">
+        <div class="bk-success-icon">
+          <app-icon name="check" [size]="36" stroke="var(--green)" [strokeWidth]="2.5"></app-icon>
+        </div>
+        <div class="bk-success-title">Запис підтверджено!</div>
+        <div class="bk-success-sub">
+          {{ selectedSpec?.name }} · {{ formatDateLabel(selectedDay) }} о {{ selectedTime }}<br>
+          Лист-підтвердження надіслано на вашу пошту. Нагадування прийде за 12 годин до консультації.
+        </div>
+        <div class="bk-success-btns">
+          <button class="bk-btn-outline" (click)="closeBooking()">Закрити</button>
+          <button class="bk-btn-green">
+            <app-icon name="calendar" [size]="16" stroke="#fff"></app-icon>
+            Додати в Google Calendar
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /bk-body -->
+
+    <!-- ── Fixed Footer (only steps 1–4) ── -->
+    <div *ngIf="bookingStep < 5" class="bk-footer">
+      <button class="bk-btn-back" (click)="stepBack()">
+        {{ bookingStep === 1 ? 'Скасувати' : '← Назад' }}
+      </button>
+      <button class="bk-btn-next"
+        [class.bk-btn-disabled]="!canGoNext || bookingSaving"
+        (click)="stepNext()"
+        [disabled]="bookingSaving">
+        <span *ngIf="!bookingSaving">{{ bookingStep === 4 ? 'Підтвердити запис' : 'Далі →' }}</span>
+        <span *ngIf="bookingSaving" class="spinner-sm"></span>
+      </button>
+    </div>
+
+  </div><!-- /bk-modal -->
 </div>

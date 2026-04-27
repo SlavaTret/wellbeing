@@ -1,32 +1,44 @@
 <h2 class="section-title">Оплата</h2>
 
-<!-- Pay banner -->
-<div class="pay-banner">
-  <div>
-    <div class="banner-sub">До оплати</div>
-    <div class="banner-amount">₴ 1 100</div>
-    <div class="banner-desc">Консультація · Дмитро Сорока · 5 травня</div>
-  </div>
-  <button class="btn-pay">Оплатити</button>
-</div>
+<div *ngIf="loading" class="loading-wrap"><div class="spinner-md"></div></div>
 
-<!-- History -->
-<div class="card">
-  <div class="list-title">Історія оплат</div>
-  <div *ngFor="let p of payments; let last = last" class="pay-row" [class.no-border]="last">
-    <div class="pay-icon-wrap">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-        <line x1="1" y1="10" x2="23" y2="10"></line>
-      </svg>
+<ng-container *ngIf="!loading">
+  <!-- Pay banner (shown only when there's a pending payment) -->
+  <div *ngIf="pending" class="pay-banner">
+    <div>
+      <div class="banner-sub">До оплати</div>
+      <div class="banner-amount">₴ {{ pending.amount | number:'1.0-0' }}</div>
+      <div class="banner-desc">Консультація · {{ pending.specialist }} · {{ pending.date }}</div>
     </div>
-    <div class="pay-info">
-      <div class="pay-name">{{ p.specialist }}</div>
-      <div class="pay-date">{{ p.date }}</div>
-    </div>
-    <div class="pay-amount" [class.unpaid-text]="p.status === 'unpaid'">₴ {{ p.amount.toLocaleString() }}</div>
-    <span class="status-badge" [ngClass]="p.status === 'paid' ? 'badge-paid' : 'badge-unpaid'">
-      {{ p.status === 'paid' ? 'Оплачено' : 'Не оплачено' }}
-    </span>
+    <button class="btn-pay" (click)="pay()" [disabled]="paying">
+      <span *ngIf="!paying">Оплатити</span>
+      <span *ngIf="paying" class="spinner-sm spinner-white"></span>
+    </button>
   </div>
-</div>
+
+  <!-- History -->
+  <div class="card">
+    <div class="list-title">Історія оплат</div>
+
+    <div *ngIf="payments.length === 0" class="empty-payments">
+      <app-icon name="card" [size]="28" stroke="var(--text-muted)"></app-icon>
+      <span>Оплат ще немає</span>
+    </div>
+
+    <div *ngFor="let p of payments; let last = last" class="pay-row" [class.no-border]="last">
+      <div class="pay-icon-wrap">
+        <app-icon name="card" [size]="18" stroke="var(--green)" [strokeWidth]="2"></app-icon>
+      </div>
+      <div class="pay-info">
+        <div class="pay-name">{{ p.specialist }}</div>
+        <div class="pay-date">{{ p.date }}</div>
+      </div>
+      <div class="pay-amount" [class.unpaid-text]="!isPaid(p)">
+        ₴ {{ p.amount | number:'1.0-0' }}
+      </div>
+      <span class="status-badge" [ngClass]="isPaid(p) ? 'badge-paid' : 'badge-unpaid'">
+        {{ statusLabel(p) }}
+      </span>
+    </div>
+  </div>
+</ng-container>

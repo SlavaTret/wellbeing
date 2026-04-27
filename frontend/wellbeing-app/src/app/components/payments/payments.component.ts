@@ -1,15 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.css']
 })
-export class PaymentsComponent {
-  payments = [
-    { specialist: 'Марія Іваненко', date: '15 квіт. 2025', amount: 1200, status: 'paid' },
-    { specialist: 'Марія Іваненко', date: '20 бер. 2025',  amount: 1200, status: 'paid' },
-    { specialist: 'Ірина Василенко', date: '10 бер. 2025', amount: 900,  status: 'paid' },
-    { specialist: 'Дмитро Сорока',  date: '5 трав. 2025',  amount: 1100, status: 'unpaid' }
-  ];
+export class PaymentsComponent implements OnInit {
+  loading = true;
+  paying = false;
+
+  payments: any[] = [];
+  pending: any = null;
+
+  constructor(private api: ApiService) {}
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
+    this.loading = true;
+    this.api.getPayments().subscribe({
+      next: (res: any) => {
+        this.payments = res?.items ?? [];
+        this.pending  = res?.pending ?? null;
+        this.loading  = false;
+      },
+      error: () => { this.loading = false; }
+    });
+  }
+
+  pay(): void {
+    if (!this.pending || this.paying) return;
+    this.paying = true;
+    this.api.processPayment(this.pending.id).subscribe({
+      next: (res: any) => {
+        this.paying = false;
+        // Update local state: mark in list and remove from banner
+        const updated = res?.payment;
+        if (updated) {
+          const i = this.payments.findIndex(p => p.id === updated.id);
+          if (i !== -1) this.payments[i] = updated;
+        }
+        this.pending = null;
+      },
+      error: () => { this.paying = false; }
+    });
+  }
+
+  isPaid(p: any): boolean { return p.status === 'completed'; }
+
+  statusLabel(p: any): string {
+    return this.isPaid(p) ? 'Оплачено' : 'Не оплачено';
+  }
 }

@@ -1,7 +1,9 @@
 <div class="auth-page">
   <div class="auth-card">
     <div class="auth-logo">
-      <div class="logo-icon">❤️</div>
+      <div class="logo-mark">
+        <app-icon name="heart" [size]="16" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon>
+      </div>
       <div>
         <div class="logo-text">well<strong>being</strong></div>
         <div class="logo-sub">Портал підтримки</div>
@@ -11,16 +13,33 @@
     <h1 class="auth-title">Вхід до кабінету</h1>
     <p class="auth-desc">Введіть ваші дані для входу</p>
 
-    <div *ngIf="error" class="error-box">{{ error }}</div>
+    <div *ngIf="error" class="error-box">
+      <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>
+      {{ error }}
+    </div>
 
     <div class="form-field">
       <label>Email</label>
-      <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+      <div class="input-wrap">
+        <app-icon name="mail" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
+        <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+      </div>
     </div>
 
     <div class="form-field">
       <label>Пароль</label>
-      <input type="password" [(ngModel)]="password" placeholder="••••••••" [disabled]="loading" (keyup.enter)="submit()" />
+      <div class="input-wrap">
+        <app-icon name="shield" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          [disabled]="loading"
+          (keyup.enter)="submit()" />
+        <button type="button" class="icon-btn" (click)="showPassword = !showPassword">
+          <app-icon [name]="showPassword ? 'eyeOff' : 'eye'" [size]="16" stroke="#6B8879"></app-icon>
+        </button>
+      </div>
     </div>
 
     <button class="btn-primary" (click)="submit()" [disabled]="loading">

@@ -4,9 +4,9 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=aws-1-us-east-2.pooler.supabase.com;dbname=postgres',
+            'username' => 'postgres.qtcazurbyzuqczljyppp',
+            'password' => 'qR&mf%&6_Vx&h$J',
             'charset' => 'utf8',
         ],
         'mailer' => [

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,15 @@ import { ApiService } from '../../../services/api/api.service';
 export class LoginComponent {
   email = '';
   password = '';
+  showPassword = false;
   loading = false;
   error = '';
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   submit(): void {
     if (!this.email || !this.password) {
@@ -22,11 +28,18 @@ export class LoginComponent {
     }
     this.loading = true;
     this.error = '';
+
     this.api.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => {
+        // Load profile before navigating so sidebar has data immediately
+        this.userService.load().subscribe({
+          next: () => this.router.navigate(['/dashboard']),
+          error: () => this.router.navigate(['/dashboard'])
+        });
+      },
       error: (err) => {
         this.loading = false;
-        this.error = err?.error?.message || 'Невірний email або пароль';
+        this.error = err?.error?.error || err?.error?.message || 'Невірний email або пароль';
       }
     });
   }

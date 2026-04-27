@@ -2,31 +2,51 @@
 
 <!-- Upload zone -->
 <div class="upload-zone"
-  [class.drag-over]="dragOver"
-  (dragover)="$event.preventDefault(); dragOver = true"
-  (dragleave)="dragOver = false"
-  (drop)="$event.preventDefault(); dragOver = false">
+     [class.drag-over]="dragOver"
+     [class.uploading]="uploading"
+     (dragover)="onDragOver($event)"
+     (dragleave)="onDragLeave()"
+     (drop)="onDrop($event)"
+     (click)="!uploading && openFilePicker()">
   <div class="upload-icon-wrap">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-      <polyline points="17 8 12 3 7 8"></polyline>
-      <line x1="12" y1="3" x2="12" y2="15"></line>
-    </svg>
+    <app-icon *ngIf="!uploading" name="upload" [size]="24" stroke="var(--green)" [strokeWidth]="2"></app-icon>
+    <div *ngIf="uploading" class="spinner-md"></div>
   </div>
-  <div class="upload-title">Перетягніть файл або натисніть для завантаження</div>
-  <div class="upload-sub">Підтримуються PDF, JPG, PNG до 10 MB</div>
-  <button class="btn-select">Вибрати файл</button>
+  <div class="upload-title">{{ uploading ? 'Завантаження...' : 'Перетягніть файл або натисніть для завантаження' }}</div>
+  <div class="upload-sub">Підтримуються PDF, JPG, PNG, DOC, DOCX до 10 МБ</div>
+  <button class="btn-select" (click)="$event.stopPropagation(); openFilePicker()" [disabled]="uploading">
+    Вибрати файл
+  </button>
+  <input #fileInput type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,application/pdf,image/*"
+         style="display:none" (change)="onFileSelected($event)">
+</div>
+
+<div *ngIf="error" class="upload-error">
+  <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>
+  {{ error }}
 </div>
 
 <!-- Doc list -->
 <div class="card">
   <div class="list-title">Завантажені документи</div>
-  <div *ngFor="let d of docs; let last = last" class="doc-row" [class.no-border]="last">
+
+  <div *ngIf="loading" class="loading-wrap"><div class="spinner-md"></div></div>
+
+  <div *ngIf="!loading && docs.length === 0" class="empty-docs">
+    <app-icon name="file" [size]="28" stroke="var(--text-muted)"></app-icon>
+    <span>Документів ще немає</span>
+  </div>
+
+  <div *ngFor="let d of docs; let last = last"
+       class="doc-row" [class.no-border]="last">
     <div class="doc-type-badge" [style.color]="typeColor(d.type)">{{ d.type.toUpperCase() }}</div>
     <div class="doc-info">
       <div class="doc-name">{{ d.name }}</div>
-      <div class="doc-meta">{{ d.size }} · {{ d.date }}</div>
+      <div class="doc-meta">{{ d.size_label }} · {{ d.date }}</div>
     </div>
-    <button class="btn-download">Завантажити</button>
+    <button class="btn-download" (click)="download(d)">Завантажити</button>
+    <button class="btn-delete" (click)="remove(d)" aria-label="Видалити">
+      <app-icon name="x" [size]="14" stroke="var(--text-muted)"></app-icon>
+    </button>
   </div>
 </div>

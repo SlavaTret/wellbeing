@@ -8,8 +8,13 @@
     </button>
 
     <div class="mobile-logo">
-      <div class="logo-mark"><app-icon name="heart" [size]="14" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
-      <div class="logo-text">well<strong>being</strong></div>
+      <ng-container *ngIf="branding.current.logo_url; else mobileFallback">
+        <img class="logo-img" [src]="branding.current.logo_url" [alt]="branding.current.name" />
+      </ng-container>
+      <ng-template #mobileFallback>
+        <div class="logo-mark"><app-icon name="heart" [size]="14" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
+        <div class="logo-text">well<strong>being</strong></div>
+      </ng-template>
     </div>
 
     <button class="icon-button bell-btn" (click)="navigate('notifications')" aria-label="Сповіщення">
@@ -24,11 +29,17 @@
   <!-- Sidebar -->
   <aside class="desktop-sidebar" [class.open]="sidebarOpen">
     <div class="logo-section">
-      <div class="logo-mark logo-mark-lg"><app-icon name="heart" [size]="18" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
-      <div>
-        <div class="logo-text">well<strong>being</strong></div>
+      <ng-container *ngIf="branding.current.logo_url; else sidebarFallback">
+        <img class="logo-img-lg" [src]="branding.current.logo_url" [alt]="branding.current.name" />
         <div class="logo-subtext">Портал підтримки</div>
-      </div>
+      </ng-container>
+      <ng-template #sidebarFallback>
+        <div class="logo-mark logo-mark-lg"><app-icon name="heart" [size]="18" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
+        <div>
+          <div class="logo-text">well<strong>being</strong></div>
+          <div class="logo-subtext">Портал підтримки</div>
+        </div>
+      </ng-template>
     </div>
 
     <div class="user-mini" (click)="navigate('profile')">
@@ -38,7 +49,7 @@
       </div>
       <div class="user-info-mini">
         <div class="username-mini">{{ user?.first_name }} {{ user?.last_name }}</div>
-        <div class="company-mini">{{ user?.company }}</div>
+        <div class="company-mini">{{ user?.company_branding?.name || user?.company }}</div>
       </div>
     </div>
 
@@ -49,7 +60,7 @@
               class="nav-item">
         <app-icon [name]="item.icon" [size]="18"></app-icon>
         <span class="nav-label">{{ item.label }}</span>
-        <span *ngIf="item.badge && item.badge > 0" class="nav-badge">{{ item.badge }}</span>
+        <span *ngIf="item.id === 'notifications' && notificationsCount > 0" class="nav-badge">{{ notificationsCount }}</span>
       </button>
     </nav>
 

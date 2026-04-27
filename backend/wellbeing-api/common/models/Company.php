@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $primary_color
  * @property string $secondary_color
  * @property string $accent_color
+ * @property int    $free_sessions_per_user
  * @property bool   $is_active
  * @property int    $created_at
  * @property int    $updated_at
@@ -40,6 +41,7 @@ class Company extends ActiveRecord
             [['logo_url'], 'string', 'max' => 500],
             [['primary_color', 'secondary_color', 'accent_color'], 'string', 'max' => 7],
             [['is_active'], 'boolean'],
+            [['free_sessions_per_user'], 'integer'],
         ];
     }
 

@@ -57,15 +57,28 @@ return [
                 // Companies (public)
                 'GET  v1/company'               => 'v1/company/index',
 
+                // Specialists
+                'GET  v1/specialist'                         => 'v1/specialist/index',
+                'POST v1/specialist/<id:\d+>/review'         => 'v1/specialist/review',
+
                 // Auth
                 'POST v1/user/login'            => 'v1/user/login',
                 'POST v1/user/register'         => 'v1/user/register',
                 'POST v1/user/logout'           => 'v1/user/logout',
                 'GET  v1/user/profile'          => 'v1/user/profile',
                 'POST v1/user/update-profile'   => 'v1/user/update-profile',
+                'POST v1/user/upload-avatar'    => 'v1/user/upload-avatar',
 
                 // Dashboard
                 'GET v1/dashboard'              => 'v1/dashboard/index',
+
+                // Notifications
+                'GET  v1/notification'                        => 'v1/notification/index',
+                'GET  v1/notification/unread-count'           => 'v1/notification/unread-count',
+                'GET  v1/notification/settings'               => 'v1/notification/settings',
+                'POST v1/notification/save-settings'          => 'v1/notification/save-settings',
+                'POST v1/notification/read-all'               => 'v1/notification/read-all',
+                'POST v1/notification/<id:\d+>/read'          => 'v1/notification/read',
 
                 // Appointments
                 'GET  v1/appointment'           => 'v1/appointment/index',
@@ -78,14 +91,11 @@ return [
 
                 // Documents
                 'GET  v1/document'              => 'v1/document/index',
-                'POST v1/document'              => 'v1/document/create',
-                'GET  v1/document/<id:\d+>'     => 'v1/document/view',
+                'POST v1/document/upload'       => 'v1/document/upload',
                 'DELETE v1/document/<id:\d+>'   => 'v1/document/delete',
 
                 // Payments
                 'GET  v1/payment'               => 'v1/payment/index',
-                'POST v1/payment'               => 'v1/payment/create',
-                'GET  v1/payment/<id:\d+>'      => 'v1/payment/view',
                 'POST v1/payment/<id:\d+>/process' => 'v1/payment/process',
 
                 // Notifications

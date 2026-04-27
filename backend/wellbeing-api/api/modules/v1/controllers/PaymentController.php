@@ -2,122 +2,106 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Appointment;
 use common\models\Payment;
 use Yii;
 use yii\rest\Controller;
-use yii\data\ActiveDataProvider;
 
 class PaymentController extends Controller
 {
-    public $modelClass = 'common\models\Payment';
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authentication'] = [
-            'class' => \yii\filters\auth\HttpBearerAuth::class,
-        ];
+        $behaviors['authentication'] = ['class' => \yii\filters\auth\HttpBearerAuth::class];
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
+            'rules' => [['allow' => true, 'roles' => ['@']]],
         ];
         return $behaviors;
     }
 
+    /** GET /v1/payment — list current user's payments + pending one separately */
     public function actionIndex()
     {
         Yii::$app->response->format = 'json';
-        $user = Yii::$app->user->identity;
-        
-        $query = Payment::find()->where(['user_id' => $user->id]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => ['pageSize' => 20],
-            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
-        ]);
+        $userId = Yii::$app->user->id;
+
+        $payments = Payment::find()
+            ->where(['user_id' => $userId])
+            ->with('appointment')
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        $items   = array_map(fn($p) => $this->formatPayment($p), $payments);
+        $pending = null;
+        foreach ($items as $it) {
+            if ($it['status'] === 'pending' && $pending === null) {
+                $pending = $it; // most recent pending
+            }
+        }
 
         return [
-            'items' => $dataProvider->getModels(),
-            'total' => $dataProvider->totalCount,
+            'items'   => $items,
+            'pending' => $pending,
         ];
     }
 
-    public function actionView($id)
-    {
-        Yii::$app->response->format = 'json';
-        $payment = $this->findModel($id);
-        $this->checkUserAccess($payment->user_id);
-        return $payment;
-    }
-
-    public function actionCreate()
-    {
-        Yii::$app->response->format = 'json';
-        $user = Yii::$app->user->identity;
-        $payment = new Payment();
-        $payment->user_id = $user->id;
-
-        $data = Yii::$app->request->post();
-        if (!$payment->load($data, '') || !$payment->validate()) {
-            Yii::$app->response->statusCode = 422;
-            return ['errors' => $payment->getErrors()];
-        }
-
-        if ($payment->save()) {
-            Yii::$app->response->statusCode = 201;
-            return $payment;
-        }
-
-        Yii::$app->response->statusCode = 400;
-        return ['error' => 'Failed to create payment'];
-    }
-
+    /** POST /v1/payment/<id>/process — mark as paid */
     public function actionProcess($id)
     {
         Yii::$app->response->format = 'json';
-        $payment = $this->findModel($id);
-        $this->checkUserAccess($payment->user_id);
+        $userId = Yii::$app->user->id;
+
+        $payment = Payment::findOne(['id' => $id, 'user_id' => $userId]);
+        if (!$payment) {
+            Yii::$app->response->statusCode = 404;
+            return ['error' => 'Payment not found'];
+        }
 
         $data = Yii::$app->request->post();
-        
-        // Simulate payment processing
-        $payment->payment_method = $data['payment_method'] ?? $payment->payment_method;
-        $payment->transaction_id = $data['transaction_id'] ?? 'TXN-' . time();
-        $payment->status = Payment::STATUS_COMPLETED;
+        $payment->payment_method = $data['payment_method'] ?? 'card';
+        $payment->transaction_id = 'TXN-' . time();
+        $payment->status         = Payment::STATUS_COMPLETED;
+        $payment->save(false);
 
-        if ($payment->save(false)) {
-            return [
-                'success' => true,
-                'message' => 'Оплата оброблена',
-                'payment' => $payment,
-            ];
+        // Mirror payment_status on the linked appointment
+        if ($payment->appointment_id) {
+            $appt = Appointment::findOne($payment->appointment_id);
+            if ($appt) {
+                $appt->payment_status = 'paid';
+                $appt->save(false);
+            }
         }
 
-        Yii::$app->response->statusCode = 400;
-        return ['error' => 'Failed to process payment'];
+        return [
+            'success' => true,
+            'payment' => $this->formatPayment($payment),
+        ];
     }
 
-    private function findModel($id)
+    private function formatPayment(Payment $p): array
     {
-        $model = Payment::findOne($id);
-        if (!$model) {
-            Yii::$app->response->statusCode = 404;
-            throw new \yii\web\NotFoundHttpException('Payment not found');
-        }
-        return $model;
+        $appt = $p->appointment;
+
+        return [
+            'id'             => $p->id,
+            'appointment_id' => $p->appointment_id,
+            'specialist'     => $appt?->specialist_name ?? '—',
+            'specialist_type'=> $appt?->specialist_type ?? '',
+            'date'           => $appt?->appointment_date ? $this->dateLabel($appt->appointment_date) : $this->dateLabel(date('Y-m-d', $p->created_at)),
+            'amount'         => (float)$p->amount,
+            'currency'       => $p->currency ?? 'UAH',
+            'status'         => $p->status,            // pending | completed | failed | refunded
+            'payment_method' => $p->payment_method,
+            'created_at'     => $p->created_at,
+        ];
     }
 
-    private function checkUserAccess($userId)
+    private function dateLabel(string $ymd): string
     {
-        $user = Yii::$app->user->identity;
-        if ($user->id !== $userId) {
-            Yii::$app->response->statusCode = 403;
-            throw new \yii\web\ForbiddenHttpException('Access denied');
-        }
+        $months = ['', 'січ.', 'лют.', 'бер.', 'квіт.', 'трав.', 'черв.', 'лип.', 'серп.', 'вер.', 'жовт.', 'лист.', 'груд.'];
+        $dt = \DateTime::createFromFormat('Y-m-d', $ymd);
+        if (!$dt) return $ymd;
+        return $dt->format('j') . ' ' . $months[(int)$dt->format('n')] . ' ' . $dt->format('Y');
     }
 }

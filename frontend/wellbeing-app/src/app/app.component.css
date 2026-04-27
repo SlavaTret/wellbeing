@@ -119,6 +119,17 @@
   gap: 10px;
 }
 .logo-section .logo-text { font-size: 15px; }
+.logo-section { flex-direction: column; align-items: flex-start; }
+.logo-section .logo-img-lg {
+  max-height: 36px;
+  max-width: 100%;
+  object-fit: contain;
+}
+.logo-img {
+  max-height: 24px;
+  max-width: 110px;
+  object-fit: contain;
+}
 
 .user-mini {
   padding: 16px 20px;

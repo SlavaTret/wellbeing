@@ -3,137 +3,111 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Notification;
+use common\models\NotificationSetting;
 use Yii;
 use yii\rest\Controller;
-use yii\data\ActiveDataProvider;
 
 class NotificationController extends Controller
 {
-    public $modelClass = 'common\models\Notification';
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        $behaviors['authentication'] = [
-            'class' => \yii\filters\auth\HttpBearerAuth::class,
-        ];
+        $behaviors['authentication'] = ['class' => \yii\filters\auth\HttpBearerAuth::class];
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
+            'rules' => [['allow' => true, 'roles' => ['@']]],
         ];
         return $behaviors;
     }
 
+    /** GET /v1/notification */
     public function actionIndex()
     {
         Yii::$app->response->format = 'json';
-        $user = Yii::$app->user->identity;
-        
-        $query = Notification::find()->where(['user_id' => $user->id]);
-        
-        // Filter by read/unread
-        $isRead = Yii::$app->request->get('is_read');
-        if ($isRead !== null) {
-            $query->andWhere(['is_read' => $isRead]);
-        }
+        $userId = Yii::$app->user->id;
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => ['pageSize' => 20],
-            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
-        ]);
+        $items = Notification::find()
+            ->where(['user_id' => $userId])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
 
         return [
-            'items' => $dataProvider->getModels(),
-            'total' => $dataProvider->totalCount,
-            'unread_count' => Notification::find()
-                ->where(['user_id' => $user->id, 'is_read' => false])
-                ->count(),
+            'items'        => array_map(fn($n) => $n->toClientArray(), $items),
+            'unread_count' => (int)Notification::find()->where(['user_id' => $userId, 'is_read' => false])->count(),
         ];
     }
 
-    public function actionView($id)
+    /** GET /v1/notification/unread-count */
+    public function actionUnreadCount()
     {
         Yii::$app->response->format = 'json';
-        $notif = $this->findModel($id);
-        $this->checkUserAccess($notif->user_id);
-        
-        // Mark as read
-        if (!$notif->is_read) {
-            $notif->is_read = true;
-            $notif->save(false);
-        }
-
-        return $notif;
+        return ['count' => (int)Notification::find()->where(['user_id' => Yii::$app->user->id, 'is_read' => false])->count()];
     }
 
-    public function actionMarkAsRead($id)
+    /** POST /v1/notification/<id>/read */
+    public function actionRead($id)
     {
         Yii::$app->response->format = 'json';
-        $notif = $this->findModel($id);
-        $this->checkUserAccess($notif->user_id);
+        $userId = Yii::$app->user->id;
 
-        $notif->is_read = true;
-        if ($notif->save(false)) {
-            return [
-                'success' => true,
-                'message' => 'Сповіщення позначено як прочитане',
-            ];
-        }
-
-        Yii::$app->response->statusCode = 400;
-        return ['error' => 'Failed to mark as read'];
-    }
-
-    public function actionMarkAllAsRead()
-    {
-        Yii::$app->response->format = 'json';
-        $user = Yii::$app->user->identity;
-
-        Notification::updateAll(['is_read' => true], ['user_id' => $user->id]);
-
-        return [
-            'success' => true,
-            'message' => 'Всі сповіщення позначено як прочитані',
-        ];
-    }
-
-    public function actionDelete($id)
-    {
-        Yii::$app->response->format = 'json';
-        $notif = $this->findModel($id);
-        $this->checkUserAccess($notif->user_id);
-
-        if ($notif->delete()) {
-            Yii::$app->response->statusCode = 204;
-            return null;
-        }
-
-        Yii::$app->response->statusCode = 400;
-        return ['error' => 'Failed to delete notification'];
-    }
-
-    private function findModel($id)
-    {
-        $model = Notification::findOne($id);
-        if (!$model) {
+        $n = Notification::findOne(['id' => $id, 'user_id' => $userId]);
+        if (!$n) {
             Yii::$app->response->statusCode = 404;
-            throw new \yii\web\NotFoundHttpException('Notification not found');
+            return ['error' => 'Not found'];
         }
-        return $model;
+        $n->is_read = true;
+        $n->save(false);
+
+        return [
+            'success'      => true,
+            'unread_count' => (int)Notification::find()->where(['user_id' => $userId, 'is_read' => false])->count(),
+        ];
     }
 
-    private function checkUserAccess($userId)
+    /** POST /v1/notification/read-all */
+    public function actionReadAll()
     {
-        $user = Yii::$app->user->identity;
-        if ($user->id !== $userId) {
-            Yii::$app->response->statusCode = 403;
-            throw new \yii\web\ForbiddenHttpException('Access denied');
+        Yii::$app->response->format = 'json';
+        $userId = Yii::$app->user->id;
+        Notification::updateAll(['is_read' => true], ['user_id' => $userId, 'is_read' => false]);
+        return ['success' => true, 'unread_count' => 0];
+    }
+
+    /** GET /v1/notification/settings */
+    public function actionSettings()
+    {
+        Yii::$app->response->format = 'json';
+        return $this->settingsArray(NotificationSetting::forUser(Yii::$app->user->id));
+    }
+
+    /** POST /v1/notification/save-settings */
+    public function actionSaveSettings()
+    {
+        Yii::$app->response->format = 'json';
+        $s    = NotificationSetting::forUser(Yii::$app->user->id);
+        $data = Yii::$app->request->post();
+
+        foreach (['email_enabled', 'calendar_enabled', 'sms_enabled', 'reminders_enabled'] as $f) {
+            if (array_key_exists($f, $data)) {
+                $s->$f = (bool)$data[$f];
+            }
         }
+
+        if ($s->save()) {
+            return $this->settingsArray($s);
+        }
+
+        Yii::$app->response->statusCode = 422;
+        return ['errors' => $s->getErrors()];
+    }
+
+    private function settingsArray(NotificationSetting $s): array
+    {
+        return [
+            'email_enabled'     => (bool)$s->email_enabled,
+            'calendar_enabled'  => (bool)$s->calendar_enabled,
+            'sms_enabled'       => (bool)$s->sms_enabled,
+            'reminders_enabled' => (bool)$s->reminders_enabled,
+        ];
     }
 }

@@ -50,7 +50,7 @@ class Appointment extends ActiveRecord
     {
         return [
             [['user_id', 'specialist_name', 'specialist_type', 'appointment_date', 'appointment_time'], 'required'],
-            [['user_id'], 'integer'],
+            [['user_id', 'specialist_id'], 'integer'],
             [['specialist_name', 'specialist_type', 'notes'], 'string'],
             [['appointment_date'], 'date', 'format' => 'php:Y-m-d'],
             [['appointment_time'], 'match', 'pattern' => '/^\d{2}:\d{2}$/'],

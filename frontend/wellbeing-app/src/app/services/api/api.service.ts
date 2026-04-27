@@ -83,9 +83,28 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/user/update-profile`, data);
   }
 
+  uploadAvatar(file: File): Observable<any> {
+    const fd = new FormData();
+    fd.append('avatar', file);
+    return this.http.post(`${this.apiUrl}/user/upload-avatar`, fd);
+  }
+
   // ==================== DASHBOARD ====================
   getDashboard(): Observable<any> {
     return this.http.get(`${this.apiUrl}/dashboard`);
+  }
+
+  // ==================== SPECIALISTS ====================
+  getSpecialists(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/specialist`);
+  }
+
+  reviewSpecialist(specialistId: number, rating: number, comment: string, appointmentId?: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/specialist/${specialistId}/review`, {
+      rating,
+      comment,
+      appointment_id: appointmentId ?? null,
+    });
   }
 
   // ==================== APPOINTMENTS ====================
@@ -126,12 +145,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/document`);
   }
 
-  getDocument(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/document/${id}`);
-  }
-
-  uploadDocument(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/document`, data);
+  uploadDocument(file: File): Observable<any> {
+    const fd = new FormData();
+    fd.append('file', file);
+    return this.http.post(`${this.apiUrl}/document/upload`, fd);
   }
 
   deleteDocument(id: number): Observable<any> {
@@ -143,18 +160,9 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/payment`);
   }
 
-  getPayment(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/payment/${id}`);
-  }
-
-  createPayment(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/payment`, data);
-  }
-
-  processPayment(id: number, paymentMethod: string, transactionId?: string): Observable<any> {
+  processPayment(id: number, paymentMethod: string = 'card'): Observable<any> {
     return this.http.post(`${this.apiUrl}/payment/${id}/process`, {
       payment_method: paymentMethod,
-      transaction_id: transactionId
     });
   }
 
@@ -167,16 +175,24 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/notification`, { params });
   }
 
-  getNotification(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/notification/${id}`);
+  getUnreadNotificationCount(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/notification/unread-count`);
   }
 
   markNotificationAsRead(id: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/notification/${id}/mark-as-read`, {});
+    return this.http.post(`${this.apiUrl}/notification/${id}/read`, {});
   }
 
   markAllNotificationsAsRead(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/notification/mark-all-as-read`, {});
+    return this.http.post(`${this.apiUrl}/notification/read-all`, {});
+  }
+
+  getNotificationSettings(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/notification/settings`);
+  }
+
+  saveNotificationSettings(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/notification/save-settings`, data);
   }
 
   deleteNotification(id: number): Observable<any> {

@@ -6,45 +6,36 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * Notification model (сповіщення)
- *
- * @property int $id
- * @property int $user_id
- * @property string $type (appointment_reminder, payment_reminder, system, other)
+ * @property int    $id
+ * @property int    $user_id
+ * @property string $type  (appointment_reminder | payment_reminder | system | other)
  * @property string $title
  * @property string $message
- * @property boolean $is_read
- * @property string $notification_channels (email, sms, push)
- * @property string $related_appointment_id
- * @property int $created_at
- * @property int $updated_at
- *
- * @property User $user
+ * @property bool   $is_read
+ * @property string $notification_channels
+ * @property int    $related_appointment_id
+ * @property int    $created_at
+ * @property int    $updated_at
  */
 class Notification extends ActiveRecord
 {
     const TYPE_APPOINTMENT_REMINDER = 'appointment_reminder';
-    const TYPE_PAYMENT_REMINDER = 'payment_reminder';
-    const TYPE_SYSTEM = 'system';
-    const TYPE_OTHER = 'other';
+    const TYPE_PAYMENT_REMINDER     = 'payment_reminder';
+    const TYPE_SYSTEM               = 'system';
+    const TYPE_OTHER                = 'other';
 
-    public static function tableName()
+    public static function tableName(): string { return '{{%notification}}'; }
+
+    public function behaviors(): array
     {
-        return '{{%notification}}';
+        return [TimestampBehavior::class];
     }
 
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
-    }
-
-    public function rules()
+    public function rules(): array
     {
         return [
             [['user_id', 'type', 'title', 'message'], 'required'],
-            [['user_id', 'related_appointment_id'], 'integer'],
+            [['user_id', 'related_appointment_id', 'created_at', 'updated_at'], 'integer'],
             [['title', 'message', 'notification_channels'], 'string'],
             [['type'], 'in', 'range' => [self::TYPE_APPOINTMENT_REMINDER, self::TYPE_PAYMENT_REMINDER, self::TYPE_SYSTEM, self::TYPE_OTHER]],
             [['is_read'], 'boolean'],
@@ -56,17 +47,37 @@ class Notification extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public function attributeLabels()
+    /** Icon name derived from type */
+    public function getIcon(): string
+    {
+        return match ($this->type) {
+            self::TYPE_APPOINTMENT_REMINDER => 'bell',
+            self::TYPE_PAYMENT_REMINDER     => 'card',
+            self::TYPE_SYSTEM               => 'info',
+            default                         => 'check',
+        };
+    }
+
+    public function toClientArray(): array
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Користувач',
-            'type' => 'Тип',
-            'title' => 'Заголовок',
-            'message' => 'Повідомлення',
-            'is_read' => 'Прочитано',
-            'notification_channels' => 'Канали',
-            'related_appointment_id' => 'ID запису',
+            'id'       => $this->id,
+            'title'    => $this->title,
+            'body'     => $this->message,
+            'icon'     => $this->getIcon(),
+            'type'     => $this->type,
+            'is_read'  => (bool)$this->is_read,
+            'time'     => $this->timeLabel(),
         ];
+    }
+
+    private function timeLabel(): string
+    {
+        $diff = time() - (int)$this->created_at;
+        if ($diff < 3600)   return round($diff / 60) . ' хв тому';
+        if ($diff < 86400)  return round($diff / 3600) . ' год тому';
+        $days = round($diff / 86400);
+        $word = $days === 1 ? 'день' : ($days < 5 ? 'дні' : 'днів');
+        return "$days $word тому";
     }
 }

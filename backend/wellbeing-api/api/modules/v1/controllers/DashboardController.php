@@ -3,8 +3,7 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Appointment;
-use common\models\Payment;
-use common\models\Notification;
+use common\models\Company;
 use Yii;
 use yii\rest\Controller;
 
@@ -18,86 +17,100 @@ class DashboardController extends Controller
         ];
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
+            'rules' => [['allow' => true, 'roles' => ['@']]],
         ];
         return $behaviors;
     }
 
-    /**
-     * Get dashboard statistics
-     */
     public function actionIndex()
     {
         Yii::$app->response->format = 'json';
 
-        $user = Yii::$app->user->identity;
+        $user   = Yii::$app->user->identity;
         $userId = $user->id;
 
-        // Get appointment counts
-        $scheduledCount = Appointment::find()
-            ->where(['user_id' => $userId])
-            ->andWhere(['status' => Appointment::STATUS_CONFIRMED])
+        // ── Appointment counts ─────────────────────────────────
+        $upcoming  = Appointment::find()->where(['user_id' => $userId])
+            ->andWhere(['IN', 'status', [Appointment::STATUS_CONFIRMED, Appointment::STATUS_PENDING]])
             ->count();
 
-        $completedCount = Appointment::find()
-            ->where(['user_id' => $userId])
+        $completed = Appointment::find()->where(['user_id' => $userId])
             ->andWhere(['status' => Appointment::STATUS_COMPLETED])
             ->count();
 
-        $cancelledCount = Appointment::find()
-            ->where(['user_id' => $userId])
+        $cancelled = Appointment::find()->where(['user_id' => $userId])
             ->andWhere(['status' => Appointment::STATUS_CANCELLED])
             ->count();
 
-        // Get free sessions info (mock data, should be from subscription)
-        $freeSessions = 6;
-        $usedFreeSessions = $completedCount;
-        $remainingFreeSessions = max(0, $freeSessions - $usedFreeSessions);
-        $freeSessionsProgress = ($freeSessions > 0) ? ($usedFreeSessions / $freeSessions) * 100 : 0;
+        // ── Free sessions ──────────────────────────────────────
+        // Total limit comes from user's company; default 5 if no company linked.
+        $freeTotal = 5;
+        if ($user->company_id) {
+            $company = Company::findOne($user->company_id);
+            if ($company && $company->free_sessions_per_user > 0) {
+                $freeTotal = (int)$company->free_sessions_per_user;
+            }
+        }
 
-        // Get upcoming appointments
-        $upcomingAppointments = Appointment::find()
-            ->where(['user_id' => $userId])
-            ->andWhere(['OR', 
-                ['status' => Appointment::STATUS_CONFIRMED],
-                ['status' => Appointment::STATUS_PENDING]
-            ])
-            ->andWhere(['>=', 'appointment_date', date('Y-m-d')])
-            ->orderBy(['appointment_date' => SORT_ASC, 'appointment_time' => SORT_ASC])
-            ->limit(2)
-            ->all();
-
-        // Get unread notifications count
-        $unreadNotifications = Notification::find()
-            ->where(['user_id' => $userId, 'is_read' => false])
+        // "Used" = all non-cancelled appointments (company covers them)
+        $usedFree = Appointment::find()->where(['user_id' => $userId])
+            ->andWhere(['NOT IN', 'status', [Appointment::STATUS_CANCELLED]])
             ->count();
 
+        $remainingFree     = max(0, $freeTotal - $usedFree);
+        $freeProgressPct   = $freeTotal > 0 ? round(($usedFree / $freeTotal) * 100) : 0;
+
+        // ── Next 2 upcoming appointments ───────────────────────
+        $nextAppointments = Appointment::find()
+            ->where(['user_id' => $userId])
+            ->andWhere(['IN', 'status', [Appointment::STATUS_CONFIRMED, Appointment::STATUS_PENDING]])
+            ->orderBy(['appointment_date' => SORT_ASC, 'appointment_time' => SORT_ASC])
+            ->limit(3)
+            ->all();
+
+        $ukMonths = ['', 'січня','лютого','березня','квітня','травня','червня',
+                         'липня','серпня','вересня','жовтня','листопада','грудня'];
+
+        $upcomingFormatted = array_map(function (Appointment $a) use ($ukMonths) {
+            $d    = \DateTime::createFromFormat('Y-m-d', $a->appointment_date);
+            $date = $d
+                ? $d->format('j') . ' ' . $ukMonths[(int)$d->format('n')]
+                : $a->appointment_date;
+
+            $name = $a->specialist_name;
+            $avatar = mb_strtoupper(
+                mb_substr($name, 0, 1) .
+                (($pos = mb_strpos($name, ' ')) !== false
+                    ? mb_substr($name, $pos + 1, 1)
+                    : '')
+            );
+
+            return [
+                'id'         => $a->id,
+                'specialist' => $a->specialist_name,
+                'type'       => $a->specialist_type,
+                'date'       => $date,
+                'date_raw'   => $a->appointment_date,
+                'time'       => $a->appointment_time,
+                'status'     => $a->status,
+                'avatar'     => $avatar,
+            ];
+        }, $nextAppointments);
+
         return [
-            'user' => [
-                'id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'avatar_url' => $user->avatar_url,
-            ],
             'stats' => [
-                'scheduled_consultations' => $scheduledCount,
-                'completed_consultations' => $completedCount,
-                'free_sessions_remaining' => $remainingFreeSessions,
-                'cancelled_appointments' => $cancelledCount,
+                'upcoming'          => (int)$upcoming,
+                'completed'         => (int)$completed,
+                'cancelled'         => (int)$cancelled,
+                'free_remaining'    => $remainingFree,
             ],
             'free_sessions' => [
-                'total' => $freeSessions,
-                'used' => $usedFreeSessions,
-                'remaining' => $remainingFreeSessions,
-                'progress_percentage' => round($freeSessionsProgress, 2),
+                'total'       => $freeTotal,
+                'used'        => (int)$usedFree,
+                'remaining'   => $remainingFree,
+                'percent'     => $freeProgressPct,
             ],
-            'upcoming_appointments' => $upcomingAppointments,
-            'unread_notifications_count' => $unreadNotifications,
+            'upcoming_appointments' => $upcomingFormatted,
         ];
     }
 }

@@ -21,11 +21,11 @@ class UserController extends Controller
         ];
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::class,
-            'only' => ['get', 'update', 'profile'],
+            'only' => ['get', 'update', 'profile', 'upload-avatar'],
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['get', 'update', 'profile'],
+                    'actions' => ['get', 'update', 'profile', 'upload-avatar'],
                     'roles' => ['@'],
                 ],
             ],
@@ -171,18 +171,82 @@ class UserController extends Controller
     {
         $branding = $user->companyBranding;
         return [
-            'id' => $user->id,
-            'email' => $user->email,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'patronymic' => $user->patronymic,
-            'phone' => $user->phone,
-            'company' => $user->company,
-            'company_id' => $user->company_id,
+            'id'               => $user->id,
+            'email'            => $user->email,
+            'first_name'       => $user->first_name,
+            'last_name'        => $user->last_name,
+            'patronymic'       => $user->patronymic,
+            'phone'            => $user->phone,
+            'company'          => $user->company,
+            'company_id'       => $user->company_id,
+            'company_name'     => $branding ? $branding->name : ($user->company ?? ''),
             'company_branding' => $branding ? $branding->toBrandingArray() : null,
+            'avatar_url'       => $user->avatar_url,
+            'accepted_terms'   => $user->accepted_terms,
+            'created_at'       => $user->created_at,
+        ];
+    }
+
+    /**
+     * Upload avatar
+     */
+    public function actionUploadAvatar()
+    {
+        Yii::$app->response->format = 'json';
+
+        $user = Yii::$app->user->identity;
+        if (!$user) {
+            Yii::$app->response->statusCode = 401;
+            return ['error' => 'Unauthorized'];
+        }
+
+        $file = \yii\web\UploadedFile::getInstanceByName('avatar');
+        if (!$file) {
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'No file uploaded'];
+        }
+
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array(strtolower($file->extension), $allowed)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Only image files are allowed'];
+        }
+
+        if ($file->size > 5 * 1024 * 1024) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'File too large (max 5 MB)'];
+        }
+
+        $dir = Yii::getAlias('@webroot/uploads/avatars');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $filename = 'user_' . $user->id . '_' . time() . '.' . $file->extension;
+        $path = $dir . '/' . $filename;
+
+        if (!$file->saveAs($path)) {
+            Yii::$app->response->statusCode = 500;
+            return ['error' => 'Failed to save file'];
+        }
+
+        // Remove old avatar file if it was a local upload
+        if ($user->avatar_url && str_contains($user->avatar_url, '/uploads/avatars/')) {
+            $urlPath = parse_url($user->avatar_url, PHP_URL_PATH);
+            $urlPath = preg_replace('#^/api#', '', $urlPath);
+            $oldPath = Yii::getAlias('@webroot') . $urlPath;
+            if (file_exists($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
+
+        $user->avatar_url = '/api/uploads/avatars/' . $filename;
+        $user->save(false);
+
+        return [
+            'success'    => true,
             'avatar_url' => $user->avatar_url,
-            'accepted_terms' => $user->accepted_terms,
-            'created_at' => $user->created_at,
+            'user'       => $this->getUserData($user),
         ];
     }
 

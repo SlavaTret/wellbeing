@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ApiService } from './services/api/api.service';
+import { UserService } from './services/user/user.service';
+import { NotificationService } from './services/notification/notification.service';
 import { BrandingService } from './services/branding/branding.service';
 
 interface NavItem {
@@ -19,24 +21,24 @@ interface NavItem {
 export class AppComponent implements OnInit {
   activeTab = 'dashboard';
   sidebarOpen = false;
-  user: any = null;
-  notificationsCount = 3;
   isAuthPage = false;
 
   navItems: NavItem[] = [
-    { id: 'dashboard',     label: 'Дашборд',         icon: 'dashboard' },
-    { id: 'appointments',  label: 'Мої записи',      icon: 'calendar' },
-    { id: 'documents',     label: 'Документи',       icon: 'file' },
-    { id: 'payments',      label: 'Оплата',          icon: 'card' },
-    { id: 'notifications', label: 'Сповіщення',      icon: 'bell',      badge: 3 },
-    { id: 'questionnaire', label: 'Анкета',          icon: 'clipboard' },
-    { id: 'support',       label: 'Зв\'язок з WO',   icon: 'chat' }
+    { id: 'dashboard',     label: 'Дашборд',       icon: 'dashboard' },
+    { id: 'appointments',  label: 'Мої записи',    icon: 'calendar' },
+    { id: 'documents',     label: 'Документи',     icon: 'file' },
+    { id: 'payments',      label: 'Оплата',        icon: 'card' },
+    { id: 'notifications', label: 'Сповіщення',    icon: 'bell' },
+    { id: 'questionnaire', label: 'Анкета',        icon: 'clipboard' },
+    { id: 'support',       label: "Зв'язок з WO",  icon: 'chat' }
   ];
 
   constructor(
+    public userService: UserService,
+    public notifService: NotificationService,
+    public branding: BrandingService,
     private apiService: ApiService,
-    private router: Router,
-    private branding: BrandingService
+    private router: Router
   ) {
     this.sidebarOpen = window.innerWidth > 768;
 
@@ -56,21 +58,20 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.apiService.isLoggedIn()) {
-      this.loadUserProfile();
+      this.userService.load().subscribe({
+        next: () => this.notifService.load(),
+        error: () => {
+          this.apiService.clearAccessToken();
+          this.router.navigate(['/login']);
+        }
+      });
     } else {
       this.router.navigate(['/login']);
     }
   }
 
-  loadUserProfile(): void {
-    this.apiService.getProfile().subscribe({
-      next: (user) => {
-        this.user = user;
-        this.branding.set(user?.company_branding ?? null);
-      },
-      error: (error) => console.error('Failed to load profile', error)
-    });
-  }
+  get user(): any { return this.userService.current; }
+  get notificationsCount(): number { return this.notifService.count; }
 
   navigate(tabId: string): void {
     this.activeTab = tabId;
@@ -83,9 +84,13 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.apiService.logout().subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: () => {
+        this.userService.clear();
+        this.router.navigate(['/login']);
+      },
       error: () => {
         this.apiService.clearAccessToken();
+        this.userService.clear();
         this.router.navigate(['/login']);
       }
     });

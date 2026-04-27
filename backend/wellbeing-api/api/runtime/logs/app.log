@@ -1,0 +1,2260 @@
+2026-04-26 17:14:42 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:14:42 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '52121'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777223682.347
+    'REQUEST_TIME' => 1777223682
+]
+2026-04-26 17:16:48 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:16:48 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53188'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777223808.0445
+    'REQUEST_TIME' => 1777223808
+]
+2026-04-26 17:16:55 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:16:55 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53260'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777223815.75
+    'REQUEST_TIME' => 1777223815
+]
+2026-04-26 17:18:09 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:18:09 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53915'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777223889.611
+    'REQUEST_TIME' => 1777223889
+]
+2026-04-26 17:21:37 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:21:37 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '55777'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224097.8355
+    'REQUEST_TIME' => 1777224097
+]
+2026-04-26 17:21:38 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:21:38 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '55783'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224098.2647
+    'REQUEST_TIME' => 1777224098
+]
+2026-04-26 17:21:43 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:21:43 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '55825'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/logout'
+    'REQUEST_METHOD' => 'POST'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/logout'
+    'PHP_SELF' => '/index.php/v1/user/logout'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_ORIGIN' => 'http://localhost:4200'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_CONTENT_TYPE' => 'application/json'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'CONTENT_LENGTH' => '2'
+    'HTTP_CONTENT_LENGTH' => '2'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224103.0902
+    'REQUEST_TIME' => 1777224103
+]
+2026-04-26 17:22:10 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:22:10 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '56621'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/company'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/company'
+    'PHP_SELF' => '/index.php/v1/company'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/register'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224130.0686
+    'REQUEST_TIME' => 1777224130
+]
+2026-04-26 17:22:30 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:22:30 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '56810'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/company'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/company'
+    'PHP_SELF' => '/index.php/v1/company'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/register'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224150.7302
+    'REQUEST_TIME' => 1777224150
+]
+2026-04-26 17:23:04 [::1][-][-][error][yii\base\ErrorException:64] yii\base\ErrorException: Cannot redeclare class api\modules\v1\Module (previously declared as local import) in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/Module.php:7
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleFatalError()
+#1 {main}
+2026-04-26 17:23:04 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57107'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/company'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/company'
+    'PHP_SELF' => '/index.php/v1/company'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/register'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224184.1308
+    'REQUEST_TIME' => 1777224184
+]
+2026-04-26 17:26:49 [::1][1][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: yii\web\Request::cookieValidationKey must be configured with a secret key. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php:1755
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1737): yii\web\Request->loadCookies()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1829): yii\web\Request->getCookies()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1811): yii\web\Request->loadCsrfToken()
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(297): yii\web\Request->getCsrfToken(true)
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(279): yii\web\User->regenerateCsrfToken()
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(323): yii\web\User->login(Object(common\models\User))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('ElxEJ0HkWwPf5Au...', 'yii\\filters\\aut...')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#9 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#18 {main}
+2026-04-26 17:26:46 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '59101'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224406.6339
+    'REQUEST_TIME' => 1777224406
+]
+2026-04-26 17:28:22 [::1][1][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: yii\web\Request::cookieValidationKey must be configured with a secret key. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php:1755
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1737): yii\web\Request->loadCookies()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1829): yii\web\Request->getCookies()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php(1811): yii\web\Request->loadCsrfToken()
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(297): yii\web\Request->getCsrfToken(true)
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(279): yii\web\User->regenerateCsrfToken()
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(323): yii\web\User->login(Object(common\models\User))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('ElxEJ0HkWwPf5Au...', 'yii\\filters\\aut...')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#9 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#18 {main}
+2026-04-26 17:28:21 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '59964'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224501.5896
+    'REQUEST_TIME' => 1777224501
+]
+2026-04-26 17:30:24 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:30:24 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '61051'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224624.1084
+    'REQUEST_TIME' => 1777224624
+]
+2026-04-26 17:30:35 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('logout', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/logout', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:30:35 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BUEclatynd-RuB6-rhjLt6OsjF9CGQAE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '61149'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/logout'
+    'REQUEST_METHOD' => 'POST'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/logout'
+    'PHP_SELF' => '/index.php/v1/user/logout'
+    'HTTP_COOKIE' => '_csrf=a7eb12336d5dd09d9dddcfdc6106261e240fdf4c62e0d3419d39d7ad49f97fa1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BUEclatynd-RuB6-rhjLt6OsjF9CGQAE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/profile'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_ORIGIN' => 'http://localhost:4200'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_CONTENT_TYPE' => 'application/json'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'CONTENT_LENGTH' => '2'
+    'HTTP_CONTENT_LENGTH' => '2'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777224635.0334
+    'REQUEST_TIME' => 1777224635
+]
+2026-04-26 17:52:57 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^ in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php:1320
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1320): PDOStatement->execute()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+The SQL being executed was: SELECT * FROM "specialist" WHERE "is_active"=TRUE ORDER BY "name" in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php:683
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1325): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM "...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42P01
+    [1] => 7
+    [2] => ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+)
+
+2026-04-26 17:52:56 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '80fb2bfad50ca7a6b33fef9f540484c510237782de1fa372daf3342b8f17cd88a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"US9U1IqvN8Fx90rRtBolyl30qDJrWBO6\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '56941'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/specialist'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/specialist'
+    'PHP_SELF' => '/index.php/v1/specialist'
+    'HTTP_COOKIE' => '_csrf=80fb2bfad50ca7a6b33fef9f540484c510237782de1fa372daf3342b8f17cd88a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22US9U1IqvN8Fx90rRtBolyl30qDJrWBO6%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777225976.9405
+    'REQUEST_TIME' => 1777225976
+]
+2026-04-26 17:53:16 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^ in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php:1320
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1320): PDOStatement->execute()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+The SQL being executed was: SELECT * FROM "specialist" WHERE "is_active"=TRUE ORDER BY "name" in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php:683
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1325): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM "...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42P01
+    [1] => 7
+    [2] => ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+)
+
+2026-04-26 17:53:16 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '8652f0b141a1f58bdf462bcb69422a66aef1daaed536235d2c29d1a97b01ef43a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"xQ6i0JO_gEwt1DbP_pJMKG6-uovhmr_I\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57042'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/specialist'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/specialist'
+    'PHP_SELF' => '/index.php/v1/specialist'
+    'HTTP_COOKIE' => '_csrf=8652f0b141a1f58bdf462bcb69422a66aef1daaed536235d2c29d1a97b01ef43a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22xQ6i0JO_gEwt1DbP_pJMKG6-uovhmr_I%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777225996.067
+    'REQUEST_TIME' => 1777225996
+]
+2026-04-26 17:53:29 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^ in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php:1320
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1320): PDOStatement->execute()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+The SQL being executed was: SELECT * FROM "specialist" WHERE "is_active"=TRUE ORDER BY "name" in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php:683
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1325): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM "...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42P01
+    [1] => 7
+    [2] => ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+)
+
+2026-04-26 17:53:29 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'd15eda03e51d021fa3d5503db9e27921da9c901a70287945fac5b2af362ef16ea:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"NkoNqLFAgDeifFHlnzItQLOr5kYC3tEr\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57104'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/specialist'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/specialist'
+    'PHP_SELF' => '/index.php/v1/specialist'
+    'HTTP_COOKIE' => '_csrf=d15eda03e51d021fa3d5503db9e27921da9c901a70287945fac5b2af362ef16ea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22NkoNqLFAgDeifFHlnzItQLOr5kYC3tEr%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226009.2098
+    'REQUEST_TIME' => 1777226009
+]
+2026-04-26 17:54:06 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^ in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php:1320
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1320): PDOStatement->execute()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+The SQL being executed was: SELECT * FROM "specialist" WHERE "is_active"=TRUE ORDER BY "name" in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php:683
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1325): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM "...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42P01
+    [1] => 7
+    [2] => ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+)
+
+2026-04-26 17:54:06 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '0533312d54aa5f7ab5137e4eed6142a97436630e9a35539c4bf4b7aaf0a22a79a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"bH-imodd8FQ07Lb9fdFHIaDdSpNmOspw\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57293'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/specialist'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/specialist'
+    'PHP_SELF' => '/index.php/v1/specialist'
+    'HTTP_COOKIE' => '_csrf=0533312d54aa5f7ab5137e4eed6142a97436630e9a35539c4bf4b7aaf0a22a79a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22bH-imodd8FQ07Lb9fdFHIaDdSpNmOspw%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226046.6486
+    'REQUEST_TIME' => 1777226046
+]
+2026-04-26 17:54:29 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^ in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php:1320
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1320): PDOStatement->execute()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+The SQL being executed was: SELECT * FROM "specialist" WHERE "is_active"=TRUE ORDER BY "name" in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php:683
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1325): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM "...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(1186): yii\db\Command->internalExecute('SELECT * FROM "...')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Command.php(417): yii\db\Command->queryInternal('fetchAll', NULL)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Query.php(249): yii\db\Command->queryAll()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveQuery.php(154): yii\db\Query->all(NULL)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/SpecialistController.php(32): yii\db\ActiveQuery->all()
+#6 [internal function]: api\modules\v1\controllers\SpecialistController->actionIndex()
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/specialist/i...', Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42P01
+    [1] => 7
+    [2] => ERROR:  relation "specialist" does not exist
+LINE 1: SELECT * FROM "specialist" WHERE "is_active"=$1 ORDER BY "na...
+                      ^
+)
+
+2026-04-26 17:54:29 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '8b2e2690df6917af9c98a4976970ba7e6fdc4d6b319b8b5fbfcd2b788d90cfc0a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"8RkyryJqIp26tzxgB0Bdbq72Hz-OGy5t\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57407'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/specialist'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/specialist'
+    'PHP_SELF' => '/index.php/v1/specialist'
+    'HTTP_COOKIE' => '_csrf=8b2e2690df6917af9c98a4976970ba7e6fdc4d6b319b8b5fbfcd2b788d90cfc0a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%228RkyryJqIp26tzxgB0Bdbq72Hz-OGy5t%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226069.0522
+    'REQUEST_TIME' => 1777226069
+]
+2026-04-26 17:56:09 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:56:08 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57913'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_USER_AGENT' => 'curl/7.86.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_AUTHORIZATION' => '***'
+    'REQUEST_TIME_FLOAT' => 1777226168.6537
+    'REQUEST_TIME' => 1777226168
+]
+2026-04-26 17:56:55 [::1][1][-][error][yii\base\UnknownPropertyException] yii\base\UnknownPropertyException: Getting unknown property: common\models\Appointment::specialist_id in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php:159
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(295): yii\base\Component->__get('specialist_id')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(210): yii\db\BaseActiveRecord->__get('specialist_id')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(60): api\modules\v1\controllers\AppointmentController->formatAppointment(Object(common\models\Appointment))
+#3 [internal function]: api\modules\v1\controllers\AppointmentController->{closure:api\modules\v1\controllers\AppointmentController::actionIndex():59}(Object(common\models\Appointment))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(59): array_map(Object(Closure), Array)
+#5 [internal function]: api\modules\v1\controllers\AppointmentController->actionIndex()
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:56:54 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58137'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_USER_AGENT' => 'curl/7.86.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_AUTHORIZATION' => '***'
+    'REQUEST_TIME_FLOAT' => 1777226214.074
+    'REQUEST_TIME' => 1777226214
+]
+2026-04-26 17:57:11 [::1][1][-][error][yii\base\UnknownPropertyException] yii\base\UnknownPropertyException: Getting unknown property: common\models\Appointment::specialist_id in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php:159
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(295): yii\base\Component->__get('specialist_id')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(210): yii\db\BaseActiveRecord->__get('specialist_id')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(60): api\modules\v1\controllers\AppointmentController->formatAppointment(Object(common\models\Appointment))
+#3 [internal function]: api\modules\v1\controllers\AppointmentController->{closure:api\modules\v1\controllers\AppointmentController::actionIndex():59}(Object(common\models\Appointment))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(59): array_map(Object(Closure), Array)
+#5 [internal function]: api\modules\v1\controllers\AppointmentController->actionIndex()
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:57:10 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58216'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_USER_AGENT' => 'curl/7.86.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_AUTHORIZATION' => '***'
+    'REQUEST_TIME_FLOAT' => 1777226230.6211
+    'REQUEST_TIME' => 1777226230
+]
+2026-04-26 17:57:40 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:57:39 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '58a4ab9f18069016bff4bb817ab7dd8f50922aed1c4b159d4a0330418ed14d3aa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"F_KtKLvewHu9ew4kCVuv9z75JEFQku5O\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58357'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=58a4ab9f18069016bff4bb817ab7dd8f50922aed1c4b159d4a0330418ed14d3aa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22F_KtKLvewHu9ew4kCVuv9z75JEFQku5O%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226259.7112
+    'REQUEST_TIME' => 1777226259
+]
+2026-04-26 17:57:40 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:57:40 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '58a4ab9f18069016bff4bb817ab7dd8f50922aed1c4b159d4a0330418ed14d3aa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"F_KtKLvewHu9ew4kCVuv9z75JEFQku5O\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58358'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=58a4ab9f18069016bff4bb817ab7dd8f50922aed1c4b159d4a0330418ed14d3aa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22F_KtKLvewHu9ew4kCVuv9z75JEFQku5O%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226260.3419
+    'REQUEST_TIME' => 1777226260
+]
+2026-04-26 17:57:51 [::1][1][-][error][yii\base\UnknownPropertyException] yii\base\UnknownPropertyException: Getting unknown property: common\models\Appointment::specialist_id in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php:159
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(295): yii\base\Component->__get('specialist_id')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(210): yii\db\BaseActiveRecord->__get('specialist_id')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(60): api\modules\v1\controllers\AppointmentController->formatAppointment(Object(common\models\Appointment))
+#3 [internal function]: api\modules\v1\controllers\AppointmentController->{closure:api\modules\v1\controllers\AppointmentController::actionIndex():59}(Object(common\models\Appointment))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(59): array_map(Object(Closure), Array)
+#5 [internal function]: api\modules\v1\controllers\AppointmentController->actionIndex()
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:57:50 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '16036186f459e4aaf3ee6dc8b0186fce4a7a5f91f1cfb3cb630c5d54310a5c36a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"2mBSZBujHzS-h8yVYIXYUYJxcMscJExo\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58398'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=16036186f459e4aaf3ee6dc8b0186fce4a7a5f91f1cfb3cb630c5d54310a5c36a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%222mBSZBujHzS-h8yVYIXYUYJxcMscJExo%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226270.298
+    'REQUEST_TIME' => 1777226270
+]
+2026-04-26 17:57:56 [::1][1][-][error][yii\base\UnknownPropertyException] yii\base\UnknownPropertyException: Getting unknown property: common\models\Appointment::specialist_id in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php:159
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(295): yii\base\Component->__get('specialist_id')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(210): yii\db\BaseActiveRecord->__get('specialist_id')
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(60): api\modules\v1\controllers\AppointmentController->formatAppointment(Object(common\models\Appointment))
+#3 [internal function]: api\modules\v1\controllers\AppointmentController->{closure:api\modules\v1\controllers\AppointmentController::actionIndex():59}(Object(common\models\Appointment))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AppointmentController.php(59): array_map(Object(Closure), Array)
+#5 [internal function]: api\modules\v1\controllers\AppointmentController->actionIndex()
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/InlineAction.php(66): call_user_func_array(Array, Array)
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(197): yii\base\InlineAction->runWithParams(Array)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:57:55 [::1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '33555fd33137252e80c50cdcf5194454387365ff6b53e566012a50c27de96bbba:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"t2qHd5gQFQ-msY49hCPEJk5PtbUqvtY5\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58427'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=33555fd33137252e80c50cdcf5194454387365ff6b53e566012a50c27de96bbba%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22t2qHd5gQFQ-msY49hCPEJk5PtbUqvtY5%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226275.225
+    'REQUEST_TIME' => 1777226275
+]
+2026-04-26 17:58:12 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:58:11 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58509'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_USER_AGENT' => 'curl/7.86.0'
+    'HTTP_ACCEPT' => '*/*'
+    'HTTP_AUTHORIZATION' => '***'
+    'REQUEST_TIME_FLOAT' => 1777226291.6265
+    'REQUEST_TIME' => 1777226291
+]
+2026-04-26 17:58:44 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:58:43 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'c3ffe3a56bdcae97b8db8fdf90cb6677e6df0235e0f70a6ead80bb24a78b370ca:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"Yk7Hv0jcMVAzqZRWL6qEkqKnj0Fy_BH3\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58663'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=c3ffe3a56bdcae97b8db8fdf90cb6677e6df0235e0f70a6ead80bb24a78b370ca%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Yk7Hv0jcMVAzqZRWL6qEkqKnj0Fy_BH3%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226323.7714
+    'REQUEST_TIME' => 1777226323
+]
+2026-04-26 17:58:44 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 17:58:44 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'c3ffe3a56bdcae97b8db8fdf90cb6677e6df0235e0f70a6ead80bb24a78b370ca:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"Yk7Hv0jcMVAzqZRWL6qEkqKnj0Fy_BH3\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '58664'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=c3ffe3a56bdcae97b8db8fdf90cb6677e6df0235e0f70a6ead80bb24a78b370ca%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Yk7Hv0jcMVAzqZRWL6qEkqKnj0Fy_BH3%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777226324.3775
+    'REQUEST_TIME' => 1777226324
+]
+2026-04-26 18:22:54 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 18:22:53 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '46b9bc519c2bb4c8934ad7be781103907f33a908a394eb59b2a122b6ba3d7e5aa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"KdspAvjWxPOFbAxjnfhNoe1P8QjpDghe\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '50543'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=46b9bc519c2bb4c8934ad7be781103907f33a908a394eb59b2a122b6ba3d7e5aa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22KdspAvjWxPOFbAxjnfhNoe1P8QjpDghe%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777227773.6112
+    'REQUEST_TIME' => 1777227773
+]
+2026-04-26 18:22:54 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 18:22:54 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '46b9bc519c2bb4c8934ad7be781103907f33a908a394eb59b2a122b6ba3d7e5aa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"KdspAvjWxPOFbAxjnfhNoe1P8QjpDghe\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '50544'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=46b9bc519c2bb4c8934ad7be781103907f33a908a394eb59b2a122b6ba3d7e5aa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22KdspAvjWxPOFbAxjnfhNoe1P8QjpDghe%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777227774.1735
+    'REQUEST_TIME' => 1777227774
+]
+2026-04-26 18:33:50 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 18:33:49 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '2c03f63909b86c99d178db15d8b970a39098713010d74fc66bc59ca2643eff24a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"yonQz3UGtXm-A_GUIi1mlLhNNrg-exUp\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53744'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=2c03f63909b86c99d178db15d8b970a39098713010d74fc66bc59ca2643eff24a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22yonQz3UGtXm-A_GUIi1mlLhNNrg-exUp%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777228429.5812
+    'REQUEST_TIME' => 1777228429
+]
+2026-04-26 18:33:50 [::1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/dashboard/in...', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#12 {main}
+2026-04-26 18:33:50 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '2c03f63909b86c99d178db15d8b970a39098713010d74fc66bc59ca2643eff24a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"yonQz3UGtXm-A_GUIi1mlLhNNrg-exUp\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '53745'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/dashboard'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/dashboard'
+    'PHP_SELF' => '/index.php/v1/dashboard'
+    'HTTP_COOKIE' => '_csrf=2c03f63909b86c99d178db15d8b970a39098713010d74fc66bc59ca2643eff24a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22yonQz3UGtXm-A_GUIi1mlLhNNrg-exUp%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777228430.1803
+    'REQUEST_TIME' => 1777228430
+]
+2026-04-26 22:23:08 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[HY000]: General error: 7 server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php:753
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(753): PDO->exec('SET NAMES 'utf8...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(642): yii\db\Connection->initConnection()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1074): yii\db\Connection->open()
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1061): yii\db\Connection->getMasterPdo()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(468): yii\db\Connection->getSlavePdo(true)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(953): yii\db\Schema->quoteValue('user')
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(468): yii\db\Connection->quoteValue('user')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(196): yii\db\pgsql\Schema->findColumns(Object(yii\db\TableSchema))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(763): yii\db\pgsql\Schema->loadTableSchema('user')
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(199): yii\db\Schema->getTableMetadata('{{%user}}', 'schema', false)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(440): yii\db\Schema->getTableSchema('{{%user}}')
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(264): yii\db\ActiveRecord::getTableSchema()
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(236): yii\db\ActiveRecord::filterValidColumnNames(Object(yii\db\Connection), Array)
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(193): yii\db\ActiveRecord::filterCondition(Array, Array)
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(109): yii\db\ActiveRecord::findByCondition(Array)
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/models/User.php(97): yii\db\BaseActiveRecord::findOne(Array)
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(322): common\models\User::findIdentityByAccessToken('X_igfJcf_i5gcVa...', 'yii\\filters\\aut...')
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('X_igfJcf_i5gcVa...', 'yii\\filters\\aut...')
+#18 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#19 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#20 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#21 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#22 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#23 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#24 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#25 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#26 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#27 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#28 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#29 {main}
+
+Next yii\db\Exception: SQLSTATE[HY000]: General error: 7 server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php:652
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1074): yii\db\Connection->open()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1061): yii\db\Connection->getMasterPdo()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(468): yii\db\Connection->getSlavePdo(true)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(953): yii\db\Schema->quoteValue('user')
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(468): yii\db\Connection->quoteValue('user')
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(196): yii\db\pgsql\Schema->findColumns(Object(yii\db\TableSchema))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(763): yii\db\pgsql\Schema->loadTableSchema('user')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(199): yii\db\Schema->getTableMetadata('{{%user}}', 'schema', false)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(440): yii\db\Schema->getTableSchema('{{%user}}')
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(264): yii\db\ActiveRecord::getTableSchema()
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(236): yii\db\ActiveRecord::filterValidColumnNames(Object(yii\db\Connection), Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(193): yii\db\ActiveRecord::filterCondition(Array, Array)
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(109): yii\db\ActiveRecord::findByCondition(Array)
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/models/User.php(97): yii\db\BaseActiveRecord::findOne(Array)
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(322): common\models\User::findIdentityByAccessToken('X_igfJcf_i5gcVa...', 'yii\\filters\\aut...')
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('X_igfJcf_i5gcVa...', 'yii\\filters\\aut...')
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#18 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#19 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#20 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#21 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#22 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#23 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#24 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#25 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#26 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#27 {main}
+Additional Information:
+Array
+(
+    [0] => HY000
+    [1] => 7
+    [2] => server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+)
+
+2026-04-26 22:23:08 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '87cce97839c2467ac72c661c9640713a7c7cb404a38f235b6be0adf5e49b71cea:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"80gosecam8551deddb17XWlHAQ7YsbJ5\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '50875'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=87cce97839c2467ac72c661c9640713a7c7cb404a38f235b6be0adf5e49b71cea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%2280gosecam8551deddb17XWlHAQ7YsbJ5%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/notifications'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777242188.3189
+    'REQUEST_TIME' => 1777242188
+]
+2026-04-26 22:38:55 [::1][-][-][error][yii\web\HttpException:404] yii\web\NotFoundHttpException: Page not found. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php:329
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(91): yii\web\Request->resolve()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#3 {main}
+2026-04-26 22:38:55 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '0ffa2271553644e35411bb4f8cc1c066aec5a465f575580c0df241e6a6405286a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"-Aos5k4fMDWaqDSM8_vMjuH3IbRAeDRF\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57129'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/.well-known/appspecific/com.chrome.devtools.json'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/.well-known/appspecific/com.chrome.devtools.json'
+    'PHP_SELF' => '/index.php/.well-known/appspecific/com.chrome.devtools.json'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'no-cors'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_COOKIE' => '_csrf=0ffa2271553644e35411bb4f8cc1c066aec5a465f575580c0df241e6a6405286a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22-Aos5k4fMDWaqDSM8_vMjuH3IbRAeDRF%22%3B%7D'
+    'REQUEST_TIME_FLOAT' => 1777243135.0237
+    'REQUEST_TIME' => 1777243135
+]
+2026-04-26 22:38:56 [::1][-][-][error][yii\web\HttpException:404] yii\web\NotFoundHttpException: Page not found. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php:329
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(91): yii\web\Request->resolve()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#3 {main}
+2026-04-26 22:38:56 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '0ffa2271553644e35411bb4f8cc1c066aec5a465f575580c0df241e6a6405286a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"-Aos5k4fMDWaqDSM8_vMjuH3IbRAeDRF\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '57137'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/favicon.ico'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/favicon.ico'
+    'PHP_SELF' => '/index.php/favicon.ico'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_ACCEPT' => 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'no-cors'
+    'HTTP_SEC_FETCH_DEST' => 'image'
+    'HTTP_REFERER' => 'http://localhost:8000/uploads/avatars/user_1_1777242923.webp'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_COOKIE' => '_csrf=0ffa2271553644e35411bb4f8cc1c066aec5a465f575580c0df241e6a6405286a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22-Aos5k4fMDWaqDSM8_vMjuH3IbRAeDRF%22%3B%7D'
+    'REQUEST_TIME_FLOAT' => 1777243136.0897
+    'REQUEST_TIME' => 1777243136
+]
+2026-04-27 05:54:18 [::1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[HY000]: General error: 7 server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php:753
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(753): PDO->exec('SET NAMES 'utf8...')
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(642): yii\db\Connection->initConnection()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1074): yii\db\Connection->open()
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1061): yii\db\Connection->getMasterPdo()
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(468): yii\db\Connection->getSlavePdo(true)
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(953): yii\db\Schema->quoteValue('user')
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(468): yii\db\Connection->quoteValue('user')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(196): yii\db\pgsql\Schema->findColumns(Object(yii\db\TableSchema))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(763): yii\db\pgsql\Schema->loadTableSchema('user')
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(199): yii\db\Schema->getTableMetadata('{{%user}}', 'schema', false)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(440): yii\db\Schema->getTableSchema('{{%user}}')
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(264): yii\db\ActiveRecord::getTableSchema()
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(236): yii\db\ActiveRecord::filterValidColumnNames(Object(yii\db\Connection), Array)
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(193): yii\db\ActiveRecord::filterCondition(Array, Array)
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(109): yii\db\ActiveRecord::findByCondition(Array)
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/models/User.php(97): yii\db\BaseActiveRecord::findOne(Array)
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(322): common\models\User::findIdentityByAccessToken('zurX1rXZjBtmLeG...', 'yii\\filters\\aut...')
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('zurX1rXZjBtmLeG...', 'yii\\filters\\aut...')
+#18 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#19 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#20 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#21 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#22 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#23 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#24 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#25 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#26 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#27 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#28 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#29 {main}
+
+Next yii\db\Exception: SQLSTATE[HY000]: General error: 7 server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php:652
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1074): yii\db\Connection->open()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(1061): yii\db\Connection->getMasterPdo()
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(468): yii\db\Connection->getSlavePdo(true)
+#3 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Connection.php(953): yii\db\Schema->quoteValue('user')
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(468): yii\db\Connection->quoteValue('user')
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/pgsql/Schema.php(196): yii\db\pgsql\Schema->findColumns(Object(yii\db\TableSchema))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(763): yii\db\pgsql\Schema->loadTableSchema('user')
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/Schema.php(199): yii\db\Schema->getTableMetadata('{{%user}}', 'schema', false)
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(440): yii\db\Schema->getTableSchema('{{%user}}')
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(264): yii\db\ActiveRecord::getTableSchema()
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(236): yii\db\ActiveRecord::filterValidColumnNames(Object(yii\db\Connection), Array)
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/ActiveRecord.php(193): yii\db\ActiveRecord::filterCondition(Array, Array)
+#12 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/db/BaseActiveRecord.php(109): yii\db\ActiveRecord::findByCondition(Array)
+#13 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/models/User.php(97): yii\db\BaseActiveRecord::findOne(Array)
+#14 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/User.php(322): common\models\User::findIdentityByAccessToken('zurX1rXZjBtmLeG...', 'yii\\filters\\aut...')
+#15 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(67): yii\web\User->loginByAccessToken('zurX1rXZjBtmLeG...', 'yii\\filters\\aut...')
+#16 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#17 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#18 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#19 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#20 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#21 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#22 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#23 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('index', Array)
+#24 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/appointment/...', Array)
+#25 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#26 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(30): yii\base\Application->run()
+#27 {main}
+Additional Information:
+Array
+(
+    [0] => HY000
+    [1] => 7
+    [2] => server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+)
+
+2026-04-27 05:54:18 [::1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '043c9e8060b696516708eaaa617444773d2107ebf9f019f95251beb5c107326fa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"cSScP6_KekSciSxp5RBVC2918GVDsGui\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '::1'
+    'REMOTE_PORT' => '60931'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/appointment'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/appointment'
+    'PHP_SELF' => '/index.php/v1/appointment'
+    'HTTP_COOKIE' => '_csrf=043c9e8060b696516708eaaa617444773d2107ebf9f019f95251beb5c107326fa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22cSScP6_KekSciSxp5RBVC2918GVDsGui%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/appointments'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => 'localhost:8000'
+    'REQUEST_TIME_FLOAT' => 1777269258.1593
+    'REQUEST_TIME' => 1777269258
+]

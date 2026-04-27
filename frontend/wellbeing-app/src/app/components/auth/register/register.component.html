@@ -1,7 +1,9 @@
 <div class="auth-page">
   <div class="auth-card">
     <div class="auth-logo">
-      <div class="logo-icon">❤️</div>
+      <div class="logo-mark">
+        <app-icon name="heart" [size]="16" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon>
+      </div>
       <div>
         <div class="logo-text">well<strong>being</strong></div>
         <div class="logo-sub">Портал підтримки</div>
@@ -11,7 +13,10 @@
     <h1 class="auth-title">Реєстрація</h1>
     <p class="auth-desc">Створіть новий акаунт</p>
 
-    <div *ngIf="error" class="error-box">{{ error }}</div>
+    <div *ngIf="error" class="error-box">
+      <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>
+      {{ error }}
+    </div>
 
     <div class="form-row">
       <div class="form-field">
@@ -26,47 +31,46 @@
 
     <div class="form-field">
       <label>Email</label>
-      <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+      <div class="input-wrap">
+        <app-icon name="mail" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
+        <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
+      </div>
     </div>
 
     <div class="form-field">
       <label>Компанія</label>
       <div class="select-wrap">
+        <app-icon name="building" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <select [(ngModel)]="companyId" [disabled]="loading || loadingCompanies">
           <option [ngValue]="null" disabled>
             {{ loadingCompanies ? 'Завантаження…' : 'Оберіть компанію' }}
           </option>
           <option *ngFor="let c of companies" [ngValue]="c.id">{{ c.name }}</option>
         </select>
-        <span class="select-arrow">▾</span>
+        <span class="select-arrow">
+          <app-icon name="chevronDown" [size]="14" stroke="#6B8879"></app-icon>
+        </span>
       </div>
     </div>
 
     <div class="form-field">
       <label>Пароль</label>
-      <div class="password-wrap">
+      <div class="input-wrap">
+        <app-icon name="shield" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <input
           [type]="showPassword ? 'text' : 'password'"
           [(ngModel)]="password"
           placeholder="Мінімум 8 символів"
           [disabled]="loading"
           (keyup.enter)="submit()" />
-        <button
-          type="button"
-          class="icon-btn"
-          (click)="togglePasswordVisibility()"
-          [title]="showPassword ? 'Сховати' : 'Показати'">
-          {{ showPassword ? '🙈' : '👁' }}
+        <button type="button" class="icon-btn" (click)="togglePasswordVisibility()" title="Показати/Сховати">
+          <app-icon [name]="showPassword ? 'eyeOff' : 'eye'" [size]="16" stroke="#6B8879"></app-icon>
         </button>
-        <button
-          type="button"
-          class="icon-btn"
-          (click)="generatePassword()"
-          title="Згенерувати пароль">
-          🎲
+        <button type="button" class="icon-btn" (click)="generatePassword()" title="Згенерувати надійний пароль">
+          <app-icon name="sparkles" [size]="16" stroke="#6B8879"></app-icon>
         </button>
       </div>
-      <div class="password-hint">Підкажемо: натисніть 🎲 щоб створити надійний пароль</div>
+      <div class="password-hint">Натисніть ✦ щоб створити надійний пароль автоматично</div>
     </div>
 
     <button class="btn-primary" (click)="submit()" [disabled]="loading">
