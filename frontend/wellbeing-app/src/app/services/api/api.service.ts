@@ -16,14 +16,15 @@ export class ApiService {
 
   // ==================== AUTH ====================
   register(payload: {
-    email: string; password: string; firstName: string; lastName: string; companyId?: number | null;
+    email: string; password: string; firstName: string; lastName: string; companyId?: number | null; acceptedTerms?: boolean;
   }): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/register`, {
       email: payload.email,
       password: payload.password,
       first_name: payload.firstName,
       last_name: payload.lastName,
-      company_id: payload.companyId ?? null
+      company_id: payload.companyId ?? null,
+      accepted_terms: payload.acceptedTerms ?? false
     }).pipe(
       tap((response: any) => {
         if (response.access_token) {

@@ -235,6 +235,21 @@
 .auth-link a { color: #2DB928; font-weight: 600; text-decoration: none; }
 .auth-link a:hover { text-decoration: underline; }
 
+.terms-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 16px; margin-top: 4px;
+}
+.checkbox-custom {
+  width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 2px;
+  background: #fff; border: 1.5px solid #DCE9DC;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+}
+.checkbox-custom.checked { background: #2DB928; border-color: #2DB928; }
+.checkbox-custom:hover:not(.checked) { border-color: #2DB928; }
+.terms-text { font-size: 13px; color: #6B8879; line-height: 1.5; }
+.link-green { color: #2DB928; cursor: pointer; }
+
 @media (max-width: 480px) {
   .auth-card { padding: 28px 20px; }
   .form-row { grid-template-columns: 1fr; }

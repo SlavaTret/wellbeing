@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   loadingCompanies = true;
   error = '';
   showPassword = false;
+  acceptedTerms = false;
 
   constructor(private api: ApiService, private router: Router) {}
 
@@ -68,6 +69,10 @@ export class RegisterComponent implements OnInit {
       this.error = 'Пароль має бути не менше 8 символів';
       return;
     }
+    if (!this.acceptedTerms) {
+      this.error = 'Необхідно погодитись з умовами користування сервісом';
+      return;
+    }
     this.loading = true;
     this.error = '';
     this.api.register({
@@ -75,7 +80,8 @@ export class RegisterComponent implements OnInit {
       password: this.password,
       firstName: this.firstName,
       lastName: this.lastName,
-      companyId: this.companyId
+      companyId: this.companyId,
+      acceptedTerms: true
     }).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err) => {

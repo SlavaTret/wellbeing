@@ -29,9 +29,62 @@
   </div>
 </div>
 
-<!-- Message form -->
-<div class="card">
+<!-- ── Message form ── -->
+<div class="card" *ngIf="!success">
   <div class="form-title">Написати в підтримку</div>
-  <textarea [(ngModel)]="msg" placeholder="Опишіть ваше питання або проблему..." rows="4" class="msg-textarea"></textarea>
-  <button class="btn-send" [class.active]="canSend" (click)="send()">Надіслати</button>
+
+  <div class="field-group">
+    <label class="field-label">Тема звернення</label>
+    <input
+      [(ngModel)]="title"
+      class="field-input"
+      placeholder="Коротко опишіть суть питання..."
+      maxlength="200"
+    />
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Зручний спосіб зв'язку</label>
+    <div class="contact-methods">
+      <button
+        *ngFor="let m of contactMethods"
+        class="method-btn"
+        [class.method-active]="contactMethod === m.id"
+        (click)="contactMethod = m.id">
+        {{ m.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Повідомлення</label>
+    <textarea
+      [(ngModel)]="msg"
+      placeholder="Опишіть ваше питання або проблему докладніше..."
+      rows="5"
+      class="msg-textarea">
+    </textarea>
+  </div>
+
+  <div class="form-error" *ngIf="error">{{ error }}</div>
+
+  <button class="btn-send" [class.active]="canSend" [disabled]="!canSend" (click)="send()">
+    <span *ngIf="!sending">Надіслати</span>
+    <span *ngIf="sending" class="spinner-sm"></span>
+  </button>
+</div>
+
+<!-- ── Success screen ── -->
+<div class="card success-card" *ngIf="success">
+  <div class="success-icon-wrap">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <div class="success-title">Звернення надіслано!</div>
+  <div class="success-sub">
+    Ми отримали ваше повідомлення і розглянемо його найближчим часом.<br>
+    Відповідь надійде зручним для вас способом — зазвичай протягом 1 робочого дня.
+  </div>
+  <button class="btn-new-ticket" (click)="reset()">Надіслати ще одне звернення</button>
 </div>

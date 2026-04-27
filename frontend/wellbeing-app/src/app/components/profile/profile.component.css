@@ -76,6 +76,7 @@
   transition: all 0.15s;
 }
 .checkbox-custom.checked { background: var(--green); border-color: var(--green); }
+.checkbox-custom.terms-saving { opacity: 0.5; cursor: wait; }
 .terms-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 .link-green { color: var(--green); cursor: pointer; }
 .avatar-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }

@@ -88,7 +88,8 @@
     <div class="terms-row">
       <div class="checkbox-custom"
            [class.checked]="form.acceptedTerms"
-           (click)="editing && (form.acceptedTerms = !form.acceptedTerms)">
+           [class.terms-saving]="termsSaving"
+           (click)="toggleTerms()">
         <app-icon *ngIf="form.acceptedTerms" name="check" [size]="12" stroke="#fff" [strokeWidth]="2.5"></app-icon>
       </div>
       <span class="terms-text">

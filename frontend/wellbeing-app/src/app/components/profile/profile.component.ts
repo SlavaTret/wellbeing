@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
 
   avatarUploading = false;
   avatarError = '';
+  termsSaving = false;
 
   companyName = '';
 
@@ -87,6 +88,19 @@ export class ProfileComponent implements OnInit {
       error: (err) => {
         this.saving = false;
         this.error = err?.error?.message || 'Помилка збереження. Спробуйте ще раз.';
+      }
+    });
+  }
+
+  toggleTerms(): void {
+    if (this.termsSaving) return;
+    this.form.acceptedTerms = !this.form.acceptedTerms;
+    this.termsSaving = true;
+    this.userService.update({ accepted_terms: this.form.acceptedTerms }).subscribe({
+      next: () => { this.termsSaving = false; },
+      error: () => {
+        this.form.acceptedTerms = !this.form.acceptedTerms; // revert on failure
+        this.termsSaving = false;
       }
     });
   }
