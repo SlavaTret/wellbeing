@@ -1,0 +1,196 @@
+<div class="admin-page">
+
+  <!-- Section header -->
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Спеціалісти</h2>
+      <p class="section-sub">{{ specialists.length }} спеціалістів, {{ totalActive }} активних</p>
+    </div>
+    <button class="btn btn--primary" (click)="openCreate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
+      Додати спеціаліста
+    </button>
+  </div>
+
+  <!-- Search -->
+  <div class="search-outer">
+    <div class="search-bar">
+      <div class="search-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/></svg>
+      </div>
+      <input class="search-input" type="text"
+             placeholder="Пошук за іменем, спеціалізацією..."
+             [(ngModel)]="search" (input)="onSearchInput()" />
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+  <!-- Card grid -->
+  <div class="spec-grid" *ngIf="!loading && !error">
+
+    <div *ngIf="specialists.length === 0" class="empty-msg">
+      Спеціалістів не знайдено
+    </div>
+
+    <div class="spec-card" *ngFor="let s of specialists" (click)="openEdit(s)">
+
+      <!-- Card header: avatar + name + badges -->
+      <div class="spec-card-top">
+        <div class="avatar">{{ s.avatar_initials || initials(s.name) }}</div>
+        <div class="spec-info">
+          <div class="spec-name">{{ s.name }}</div>
+          <div class="spec-badges">
+            <span class="badge" [ngClass]="typeClass(s.type)">{{ s.type_name }}</span>
+            <span class="badge" [ngClass]="s.is_active ? 'badge--active' : 'badge--inactive'">
+              {{ s.is_active ? 'Активний' : 'Неактивний' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category tags -->
+      <div class="cat-row">
+        <span class="cat-tag" *ngFor="let c of s.categories.slice(0, 3)">{{ c }}</span>
+        <span class="cat-tag" *ngIf="s.categories.length > 3">+{{ s.categories.length - 3 }}</span>
+        <span class="cat-tag cat-tag--empty" *ngIf="s.categories.length === 0">Категорій немає</span>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stat-row">
+        <div class="stat-cell">
+          <div class="stat-val">{{ ratingDisplay(s.rating) }}</div>
+          <div class="stat-lbl">Рейтинг</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val">{{ s.reviews_count }}</div>
+          <div class="stat-lbl">Відгуків</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val">{{ s.sessions_count }}</div>
+          <div class="stat-lbl">Сесій</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ MODAL (create / edit) ══════════════ -->
+<ng-container *ngIf="showModal">
+  <div class="modal-wrap" (click)="closeModal()">
+    <div class="modal-inner modal-inner--wide" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-head">
+        <div class="modal-title">{{ modalSpec ? 'Спеціаліст: ' + modalSpec.name : 'Новий спеціаліст' }}</div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
+
+        <!-- Name (split into last + first) -->
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Прізвище</label>
+            <input type="text" [value]="form.name.split(' ')[0] || ''"
+                   (input)="form.name = $any($event.target).value.trim() + ' ' + form.name.split(' ').slice(1).join(' ')" />
+          </div>
+          <div class="form-field">
+            <label>Ім'я</label>
+            <input type="text" [value]="form.name.split(' ').slice(1).join(' ')"
+                   (input)="form.name = (form.name.split(' ')[0] || '') + ' ' + $any($event.target).value.trim()" />
+          </div>
+        </div>
+
+        <!-- Type + Experience -->
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Спеціалізація</label>
+            <select [(ngModel)]="form.type">
+              <option value="psychologist">Психолог</option>
+              <option value="therapist">Психотерапевт</option>
+              <option value="coach">Коуч</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Досвід (років)</label>
+            <input type="number" [(ngModel)]="form.experience_years" min="0" placeholder="0" />
+          </div>
+        </div>
+
+        <!-- Price + Status -->
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Ціна за сесію (₴)</label>
+            <input type="number" [(ngModel)]="form.price" min="0" placeholder="0" />
+          </div>
+          <div class="form-field">
+            <label>Статус</label>
+            <select [(ngModel)]="form.status">
+              <option value="active">Активний</option>
+              <option value="inactive">Неактивний</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bio -->
+        <div class="form-field">
+          <label>Опис</label>
+          <textarea [(ngModel)]="form.bio" rows="3" placeholder="Коротко про спеціаліста..."></textarea>
+        </div>
+
+        <!-- ── Categories ── -->
+        <div class="section-divider">
+          <span class="section-label">Категорії спеціаліста</span>
+        </div>
+
+        <!-- Assigned -->
+        <div class="cats-assigned">
+          <div class="cats-sub">Призначені:</div>
+          <div class="cats-empty" *ngIf="formCats.length === 0">Категорій немає</div>
+          <div class="cats-list">
+            <span class="cat-chip" *ngFor="let c of formCats">
+              {{ c }}
+              <button class="cat-remove" (click)="removeCategory(c)">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Available to add -->
+        <div class="cats-available" *ngIf="availableCats.length > 0">
+          <div class="cats-sub">Додати категорію:</div>
+          <div class="cats-list">
+            <button class="cat-add-btn" *ngFor="let c of availableCats" (click)="addCategory(c)">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 4v16m8-8H4"/></svg>
+              {{ c }}
+            </button>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" (click)="closeModal()">Скасувати</button>
+        <button class="btn btn--primary" (click)="saveModal()" [disabled]="saving">
+          <span *ngIf="saving" class="btn-spinner"></span>
+          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

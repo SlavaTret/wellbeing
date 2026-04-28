@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.apiService.getAccessToken();
 
-    if (token && !request.url.includes('/login') && !request.url.includes('/register')) {
+    if (token && !request.url.includes('/login') && !request.url.includes('/register') && !request.headers.has('Authorization')) {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

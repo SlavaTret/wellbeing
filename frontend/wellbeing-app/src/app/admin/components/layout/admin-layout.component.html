@@ -1,0 +1,79 @@
+<!-- Mobile overlay -->
+<div class="drawer-overlay" *ngIf="drawerOpen" (click)="drawerOpen = false"></div>
+
+<!-- Sidebar -->
+<aside class="admin-sidebar" [class.open]="drawerOpen">
+  <!-- Logo -->
+  <div class="sidebar-logo">
+    <div class="logo-row">
+      <div class="logo-circle">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path *ngFor="let p of getIconPaths('shield')" [attr.d]="p"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">well<span class="logo-green">being</span></div>
+        <div class="logo-sub">Адмін-панель</div>
+      </div>
+    </div>
+    <button class="sidebar-close" (click)="drawerOpen = false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8879" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path *ngFor="let p of getIconPaths('x')" [attr.d]="p"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Nav -->
+  <nav class="sidebar-nav">
+    <button *ngFor="let item of navItems"
+      class="nav-item"
+      [class.active]="activePage === item.id"
+      (click)="navigate(item.id)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path *ngFor="let p of getIconPaths(item.icon)" [attr.d]="p"></path>
+      </svg>
+      <span>{{ item.label }}</span>
+    </button>
+  </nav>
+
+  <!-- Admin user footer -->
+  <div class="sidebar-footer">
+    <div class="admin-user-row">
+      <div class="admin-avatar">{{ adminInitials }}</div>
+      <div class="admin-info">
+        <div class="admin-name">{{ adminName }}</div>
+        <div class="admin-email">{{ adminEmail }}</div>
+      </div>
+    </div>
+    <button class="btn-logout" (click)="logout()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path *ngFor="let p of getIconPaths('logout')" [attr.d]="p"></path>
+      </svg>
+      Вийти
+    </button>
+  </div>
+</aside>
+
+<!-- Mobile header -->
+<header class="mobile-header">
+  <button class="menu-btn" (click)="drawerOpen = true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C2B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path *ngFor="let p of getIconPaths('menu')" [attr.d]="p"></path>
+    </svg>
+  </button>
+  <div class="mobile-logo-row">
+    <div class="logo-circle-sm">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path *ngFor="let p of getIconPaths('shield')" [attr.d]="p"></path>
+      </svg>
+    </div>
+    <div class="mobile-logo-text">well<strong style="color:#2DB928">being</strong>
+      <span class="mobile-page-label">{{ activeLabel }}</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main content -->
+<main class="admin-main">
+  <router-outlet></router-outlet>
+</main>

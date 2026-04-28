@@ -17,6 +17,16 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { SupportComponent } from './components/support/support.component';
 import { IconComponent } from './components/shared/icon/icon.component';
+import { AdminLoginComponent } from './admin/components/login/admin-login.component';
+import { AdminLayoutComponent } from './admin/components/layout/admin-layout.component';
+import { AdminDashboardComponent } from './admin/components/dashboard/admin-dashboard.component';
+import { AdminCompaniesComponent } from './admin/components/companies/admin-companies.component';
+import { AdminUsersComponent } from './admin/components/users/admin-users.component';
+import { AdminPaymentsPageComponent } from './admin/components/payments/admin-payments.component';
+import { AdminSpecialistsComponent } from './admin/components/specialists/admin-specialists.component';
+import { AdminAppointmentsPageComponent } from './admin/components/appointments/admin-appointments.component';
+import { AdminCategoriesComponent } from './admin/components/categories/admin-categories.component';
+import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +41,17 @@ import { IconComponent } from './components/shared/icon/icon.component';
     PaymentsComponent,
     NotificationsComponent,
     QuestionnaireComponent,
-    SupportComponent
+    SupportComponent,
+    AdminLoginComponent,
+    AdminLayoutComponent,
+    AdminDashboardComponent,
+    AdminCompaniesComponent,
+    AdminUsersComponent,
+    AdminPaymentsPageComponent,
+    AdminSpecialistsComponent,
+    AdminAppointmentsPageComponent,
+    AdminCategoriesComponent,
+    AdminSlotsComponent,
   ],
   imports: [
     BrowserModule,

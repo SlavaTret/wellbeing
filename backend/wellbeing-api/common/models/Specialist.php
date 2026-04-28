@@ -61,25 +61,44 @@ class Specialist extends ActiveRecord
             return [];
         }
 
-        // Group time slots by day_of_week
         $byDay = [];
         foreach ($schedules as $s) {
             $byDay[$s->day_of_week][] = $s->time_slot;
         }
 
-        $result = [];
-        $today  = new \DateTime('today');
-        $end    = (clone $today)->modify("+{$days} days");
-        $d      = clone $today;
+        $today   = new \DateTime('today');
+        $end     = (clone $today)->modify("+{$days} days");
 
+        // Blocked dates in range
+        $blockedDates = \Yii::$app->db->createCommand(
+            'SELECT block_date FROM specialist_day_block WHERE specialist_id = :id AND block_date >= :from AND block_date <= :to',
+            [':id' => $this->id, ':from' => $today->format('Y-m-d'), ':to' => $end->format('Y-m-d')]
+        )->queryColumn();
+        $blockedSet = array_flip($blockedDates);
+
+        // Already booked slots in range
+        $bookedRows = \Yii::$app->db->createCommand(
+            "SELECT appointment_date, appointment_time FROM appointment
+             WHERE specialist_id = :id AND appointment_date >= :from AND appointment_date <= :to
+             AND status NOT IN ('cancelled')",
+            [':id' => $this->id, ':from' => $today->format('Y-m-d'), ':to' => $end->format('Y-m-d')]
+        )->queryAll();
+        $bookedSet = [];
+        foreach ($bookedRows as $b) {
+            $bookedSet[$b['appointment_date'] . '_' . $b['appointment_time']] = true;
+        }
+
+        $result = [];
+        $d = clone $today;
         while ($d <= $end) {
-            $dow = (int)$d->format('w'); // 0=Sun
-            if (isset($byDay[$dow])) {
-                $dateStr = $d->format('Y-m-d');
-                $result[] = [
-                    'date'  => $dateStr,
-                    'slots' => $byDay[$dow],
-                ];
+            $dow     = (int)$d->format('w');
+            $dateStr = $d->format('Y-m-d');
+
+            if (isset($byDay[$dow]) && !isset($blockedSet[$dateStr])) {
+                $free = array_filter($byDay[$dow], fn($t) => !isset($bookedSet[$dateStr . '_' . $t]));
+                if ($free) {
+                    $result[] = ['date' => $dateStr, 'slots' => array_values($free)];
+                }
             }
             $d->modify('+1 day');
         }

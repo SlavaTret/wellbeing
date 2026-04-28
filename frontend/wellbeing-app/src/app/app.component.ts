@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   activeTab = 'dashboard';
   sidebarOpen = false;
   isAuthPage = false;
+  isAdminPage = false;
 
   navItems: NavItem[] = [
     { id: 'dashboard',     label: 'Дашборд',       icon: 'dashboard' },
@@ -42,9 +43,12 @@ export class AppComponent implements OnInit {
   ) {
     this.sidebarOpen = window.innerWidth > 768;
 
+    this.isAdminPage = window.location.pathname.startsWith('/admin');
+
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((e: any) => {
+      this.isAdminPage = e.urlAfterRedirects.startsWith('/admin');
       this.isAuthPage = ['/login', '/register'].includes(e.urlAfterRedirects);
       const path = e.urlAfterRedirects.split('/')[1];
       if (path) this.activeTab = path;
@@ -57,6 +61,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.isAdminPage) return;
+
     if (this.apiService.isLoggedIn()) {
       this.userService.load().subscribe({
         next: () => this.notifService.load(),

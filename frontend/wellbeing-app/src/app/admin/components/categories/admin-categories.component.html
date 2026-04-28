@@ -1,0 +1,139 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Категорії</h2>
+      <p class="section-sub">Категорії спеціалізацій для спеціалістів</p>
+    </div>
+    <button class="btn btn--primary" (click)="openCreate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
+      Додати категорію
+    </button>
+  </div>
+
+  <!-- Search -->
+  <div class="search-outer">
+    <div class="search-bar">
+      <div class="search-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/></svg>
+      </div>
+      <input class="search-input" type="text"
+             placeholder="Пошук категорій..."
+             [(ngModel)]="search" (input)="onSearchInput()" />
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+  <!-- Table card -->
+  <div class="card" *ngIf="!loading && !error" [class.card--loading]="listLoading">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Назва категорії</th>
+            <th>Спеціалістів</th>
+            <th>Сесій</th>
+            <th>Статус</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="categories.length === 0">
+            <td colspan="5" class="empty-cell">Категорій не знайдено</td>
+          </tr>
+          <tr *ngFor="let c of categories; let i = index"
+              [class.row-odd]="i % 2 !== 0"
+              class="row-clickable"
+              (click)="openEdit(c, $event)">
+            <td>
+              <div class="cat-name-cell">
+                <div class="cat-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2DB928" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1" fill="#2DB928" stroke="none"/></svg>
+                </div>
+                <span class="cat-name">{{ c.name }}</span>
+              </div>
+            </td>
+            <td class="td-num">{{ c.specialist_count }}</td>
+            <td class="td-num">{{ c.sessions_count }}</td>
+            <td>
+              <span class="badge" [ngClass]="c.status === 'active' ? 'badge--active' : 'badge--inactive'">
+                {{ c.status === 'active' ? 'Активна' : 'Неактивна' }}
+              </span>
+            </td>
+            <td class="td-actions" (click)="$event.stopPropagation()">
+              <button class="btn-edit" (click)="openEdit(c, $event)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                Ред.
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<ng-container *ngIf="showModal">
+  <div class="modal-wrap" (click)="closeModal()">
+    <div class="modal-inner" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-head">
+        <div class="modal-title">{{ modalCat ? 'Категорія: ' + modalCat.name : 'Нова категорія' }}</div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
+
+        <div class="form-field">
+          <label>Назва категорії</label>
+          <input type="text" [(ngModel)]="formName" placeholder="Наприклад: Тривога та стрес" (keydown.enter)="save()" />
+        </div>
+
+        <div class="form-field">
+          <label>Статус</label>
+          <select [(ngModel)]="formStatus">
+            <option value="active">Активна</option>
+            <option value="inactive">Неактивна</option>
+          </select>
+        </div>
+
+        <!-- Stats for existing category -->
+        <div class="cat-stats" *ngIf="modalCat">
+          <div class="cat-stat-item">
+            <span class="cat-stat-val">{{ modalCat.specialist_count }}</span>
+            <span class="cat-stat-lbl">Спеціалістів</span>
+          </div>
+          <div class="cat-stat-item">
+            <span class="cat-stat-val">{{ modalCat.sessions_count }}</span>
+            <span class="cat-stat-lbl">Сесій</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--danger" *ngIf="modalCat" (click)="delete()" [disabled]="deleting">
+          {{ deleting ? '...' : 'Видалити' }}
+        </button>
+        <button class="btn btn--ghost" (click)="closeModal()">Скасувати</button>
+        <button class="btn btn--primary" (click)="save()" [disabled]="saving || !formName.trim()">
+          <span *ngIf="saving" class="btn-spinner"></span>
+          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

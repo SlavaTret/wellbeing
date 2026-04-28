@@ -1,0 +1,198 @@
+<div class="admin-page">
+
+  <!-- Section header -->
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Користувачі</h2>
+      <p class="section-sub">{{ totalAll }} користувачів, {{ activeAll }} активних</p>
+    </div>
+    <button class="btn btn--primary" (click)="openCreate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
+      Додати користувача
+    </button>
+  </div>
+
+  <!-- Card with search + table + pagination -->
+  <div class="admin-card admin-card--flat">
+
+    <!-- Search -->
+    <div class="card-search">
+      <div class="search-bar">
+        <div class="search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/></svg>
+        </div>
+        <input class="search-input" type="text"
+               placeholder="Пошук за іменем, email, компанією..."
+               [(ngModel)]="search" (input)="onSearchInput()" />
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-wrap">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !error && users.length === 0" class="empty-msg">
+      Немає записів
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap" *ngIf="!loading && !error && users.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Користувач</th>
+            <th>Компанія</th>
+            <th>Роль</th>
+            <th class="th-nowrap">Сесій</th>
+            <th class="th-nowrap">Дата реєстрації</th>
+            <th>Статус</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users; let i = index"
+              [class.row-odd]="i % 2 === 1"
+              (click)="openEdit(u)">
+
+            <td class="td-bold">
+              <div class="user-cell">
+                <div class="avatar"
+                     [style.background]="u.avatar_url ? 'transparent' : 'linear-gradient(135deg,#2DB928,#1E9020)'">
+                  <img *ngIf="u.avatar_url" [src]="u.avatar_url" class="avatar-img" [alt]="u.name" />
+                  <span *ngIf="!u.avatar_url">{{ initials(u.name) }}</span>
+                </div>
+                <div>
+                  <div class="u-name">{{ u.name || '—' }}</div>
+                  <div class="u-email">{{ u.email }}</div>
+                </div>
+              </div>
+            </td>
+
+            <td class="td-muted">{{ u.company_name || '—' }}</td>
+
+            <td>
+              <span class="badge" [ngClass]="u.is_admin ? 'badge--admin' : 'badge--user'">
+                {{ u.is_admin ? 'Адмін' : 'Користувач' }}
+              </span>
+            </td>
+
+            <td class="td-nowrap">{{ u.sessions_left }}</td>
+            <td class="td-muted td-nowrap">{{ formatDate(u.created_at) }}</td>
+
+            <td>
+              <span class="badge" [ngClass]="u.is_active ? 'badge--active' : 'badge--inactive'">
+                {{ u.is_active ? 'Активний' : 'Неактивний' }}
+              </span>
+            </td>
+
+            <td class="td-action" (click)="$event.stopPropagation()">
+              <button class="btn btn--ghost btn--sm" (click)="openEdit(u)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                Ред.
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="pages > 1">
+      <span class="pagination-count">{{ pageFrom }}–{{ pageTo }} з {{ total }}</span>
+      <button *ngFor="let p of pageNumbers"
+              class="page-btn"
+              [class.page-btn--active]="p === page"
+              (click)="goPage(p)">{{ p }}</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ══════════════ CREATE / EDIT MODAL ══════════════ -->
+<ng-container *ngIf="showModal">
+  <div class="modal-wrap" (click)="closeModal()">
+    <div class="modal-inner" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-head">
+        <div class="modal-title">{{ modalUser ? 'Користувач: ' + modalUser.name : 'Новий користувач' }}</div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Прізвище</label>
+            <input type="text" [(ngModel)]="form.last_name" />
+          </div>
+          <div class="form-field">
+            <label>Ім'я</label>
+            <input type="text" [(ngModel)]="form.first_name" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="form.email" />
+        </div>
+
+        <div class="form-field" *ngIf="!modalUser">
+          <label>Пароль</label>
+          <input type="text" [(ngModel)]="form.password" placeholder="Тимчасовий пароль" />
+        </div>
+
+        <div class="form-field">
+          <label>Компанія</label>
+          <select [(ngModel)]="form.company_id">
+            <option value="">Без компанії</option>
+            <option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</option>
+          </select>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Роль</label>
+            <select [(ngModel)]="form.role">
+              <option value="user">Користувач</option>
+              <option value="admin">Адмін</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Статус</label>
+            <select [(ngModel)]="form.status">
+              <option value="active">Активний</option>
+              <option value="inactive">Неактивний</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="stats-box" *ngIf="modalUser">
+          <div class="stats-label">Статистика</div>
+          <div class="stats-line">
+            Сесій пройдено: <strong>{{ modalUser.total_appointments }}</strong>
+            · Дата реєстрації: <strong>{{ formatDate(modalUser.created_at) }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" (click)="closeModal()">Скасувати</button>
+        <button class="btn btn--primary" (click)="saveModal()" [disabled]="saving">
+          <span *ngIf="saving" class="btn-spinner"></span>
+          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

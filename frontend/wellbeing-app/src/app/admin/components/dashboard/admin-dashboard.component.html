@@ -1,0 +1,157 @@
+<div class="dashboard-page">
+
+  <div class="page-header">
+    <h1 class="page-title">Дашборд</h1>
+    <p class="page-sub">Загальна статистика платформи</p>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+    <span class="loading-text">Завантаження...</span>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error && stats">
+
+    <!-- Stat Cards -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon stat-icon--blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value">{{ stats.active_users }}</div>
+        <div class="stat-label">Активних користувачів</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon stat-icon--green">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value">{{ stats.total_appointments }}</div>
+        <div class="stat-label">Консультацій всього</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon stat-icon--orange">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value">{{ stats.pending_payments }}</div>
+        <div class="stat-label">Оплат в очікуванні</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon stat-icon--teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value stat-value--money">₴{{ formatAmount(stats.paid_amount) }}</div>
+        <div class="stat-label">Отримано коштів</div>
+      </div>
+
+    </div>
+
+    <!-- Main content row -->
+    <div class="content-row">
+
+      <!-- Recent Appointments -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Найближчі записи</span>
+          <span class="card-badge card-badge--green" *ngIf="stats.upcoming_appointments > 0">
+            {{ stats.upcoming_appointments }} активних
+          </span>
+        </div>
+
+        <div class="appt-list">
+          <div class="appt-item" *ngFor="let a of recentAppointments">
+            <div class="user-avatar" [style.background]="a.avatar_url ? 'transparent' : avatarColor(a.user_name)">
+              <img *ngIf="a.avatar_url" [src]="a.avatar_url" class="avatar-img" [alt]="a.user_name" />
+              <span *ngIf="!a.avatar_url">{{ initials(a.user_name) }}</span>
+            </div>
+            <div class="appt-info">
+              <div class="appt-name">{{ a.user_name }}</div>
+              <div class="appt-meta">{{ a.specialist_name }} · {{ formatDateShort(a.appointment_date) }} {{ a.appointment_time }}</div>
+            </div>
+            <span class="badge" [ngClass]="statusClass(a.status)">{{ statusLabel(a.status) }}</span>
+          </div>
+
+          <div class="list-empty" *ngIf="recentAppointments.length === 0">
+            Записів немає
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Payments -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Очікують оплати</span>
+          <span class="card-badge card-badge--orange" *ngIf="stats.pending_payments > 0">
+            {{ stats.pending_payments }}
+          </span>
+        </div>
+
+        <div class="pay-list">
+          <div class="pay-item" *ngFor="let p of pendingPayments">
+            <div class="pay-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </div>
+            <div class="pay-info">
+              <div class="pay-name">{{ p.user_name }}</div>
+              <div class="pay-meta">{{ p.specialist_name }} · {{ formatDateShort(p.created_at) }}</div>
+            </div>
+            <div class="pay-amount">₴{{ formatAmount(p.amount) }}</div>
+          </div>
+
+          <div class="list-empty" *ngIf="pendingPayments.length === 0">
+            Очікуючих оплат немає
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Company Activity -->
+    <div class="card company-card" *ngIf="companyStats.length > 0">
+      <div class="card-header">
+        <span class="card-title">Активність компаній</span>
+      </div>
+      <div class="company-grid">
+        <div class="company-item" *ngFor="let c of companyStats">
+          <div class="company-initial">{{ c.name.charAt(0) }}</div>
+          <div class="company-info">
+            <div class="company-name">{{ c.name }}</div>
+            <div class="company-meta">
+              <span><strong>{{ c.total_users }}</strong> юзерів</span>
+              <span class="meta-dot"></span>
+              <span><strong>{{ c.total_appointments }}</strong> записів</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+</div>

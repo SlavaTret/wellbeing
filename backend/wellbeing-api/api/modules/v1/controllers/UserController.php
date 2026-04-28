@@ -183,6 +183,7 @@ class UserController extends Controller
             'company_branding' => $branding ? $branding->toBrandingArray() : null,
             'avatar_url'       => $user->avatar_url,
             'accepted_terms'   => $user->accepted_terms,
+            'is_admin'         => (bool)$user->is_admin,
             'created_at'       => $user->created_at,
         ];
     }

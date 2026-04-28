@@ -1,6 +1,6 @@
-<router-outlet *ngIf="isAuthPage"></router-outlet>
+<router-outlet *ngIf="isAdminPage || isAuthPage"></router-outlet>
 
-<ng-container *ngIf="!isAuthPage">
+<ng-container *ngIf="!isAdminPage && !isAuthPage">
   <!-- Mobile Header -->
   <header class="mobile-header">
     <button class="icon-button" (click)="openSidebar()" aria-label="Меню">

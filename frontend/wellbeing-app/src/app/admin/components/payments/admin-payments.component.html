@@ -1,0 +1,206 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Оплати</h2>
+      <p class="section-sub">Усі транзакції платформи</p>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error">
+
+    <!-- Stat cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div class="stat-amount">₴{{ paidAmount.toLocaleString('uk-UA') }}</div>
+        <div class="stat-lbl">Всього отримано</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="stat-amount">₴{{ pendingAmount.toLocaleString('uk-UA') }}</div>
+        <div class="stat-lbl">Очікують оплати</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="stat-amount">{{ totalCount }}</div>
+        <div class="stat-lbl">Транзакцій всього</div>
+      </div>
+    </div>
+
+    <!-- Main card -->
+    <div class="card" [class.card--loading]="listLoading">
+
+      <!-- Search + filters -->
+      <div class="card-top">
+        <div class="search-bar">
+          <div class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/></svg>
+          </div>
+          <input class="search-input" type="text"
+                 placeholder="Пошук по ID, імені, спеціалісту..."
+                 [(ngModel)]="search" (input)="onSearchInput()" />
+        </div>
+        <div class="pills-row">
+          <button class="pill" *ngFor="let t of statusTabs"
+                  [class.pill--active]="statusFilter === t.value"
+                  (click)="setStatus(t.value)">{{ t.label }}</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Користувач</th>
+              <th>Спеціаліст</th>
+              <th>Сума</th>
+              <th>Метод</th>
+              <th>Дата</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="payments.length === 0">
+              <td colspan="7" class="empty-cell">Платежів не знайдено</td>
+            </tr>
+            <tr *ngFor="let p of payments; let i = index"
+                [class.row-odd]="i % 2 !== 0"
+                class="row-clickable"
+                (click)="openView(p)">
+              <td class="td-id">{{ payId(p.id) }}</td>
+              <td>
+                <div class="user-cell">
+                  <span class="user-name">{{ p.user_name || '—' }}</span>
+                  <span class="user-sub" *ngIf="p.company_name">{{ p.company_name }}</span>
+                </div>
+              </td>
+              <td class="td-spec">{{ p.specialist_name || '—' }}</td>
+              <td class="td-amount">{{ formatAmount(p.amount, p.currency) }}</td>
+              <td class="td-method">{{ p.payment_method_label || '—' }}</td>
+              <td class="td-date">{{ formatDate(p.created_at) }}</td>
+              <td>
+                <span class="badge" [ngClass]="'badge--' + p.status">{{ statusLabel(p.status) }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="pages > 1">
+        <button class="pg-btn" [disabled]="page === 1" (click)="goPage(page - 1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="pg-btn" *ngFor="let n of pageNumbers"
+                [class.pg-btn--active]="n === page"
+                (click)="goPage(n)">{{ n }}</button>
+        <button class="pg-btn" [disabled]="page === pages" (click)="goPage(page + 1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<ng-container *ngIf="showModal && modalPay">
+  <div class="modal-wrap" (click)="closeModal()">
+    <div class="modal-inner" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-head">
+        <div class="modal-title">{{ payId(modalPay.id) }}</div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
+
+        <div class="detail-row">
+          <span class="detail-lbl">Користувач</span>
+          <span class="detail-val">{{ modalPay.user_name || '—' }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.user_email">
+          <span class="detail-lbl">Email</span>
+          <span class="detail-val detail-muted">{{ modalPay.user_email }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.company_name">
+          <span class="detail-lbl">Компанія</span>
+          <span class="detail-val">{{ modalPay.company_name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Сума</span>
+          <span class="detail-val detail-amount">{{ formatAmount(modalPay.amount, modalPay.currency) }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.payment_method_label">
+          <span class="detail-lbl">Метод оплати</span>
+          <span class="detail-val">{{ modalPay.payment_method_label }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.transaction_id">
+          <span class="detail-lbl">ID транзакції</span>
+          <span class="detail-val detail-muted">{{ modalPay.transaction_id }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.specialist_name">
+          <span class="detail-lbl">Спеціаліст</span>
+          <span class="detail-val">{{ modalPay.specialist_name }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.appointment_date">
+          <span class="detail-lbl">Дата запису</span>
+          <span class="detail-val">{{ modalPay.appointment_date }}<span *ngIf="modalPay.appointment_time"> о {{ modalPay.appointment_time }}</span></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Дата платежу</span>
+          <span class="detail-val">{{ formatDate(modalPay.created_at) }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.notes">
+          <span class="detail-lbl">Примітки</span>
+          <span class="detail-val detail-muted">{{ modalPay.notes }}</span>
+        </div>
+
+        <!-- Status picker -->
+        <div class="status-section">
+          <div class="status-lbl">Змінити статус</div>
+          <div class="status-pills">
+            <button class="status-pill" *ngFor="let t of statusTabs | slice:1"
+                    [class.status-pill--active]="quickStatus === t.value"
+                    [ngClass]="'status-pill--' + t.value"
+                    (click)="quickStatus = t.value">
+              {{ t.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" (click)="closeModal()">Скасувати</button>
+        <button class="btn btn--primary" (click)="saveStatus()" [disabled]="saving">
+          <span *ngIf="saving" class="btn-spinner"></span>
+          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

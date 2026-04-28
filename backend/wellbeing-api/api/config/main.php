@@ -98,6 +98,42 @@ return [
                 'GET  v1/payment'               => 'v1/payment/index',
                 'POST v1/payment/<id:\d+>/process' => 'v1/payment/process',
 
+                // Admin
+                'GET    v1/admin/dashboard'              => 'v1/admin/dashboard',
+                'GET    v1/admin/companies'              => 'v1/admin/companies',
+                'POST   v1/admin/upload-logo'            => 'v1/admin/upload-logo',
+                'POST   v1/admin/companies'              => 'v1/admin/create-company',
+                'POST   v1/admin/companies/<id:\d+>'     => 'v1/admin/update-company',
+                'DELETE v1/admin/companies/<id:\d+>'     => 'v1/admin/delete-company',
+
+                'GET    v1/admin/users'                  => 'v1/admin/users',
+                'POST   v1/admin/users'                  => 'v1/admin/create-user',
+                'POST   v1/admin/users/<id:\d+>'         => 'v1/admin/update-user',
+                'DELETE v1/admin/users/<id:\d+>'         => 'v1/admin/delete-user',
+
+                'GET    v1/admin/categories'                      => 'v1/admin/admin-categories',
+                'POST   v1/admin/categories'                     => 'v1/admin/create-category',
+                'POST   v1/admin/categories/<id:\d+>'            => 'v1/admin/update-category',
+                'DELETE v1/admin/categories/<id:\d+>'            => 'v1/admin/delete-category',
+
+                'GET    v1/admin/appointments'                    => 'v1/admin/admin-appointments',
+                'POST   v1/admin/appointments'                   => 'v1/admin/create-admin-appointment',
+                'POST   v1/admin/appointments/<id:\d+>'          => 'v1/admin/update-admin-appointment',
+                'DELETE v1/admin/appointments/<id:\d+>'          => 'v1/admin/delete-admin-appointment',
+
+                'GET    v1/admin/payments'                       => 'v1/admin/admin-payments',
+                'POST   v1/admin/payments/<id:\d+>'              => 'v1/admin/update-admin-payment',
+
+                'GET    v1/admin/specialists'                    => 'v1/admin/admin-specialists',
+                'POST   v1/admin/specialists'                    => 'v1/admin/create-specialist',
+                'POST   v1/admin/specialists/<id:\d+>'           => 'v1/admin/update-specialist',
+                'DELETE v1/admin/specialists/<id:\d+>'           => 'v1/admin/delete-specialist',
+                'GET    v1/admin/specialists/<id:\d+>/slots'          => 'v1/admin/specialist-slots',
+                'POST   v1/admin/specialists/<id:\d+>/slots'          => 'v1/admin/save-specialist-slots',
+                'GET    v1/admin/specialists/<id:\d+>/week-schedule'   => 'v1/admin/specialist-week-schedule',
+                'POST   v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/block-specialist-date',
+                'DELETE v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/unblock-specialist-date',
+
                 // Notifications
                 'GET  v1/notification'          => 'v1/notification/index',
                 'GET  v1/notification/<id:\d+>' => 'v1/notification/view',

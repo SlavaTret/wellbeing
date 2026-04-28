@@ -30,6 +30,7 @@ use common\models\Company;
  * @property string $company
  * @property string $avatar_url
  * @property bool $accepted_terms
+ * @property bool $is_admin
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -67,6 +68,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique'],
             [['patronymic', 'phone', 'company', 'avatar_url'], 'string'],
             ['accepted_terms', 'boolean'],
+            ['is_admin', 'boolean'],
             ['company_id', 'integer'],
             ['company_id', 'exist', 'targetClass' => Company::class, 'targetAttribute' => 'id', 'skipOnEmpty' => true],
         ];
