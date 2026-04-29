@@ -135,8 +135,9 @@
   font-size: 12px;
   font-weight: 600;
 }
-.pay-info.paid   { color: var(--green-dark); }
-.pay-info.unpaid { color: #8B6200; }
+.pay-info.paid        { color: var(--green-dark); }
+.pay-info.unpaid      { color: #8B6200; }
+.pay-info.pay-pending { color: #C77800; }
 
 .appt-actions { display: flex; gap: 8px; align-items: center; }
 
@@ -502,7 +503,7 @@
 .bk-success-sub {
   font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 24px;
 }
-.bk-success-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.bk-success-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
 .bk-btn-outline {
   padding: 12px 28px; border: 1px solid var(--green); border-radius: 12px;
   background: transparent; color: var(--green); font-size: 14px; font-weight: 600;
@@ -792,3 +793,50 @@
 }
 .success-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
 .success-sub { font-size: 14px; color: var(--text-muted); text-align: center; }
+
+.bk-pay-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #FFF8E1;
+  border: 1px solid #FFE082;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #8B6200;
+  margin: 16px 0 4px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.bk-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.bk-btn-outline:hover { border-color: var(--text-muted); }
+
+.payment-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease;
+}
+.toast-success { background: #2DB928; color: #fff; }
+.toast-failed  { background: #C62828; color: #fff; }
+@keyframes slideIn {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}

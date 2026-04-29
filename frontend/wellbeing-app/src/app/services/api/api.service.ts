@@ -100,6 +100,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/specialist`);
   }
 
+  getCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categories`);
+  }
+
   reviewSpecialist(specialistId: number, rating: number, comment: string, appointmentId?: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/specialist/${specialistId}/review`, {
       rating,
@@ -159,6 +163,18 @@ export class ApiService {
   // ==================== PAYMENTS ====================
   getPayments(): Observable<any> {
     return this.http.get(`${this.apiUrl}/payment`);
+  }
+
+  initiatePayment(appointmentId: number): Observable<{ checkout_url: string; payment_id: number }> {
+    return this.http.post<any>(`${this.apiUrl}/payment/${appointmentId}/initiate`, {});
+  }
+
+  syncPaymentStatus(paymentId: number): Observable<{ status: string; payment_id: number }> {
+    return this.http.post<any>(`${this.apiUrl}/payment/${paymentId}/sync`, {});
+  }
+
+  syncPaymentByOrder(orderId: string): Observable<{ status: string }> {
+    return this.http.post<any>(`${this.apiUrl}/payment/sync-by-order`, { order_id: orderId });
   }
 
   processPayment(id: number, paymentMethod: string = 'card'): Observable<any> {
@@ -250,5 +266,22 @@ export class ApiService {
 
   closeSupportTicket(id: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/support-ticket/${id}/close`, {});
+  }
+
+  // ==================== GOOGLE CALENDAR ====================
+  getGoogleAuthUrl(): Observable<{ url: string }> {
+    return this.http.get<{ url: string }>(`${this.apiUrl}/google/auth-url`);
+  }
+
+  getGoogleStatus(): Observable<{ connected: boolean; google_email: string | null }> {
+    return this.http.get<{ connected: boolean; google_email: string | null }>(`${this.apiUrl}/google/status`);
+  }
+
+  disconnectGoogle(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/google/disconnect`, {});
+  }
+
+  getGoogleUpcomingEvents(): Observable<{ connected: boolean; events: any[]; error?: string }> {
+    return this.http.get<any>(`${this.apiUrl}/google/upcoming-events`);
   }
 }

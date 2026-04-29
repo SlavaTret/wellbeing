@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\AppSettings;
 use common\models\Company;
 use Yii;
 use yii\rest\Controller;
@@ -41,35 +42,31 @@ class AdminController extends Controller
 
         $db = Yii::$app->db;
 
-        $userStats = $db->createCommand(
-            "SELECT COUNT(*) AS total, COUNT(*) FILTER (WHERE status = 10) AS active FROM \"user\""
-        )->queryOne();
-
-        $apptStats = $db->createCommand(
-            "SELECT COUNT(*) AS total, COUNT(*) FILTER (WHERE status IN ('confirmed','pending')) AS upcoming FROM appointment"
-        )->queryOne();
-
-        $payStats = $db->createCommand(
-            "SELECT
-                COUNT(*)                                                              AS total,
-                COUNT(*)                FILTER (WHERE status = 'pending')              AS pending_count,
-                COALESCE(SUM(amount)    FILTER (WHERE status = 'pending'),   0)        AS pending_amount,
-                COALESCE(SUM(amount)    FILTER (WHERE status = 'completed'), 0)        AS paid_amount
-             FROM payment"
-        )->queryOne();
-
-        $specCount = (int)$db->createCommand("SELECT COUNT(*) FROM specialist")->queryScalar();
+        // All 9 stat scalars in a single round-trip
+        $allStats = $db->createCommand("
+            SELECT
+                (SELECT COUNT(*) FROM \"user\" WHERE status != 40)                          AS total_users,
+                (SELECT COUNT(*) FROM \"user\" WHERE status = 10)                           AS active_users,
+                (SELECT COUNT(*) FROM appointment)                                          AS total_appointments,
+                (SELECT COUNT(*) FILTER (WHERE status IN ('confirmed','pending'))
+                 FROM appointment)                                                          AS upcoming_appointments,
+                (SELECT COUNT(*) FROM payment WHERE status = 'pending')                    AS pending_payments,
+                (SELECT COALESCE(SUM(amount), 0) FROM payment WHERE status = 'pending')    AS pending_amount,
+                (SELECT COALESCE(SUM(amount), 0) FROM payment WHERE status = 'completed')  AS paid_amount,
+                (SELECT COUNT(*) FROM payment)                                              AS total_payments,
+                (SELECT COUNT(*) FROM specialist)                                           AS total_specialists
+        ")->queryOne();
 
         $stats = [
-            'total_users'           => (int)$userStats['total'],
-            'active_users'          => (int)$userStats['active'],
-            'total_appointments'    => (int)$apptStats['total'],
-            'upcoming_appointments' => (int)$apptStats['upcoming'],
-            'pending_payments'      => (int)$payStats['pending_count'],
-            'pending_amount'        => (float)$payStats['pending_amount'],
-            'paid_amount'           => (float)$payStats['paid_amount'],
-            'total_payments'        => (int)$payStats['total'],
-            'total_specialists'     => $specCount,
+            'total_users'           => (int)$allStats['total_users'],
+            'active_users'          => (int)$allStats['active_users'],
+            'total_appointments'    => (int)$allStats['total_appointments'],
+            'upcoming_appointments' => (int)$allStats['upcoming_appointments'],
+            'pending_payments'      => (int)$allStats['pending_payments'],
+            'pending_amount'        => (float)$allStats['pending_amount'],
+            'paid_amount'           => (float)$allStats['paid_amount'],
+            'total_payments'        => (int)$allStats['total_payments'],
+            'total_specialists'     => (int)$allStats['total_specialists'],
         ];
 
         $recentRows = $db->createCommand("
@@ -348,17 +345,20 @@ class AdminController extends Controller
 
         $whereStr = implode(' AND ', $where);
 
-        // Two counts in one query
+        // Global counts + filtered count in one round-trip
         $counts = $db->createCommand(
-            "SELECT COUNT(*) FILTER (WHERE status != 40) AS total_all, COUNT(*) FILTER (WHERE status = 10) AS active_all FROM \"user\""
+            "SELECT
+                (SELECT COUNT(*) FILTER (WHERE status != 40) FROM \"user\") AS total_all,
+                (SELECT COUNT(*) FILTER (WHERE status = 10)  FROM \"user\") AS active_all,
+                COUNT(*) AS filtered_total
+             FROM \"user\" u
+             LEFT JOIN company c ON c.id = u.company_id
+             WHERE $whereStr",
+            $params
         )->queryOne();
         $totalAll  = (int)$counts['total_all'];
         $activeAll = (int)$counts['active_all'];
-
-        $total = (int)$db->createCommand(
-            "SELECT COUNT(*) FROM \"user\" u LEFT JOIN company c ON c.id = u.company_id WHERE $whereStr",
-            $params
-        )->queryScalar();
+        $total     = (int)$counts['filtered_total'];
 
         $rows = $db->createCommand("
             SELECT
@@ -521,7 +521,7 @@ class AdminController extends Controller
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
                 s.categories, s.avatar_initials, s.price,
-                s.is_active, s.created_at,
+                s.is_active, s.created_at, s.email,
                 COALESCE(rv.avg_rating, 0)  AS computed_rating,
                 COALESCE(rv.cnt, 0)         AS reviews_count,
                 COALESCE(ac.cnt, 0)         AS sessions_count
@@ -560,6 +560,7 @@ class AdminController extends Controller
         $s->price            = (float)($data['price'] ?? 0);
         $s->categories       = $data['categories'] ?? '';
         $s->is_active        = isset($data['is_active']) ? (bool)$data['is_active'] : true;
+        $s->email            = $data['email'] ?? null;
         $s->rating           = 0;
 
         $parts = preg_split('/\s+/', trim($s->name));
@@ -580,6 +581,7 @@ class AdminController extends Controller
             $this->saveSpecialistSlots($s->id, $data['slots']);
         }
 
+        $this->clearSpecialistCache();
         return ['success' => true, 'specialist' => $this->specialistRowById($s->id)];
     }
 
@@ -600,6 +602,7 @@ class AdminController extends Controller
         if (isset($data['price']))            $s->price            = (float)$data['price'];
         if (isset($data['categories']))       $s->categories       = $data['categories'];
         if (isset($data['is_active']))        $s->is_active        = (bool)$data['is_active'];
+        if (array_key_exists('email', $data)) $s->email            = $data['email'] ?: null;
 
         $parts = preg_split('/\s+/', trim($s->name));
         $s->avatar_initials = mb_strtoupper(
@@ -619,6 +622,7 @@ class AdminController extends Controller
             $this->saveSpecialistSlots($s->id, $data['slots'] ?? []);
         }
 
+        $this->clearSpecialistCache();
         return ['success' => true, 'specialist' => $this->specialistRowById($s->id)];
     }
 
@@ -664,6 +668,7 @@ class AdminController extends Controller
         $data  = Yii::$app->request->post();
         $slots = $data['slots'] ?? [];
         $this->saveSpecialistSlots($s->id, $slots);
+        $this->clearSpecialistCache();
 
         return ['success' => true];
     }
@@ -673,19 +678,11 @@ class AdminController extends Controller
         Yii::$app->response->format = 'json';
         $this->requireAdmin();
 
-        $s = \common\models\Specialist::findOne($id);
-        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
-
-        // Weekly recurring template
-        $schedRows = Yii::$app->db->createCommand(
-            'SELECT day_of_week, time_slot FROM specialist_schedule WHERE specialist_id = :id ORDER BY day_of_week, time_slot',
-            [':id' => $id]
-        )->queryAll();
-
-        $template = []; // dow => [time, ...]
-        foreach ($schedRows as $r) {
-            $template[(int)$r['day_of_week']][] = $r['time_slot'];
-        }
+        // Existence check via raw scalar (no Active Record overhead)
+        $exists = Yii::$app->db->createCommand(
+            'SELECT 1 FROM specialist WHERE id = :id', [':id' => $id]
+        )->queryScalar();
+        if (!$exists) throw new NotFoundHttpException('Спеціаліста не знайдено');
 
         // Week to show (from=YYYY-MM-DD, default = current week Monday)
         $fromStr = Yii::$app->request->get('from', '');
@@ -693,7 +690,7 @@ class AdminController extends Controller
             $monday = new \DateTime($fromStr);
         } else {
             $monday = new \DateTime();
-            $dow = (int)$monday->format('N'); // 1=Mon
+            $dow = (int)$monday->format('N');
             $monday->modify('-' . ($dow - 1) . ' days');
         }
 
@@ -702,29 +699,41 @@ class AdminController extends Controller
             $d = clone $monday;
             $d->modify("+{$i} days");
             $dateStr = $d->format('Y-m-d');
-            $dowNum  = (int)$d->format('N'); // 1-7 Mon-Sun → we store 1-7, 0=Sun fix below
-            $dowKey  = $dowNum === 7 ? 0 : $dowNum; // 0=Sun like JS
+            $dowNum  = (int)$d->format('N');
+            $dowKey  = $dowNum === 7 ? 0 : $dowNum;
             $days[] = ['date' => $dateStr, 'dow' => $dowKey];
         }
 
-        // Blocked dates in this week
-        $dates    = array_column($days, 'date');
+        $dates        = array_column($days, 'date');
         $placeholders = implode(',', array_map(fn($d) => "'$d'", $dates));
-        $blocked  = Yii::$app->db->createCommand(
-            "SELECT block_date FROM specialist_day_block WHERE specialist_id = :id AND block_date IN ($placeholders)",
-            [':id' => $id]
-        )->queryColumn();
 
-        // Booked slots in this week
-        $bookedRows = Yii::$app->db->createCommand(
-            "SELECT appointment_date, appointment_time FROM appointment
-             WHERE specialist_id = :id AND appointment_date IN ($placeholders)
-             AND status NOT IN ('cancelled')",
-            [':id' => $id]
-        )->queryAll();
+        // Template + blocked dates + booked slots — all in one UNION query
+        $allRows = Yii::$app->db->createCommand("
+            SELECT 'template' AS row_type, day_of_week::text AS a, time_slot AS b, NULL::text AS c
+            FROM specialist_schedule
+            WHERE specialist_id = :id
+            UNION ALL
+            SELECT 'blocked', NULL, NULL, block_date::text
+            FROM specialist_day_block
+            WHERE specialist_id = :id AND block_date IN ($placeholders)
+            UNION ALL
+            SELECT 'booked', NULL, appointment_time, appointment_date::text
+            FROM appointment
+            WHERE specialist_id = :id AND appointment_date IN ($placeholders)
+              AND status NOT IN ('cancelled')
+        ", [':id' => $id])->queryAll();
+
+        $template  = [];
+        $blocked   = [];
         $bookedSet = [];
-        foreach ($bookedRows as $b) {
-            $bookedSet[$b['appointment_date'] . '_' . $b['appointment_time']] = true;
+        foreach ($allRows as $r) {
+            if ($r['row_type'] === 'template') {
+                $template[(int)$r['a']][] = $r['b'];
+            } elseif ($r['row_type'] === 'blocked') {
+                $blocked[] = $r['c'];
+            } else {
+                $bookedSet[$r['c'] . '_' . $r['b']] = true;
+            }
         }
 
         $result = [];
@@ -763,8 +772,9 @@ class AdminController extends Controller
         Yii::$app->response->format = 'json';
         $this->requireAdmin();
 
-        $s = \common\models\Specialist::findOne($id);
-        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+        if (!Yii::$app->db->createCommand('SELECT 1 FROM specialist WHERE id = :id', [':id' => $id])->queryScalar()) {
+            throw new NotFoundHttpException('Спеціаліста не знайдено');
+        }
 
         $date = Yii::$app->request->post('date', '');
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
@@ -797,6 +807,11 @@ class AdminController extends Controller
         ])->execute();
 
         return ['success' => true, 'date' => $date];
+    }
+
+    private function clearSpecialistCache(): void
+    {
+        Yii::$app->cache->delete('specialists_list_' . date('Y-m-d'));
     }
 
     private function saveSpecialistSlots(int $specialistId, array $slots): void
@@ -845,6 +860,7 @@ class AdminController extends Controller
             'price'            => (float)$r['price'],
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
+            'email'            => $r['email'] ?? null,
         ];
     }
 
@@ -853,7 +869,7 @@ class AdminController extends Controller
         $row = Yii::$app->db->createCommand("
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
                    s.categories, s.avatar_initials, s.price,
-                   s.is_active, s.created_at,
+                   s.is_active, s.created_at, s.email,
                    (SELECT ROUND(AVG(r.rating)::numeric, 1) FROM specialist_review r WHERE r.specialist_id = s.id) AS computed_rating,
                    (SELECT COUNT(*) FROM specialist_review r WHERE r.specialist_id = s.id) AS reviews_count,
                    (SELECT COUNT(*) FROM appointment a WHERE a.specialist_name = s.name) AS sessions_count
@@ -1306,24 +1322,27 @@ class AdminController extends Controller
         }
         $whereStr = implode(' AND ', $where);
 
-        $stats = Yii::$app->db->createCommand(
+        // Global stats + filtered count in one round-trip
+        $statsRow = Yii::$app->db->createCommand(
             'SELECT
-                COUNT(*)                                                           AS total_count,
-                COALESCE(SUM(CASE WHEN p.status = \'completed\' THEN p.amount ELSE 0 END), 0) AS paid_amount,
-                COALESCE(SUM(CASE WHEN p.status = \'pending\'   THEN p.amount ELSE 0 END), 0) AS pending_amount
-            FROM payment p'
+                (SELECT COUNT(*) FROM payment)                                       AS total_count,
+                (SELECT COALESCE(SUM(amount),0) FROM payment WHERE status=\'completed\') AS paid_amount,
+                (SELECT COALESCE(SUM(amount),0) FROM payment WHERE status=\'pending\')   AS pending_amount,
+                COUNT(*) AS filtered_total
+             FROM payment p
+             LEFT JOIN "user" u ON u.id = p.user_id
+             WHERE ' . $whereStr,
+            $params
         )->queryOne();
 
-        $total = (int)Yii::$app->db->createCommand(
-            'SELECT COUNT(*) FROM payment p
-             LEFT JOIN "user" u ON u.id = p.user_id
-             WHERE ' . $whereStr, $params
-        )->queryScalar();
+        $stats = $statsRow;
+        $total = (int)$statsRow['filtered_total'];
 
         $rows = Yii::$app->db->createCommand(
             'SELECT
                 p.id, p.user_id, p.appointment_id, p.amount, p.currency,
                 p.status, p.payment_method, p.transaction_id, p.notes,
+                p.gateway, p.gateway_payment_id, p.gateway_order_id, p.paid_at,
                 p.created_at, p.updated_at,
                 (u.first_name || \' \' || u.last_name) AS user_name,
                 u.email AS user_email,
@@ -1344,9 +1363,9 @@ class AdminController extends Controller
             'total'         => $total,
             'page'          => $page,
             'pages'         => max(1, (int)ceil($total / $limit)),
-            'paid_amount'   => (float)$stats['paid_amount'],
-            'pending_amount'=> (float)$stats['pending_amount'],
-            'total_count'   => (int)$stats['total_count'],
+            'paid_amount'   => (float)$statsRow['paid_amount'],
+            'pending_amount'=> (float)$statsRow['pending_amount'],
+            'total_count'   => (int)$statsRow['total_count'],
         ];
     }
 
@@ -1408,10 +1427,13 @@ class AdminController extends Controller
             'amount'           => (float)$r['amount'],
             'currency'         => $r['currency'] ?: 'UAH',
             'status'           => $r['status'],
-            'payment_method'   => $r['payment_method'] ?: '',
+            'payment_method'       => $r['payment_method'] ?: '',
             'payment_method_label' => $methodMap[$r['payment_method']] ?? $r['payment_method'],
-            'transaction_id'   => $r['transaction_id'] ?: '',
-            'notes'            => $r['notes'] ?: '',
+            'transaction_id'       => $r['gateway_payment_id'] ?: $r['transaction_id'] ?: '',
+            'gateway'              => $r['gateway'] ?: '',
+            'gateway_order_id'     => $r['gateway_order_id'] ?: '',
+            'paid_at'              => $r['paid_at'] ? (int)$r['paid_at'] : null,
+            'notes'                => $r['notes'] ?: '',
             'created_at'       => (int)$r['created_at'],
             'user_name'        => $r['user_name'] ?: '',
             'user_email'       => $r['user_email'] ?: '',
@@ -1420,5 +1442,113 @@ class AdminController extends Controller
             'appointment_date' => $r['appointment_date'] ?: '',
             'appointment_time' => $r['appointment_time'] ?: '',
         ];
+    }
+
+    /* ═══════════════════════════════════════════
+       APP SETTINGS
+    ═══════════════════════════════════════════ */
+
+    public function actionSettings()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $keys = ['app_url', 'google_client_id', 'google_client_secret'];
+        $raw  = AppSettings::getAll($keys);
+
+        $secret = $raw['google_client_secret'];
+        return [
+            'app_url'              => $raw['app_url'],
+            'google_client_id'     => $raw['google_client_id'],
+            'google_client_secret' => $secret ? ('••••' . mb_substr($secret, -4)) : '',
+            'google_configured'    => $raw['google_client_id'] !== '' && $secret !== '',
+        ];
+    }
+
+    public function actionSaveSettings()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $data = Yii::$app->request->post();
+
+        if (isset($data['app_url'])) {
+            AppSettings::set('app_url', rtrim(trim($data['app_url']), '/'));
+        }
+        if (isset($data['google_client_id'])) {
+            AppSettings::set('google_client_id', trim($data['google_client_id']));
+        }
+        if (isset($data['google_client_secret']) && !str_starts_with($data['google_client_secret'], '••••')) {
+            AppSettings::set('google_client_secret', trim($data['google_client_secret']));
+        }
+
+        return ['success' => true];
+    }
+
+    /* ═══════════════════════════════════════════
+       PAYMENT SETTINGS
+    ═══════════════════════════════════════════ */
+
+    public function actionPaymentSettings()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $keys = [
+            'active_gateway',
+            'liqpay_public_key', 'liqpay_private_key',
+            'uapay_merchant_key', 'uapay_secret_key', 'uapay_api_url',
+        ];
+        $raw = AppSettings::getAll($keys);
+
+        return [
+            'active_gateway'    => $raw['active_gateway'] ?: 'liqpay',
+            'liqpay_public_key' => $raw['liqpay_public_key'],
+            'liqpay_private_key'=> $raw['liqpay_private_key']
+                ? ('••••' . mb_substr($raw['liqpay_private_key'], -4)) : '',
+            'uapay_merchant_key'=> $raw['uapay_merchant_key'],
+            'uapay_secret_key'  => $raw['uapay_secret_key']
+                ? ('••••' . mb_substr($raw['uapay_secret_key'], -4)) : '',
+            'uapay_api_url'     => $raw['uapay_api_url'] ?: 'https://api.uapay.ua',
+        ];
+    }
+
+    public function actionSavePaymentSettings()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $data = Yii::$app->request->post();
+        $plain = fn(string $v) => !str_starts_with($v, '••••');
+
+        if (isset($data['active_gateway'])) {
+            AppSettings::set('active_gateway', trim($data['active_gateway']));
+        }
+        if (isset($data['liqpay_public_key'])) {
+            AppSettings::set('liqpay_public_key', trim($data['liqpay_public_key']));
+        }
+        if (!empty($data['liqpay_private_key']) && $plain($data['liqpay_private_key'])) {
+            AppSettings::set('liqpay_private_key', trim($data['liqpay_private_key']));
+        }
+        if (isset($data['uapay_merchant_key'])) {
+            AppSettings::set('uapay_merchant_key', trim($data['uapay_merchant_key']));
+        }
+        if (!empty($data['uapay_secret_key']) && $plain($data['uapay_secret_key'])) {
+            AppSettings::set('uapay_secret_key', trim($data['uapay_secret_key']));
+        }
+        if (isset($data['uapay_api_url'])) {
+            AppSettings::set('uapay_api_url', rtrim(trim($data['uapay_api_url']), '/'));
+        }
+
+        return ['success' => true];
+    }
+
+    public function actionCheckPaymentStatus($id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $result = (new \common\services\PaymentService())->syncPaymentStatus((int)$id);
+        return $result;
     }
 }

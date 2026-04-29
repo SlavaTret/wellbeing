@@ -19,6 +19,12 @@ use yii\db\ActiveRecord;
  * @property string $notes
  * @property int $created_at
  * @property int $updated_at
+ * @property string|null $gateway (liqpay, uapay)
+ * @property string|null $gateway_order_id
+ * @property string|null $gateway_payment_id
+ * @property string|null $description
+ * @property string|null $raw_response
+ * @property int|null $paid_at
  *
  * @property User $user
  * @property Appointment $appointment
@@ -33,6 +39,9 @@ class Payment extends ActiveRecord
     const PAYMENT_METHOD_CARD = 'card';
     const PAYMENT_METHOD_UA_PAY = 'ua_pay';
     const PAYMENT_METHOD_BANK = 'bank_transfer';
+
+    const GATEWAY_LIQPAY = 'liqpay';
+    const GATEWAY_UAPAY  = 'uapay';
 
     public static function tableName()
     {

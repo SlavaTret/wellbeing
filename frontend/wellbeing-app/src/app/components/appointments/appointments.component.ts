@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class AppointmentsComponent implements OnInit {
   ratingText = '';
   ratings: { [id: number]: number } = {};
   paying: { [id: number]: boolean } = {};
+  paymentToast: 'success' | 'failed' | null = null;
 
   // ── Booking ─────────────────────────────────────────────────
   bookingOpen = false;
@@ -35,17 +37,13 @@ export class AppointmentsComponent implements OnInit {
   selectedTime = '';
   bookVia: 'online' | 'phone' = 'online';
   bookingSaving = false;
+  newAppt: any = null;
+  initiatingPayment = false;
 
   readonly stepLabels = ['Каталог', 'Спеціаліст', 'Слот', 'Підтвердження'];
 
-  readonly categories = [
-    { id: 'all',              label: 'Всі категорії' },
-    { id: 'Тривога та стрес', label: 'Тривога та стрес' },
-    { id: 'Депресія',         label: 'Депресія' },
-    { id: 'Травма та ПТСР',   label: 'Травма та ПТСР' },
-    { id: 'Розвиток та цілі', label: 'Розвиток та цілі' },
-    { id: 'Відносини',        label: 'Відносини' },
-    { id: 'Самооцінка',       label: 'Самооцінка' },
+  categories: { id: string; label: string }[] = [
+    { id: 'all', label: 'Всі категорії' },
   ];
 
   readonly filters = [
@@ -61,12 +59,43 @@ export class AppointmentsComponent implements OnInit {
 
   freeRemaining = 0;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadAppointments();
+    const params = this.route.snapshot.queryParams;
+    const paymentResult = params['payment'];
+    const orderId = params['order'] || '';
+
+    if (paymentResult === 'success' && orderId) {
+      // Clear URL immediately so refresh won't re-trigger toast
+      this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+      this.paymentToast = 'success';
+      setTimeout(() => { this.paymentToast = null; }, 5000);
+      // Sync payment status first, then load — avoids showing stale "pending" state
+      this.loading = true;
+      this.api.syncPaymentByOrder(orderId).subscribe({
+        next: () => this.loadAppointments(),
+        error: () => this.loadAppointments()
+      });
+    } else if (paymentResult === 'failed') {
+      this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+      this.paymentToast = 'failed';
+      setTimeout(() => { this.paymentToast = null; }, 5000);
+      this.loadAppointments();
+    } else {
+      this.loadAppointments();
+    }
     this.api.getDashboard().subscribe({
       next: (data: any) => { this.freeRemaining = data?.free_sessions?.remaining ?? 0; },
+      error: () => {}
+    });
+    this.api.getCategories().subscribe({
+      next: (list: any[]) => {
+        this.categories = [
+          { id: 'all', label: 'Всі категорії' },
+          ...(list || []).map((c: any) => ({ id: c.name, label: c.name })),
+        ];
+      },
       error: () => {}
     });
   }
@@ -138,31 +167,12 @@ export class AppointmentsComponent implements OnInit {
     if (this.paying[a.id]) return;
     this.paying[a.id] = true;
 
-    // Find the pending payment for this appointment via the payments API,
-    // then process it. We identify the payment by searching for pending
-    // payments linked to this appointment.
-    this.api.getPayments().subscribe({
+    this.api.initiatePayment(a.id).subscribe({
       next: (res: any) => {
-        const pending = res?.pending;
-        const match = pending?.appointment_id === a.id
-          ? pending
-          : (res?.items ?? []).find((p: any) => p.appointment_id === a.id && p.status === 'pending');
-
-        if (!match) {
-          this.paying[a.id] = false;
-          return;
+        this.paying[a.id] = false;
+        if (res?.checkout_url) {
+          window.location.href = res.checkout_url;
         }
-
-        this.api.processPayment(match.id).subscribe({
-          next: () => {
-            const idx = this.allAppts.findIndex(ap => ap.id === a.id);
-            if (idx !== -1) {
-              this.allAppts[idx] = { ...this.allAppts[idx], paid: true, payment_status: 'paid' };
-            }
-            this.paying[a.id] = false;
-          },
-          error: () => { this.paying[a.id] = false; }
-        });
       },
       error: () => { this.paying[a.id] = false; }
     });
@@ -280,6 +290,7 @@ export class AppointmentsComponent implements OnInit {
       appointment_time: this.selectedTime,
     }).subscribe({
       next: (appt: any) => {
+        this.newAppt = appt;
         this.allAppts.unshift(appt);
         this.bookingStep = 5;
         this.bookingSaving = false;
@@ -288,10 +299,33 @@ export class AppointmentsComponent implements OnInit {
     });
   }
 
+  payNewAppt(): void {
+    if (!this.newAppt || this.initiatingPayment) return;
+    this.initiatingPayment = true;
+    this.api.initiatePayment(this.newAppt.id).subscribe({
+      next: (res: any) => {
+        this.initiatingPayment = false;
+        if (res?.checkout_url) {
+          window.location.href = res.checkout_url;
+        }
+      },
+      error: () => { this.initiatingPayment = false; }
+    });
+  }
+
   formatDateLabel(dateStr: string): string {
     if (!dateStr) return '';
     const ukMonths = ['','січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
     const parts = dateStr.split('-');
     return `${parseInt(parts[2])} ${ukMonths[parseInt(parts[1])]} ${parts[0]}`;
+  }
+
+  typeName(type: string): string {
+    const map: Record<string, string> = {
+      psychologist: 'Психолог',
+      therapist:    'Психотерапевт',
+      coach:        'Коуч',
+    };
+    return map[type] ?? type;
   }
 }

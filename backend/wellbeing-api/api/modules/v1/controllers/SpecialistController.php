@@ -16,79 +16,156 @@ class SpecialistController extends Controller
         $behaviors = parent::behaviors();
         // actionIndex is public; actionReview requires auth
         $behaviors['authentication'] = [
-            'class'   => \yii\filters\auth\HttpBearerAuth::class,
-            'optional' => ['index'],
+            'class'    => \yii\filters\auth\HttpBearerAuth::class,
+            'optional' => ['index', 'categories'],
         ];
         return $behaviors;
     }
 
     /**
      * GET v1/specialist
+     * 2 raw SQL queries total — no Active Record, no schema introspection overhead.
+     * Response cached for 60s (slots are date-relative so cache key includes today's date).
      */
     public function actionIndex()
     {
         Yii::$app->response->format = 'json';
+        $db        = Yii::$app->db;
+        $cacheKey  = 'specialists_list_' . date('Y-m-d');
+        $cached    = Yii::$app->cache->get($cacheKey);
+        if ($cached !== false) {
+            return $cached;
+        }
 
-        // 1. Load AR models with schedules (2 queries via eager load)
-        $specialists = Specialist::find()
-            ->where(['is_active' => true])
-            ->with('schedules')
-            ->orderBy(['name' => SORT_ASC])
-            ->all();
+        // Query 1: specialists + schedule slots + review stats in one JOIN
+        $rows = $db->createCommand("
+            SELECT
+                s.id, s.name, s.type, s.bio, s.experience_years,
+                s.categories, s.avatar_initials, s.price,
+                COALESCE(rv.avg_rating,    0) AS avg_rating,
+                COALESCE(rv.reviews_count, 0) AS reviews_count,
+                ss.day_of_week,
+                ss.time_slot
+            FROM specialist s
+            LEFT JOIN (
+                SELECT specialist_id,
+                       ROUND(AVG(rating)::numeric, 1) AS avg_rating,
+                       COUNT(*)                        AS reviews_count
+                FROM specialist_review
+                GROUP BY specialist_id
+            ) rv ON rv.specialist_id = s.id
+            LEFT JOIN specialist_schedule ss ON ss.specialist_id = s.id
+            WHERE s.is_active = TRUE
+            ORDER BY s.name ASC, ss.day_of_week ASC, ss.time_slot ASC
+        ")->queryAll();
+
+        if (!$rows) {
+            return [];
+        }
+
+        // Group schedule rows by specialist
+        $specialists = [];
+        foreach ($rows as $r) {
+            $id = (int)$r['id'];
+            if (!isset($specialists[$id])) {
+                $specialists[$id] = $r;
+                $specialists[$id]['byDay'] = [];
+            }
+            if ($r['day_of_week'] !== null) {
+                $specialists[$id]['byDay'][(int)$r['day_of_week']][] = $r['time_slot'];
+            }
+        }
 
         if (!$specialists) {
             return [];
         }
 
-        // 2. Fetch real review stats in ONE query
-        $ids   = array_map(fn($s) => $s->id, $specialists);
-        $stats = Yii::$app->db->createCommand(
-            'SELECT specialist_id,
-                    COUNT(*)                            AS reviews_count,
-                    ROUND(AVG(rating)::numeric, 1)      AS avg_rating
-             FROM {{%specialist_review}}
-             WHERE specialist_id IN (' . implode(',', $ids) . ')
-             GROUP BY specialist_id'
-        )->queryAll();
+        $idList = implode(',', array_keys($specialists));
+        $today  = new \DateTime('today');
+        $end    = (clone $today)->modify('+14 days');
+        $from   = $today->format('Y-m-d');
+        $to     = $end->format('Y-m-d');
 
-        // Index by specialist_id for O(1) lookup
-        $statMap = [];
-        foreach ($stats as $row) {
-            $statMap[(int)$row['specialist_id']] = $row;
+        // Query 2: blocked dates + booked slots for all specialists via UNION
+        $blockedMap = [];
+        $bookedMap  = [];
+        foreach ($db->createCommand("
+            SELECT 'b' AS t, specialist_id, block_date::text AS d, NULL AS tm
+            FROM specialist_day_block
+            WHERE specialist_id IN ($idList)
+              AND block_date >= :from AND block_date <= :to
+            UNION ALL
+            SELECT 'a', specialist_id, appointment_date::text, appointment_time
+            FROM appointment
+            WHERE specialist_id IN ($idList)
+              AND appointment_date >= :from AND appointment_date <= :to
+              AND status NOT IN ('cancelled')
+        ", [':from' => $from, ':to' => $to])->queryAll() as $r) {
+            $sid = (int)$r['specialist_id'];
+            if ($r['t'] === 'b') {
+                $blockedMap[$sid][$r['d']] = true;
+            } else {
+                $bookedMap[$sid][$r['d'] . '_' . $r['tm']] = true;
+            }
         }
 
         $result = [];
-        foreach ($specialists as $s) {
-            $reviewsCount = (int)($statMap[$s->id]['reviews_count'] ?? 0);
-            $avgRating    = $reviewsCount > 0
-                ? (float)$statMap[$s->id]['avg_rating']
-                : null;
+        foreach ($specialists as $id => $s) {
+            $blocked = $blockedMap[$id] ?? [];
+            $booked  = $bookedMap[$id]  ?? [];
+            $byDay   = $s['byDay'];
 
-            // Sync cached columns (non-blocking write)
-            if ($s->reviews_count !== $reviewsCount || (float)$s->rating !== (float)($avgRating ?? $s->rating)) {
-                Yii::$app->db->createCommand()->update(
-                    '{{%specialist}}',
-                    ['reviews_count' => $reviewsCount, 'rating' => $avgRating ?? $s->rating],
-                    ['id' => $s->id]
-                )->execute();
+            $slots = [];
+            $d = clone $today;
+            while ($d <= $end) {
+                $dow     = (int)$d->format('w');
+                $dateStr = $d->format('Y-m-d');
+                if (isset($byDay[$dow]) && !isset($blocked[$dateStr])) {
+                    $free = array_values(array_filter(
+                        $byDay[$dow],
+                        fn($t) => !isset($booked[$dateStr . '_' . $t])
+                    ));
+                    if ($free) {
+                        $slots[] = ['date' => $dateStr, 'slots' => $free];
+                    }
+                }
+                $d->modify('+1 day');
             }
 
+            $cats = $s['categories']
+                ? array_values(array_filter(array_map('trim', explode(',', $s['categories']))))
+                : [];
+
+            $reviewsCount = (int)$s['reviews_count'];
             $result[] = [
-                'id'               => $s->id,
-                'name'             => $s->name,
-                'type'             => $s->type,
-                'bio'              => $s->bio,
-                'experience_years' => $s->experience_years,
-                'rating'           => $avgRating,
+                'id'               => $id,
+                'name'             => $s['name'],
+                'type'             => $s['type'],
+                'bio'              => $s['bio'],
+                'experience_years' => (int)$s['experience_years'],
+                'rating'           => $reviewsCount > 0 ? (float)$s['avg_rating'] : null,
                 'reviews_count'    => $reviewsCount,
-                'categories'       => $s->getCategoriesArray(),
-                'avatar_initials'  => $s->avatar_initials,
-                'price'            => (float)$s->price,
-                'available_slots'  => $s->getAvailableSlots(14),
+                'categories'       => $cats,
+                'avatar_initials'  => $s['avatar_initials'],
+                'price'            => (float)$s['price'],
+                'available_slots'  => $slots,
             ];
         }
 
+        Yii::$app->cache->set($cacheKey, $result, 60);
         return $result;
+    }
+
+    /**
+     * GET v1/categories — public list of active categories
+     */
+    public function actionCategories()
+    {
+        Yii::$app->response->format = 'json';
+
+        return Yii::$app->db->createCommand(
+            "SELECT id, name FROM \"category\" WHERE status = 'active' ORDER BY name ASC"
+        )->queryAll();
     }
 
     /**

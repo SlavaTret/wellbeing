@@ -8,21 +8,14 @@ import { NotificationService } from '../../services/notification/notification.se
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
-  loading = true;
-  savingSettings = false;
+  loading    = true;
   markingAll = false;
-
   notifs: any[] = [];
-  settings: { [key: string]: boolean } = { email_enabled: true, calendar_enabled: true, sms_enabled: false, reminders_enabled: true };
 
-  readonly settingsList = [
-    { key: 'email_enabled',     label: 'Email сповіщення',      desc: 'Підтвердження та нагадування на пошту' },
-    { key: 'calendar_enabled',  label: 'Google Calendar',        desc: 'Автоматично додавати події в календар' },
-    { key: 'sms_enabled',       label: 'SMS нагадування',        desc: 'Нагадування на номер телефону' },
-    { key: 'reminders_enabled', label: 'Нагадування за 12 год',  desc: 'Push/email перед кожною консультацією' },
-  ];
-
-  constructor(private api: ApiService, private notifService: NotificationService) {}
+  constructor(
+    private api: ApiService,
+    private notifService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
     this.api.getNotifications().subscribe({
@@ -32,11 +25,6 @@ export class NotificationsComponent implements OnInit {
         this.loading = false;
       },
       error: () => { this.loading = false; }
-    });
-
-    this.api.getNotificationSettings().subscribe({
-      next: (s: any) => { if (s) this.settings = { ...this.settings, ...s }; },
-      error: () => {}
     });
   }
 
@@ -62,15 +50,6 @@ export class NotificationsComponent implements OnInit {
         this.markingAll = false;
       },
       error: () => { this.markingAll = false; }
-    });
-  }
-
-  toggleSetting(key: string): void {
-    (this.settings as any)[key] = !(this.settings as any)[key];
-    this.savingSettings = true;
-    this.api.saveNotificationSettings(this.settings).subscribe({
-      next: (s: any) => { if (s) this.settings = { ...this.settings, ...s }; this.savingSettings = false; },
-      error: () => { this.savingSettings = false; }
     });
   }
 

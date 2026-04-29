@@ -6,16 +6,17 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * @property int    $id
- * @property string $name
- * @property string $type
- * @property string $bio
- * @property int    $experience_years
- * @property float  $rating
- * @property string $categories
- * @property string $avatar_initials
- * @property float  $price
- * @property bool   $is_active
+ * @property int         $id
+ * @property string      $name
+ * @property string      $type
+ * @property string      $bio
+ * @property int         $experience_years
+ * @property float       $rating
+ * @property string      $categories
+ * @property string      $avatar_initials
+ * @property float       $price
+ * @property bool        $is_active
+ * @property string|null $email
  */
 class Specialist extends ActiveRecord
 {
@@ -38,6 +39,8 @@ class Specialist extends ActiveRecord
             [['experience_years'], 'integer'],
             [['rating', 'price'], 'number'],
             [['is_active'], 'boolean'],
+            [['email'], 'email'],
+            [['email'], 'string', 'max' => 255],
         ];
     }
 

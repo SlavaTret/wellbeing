@@ -177,4 +177,26 @@ export class AdminApiService {
       headers: this.authHeaders(), body: { date }
     });
   }
+
+  // ==================== APP SETTINGS ====================
+  getAdminSettings(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/settings`, { headers: this.authHeaders() });
+  }
+
+  saveAdminSettings(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/settings`, data, { headers: this.authHeaders() });
+  }
+
+  // ==================== PAYMENT SETTINGS ====================
+  getPaymentSettings(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/payment-settings`, { headers: this.authHeaders() });
+  }
+
+  savePaymentSettings(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/payment-settings`, data, { headers: this.authHeaders() });
+  }
+
+  checkPaymentStatus(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/payments/${id}/check-status`, {}, { headers: this.authHeaders() });
+  }
 }

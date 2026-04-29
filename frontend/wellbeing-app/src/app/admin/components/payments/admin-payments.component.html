@@ -159,9 +159,17 @@
           <span class="detail-lbl">Метод оплати</span>
           <span class="detail-val">{{ modalPay.payment_method_label }}</span>
         </div>
+        <div class="detail-row" *ngIf="modalPay.gateway">
+          <span class="detail-lbl">Шлюз</span>
+          <span class="detail-val"><span class="gateway-badge">{{ modalPay.gateway | uppercase }}</span></span>
+        </div>
         <div class="detail-row" *ngIf="modalPay.transaction_id">
           <span class="detail-lbl">ID транзакції</span>
           <span class="detail-val detail-muted">{{ modalPay.transaction_id }}</span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.gateway_order_id">
+          <span class="detail-lbl">Order ID</span>
+          <span class="detail-val detail-muted">{{ modalPay.gateway_order_id }}</span>
         </div>
         <div class="detail-row" *ngIf="modalPay.specialist_name">
           <span class="detail-lbl">Спеціаліст</span>

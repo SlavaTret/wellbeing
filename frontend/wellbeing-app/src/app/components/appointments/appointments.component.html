@@ -1,3 +1,9 @@
+<!-- ══ PAYMENT TOAST ══ -->
+<div *ngIf="paymentToast" class="payment-toast" [class.toast-success]="paymentToast === 'success'" [class.toast-failed]="paymentToast === 'failed'">
+  <span *ngIf="paymentToast === 'success'">Оплату успішно виконано!</span>
+  <span *ngIf="paymentToast === 'failed'">Оплату не вдалось завершити</span>
+</div>
+
 <!-- ══ HEADER ══ -->
 <div class="section-header">
   <h2 class="section-title">Мої записи</h2>
@@ -30,17 +36,21 @@
       <div class="avatar-circle">{{ a.avatar }}</div>
       <div class="appt-info">
         <div class="appt-name">{{ a.specialist }}</div>
-        <div class="appt-meta">{{ a.type }} · {{ a.date }}, {{ a.time }}</div>
+        <div class="appt-meta">{{ typeName(a.type) }} · {{ a.date }}, {{ a.time }}</div>
       </div>
       <span class="status-badge" [ngClass]="'badge-' + a.status">{{ getStatusLabel(a.status) }}</span>
     </div>
     <div class="appt-bottom">
-      <div class="pay-info" [class.paid]="a.paid" [class.unpaid]="!a.paid">
-        <app-icon name="card" [size]="14" [stroke]="a.paid ? 'var(--green)' : '#8B6200'"></app-icon>
-        {{ a.paid ? 'Оплачено' : 'Не оплачено' }}
+      <div class="pay-info"
+        [class.paid]="a.paid"
+        [class.unpaid]="!a.paid && a.payment_status !== 'pending'"
+        [class.pay-pending]="a.payment_status === 'pending'">
+        <app-icon name="card" [size]="14"
+          [stroke]="a.paid ? 'var(--green)' : (a.payment_status === 'pending' ? '#C77800' : '#8B6200')"></app-icon>
+        {{ a.paid ? 'Оплачено' : (a.payment_status === 'pending' ? 'Очікує оплати' : 'Не оплачено') }}
       </div>
       <div class="appt-actions">
-        <button *ngIf="!a.paid && (a.status === 'confirmed' || a.status === 'pending')"
+        <button *ngIf="a.payment_status === 'pending' && (a.status === 'confirmed' || a.status === 'pending')"
           class="btn-pay-appt" [disabled]="paying[a.id]" (click)="payAppointment(a)">
           <span *ngIf="!paying[a.id]">Оплатити</span>
           <span *ngIf="paying[a.id]" class="spinner-sm spinner-green"></span>
@@ -164,7 +174,7 @@
             <div class="bk-spec-info">
               <div class="bk-spec-name-row">
                 <span class="bk-spec-name">{{ sp.name }}</span>
-                <span class="bk-spec-type-tag">{{ sp.type }}</span>
+                <span class="bk-spec-type-tag">{{ typeName(sp.type) }}</span>
                 <span class="bk-spec-price-tag">{{ sp.price | number:'1.0-0' }} грн</span>
               </div>
               <div class="bk-spec-meta">
@@ -193,7 +203,7 @@
           <div class="bk-profile-avatar">{{ selectedSpec.avatar_initials }}</div>
           <div>
             <div class="bk-profile-name">{{ selectedSpec.name }}</div>
-            <div class="bk-profile-meta">{{ selectedSpec.type }} · {{ selectedSpec.experience_years }} р. досвіду</div>
+            <div class="bk-profile-meta">{{ typeName(selectedSpec.type) }} · {{ selectedSpec.experience_years }} р. досвіду</div>
             <div class="bk-cat-tags">
               <span *ngFor="let c of selectedSpec.categories" class="bk-cat-tag">{{ c }}</span>
             </div>
@@ -281,7 +291,7 @@
           <div class="bk-confirm-title">Деталі запису</div>
           <div class="bk-confirm-row">
             <span class="bk-confirm-label">Спеціаліст</span>
-            <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ selectedSpec.type }})</span>
+            <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ typeName(selectedSpec.type) }})</span>
           </div>
           <div class="bk-confirm-row">
             <span class="bk-confirm-label">Дата та час</span>
@@ -320,10 +330,11 @@
           <div>
             <div class="bk-payment-title">Оплата</div>
             <div class="bk-payment-sub" *ngIf="freeRemaining > 0">Покрито підпискою компанії</div>
-            <div class="bk-payment-sub" *ngIf="freeRemaining === 0">Через UA Pay після підтвердження</div>
+            <div class="bk-payment-sub" *ngIf="freeRemaining === 0 && selectedSpec?.price > 0">Онлайн-оплата після підтвердження</div>
+            <div class="bk-payment-sub" *ngIf="freeRemaining === 0 && !(selectedSpec?.price > 0)">Безкоштовна консультація</div>
           </div>
-          <div class="bk-payment-amount" *ngIf="freeRemaining === 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
-          <div class="bk-payment-amount bk-payment-free" *ngIf="freeRemaining > 0">Безкоштовно</div>
+          <div class="bk-payment-amount" *ngIf="freeRemaining === 0 && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
+          <div class="bk-payment-amount bk-payment-free" *ngIf="freeRemaining > 0 || !(selectedSpec?.price > 0)">Безкоштовно</div>
         </div>
       </div>
 
@@ -337,12 +348,22 @@
           {{ selectedSpec?.name }} · {{ formatDateLabel(selectedDay) }} о {{ selectedTime }}<br>
           Лист-підтвердження надіслано на вашу пошту. Нагадування прийде за 12 годин до консультації.
         </div>
+
+        <!-- Payment required notice -->
+        <div *ngIf="newAppt && newAppt.payment_status === 'pending'" class="bk-pay-notice">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B6200" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+            <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          <span>Ця консультація потребує оплати. Оплатіть зараз або пізніше через розділ «Мої записи».</span>
+        </div>
+
         <div class="bk-success-btns">
-          <button class="bk-btn-outline" (click)="closeBooking()">Закрити</button>
-          <button class="bk-btn-green">
-            <app-icon name="calendar" [size]="16" stroke="#fff"></app-icon>
-            Додати в Google Calendar
+          <button *ngIf="newAppt && newAppt.payment_status === 'pending'"
+            class="bk-btn-green" (click)="payNewAppt()" [disabled]="initiatingPayment">
+            <span *ngIf="initiatingPayment" class="spinner-sm" style="border-color:rgba(255,255,255,.4);border-top-color:#fff"></span>
+            <span *ngIf="!initiatingPayment">Оплатити зараз</span>
           </button>
+          <button class="bk-btn-outline" (click)="closeBooking()">Закрити</button>
         </div>
       </div>
 

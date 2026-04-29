@@ -27,6 +27,8 @@ import { AdminSpecialistsComponent } from './admin/components/specialists/admin-
 import { AdminAppointmentsPageComponent } from './admin/components/appointments/admin-appointments.component';
 import { AdminCategoriesComponent } from './admin/components/categories/admin-categories.component';
 import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
+import { AdminSettingsComponent } from './admin/components/settings/admin-settings.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { AdminSlotsComponent } from './admin/components/slots/admin-slots.compon
     AdminAppointmentsPageComponent,
     AdminCategoriesComponent,
     AdminSlotsComponent,
+    AdminSettingsComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

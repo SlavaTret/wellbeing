@@ -61,6 +61,9 @@ return [
                 'GET  v1/specialist'                         => 'v1/specialist/index',
                 'POST v1/specialist/<id:\d+>/review'         => 'v1/specialist/review',
 
+                // Categories (public — active only)
+                'GET  v1/categories'                         => 'v1/specialist/categories',
+
                 // Auth
                 'POST v1/user/login'            => 'v1/user/login',
                 'POST v1/user/register'         => 'v1/user/register',
@@ -95,8 +98,13 @@ return [
                 'DELETE v1/document/<id:\d+>'   => 'v1/document/delete',
 
                 // Payments
-                'GET  v1/payment'               => 'v1/payment/index',
-                'POST v1/payment/<id:\d+>/process' => 'v1/payment/process',
+                'GET  v1/payment'                                => 'v1/payment/index',
+                'POST v1/payment/<id:\d+>/initiate'              => 'v1/payment/initiate',
+                'POST v1/payment/<id:\d+>/sync'                  => 'v1/payment/sync',
+                'POST v1/payment/sync-by-order'                  => 'v1/payment/sync-by-order',
+                'POST v1/payment/<id:\d+>/process'               => 'v1/payment/process',
+                // Payment gateway callbacks (public, no auth)
+                'POST v1/payment/callback/<gateway:[a-z]+>'      => 'v1/payment-callback/handle',
 
                 // Admin
                 'GET    v1/admin/dashboard'              => 'v1/admin/dashboard',
@@ -133,6 +141,20 @@ return [
                 'GET    v1/admin/specialists/<id:\d+>/week-schedule'   => 'v1/admin/specialist-week-schedule',
                 'POST   v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/block-specialist-date',
                 'DELETE v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/unblock-specialist-date',
+
+                // Admin Settings
+                'GET    v1/admin/settings'                       => 'v1/admin/settings',
+                'POST   v1/admin/settings'                       => 'v1/admin/save-settings',
+                'GET    v1/admin/payment-settings'               => 'v1/admin/payment-settings',
+                'POST   v1/admin/payment-settings'               => 'v1/admin/save-payment-settings',
+                'POST   v1/admin/payments/<id:\d+>/check-status' => 'v1/admin/check-payment-status',
+
+                // Google Calendar (user)
+                'GET    v1/google/auth-url'                      => 'v1/google/auth-url',
+                'GET    v1/google/callback'                      => 'v1/google/callback',
+                'POST   v1/google/disconnect'                    => 'v1/google/disconnect',
+                'GET    v1/google/status'                        => 'v1/google/status',
+                'GET    v1/google/upcoming-events'               => 'v1/google/upcoming-events',
 
                 // Notifications
                 'GET  v1/notification'          => 'v1/notification/index',

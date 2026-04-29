@@ -2,27 +2,25 @@
 
 <div *ngIf="loading" class="loading-wrap"><div class="spinner-lg"></div></div>
 
-<div *ngIf="!loading" class="notif-layout">
+<div *ngIf="!loading">
+  <div class="notif-list-header">
+    <span class="notif-list-title">
+      Всі сповіщення
+      <span *ngIf="unreadCount > 0" class="unread-pill">{{ unreadCount }}</span>
+    </span>
+    <button class="btn-mark-all" (click)="markAllRead()"
+            [disabled]="!unreadCount || markingAll">
+      <span *ngIf="!markingAll">Позначити всі прочитаними</span>
+      <span *ngIf="markingAll" class="spinner-sm"></span>
+    </button>
+  </div>
 
-  <!-- Notification list -->
-  <div class="notif-col">
-    <div class="notif-list-header">
-      <span class="notif-list-title">
-        Всі сповіщення
-        <span *ngIf="unreadCount > 0" class="unread-pill">{{ unreadCount }}</span>
-      </span>
-      <button class="btn-mark-all" (click)="markAllRead()"
-              [disabled]="!unreadCount || markingAll">
-        <span *ngIf="!markingAll">Позначити всі прочитаними</span>
-        <span *ngIf="markingAll" class="spinner-sm"></span>
-      </button>
-    </div>
+  <div *ngIf="notifs.length === 0" class="empty-notifs">
+    <app-icon name="bell" [size]="32" stroke="var(--text-muted)"></app-icon>
+    <span>Немає сповіщень</span>
+  </div>
 
-    <div *ngIf="notifs.length === 0" class="empty-notifs">
-      <app-icon name="bell" [size]="32" stroke="var(--text-muted)"></app-icon>
-      <span>Немає сповіщень</span>
-    </div>
-
+  <div class="notif-list">
     <div *ngFor="let n of notifs"
          class="card notif-card"
          [class.unread]="!n.is_read"
@@ -41,23 +39,4 @@
       </div>
     </div>
   </div>
-
-  <!-- Settings panel -->
-  <div class="card settings-panel">
-    <div class="settings-header">
-      <span class="settings-title">Налаштування</span>
-      <span *ngIf="savingSettings" class="saving-label">Збереження...</span>
-    </div>
-
-    <div *ngFor="let s of settingsList" class="setting-row">
-      <div class="setting-info">
-        <span class="setting-label">{{ s.label }}</span>
-        <span class="setting-desc">{{ s.desc }}</span>
-      </div>
-      <div class="toggle" [class.on]="settings[s.key]" (click)="toggleSetting(s.key)">
-        <div class="toggle-knob"></div>
-      </div>
-    </div>
-  </div>
-
 </div>

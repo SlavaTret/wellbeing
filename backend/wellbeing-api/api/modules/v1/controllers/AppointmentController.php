@@ -4,8 +4,11 @@ namespace api\modules\v1\controllers;
 
 use common\models\Appointment;
 use common\models\Company;
+use common\models\NotificationSetting;
 use common\models\Payment;
 use common\models\SpecialistReview;
+use common\models\UserGoogleToken;
+use common\services\GoogleCalendarService;
 use Yii;
 use yii\rest\Controller;
 use yii\data\ActiveDataProvider;
@@ -116,7 +119,23 @@ class AppointmentController extends Controller
         }
 
         if ($appointment->save()) {
+            // Pull price from specialist record if not provided by client
+            if ((float)$appointment->price <= 0 && $appointment->specialist_id) {
+                $specialistPrice = (float)Yii::$app->db->createCommand(
+                    'SELECT price FROM specialist WHERE id = :id',
+                    [':id' => $appointment->specialist_id]
+                )->queryScalar();
+                if ($specialistPrice > 0) {
+                    $appointment->price = $specialistPrice;
+                    $appointment->save(false);
+                }
+            }
             $this->handlePaymentForNewAppointment($user, $appointment);
+            // Add to Google Calendar only if already paid (free session or zero price).
+            // For paid appointments, calendar is added after payment confirmation.
+            if ($appointment->payment_status === 'paid') {
+                $this->addToGoogleCalendar($user, $appointment, $data);
+            }
             Yii::$app->response->statusCode = 201;
             return $this->formatAppointment($appointment);
         }
@@ -180,6 +199,7 @@ class AppointmentController extends Controller
 
         $appointment->status = Appointment::STATUS_CANCELLED;
         if ($appointment->save(false)) {
+            $this->removeFromGoogleCalendar($appointment);
             return [
                 'success'     => true,
                 'message'     => 'Запис скасовано',
@@ -216,6 +236,78 @@ class AppointmentController extends Controller
         return ['error' => 'Failed to save review'];
     }
 
+    private function addToGoogleCalendar($user, Appointment $appointment, array $data): void
+    {
+        try {
+            $settings = NotificationSetting::forUser($user->id);
+            if (!$settings->calendar_enabled) {
+                return;
+            }
+
+            $token = UserGoogleToken::forUser($user->id);
+            if (!$token) {
+                return;
+            }
+
+            // Get specialist email if available
+            $specialistEmail = '';
+            if ($appointment->specialist_id) {
+                $specialistEmail = (string)Yii::$app->db->createCommand(
+                    'SELECT email FROM specialist WHERE id = :id',
+                    [':id' => $appointment->specialist_id]
+                )->queryScalar();
+            }
+
+            $svc = new GoogleCalendarService();
+            $result = $svc->createEventWithMeet($token, [
+                'appointment_date' => $appointment->appointment_date,
+                'appointment_time' => $appointment->appointment_time,
+                'specialist_name'  => $appointment->specialist_name,
+                'book_via'         => $data['book_via'] ?? 'online',
+            ], $specialistEmail ?: '');
+
+            if ($result['event_id']) {
+                Yii::$app->db->createCommand()->update(
+                    'appointment',
+                    [
+                        'google_event_id' => $result['event_id'],
+                        'google_meet_link'=> $result['meet_link'],
+                    ],
+                    ['id' => $appointment->id]
+                )->execute();
+
+                $appointment->google_event_id  = $result['event_id'];
+                $appointment->google_meet_link = $result['meet_link'];
+            }
+        } catch (\Throwable $e) {
+            Yii::error('Google Calendar create failed: ' . $e->getMessage(), 'google');
+        }
+    }
+
+    private function removeFromGoogleCalendar(Appointment $appointment): void
+    {
+        try {
+            if (!$appointment->google_event_id) {
+                return;
+            }
+
+            $token = UserGoogleToken::forUser($appointment->user_id);
+            if (!$token) {
+                return;
+            }
+
+            (new GoogleCalendarService())->deleteEvent($token, $appointment->google_event_id);
+
+            Yii::$app->db->createCommand()->update(
+                'appointment',
+                ['google_event_id' => null, 'google_meet_link' => null],
+                ['id' => $appointment->id]
+            )->execute();
+        } catch (\Throwable $e) {
+            Yii::error('Google Calendar delete failed: ' . $e->getMessage(), 'google');
+        }
+    }
+
     private function handlePaymentForNewAppointment($user, Appointment $appointment): void
     {
         $price = (float)$appointment->price;
@@ -250,6 +342,9 @@ class AppointmentController extends Controller
             $appointment->payment_status = 'paid';
             $appointment->save(false);
         } else {
+            $appointment->payment_status = 'pending';
+            $appointment->save(false);
+
             $payment = new Payment();
             $payment->user_id = $user->id;
             $payment->appointment_id = $appointment->id;

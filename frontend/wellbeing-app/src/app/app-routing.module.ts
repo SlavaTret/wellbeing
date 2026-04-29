@@ -8,6 +8,7 @@ import { PaymentsComponent } from './components/payments/payments.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { SupportComponent } from './components/support/support.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -21,6 +22,7 @@ import { AdminSpecialistsComponent } from './admin/components/specialists/admin-
 import { AdminAppointmentsPageComponent } from './admin/components/appointments/admin-appointments.component';
 import { AdminCategoriesComponent } from './admin/components/categories/admin-categories.component';
 import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
+import { AdminSettingsComponent } from './admin/components/settings/admin-settings.component';
 import { AdminGuard } from './admin/guards/admin.guard';
 
 const routes: Routes = [
@@ -35,6 +37,7 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
   { path: 'questionnaire', component: QuestionnaireComponent, canActivate: [AuthGuard] },
   { path: 'support', component: SupportComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'admin/login', component: AdminLoginComponent },
   {
     path: 'admin',
@@ -50,6 +53,7 @@ const routes: Routes = [
       { path: 'appointments', component: AdminAppointmentsPageComponent },
       { path: 'categories', component: AdminCategoriesComponent },
       { path: 'slots', component: AdminSlotsComponent },
+      { path: 'settings', component: AdminSettingsComponent },
     ]
   }
 ];

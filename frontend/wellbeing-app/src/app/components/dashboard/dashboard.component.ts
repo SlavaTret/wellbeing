@@ -25,11 +25,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   upcoming: any[] = [];
 
+  // Google Calendar
+  googleConnected      = false;
+  googleEvents: any[]  = [];
+  googleEventsLoading  = false;
+  private googleInterval: any;
+
   private rafIds: number[] = [];
 
   constructor(private router: Router, private api: ApiService) {}
 
   ngOnInit(): void {
+    this.loadGoogleEvents();
+    // Refresh Google events every 60 seconds (real-time)
+    this.googleInterval = setInterval(() => this.loadGoogleEvents(), 60_000);
+
     this.api.getDashboard().subscribe({
       next: (data: any) => {
         const s  = data.stats;
@@ -57,6 +67,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.rafIds.forEach(id => cancelAnimationFrame(id));
+    if (this.googleInterval) clearInterval(this.googleInterval);
+  }
+
+  private loadGoogleEvents(): void {
+    this.googleEventsLoading = true;
+    this.api.getGoogleUpcomingEvents().subscribe({
+      next: (res) => {
+        this.googleConnected     = res.connected;
+        this.googleEvents        = res.events ?? [];
+        this.googleEventsLoading = false;
+      },
+      error: () => { this.googleEventsLoading = false; }
+    });
+  }
+
+  formatEventTime(isoStr: string | null): string {
+    if (!isoStr) return '';
+    const ukMonths = ['','січ','лют','бер','квіт','трав','черв','лип','серп','вер','жовт','лист','груд'];
+    // All-day event: date-only string "YYYY-MM-DD"
+    if (/^\d{4}-\d{2}-\d{2}$/.test(isoStr)) {
+      const [, m, day] = isoStr.split('-').map(Number);
+      return `${day} ${ukMonths[m]}`;
+    }
+    const d = new Date(isoStr);
+    return `${d.getDate()} ${ukMonths[d.getMonth() + 1]}, ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+  }
+
+  connectGoogleCalendar(): void {
+    this.api.getGoogleAuthUrl().subscribe({
+      next: (res) => { window.location.href = res.url; },
+      error: () => {}
+    });
   }
 
   private animateCounter(index: number, target: number, duration = 900): void {

@@ -11,6 +11,9 @@ interface AdminPayment {
   payment_method: string;
   payment_method_label: string;
   transaction_id: string;
+  gateway: string;
+  gateway_order_id: string;
+  paid_at: number | null;
   notes: string;
   created_at: number;
   user_name: string;

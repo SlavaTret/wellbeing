@@ -31,7 +31,8 @@ export class AppComponent implements OnInit {
     { id: 'payments',      label: 'Оплата',        icon: 'card' },
     { id: 'notifications', label: 'Сповіщення',    icon: 'bell' },
     { id: 'questionnaire', label: 'Анкета',        icon: 'clipboard' },
-    { id: 'support',       label: "Зв'язок з WO",  icon: 'chat' }
+    { id: 'support',       label: "Зв'язок з WO",  icon: 'chat' },
+    { id: 'settings',      label: 'Налаштування',  icon: 'settings' }
   ];
 
   constructor(
