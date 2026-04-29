@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../services/api/api.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,10 +14,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Displayed (animated) values
   displayStats = [
-    { label: 'Заплановані консультації', value: 0, icon: 'calendar', color: '#2DB928', bg: '#E8F5E9' },
-    { label: 'Завершені консультації',    value: 0, icon: 'check',    color: '#1565C0', bg: '#E3F2FD' },
-    { label: 'Залишок безкоштовних',      value: 0, icon: 'shield',   color: '#6A1B9A', bg: '#F3E5F5' },
-    { label: 'Скасовані',                 value: 0, icon: 'x',        color: '#C62828', bg: '#FFEBEE' },
+    { labelKey: 'dashboard.stats.upcoming',       value: 0, icon: 'calendar', color: '#2DB928', bg: '#E8F5E9' },
+    { labelKey: 'dashboard.stats.completed',      value: 0, icon: 'check',    color: '#1565C0', bg: '#E3F2FD' },
+    { labelKey: 'dashboard.stats.free_remaining', value: 0, icon: 'shield',   color: '#6A1B9A', bg: '#F3E5F5' },
+    { labelKey: 'dashboard.stats.cancelled',      value: 0, icon: 'x',        color: '#C62828', bg: '#FFEBEE' },
   ];
 
   freeSessionsUsed  = 0;
@@ -33,12 +35,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private rafIds: number[] = [];
 
-  constructor(private router: Router, private api: ApiService) {}
+  constructor(private router: Router, private api: ApiService, private userService: UserService, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.loadGoogleEvents();
-    // Refresh Google events every 60 seconds (real-time)
     this.googleInterval = setInterval(() => this.loadGoogleEvents(), 60_000);
+
+    // Show cached free-sessions immediately — no API wait
+    const cached = this.userService.freeSessions;
+    if (cached) {
+      this.freeSessionsTotal = cached.total;
+      this.freeSessionsUsed  = cached.used;
+      this.freePercent       = cached.percent;
+      this.freePercentTarget = cached.percent;
+      this.displayStats[2]   = { ...this.displayStats[2], value: cached.remaining };
+    }
 
     this.api.getDashboard().subscribe({
       next: (data: any) => {
@@ -46,19 +57,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const fs = data.free_sessions;
 
         const targets = [s.upcoming, s.completed, s.free_remaining, s.cancelled];
+        targets.forEach((target, i) => this.animateCounter(i, target));
 
-        // Animate each counter
-        targets.forEach((target, i) => {
-          this.animateCounter(i, target);
-        });
-
-        // Animate free-sessions values
+        // Only animate progress bar if value changed since cache
+        if (!cached || cached.percent !== fs.percent) {
+          this.freePercentTarget = fs.percent;
+          this.animateProgress(fs.percent);
+        }
         this.freeSessionsTotal = fs.total;
         this.freeSessionsUsed  = fs.used;
-        this.freePercentTarget = fs.percent;
-        this.animateProgress(fs.percent);
 
-        this.upcoming       = data.upcoming_appointments || [];
+        this.userService.setFreeSessions(fs);
+
+        this.upcoming        = data.upcoming_appointments || [];
         this.upcomingLoading = false;
       },
       error: () => { this.upcomingLoading = false; }
@@ -141,11 +152,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getStatusLabel(status: string): string {
-    const map: any = { confirmed: 'Підтверджено', pending: 'Очікування', completed: 'Завершено', cancelled: 'Скасовано' };
-    return map[status] || status;
+    return this.translate.instant('appointments.status.' + status) || status;
   }
 
   getStatusClass(status: string): string { return `badge-${status}`; }
+
+  typeName(type: string): string {
+    return this.translate.instant('specialist.type.' + type) || type;
+  }
 
   goToAppointments() { this.router.navigate(['/appointments']); }
 }

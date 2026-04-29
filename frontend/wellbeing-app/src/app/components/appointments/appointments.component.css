@@ -135,9 +135,11 @@
   font-size: 12px;
   font-weight: 600;
 }
-.pay-info.paid        { color: var(--green-dark); }
-.pay-info.unpaid      { color: #8B6200; }
-.pay-info.pay-pending { color: #C77800; }
+.pay-info.paid         { color: var(--green-dark); }
+.pay-info.unpaid       { color: #8B6200; }
+.pay-info.pay-pending  { color: #C77800; }
+.pay-info.pay-refunded { color: #1565C0; }
+.pay-info.pay-subscription { color: #1565C0; }
 
 .appt-actions { display: flex; gap: 8px; align-items: center; }
 
@@ -595,6 +597,20 @@
   font-size: 12px;
   color: #C62828;
   margin-bottom: 20px;
+}
+
+.cancel-refund-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #FFF3E0;
+  border: 1px solid #FFCC80;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #8B4000;
+  line-height: 1.45;
 }
 
 .low-rating-warn {

@@ -6,12 +6,12 @@
       </div>
       <div>
         <div class="logo-text">well<strong>being</strong></div>
-        <div class="logo-sub">Портал підтримки</div>
+        <div class="logo-sub">{{ 'sidebar.portal' | translate }}</div>
       </div>
     </div>
 
-    <h1 class="auth-title">Реєстрація</h1>
-    <p class="auth-desc">Створіть новий акаунт</p>
+    <h1 class="auth-title">{{ 'auth.register.title' | translate }}</h1>
+    <p class="auth-desc">{{ 'auth.register.desc' | translate }}</p>
 
     <div *ngIf="error" class="error-box">
       <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>
@@ -20,17 +20,17 @@
 
     <div class="form-row">
       <div class="form-field">
-        <label>Ім'я</label>
-        <input type="text" [(ngModel)]="firstName" placeholder="Олена" [disabled]="loading" />
+        <label>{{ 'auth.register.first_name' | translate }}</label>
+        <input type="text" [(ngModel)]="firstName" [placeholder]="'auth.register.first_name_placeholder' | translate" [disabled]="loading" />
       </div>
       <div class="form-field">
-        <label>Прізвище</label>
-        <input type="text" [(ngModel)]="lastName" placeholder="Бондар" [disabled]="loading" />
+        <label>{{ 'auth.register.last_name' | translate }}</label>
+        <input type="text" [(ngModel)]="lastName" [placeholder]="'auth.register.last_name_placeholder' | translate" [disabled]="loading" />
       </div>
     </div>
 
     <div class="form-field">
-      <label>Email</label>
+      <label>{{ 'auth.register.email' | translate }}</label>
       <div class="input-wrap">
         <app-icon name="mail" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
@@ -38,12 +38,12 @@
     </div>
 
     <div class="form-field">
-      <label>Компанія</label>
+      <label>{{ 'auth.register.company' | translate }}</label>
       <div class="select-wrap">
         <app-icon name="building" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <select [(ngModel)]="companyId" [disabled]="loading || loadingCompanies">
           <option [ngValue]="null" disabled>
-            {{ loadingCompanies ? 'Завантаження…' : 'Оберіть компанію' }}
+            {{ loadingCompanies ? ('auth.register.company_loading' | translate) : ('auth.register.company_placeholder' | translate) }}
           </option>
           <option *ngFor="let c of companies" [ngValue]="c.id">{{ c.name }}</option>
         </select>
@@ -54,13 +54,13 @@
     </div>
 
     <div class="form-field">
-      <label>Пароль</label>
+      <label>{{ 'auth.register.password' | translate }}</label>
       <div class="input-wrap">
         <app-icon name="shield" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <input
           [type]="showPassword ? 'text' : 'password'"
           [(ngModel)]="password"
-          placeholder="Мінімум 8 символів"
+          [placeholder]="'auth.register.password_placeholder' | translate"
           [disabled]="loading"
           (keyup.enter)="submit()" />
         <button type="button" class="icon-btn" (click)="togglePasswordVisibility()" title="Показати/Сховати">
@@ -70,7 +70,7 @@
           <app-icon name="sparkles" [size]="16" stroke="#6B8879"></app-icon>
         </button>
       </div>
-      <div class="password-hint">Натисніть ✦ щоб створити надійний пароль автоматично</div>
+      <div class="password-hint">{{ 'auth.register.password_hint' | translate }}</div>
     </div>
 
     <div class="terms-row">
@@ -81,18 +81,18 @@
         </svg>
       </div>
       <span class="terms-text">
-        Я погоджуюсь з <span class="link-green">умовами користування сервісом</span>
-        та <span class="link-green">політикою конфіденційності</span>
+        {{ 'auth.register.terms' | translate }} <span class="link-green">{{ 'auth.register.terms_link1' | translate }}</span>
+        {{ 'auth.register.terms_and' | translate }} <span class="link-green">{{ 'auth.register.terms_link2' | translate }}</span>
       </span>
     </div>
 
     <button class="btn-primary" (click)="submit()" [disabled]="loading">
-      <span *ngIf="!loading">Зареєструватися</span>
+      <span *ngIf="!loading">{{ 'auth.register.submit' | translate }}</span>
       <span *ngIf="loading" class="spinner"></span>
     </button>
 
     <p class="auth-link">
-      Вже є акаунт? <a routerLink="/login">Увійти</a>
+      {{ 'auth.register.has_account' | translate }} <a routerLink="/login">{{ 'auth.register.login_link' | translate }}</a>
     </p>
   </div>
 </div>

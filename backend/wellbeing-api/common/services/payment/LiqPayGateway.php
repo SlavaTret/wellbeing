@@ -4,6 +4,7 @@ namespace common\services\payment;
 
 use common\contracts\PaymentGatewayInterface;
 use common\models\AppSettings;
+use Yii;
 
 class LiqPayGateway implements PaymentGatewayInterface
 {
@@ -81,6 +82,27 @@ class LiqPayGateway implements PaymentGatewayInterface
             'status'     => in_array($status, ['success', 'sandbox']) ? 'success' : ($status === 'processing' ? 'pending' : 'failure'),
             'payment_id' => (string)($response['payment_id'] ?? ''),
         ];
+    }
+
+    public function refund(string $gatewayOrderId, float $amount, string $description): bool
+    {
+        $params = [
+            'version'    => 3,
+            'public_key' => $this->publicKey,
+            'action'     => 'refund',
+            'order_id'   => $gatewayOrderId,
+            'amount'     => number_format($amount, 2, '.', ''),
+            'currency'   => 'UAH',
+            'description'=> $description,
+        ];
+
+        $data     = base64_encode(json_encode($params));
+        $response = $this->apiRequest(['data' => $data, 'signature' => $this->sign($data)]);
+        $status   = strtolower($response['status'] ?? '');
+
+        Yii::warning('LiqPay refund response for order ' . $gatewayOrderId . ': ' . json_encode($response), 'payment');
+
+        return in_array($status, ['reversed', 'success', 'sandbox']);
     }
 
     private function sign(string $data): string

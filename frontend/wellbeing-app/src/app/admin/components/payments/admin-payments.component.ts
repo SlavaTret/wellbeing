@@ -14,6 +14,9 @@ interface AdminPayment {
   gateway: string;
   gateway_order_id: string;
   paid_at: number | null;
+  refund_status: string | null;
+  refund_amount: number | null;
+  refunded_at: number | null;
   notes: string;
   created_at: number;
   user_name: string;

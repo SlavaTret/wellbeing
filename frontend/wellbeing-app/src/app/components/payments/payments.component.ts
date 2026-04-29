@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../services/api/api.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class PaymentsComponent implements OnInit {
   payments: any[] = [];
   pending: any = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.load();
@@ -50,8 +51,11 @@ export class PaymentsComponent implements OnInit {
   }
 
   isPaid(p: any): boolean { return p.status === 'completed'; }
+  isRefunded(p: any): boolean { return p.status === 'refunded'; }
 
   statusLabel(p: any): string {
-    return this.isPaid(p) ? 'Оплачено' : 'Не оплачено';
+    if (p.status === 'completed') return this.translate.instant('payments.status.paid');
+    if (p.status === 'refunded')  return this.translate.instant('payments.status.refunded');
+    return this.translate.instant('payments.status.unpaid');
   }
 }

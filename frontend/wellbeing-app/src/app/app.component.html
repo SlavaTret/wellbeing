@@ -3,7 +3,7 @@
 <ng-container *ngIf="!isAdminPage && !isAuthPage">
   <!-- Mobile Header -->
   <header class="mobile-header">
-    <button class="icon-button" (click)="openSidebar()" aria-label="Меню">
+    <button class="icon-button" (click)="openSidebar()" [attr.aria-label]="'nav.dashboard' | translate">
       <app-icon name="menu" [size]="22" [strokeWidth]="2"></app-icon>
     </button>
 
@@ -17,7 +17,7 @@
       </ng-template>
     </div>
 
-    <button class="icon-button bell-btn" (click)="navigate('notifications')" aria-label="Сповіщення">
+    <button class="icon-button bell-btn" (click)="navigate('notifications')" [attr.aria-label]="'notifications.title' | translate">
       <app-icon name="bell" [size]="22"></app-icon>
       <span *ngIf="notificationsCount > 0" class="badge-dot">{{ notificationsCount }}</span>
     </button>
@@ -31,13 +31,13 @@
     <div class="logo-section">
       <ng-container *ngIf="branding.current.logo_url; else sidebarFallback">
         <img class="logo-img-lg" [src]="branding.current.logo_url" [alt]="branding.current.name" />
-        <div class="logo-subtext">Портал підтримки</div>
+        <div class="logo-subtext">{{ 'sidebar.portal' | translate }}</div>
       </ng-container>
       <ng-template #sidebarFallback>
         <div class="logo-mark logo-mark-lg"><app-icon name="heart" [size]="18" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
         <div>
           <div class="logo-text">well<strong>being</strong></div>
-          <div class="logo-subtext">Портал підтримки</div>
+          <div class="logo-subtext">{{ 'sidebar.portal' | translate }}</div>
         </div>
       </ng-template>
     </div>
@@ -59,15 +59,16 @@
               [class.active]="activeTab === item.id"
               class="nav-item">
         <app-icon [name]="item.icon" [size]="18"></app-icon>
-        <span class="nav-label">{{ item.label }}</span>
+        <span class="nav-label">{{ ('nav.' + item.id) | translate }}</span>
         <span *ngIf="item.id === 'notifications' && notificationsCount > 0" class="nav-badge">{{ notificationsCount }}</span>
       </button>
     </nav>
 
     <div class="sidebar-footer">
+      <app-lang-switcher></app-lang-switcher>
       <button (click)="logout()" class="btn-logout">
         <app-icon name="logout" [size]="18"></app-icon>
-        <span>Вийти</span>
+        <span>{{ 'nav.logout' | translate }}</span>
       </button>
     </div>
   </aside>

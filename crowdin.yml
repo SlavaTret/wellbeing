@@ -1,0 +1,8 @@
+project_id: "893592"
+api_token_env: CROWDIN_API_TOKEN
+preserve_hierarchy: true
+
+files:
+  - source: /frontend/wellbeing-app/src/assets/i18n/uk.json
+    translation: /frontend/wellbeing-app/src/assets/i18n/%locale%.json
+    type: "json"

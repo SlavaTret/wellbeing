@@ -1,4 +1,4 @@
-<h2 class="section-title">Дашборд</h2>
+<h2 class="section-title">{{ 'dashboard.title' | translate }}</h2>
 
 <!-- Stats row -->
 <div class="stats-grid">
@@ -9,7 +9,7 @@
       </div>
       <div class="stat-value" [style.color]="s.color">{{ s.value }}</div>
     </div>
-    <div class="stat-label">{{ s.label }}</div>
+    <div class="stat-label">{{ s.labelKey | translate }}</div>
   </div>
 </div>
 
@@ -17,12 +17,12 @@
 <div class="card" style="margin-bottom: 24px">
   <div class="progress-header-row">
     <div>
-      <div class="progress-title">Безкоштовні консультації</div>
+      <div class="progress-title">{{ 'dashboard.free_sessions.title' | translate }}</div>
       <div class="progress-sub" *ngIf="freeSessionsUsed < freeSessionsTotal">
-        Використано {{ freeSessionsUsed }} з {{ freeSessionsTotal }} · залишилось <strong>{{ freeSessionsTotal - freeSessionsUsed }}</strong>
+        {{ 'dashboard.free_sessions.used' | translate: { used: freeSessionsUsed, total: freeSessionsTotal } }} <strong>{{ freeSessionsTotal - freeSessionsUsed }}</strong>
       </div>
       <div class="progress-sub progress-sub-exhausted" *ngIf="freeSessionsUsed >= freeSessionsTotal">
-        Усі {{ freeSessionsTotal }} безкоштовні консультації вичерпано
+        {{ 'dashboard.free_sessions.exhausted' | translate: { total: freeSessionsTotal } }}
       </div>
     </div>
     <div class="progress-pct" *ngIf="freeSessionsUsed < freeSessionsTotal">{{ freePercent }}%</div>
@@ -35,11 +35,11 @@
   </div>
   <div class="progress-tip" *ngIf="freeSessionsUsed < freeSessionsTotal">
     <app-icon name="info" [size]="14" stroke="var(--text-muted)"></app-icon>
-    Після вичерпання безкоштовних консультацій ви зможете продовжити на платній основі
+    {{ 'dashboard.free_sessions.tip' | translate }}
   </div>
   <div class="progress-tip progress-tip-exhausted" *ngIf="freeSessionsUsed >= freeSessionsTotal">
     <app-icon name="info" [size]="14" stroke="#C62828"></app-icon>
-    Корпоративний ліміт вичерпано — ви можете записуватись і далі, оплачуючи консультації самостійно
+    {{ 'dashboard.free_sessions.tip_exhausted' | translate }}
   </div>
 </div>
 
@@ -48,8 +48,8 @@
   <!-- Upcoming appointments -->
   <div class="card">
     <div class="upcoming-header">
-      <span class="upcoming-title">Найближчі записи</span>
-      <span class="link-green" (click)="goToAppointments()">Всі записи →</span>
+      <span class="upcoming-title">{{ 'dashboard.upcoming.title' | translate }}</span>
+      <span class="link-green" (click)="goToAppointments()">{{ 'dashboard.upcoming.all' | translate }}</span>
     </div>
 
     <div *ngIf="upcomingLoading" class="loading-wrap">
@@ -59,7 +59,7 @@
     <ng-container *ngIf="!upcomingLoading">
       <div *ngIf="upcoming.length === 0" class="empty-upcoming">
         <app-icon name="calendar" [size]="28" stroke="var(--text-muted)"></app-icon>
-        <span>Немає запланованих записів</span>
+        <span>{{ 'dashboard.upcoming.empty' | translate }}</span>
       </div>
 
       <div *ngFor="let u of upcoming; let last = last"
@@ -67,7 +67,7 @@
         <div class="avatar-circle">{{ u.avatar }}</div>
         <div class="upcoming-info">
           <div class="upcoming-name">{{ u.specialist }}</div>
-          <div class="upcoming-meta">{{ u.type }} · {{ u.date }}, {{ u.time }}</div>
+          <div class="upcoming-meta">{{ typeName(u.type) }} · {{ u.date }}, {{ u.time }}</div>
         </div>
         <span class="status-badge" [ngClass]="getStatusClass(u.status)">{{ getStatusLabel(u.status) }}</span>
       </div>
@@ -77,8 +77,8 @@
   <!-- Google Calendar -->
   <div class="card">
     <div class="upcoming-header" style="margin-bottom: 16px">
-      <span class="upcoming-title">Google Календар</span>
-      <span *ngIf="googleConnected" class="google-badge-connected">Підключено</span>
+      <span class="upcoming-title">{{ 'dashboard.google_calendar.title' | translate }}</span>
+      <span *ngIf="googleConnected" class="google-badge-connected">{{ 'dashboard.google_calendar.connected_badge' | translate }}</span>
     </div>
 
     <!-- Loading -->
@@ -92,8 +92,8 @@
         <div class="calendar-icon-wrap">
           <app-icon name="calendar" [size]="24" stroke="var(--green)" [strokeWidth]="2"></app-icon>
         </div>
-        <div class="calendar-sync-title">Синхронізувати календар</div>
-        <div class="calendar-sync-desc">Отримуйте нагадування про консультації у своєму Google Calendar</div>
+        <div class="calendar-sync-title">{{ 'dashboard.google_calendar.sync_title' | translate }}</div>
+        <div class="calendar-sync-desc">{{ 'dashboard.google_calendar.sync_desc' | translate }}</div>
         <button class="btn-google" (click)="connectGoogleCalendar()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -101,17 +101,17 @@
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
-          Підключити Google Calendar
+          {{ 'dashboard.google_calendar.connect_btn' | translate }}
         </button>
       </div>
-      <div class="calendar-hint">Після підключення всі ваші записи та нагадування за 12 годин до консультації з'являться у вашому календарі.</div>
+      <div class="calendar-hint">{{ 'dashboard.google_calendar.hint' | translate }}</div>
     </ng-container>
 
     <!-- Connected — events list -->
     <ng-container *ngIf="!googleEventsLoading && googleConnected">
       <div *ngIf="googleEvents.length === 0" class="empty-upcoming">
         <app-icon name="calendar" [size]="28" stroke="var(--text-muted)"></app-icon>
-        <span>Немає найближчих подій</span>
+        <span>{{ 'dashboard.google_calendar.empty' | translate }}</span>
       </div>
 
       <div *ngFor="let e of googleEvents; let last = last"
@@ -126,7 +126,7 @@
             <path d="M15 8H3a1 1 0 00-1 1v6a1 1 0 001 1h12a1 1 0 001-1V9a1 1 0 00-1-1z" fill="white" fill-opacity=".9"/>
             <path d="M22 8.5l-5 3.5 5 3.5V8.5z" fill="white" fill-opacity=".9"/>
           </svg>
-          Meet
+          {{ 'dashboard.google_calendar.meet' | translate }}
         </a>
       </div>
     </ng-container>

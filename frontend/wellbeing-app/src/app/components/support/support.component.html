@@ -1,4 +1,4 @@
-<h2 class="section-title">Зв'язок з WO</h2>
+<h2 class="section-title">{{ 'support.title' | translate }}</h2>
 
 <div class="support-grid">
   <!-- Chat bots -->
@@ -8,8 +8,8 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
     </div>
-    <div class="support-card-title">Чат-бот підтримки</div>
-    <div class="support-card-desc">Швидка відповідь через наш бот у Telegram або Viber</div>
+    <div class="support-card-title">{{ 'support.chatbot_title' | translate }}</div>
+    <div class="support-card-desc">{{ 'support.chatbot_desc' | translate }}</div>
     <div class="messenger-btns">
       <a href="#" class="btn-telegram">Telegram</a>
       <a href="#" class="btn-viber">Viber</a>
@@ -23,28 +23,28 @@
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.92 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
       </svg>
     </div>
-    <div class="support-card-title">Екстрений контакт</div>
-    <div class="support-card-desc">Служба підтримки психологічної кризи</div>
+    <div class="support-card-title">{{ 'support.emergency_title' | translate }}</div>
+    <div class="support-card-desc">{{ 'support.emergency_desc' | translate }}</div>
     <a href="tel:+380952710725" class="btn-emergency">+38 095 271 07 25</a>
   </div>
 </div>
 
 <!-- ── Message form ── -->
 <div class="card" *ngIf="!success">
-  <div class="form-title">Написати в підтримку</div>
+  <div class="form-title">{{ 'support.form_title' | translate }}</div>
 
   <div class="field-group">
-    <label class="field-label">Тема звернення</label>
+    <label class="field-label">{{ 'support.subject_label' | translate }}</label>
     <input
       [(ngModel)]="title"
       class="field-input"
-      placeholder="Коротко опишіть суть питання..."
+      [placeholder]="'support.subject_placeholder' | translate"
       maxlength="200"
     />
   </div>
 
   <div class="field-group">
-    <label class="field-label">Зручний спосіб зв'язку</label>
+    <label class="field-label">{{ 'support.contact_label' | translate }}</label>
     <div class="contact-methods">
       <button
         *ngFor="let m of contactMethods"
@@ -57,10 +57,10 @@
   </div>
 
   <div class="field-group">
-    <label class="field-label">Повідомлення</label>
+    <label class="field-label">{{ 'support.message_label' | translate }}</label>
     <textarea
       [(ngModel)]="msg"
-      placeholder="Опишіть ваше питання або проблему докладніше..."
+      [placeholder]="'support.message_placeholder' | translate"
       rows="5"
       class="msg-textarea">
     </textarea>
@@ -69,7 +69,7 @@
   <div class="form-error" *ngIf="error">{{ error }}</div>
 
   <button class="btn-send" [class.active]="canSend" [disabled]="!canSend" (click)="send()">
-    <span *ngIf="!sending">Надіслати</span>
+    <span *ngIf="!sending">{{ 'support.send' | translate }}</span>
     <span *ngIf="sending" class="spinner-sm"></span>
   </button>
 </div>
@@ -81,10 +81,7 @@
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
   </div>
-  <div class="success-title">Звернення надіслано!</div>
-  <div class="success-sub">
-    Ми отримали ваше повідомлення і розглянемо його найближчим часом.<br>
-    Відповідь надійде зручним для вас способом — зазвичай протягом 1 робочого дня.
-  </div>
-  <button class="btn-new-ticket" (click)="reset()">Надіслати ще одне звернення</button>
+  <div class="success-title">{{ 'support.success_title' | translate }}</div>
+  <div class="success-sub">{{ 'support.success_sub' | translate }}</div>
+  <button class="btn-new-ticket" (click)="reset()">{{ 'support.new_ticket' | translate }}</button>
 </div>

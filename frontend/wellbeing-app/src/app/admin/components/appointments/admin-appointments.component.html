@@ -77,8 +77,11 @@
             </td>
             <td class="td-nowrap">{{ formatDate(a.appointment_date) }} о {{ a.appointment_time }}</td>
             <td>
-              <span class="pay-info" [class.pay-paid]="a.payment_status === 'paid'" [class.pay-unpaid]="a.payment_status !== 'paid'">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="a.payment_status === 'paid' ? '#1B7A35' : '#8B6200'" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span class="pay-info" 
+                [class.pay-paid]="a.payment_status === 'paid'" 
+                [class.pay-subscription]="a.payment_status === 'subscription'"
+                [class.pay-unpaid]="a.payment_status !== 'paid' && a.payment_status !== 'subscription'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="a.payment_status === 'paid' ? '#1B7A35' : (a.payment_status === 'subscription' ? '#1565C0' : '#8B6200')" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                 {{ paymentLabel(a.payment_status) }}
               </span>
             </td>
@@ -140,8 +143,11 @@
         </div>
         <div class="detail-row">
           <span class="detail-label">Оплата</span>
-          <span class="pay-info" [class.pay-paid]="modalApp.payment_status === 'paid'" [class.pay-unpaid]="modalApp.payment_status !== 'paid'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="modalApp.payment_status === 'paid' ? '#1B7A35' : '#8B6200'" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span class="pay-info" 
+            [class.pay-paid]="modalApp.payment_status === 'paid'" 
+            [class.pay-subscription]="modalApp.payment_status === 'subscription'"
+            [class.pay-unpaid]="modalApp.payment_status !== 'paid' && modalApp.payment_status !== 'subscription'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="modalApp.payment_status === 'paid' ? '#1B7A35' : (modalApp.payment_status === 'subscription' ? '#1565C0' : '#8B6200')" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             {{ paymentLabel(modalApp.payment_status) }}
           </span>
         </div>

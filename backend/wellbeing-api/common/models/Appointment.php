@@ -36,6 +36,7 @@ class Appointment extends ActiveRecord
     const PAYMENT_PENDING      = 'pending';
     const PAYMENT_NOT_REQUIRED = 'not_required';
     const PAYMENT_FAILED       = 'failed';
+    const PAYMENT_SUBSCRIPTION = 'subscription';
 
     public static function tableName()
     {
@@ -58,7 +59,7 @@ class Appointment extends ActiveRecord
             [['appointment_date'], 'date', 'format' => 'php:Y-m-d'],
             [['appointment_time'], 'match', 'pattern' => '/^\d{2}:\d{2}$/'],
             [['status'], 'in', 'range' => [self::STATUS_CONFIRMED, self::STATUS_PENDING, self::STATUS_COMPLETED, self::STATUS_CANCELLED, self::STATUS_NOSHOW]],
-            [['payment_status'], 'in', 'range' => [self::PAYMENT_PAID, self::PAYMENT_UNPAID, self::PAYMENT_PENDING, self::PAYMENT_NOT_REQUIRED, self::PAYMENT_FAILED]],
+            [['payment_status'], 'in', 'range' => [self::PAYMENT_PAID, self::PAYMENT_UNPAID, self::PAYMENT_PENDING, self::PAYMENT_NOT_REQUIRED, self::PAYMENT_FAILED, self::PAYMENT_SUBSCRIPTION]],
             [['price'], 'number', 'min' => 0],
         ];
     }

@@ -5,6 +5,7 @@ import { ApiService } from './services/api/api.service';
 import { UserService } from './services/user/user.service';
 import { NotificationService } from './services/notification/notification.service';
 import { BrandingService } from './services/branding/branding.service';
+import { LangService } from './services/lang/lang.service';
 
 interface NavItem {
   id: string;
@@ -39,9 +40,11 @@ export class AppComponent implements OnInit {
     public userService: UserService,
     public notifService: NotificationService,
     public branding: BrandingService,
+    public lang: LangService,
     private apiService: ApiService,
     private router: Router
   ) {
+    this.lang.init();
     this.sidebarOpen = window.innerWidth > 768;
 
     this.isAdminPage = window.location.pathname.startsWith('/admin');

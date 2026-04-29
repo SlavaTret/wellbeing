@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../services/api/api.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-appointments',
@@ -23,6 +25,7 @@ export class AppointmentsComponent implements OnInit {
   ratings: { [id: number]: number } = {};
   paying: { [id: number]: boolean } = {};
   paymentToast: 'success' | 'failed' | null = null;
+  cancelToast: 'refunded' | 'refund_failed' | 'cancelled' | null = null;
 
   // ── Booking ─────────────────────────────────────────────────
   bookingOpen = false;
@@ -40,26 +43,36 @@ export class AppointmentsComponent implements OnInit {
   newAppt: any = null;
   initiatingPayment = false;
 
-  readonly stepLabels = ['Каталог', 'Спеціаліст', 'Слот', 'Підтвердження'];
+  readonly stepLabels = [
+    'appointments.booking.steps.catalog',
+    'appointments.booking.steps.specialist',
+    'appointments.booking.steps.slot',
+    'appointments.booking.steps.confirm',
+  ];
 
   categories: { id: string; label: string }[] = [
-    { id: 'all', label: 'Всі категорії' },
+    { id: 'all', label: 'appointments.booking.step1.all_categories' },
   ];
 
   readonly filters = [
-    { id: 'all',       label: 'Всі' },
-    { id: 'upcoming',  label: 'Майбутні' },
-    { id: 'completed', label: 'Завершені' },
-    { id: 'cancelled', label: 'Скасовані' },
-    { id: 'paid',      label: 'Оплачені' },
-    { id: 'unpaid',    label: 'Неоплачені' },
+    { id: 'all',       label: 'appointments.filters.all' },
+    { id: 'upcoming',  label: 'appointments.filters.upcoming' },
+    { id: 'completed', label: 'appointments.filters.completed' },
+    { id: 'cancelled', label: 'appointments.filters.cancelled' },
+    { id: 'paid',      label: 'appointments.filters.paid' },
   ];
 
   readonly stars = [1, 2, 3, 4, 5];
 
   freeRemaining = 0;
 
-  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
@@ -85,14 +98,14 @@ export class AppointmentsComponent implements OnInit {
     } else {
       this.loadAppointments();
     }
-    this.api.getDashboard().subscribe({
-      next: (data: any) => { this.freeRemaining = data?.free_sessions?.remaining ?? 0; },
-      error: () => {}
+    this.freeRemaining = this.userService.freeSessions?.remaining ?? 0;
+    this.userService.freeSessions$.subscribe(fs => {
+      this.freeRemaining = fs?.remaining ?? 0;
     });
     this.api.getCategories().subscribe({
       next: (list: any[]) => {
         this.categories = [
-          { id: 'all', label: 'Всі категорії' },
+          { id: 'all', label: 'appointments.booking.step1.all_categories' },
           ...(list || []).map((c: any) => ({ id: c.name, label: c.name })),
         ];
       },
@@ -133,14 +146,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   getStatusLabel(status: string): string {
-    const map: any = {
-      confirmed: 'Підтверджено',
-      pending:   'Очікування',
-      completed: 'Завершено',
-      cancelled: 'Скасовано',
-      noshow:    "Не з'явився"
-    };
-    return map[status] || status;
+    return this.translate.instant('appointments.status.' + status) || status;
   }
 
   // ── Cancel ──────────────────────────────────────────────────
@@ -157,6 +163,13 @@ export class AppointmentsComponent implements OnInit {
         if (idx !== -1) this.allAppts[idx] = updated;
         this.cancelModal = null;
         this.cancelling = false;
+        this.userService.invalidateFreeSessions();
+        if (res.cancel_type === 'gateway_paid') {
+          this.cancelToast = res.refund_success ? 'refunded' : 'refund_failed';
+        } else {
+          this.cancelToast = 'cancelled';
+        }
+        setTimeout(() => { this.cancelToast = null; }, 6000);
       },
       error: () => { this.cancelling = false; }
     });
@@ -294,6 +307,7 @@ export class AppointmentsComponent implements OnInit {
         this.allAppts.unshift(appt);
         this.bookingStep = 5;
         this.bookingSaving = false;
+        this.userService.invalidateFreeSessions();
       },
       error: () => { this.bookingSaving = false; }
     });
@@ -321,11 +335,6 @@ export class AppointmentsComponent implements OnInit {
   }
 
   typeName(type: string): string {
-    const map: Record<string, string> = {
-      psychologist: 'Психолог',
-      therapist:    'Психотерапевт',
-      coach:        'Коуч',
-    };
-    return map[type] ?? type;
+    return this.translate.instant('specialist.type.' + type) || type;
   }
 }

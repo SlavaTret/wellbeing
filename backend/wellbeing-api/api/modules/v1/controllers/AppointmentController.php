@@ -135,6 +135,7 @@ class AppointmentController extends Controller
             // For paid appointments, calendar is added after payment confirmation.
             if ($appointment->payment_status === 'paid') {
                 $this->addToGoogleCalendar($user, $appointment, $data);
+                (new \common\services\NotificationService())->notifyAppointmentConfirmed($appointment);
             }
             Yii::$app->response->statusCode = 201;
             return $this->formatAppointment($appointment);
@@ -154,6 +155,7 @@ class AppointmentController extends Controller
         $appointment = $this->findModel($id);
         $this->checkUserAccess($appointment->user_id);
 
+        $prevStatus = $appointment->status;
         $data = Yii::$app->request->post();
         if (!$appointment->load($data, '') || !$appointment->validate()) {
             Yii::$app->response->statusCode = 422;
@@ -161,6 +163,9 @@ class AppointmentController extends Controller
         }
 
         if ($appointment->save()) {
+            if ($prevStatus !== Appointment::STATUS_COMPLETED && $appointment->status === Appointment::STATUS_COMPLETED) {
+                (new \common\services\NotificationService())->notifyReviewRequest($appointment);
+            }
             return $appointment;
         }
 
@@ -188,7 +193,7 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Cancel appointment
+     * Cancel appointment with optional refund
      */
     public function actionCancel($id)
     {
@@ -197,18 +202,59 @@ class AppointmentController extends Controller
         $appointment = $this->findModel($id);
         $this->checkUserAccess($appointment->user_id);
 
-        $appointment->status = Appointment::STATUS_CANCELLED;
-        if ($appointment->save(false)) {
-            $this->removeFromGoogleCalendar($appointment);
-            return [
-                'success'     => true,
-                'message'     => 'Запис скасовано',
-                'appointment' => $this->formatAppointment($appointment),
-            ];
+        // Determine payment type via raw SQL (gateway columns bypass schema cache)
+        // Include STATUS_REFUNDED in case a previous cancel attempt already refunded the payment
+        // but failed to update the appointment row (e.g. constraint violation).
+        $paidRow = Yii::$app->db->createCommand(
+            'SELECT id, status FROM payment WHERE appointment_id = :a AND status IN (:s1, :s2) LIMIT 1',
+            [':a' => $appointment->id, ':s1' => \common\models\Payment::STATUS_COMPLETED, ':s2' => \common\models\Payment::STATUS_REFUNDED]
+        )->queryOne();
+
+        $cancelType    = 'none';
+        $refundSuccess = false;
+        $refundAmount  = 0.0;
+
+        if ($paidRow) {
+            $cancelType = 'gateway_paid';
+            $refund     = (new \common\services\PaymentService())->refundForAppointment((int)$appointment->id);
+            $refundSuccess = $refund['success'] ?? false;
+            $refundAmount  = $refund['amount']  ?? 0.0;
+        } elseif ($appointment->payment_status === 'paid') {
+            $cancelType = 'free_session';
         }
 
-        Yii::$app->response->statusCode = 400;
-        return ['error' => 'Failed to cancel appointment'];
+        // Update appointment status and payment_status
+        $newPaymentStatus = $appointment->payment_status;
+        if ($cancelType === 'gateway_paid') {
+            $newPaymentStatus = $refundSuccess ? 'refunded' : 'failed';
+        }
+
+        Yii::$app->db->createCommand()->update('appointment', [
+            'status'         => Appointment::STATUS_CANCELLED,
+            'payment_status' => $newPaymentStatus,
+        ], ['id' => $appointment->id])->execute();
+
+        $appointment->status         = Appointment::STATUS_CANCELLED;
+        $appointment->payment_status = $newPaymentStatus;
+
+        // Remove from Google Calendar (silently)
+        $this->removeFromGoogleCalendar($appointment);
+
+        // Send refund notification if money was returned
+        if ($cancelType === 'gateway_paid' && $refundSuccess) {
+            (new \common\services\NotificationService())->notifyRefund($appointment, $refundAmount);
+        }
+
+        $response = [
+            'success'      => true,
+            'cancel_type'  => $cancelType,
+            'appointment'  => $this->formatAppointment($appointment),
+        ];
+        if ($cancelType === 'gateway_paid') {
+            $response['refund_success'] = $refundSuccess;
+            $response['refund_amount']  = $refundAmount;
+        }
+        return $response;
     }
 
     /**
@@ -313,6 +359,7 @@ class AppointmentController extends Controller
         $price = (float)$appointment->price;
         if ($price <= 0) {
             $appointment->payment_status = 'paid';
+            $appointment->status = Appointment::STATUS_CONFIRMED;
             $appointment->save(false);
             return;
         }
@@ -340,6 +387,7 @@ class AppointmentController extends Controller
 
         if ($freeRemaining > 0) {
             $appointment->payment_status = 'paid';
+            $appointment->status = Appointment::STATUS_CONFIRMED;
             $appointment->save(false);
         } else {
             $appointment->payment_status = 'pending';
@@ -364,6 +412,17 @@ class AppointmentController extends Controller
             ? $date->format('j') . ' ' . $ukrainianMonths[(int)$date->format('n')] . ' ' . $date->format('Y')
             : $a->appointment_date;
 
+        $gatewayPaid = (bool)Yii::$app->db->createCommand(
+            'SELECT 1 FROM payment WHERE appointment_id = :id AND status IN (:s1, :s2) LIMIT 1',
+            [':id' => $a->id, ':s1' => 'completed', ':s2' => 'refunded']
+        )->queryScalar();
+
+        // If no payment gateway transaction, it means it was covered by corporate subscription
+        $paymentStatus = $a->payment_status;
+        if (!$gatewayPaid && $a->price > 0) {
+            $paymentStatus = 'subscription';
+        }
+
         return [
             'id'               => $a->id,
             'specialist_id'    => $a->specialist_id,
@@ -374,7 +433,8 @@ class AppointmentController extends Controller
             'time'             => $a->appointment_time,
             'status'           => $a->status,
             'paid'             => $a->payment_status === 'paid',
-            'payment_status'   => $a->payment_status,
+            'gateway_paid'     => $gatewayPaid,
+            'payment_status'   => $paymentStatus,
             'notes'            => $a->notes,
             'price'            => (float)$a->price,
             'review_rating'    => $reviewRating,

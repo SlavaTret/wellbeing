@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +35,7 @@ import { AdminCategoriesComponent } from './admin/components/categories/admin-ca
 import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
 import { AdminSettingsComponent } from './admin/components/settings/admin-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { LangSwitcherComponent } from './components/shared/lang-switcher/lang-switcher.component';
 
 @NgModule({
   declarations: [
@@ -56,14 +63,24 @@ import { SettingsComponent } from './components/settings/settings.component';
     AdminSlotsComponent,
     AdminSettingsComponent,
     SettingsComponent,
+    LangSwitcherComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'uk',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
+  exports: [TranslateModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

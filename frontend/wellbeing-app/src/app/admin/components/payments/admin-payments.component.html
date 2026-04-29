@@ -171,6 +171,19 @@
           <span class="detail-lbl">Order ID</span>
           <span class="detail-val detail-muted">{{ modalPay.gateway_order_id }}</span>
         </div>
+        <div class="detail-row" *ngIf="modalPay.refund_status">
+          <span class="detail-lbl">Повернення</span>
+          <span class="detail-val">
+            <span class="status-badge" [ngClass]="modalPay.refund_status === 'completed' ? 'badge-completed' : 'badge-failed'">
+              {{ modalPay.refund_status === 'completed' ? 'Виконано' : 'Помилка' }}
+            </span>
+            <span *ngIf="modalPay.refund_amount" class="detail-muted"> · ₴ {{ modalPay.refund_amount | number:'1.2-2' }}</span>
+          </span>
+        </div>
+        <div class="detail-row" *ngIf="modalPay.refunded_at">
+          <span class="detail-lbl">Дата повернення</span>
+          <span class="detail-val">{{ formatDate(modalPay.refunded_at) }}</span>
+        </div>
         <div class="detail-row" *ngIf="modalPay.specialist_name">
           <span class="detail-lbl">Спеціаліст</span>
           <span class="detail-val">{{ modalPay.specialist_name }}</span>

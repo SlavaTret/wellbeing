@@ -1,23 +1,23 @@
-<h2 class="section-title">Сповіщення</h2>
+<h2 class="section-title">{{ 'notifications.title' | translate }}</h2>
 
 <div *ngIf="loading" class="loading-wrap"><div class="spinner-lg"></div></div>
 
 <div *ngIf="!loading">
   <div class="notif-list-header">
     <span class="notif-list-title">
-      Всі сповіщення
+      {{ 'notifications.all' | translate }}
       <span *ngIf="unreadCount > 0" class="unread-pill">{{ unreadCount }}</span>
     </span>
     <button class="btn-mark-all" (click)="markAllRead()"
             [disabled]="!unreadCount || markingAll">
-      <span *ngIf="!markingAll">Позначити всі прочитаними</span>
+      <span *ngIf="!markingAll">{{ 'notifications.mark_all' | translate }}</span>
       <span *ngIf="markingAll" class="spinner-sm"></span>
     </button>
   </div>
 
   <div *ngIf="notifs.length === 0" class="empty-notifs">
     <app-icon name="bell" [size]="32" stroke="var(--text-muted)"></app-icon>
-    <span>Немає сповіщень</span>
+    <span>{{ 'notifications.empty' | translate }}</span>
   </div>
 
   <div class="notif-list">
@@ -26,15 +26,23 @@
          [class.unread]="!n.is_read"
          (click)="markRead(n)">
       <div class="notif-inner">
-        <div class="notif-icon-wrap" [class.icon-unread]="!n.is_read">
-          <app-icon [name]="iconFor(n)" [size]="16"
-                    [stroke]="!n.is_read ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
+
+        <div class="notif-icon-wrap" [style.background]="bgFor(n)">
+          <app-icon [name]="iconFor(n)" [size]="16" [stroke]="colorFor(n)"></app-icon>
         </div>
+
         <div class="notif-content">
           <div class="notif-title" [class.bold]="!n.is_read">{{ n.title }}</div>
           <div class="notif-body">{{ n.body }}</div>
           <div class="notif-time">{{ n.time }}</div>
+
+          <button *ngIf="isReviewRequest(n)"
+                  class="btn-review-cta"
+                  (click)="$event.stopPropagation(); goToReview(n)">
+            {{ 'notifications.review_cta' | translate }}
+          </button>
         </div>
+
         <div *ngIf="!n.is_read" class="unread-dot"></div>
       </div>
     </div>

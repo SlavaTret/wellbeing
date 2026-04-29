@@ -35,16 +35,30 @@
 
 .notif-inner { display: flex; gap: 12px; align-items: flex-start; }
 .notif-icon-wrap {
-  width: 36px; height: 36px; border-radius: 10px; background: var(--bg);
+  width: 36px; height: 36px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 0.15s;
 }
-.notif-icon-wrap.icon-unread { background: var(--green-light); }
 
 .notif-content { flex: 1; }
 .notif-title { font-weight: 500; font-size: 14px; }
 .notif-title.bold { font-weight: 700; }
 .notif-body { font-size: 13px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
 .notif-time { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+.btn-review-cta {
+  display: inline-flex; align-items: center;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1.5px solid #6A1B9A;
+  border-radius: 20px;
+  background: none;
+  color: #6A1B9A;
+  font-size: 12px; font-weight: 600; font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-review-cta:hover { background: #6A1B9A; color: #fff; }
 
 .unread-dot {
   width: 8px; height: 8px; border-radius: 50%;

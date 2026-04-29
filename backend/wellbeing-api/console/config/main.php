@@ -20,7 +20,8 @@ return [
         'fixture' => [
             'class' => \yii\console\controllers\FixtureController::class,
             'namespace' => 'common\fixtures',
-          ],
+        ],
+        'notify' => \console\controllers\NotifyController::class,
     ],
     'components' => [
         'log' => [

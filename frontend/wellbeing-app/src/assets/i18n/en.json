@@ -1,0 +1,304 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "appointments": "My Appointments",
+    "documents": "Documents",
+    "payments": "Payments",
+    "notifications": "Notifications",
+    "questionnaire": "Questionnaire",
+    "support": "Contact WO",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "sidebar": {
+    "portal": "Support Portal"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "desc": "Enter your credentials to sign in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "no_account": "Don't have an account?",
+      "register_link": "Register"
+    },
+    "register": {
+      "title": "Create account",
+      "desc": "Sign up for a new account",
+      "first_name": "First name",
+      "first_name_placeholder": "Elena",
+      "last_name": "Last name",
+      "last_name_placeholder": "Bondar",
+      "email": "Email",
+      "company": "Company",
+      "company_loading": "Loading…",
+      "company_placeholder": "Select a company",
+      "password": "Password",
+      "password_placeholder": "At least 8 characters",
+      "password_hint": "Click ✦ to generate a strong password automatically",
+      "terms": "I agree to the",
+      "terms_link1": "Terms of Service",
+      "terms_and": "and",
+      "terms_link2": "Privacy Policy",
+      "submit": "Create account",
+      "has_account": "Already have an account?",
+      "login_link": "Sign in"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "upcoming": "Upcoming consultations",
+      "completed": "Completed consultations",
+      "free_remaining": "Free sessions remaining",
+      "cancelled": "Cancelled"
+    },
+    "free_sessions": {
+      "title": "Free consultations",
+      "used": "Used {{used}} of {{total}} · remaining",
+      "exhausted": "All {{total}} free consultations have been used",
+      "tip": "Once your free consultations are used up, you can continue on a paid basis",
+      "tip_exhausted": "Corporate limit reached — you can still book appointments and pay for them yourself"
+    },
+    "upcoming": {
+      "title": "Upcoming appointments",
+      "all": "All appointments →",
+      "empty": "No upcoming appointments"
+    },
+    "google_calendar": {
+      "title": "Google Calendar",
+      "connected_badge": "Connected",
+      "sync_title": "Sync your calendar",
+      "sync_desc": "Get reminders about consultations in your Google Calendar",
+      "connect_btn": "Connect Google Calendar",
+      "hint": "After connecting, all your appointments and 12-hour reminders will appear in your calendar.",
+      "empty": "No upcoming events",
+      "meet": "Meet"
+    }
+  },
+  "appointments": {
+    "title": "My Appointments",
+    "new_btn": "New appointment",
+    "filters": {
+      "all": "All",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "paid": "Paid"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "noshow": "No-show"
+    },
+    "payment": {
+      "paid": "Paid",
+      "pending": "Awaiting payment",
+      "refunded": "Refunded",
+      "unpaid": "Unpaid",
+      "subscription": "Corporate subscription"
+    },
+    "actions": {
+      "pay": "Pay",
+      "cancel": "Cancel",
+      "review": "Leave a review"
+    },
+    "empty": "No appointments found",
+    "toast": {
+      "paid": "Payment successful!",
+      "pay_failed": "Payment could not be completed",
+      "refunded": "Appointment cancelled. Funds will be returned within 3–5 business days.",
+      "refund_failed": "Appointment cancelled, but the refund failed. Please contact support.",
+      "cancelled": "Appointment successfully cancelled."
+    },
+    "cancel_modal": {
+      "title": "Cancel appointment",
+      "refund_notice": "This appointment has been paid. Upon cancellation, funds will be automatically refunded within 3–5 business days.",
+      "reason_label": "Reason for cancellation",
+      "reason_placeholder": "Enter reason...",
+      "warn": "⚠ Cancellation less than 2 hours before requires a reason",
+      "back": "Back",
+      "confirm": "Confirm cancellation"
+    },
+    "rating_modal": {
+      "title": "Rate consultation",
+      "low_warn": "We're sorry to hear that. Our operator will contact you shortly.",
+      "comment_placeholder": "Your comment (optional)...",
+      "cancel": "Cancel",
+      "submit": "Submit review"
+    },
+    "booking": {
+      "title": "New appointment",
+      "confirmed_title": "Appointment confirmed!",
+      "steps": {
+        "catalog": "Catalog",
+        "specialist": "Specialist",
+        "slot": "Slot",
+        "confirm": "Confirmation"
+      },
+      "step1": {
+        "hint": "Select a category or browse all specialists",
+        "all_categories": "All categories",
+        "experience": "yrs exp.",
+        "reviews": "reviews",
+        "no_reviews": "No reviews yet",
+        "empty": "No specialists found"
+      },
+      "step2": {
+        "about": "About specialist",
+        "reviews_count": "client reviews",
+        "no_reviews": "No reviews yet — be the first!",
+        "method_label": "Booking method",
+        "online_title": "Online booking",
+        "online_sub": "Self-service through the portal",
+        "phone_title": "Book via WO",
+        "phone_sub": "Will appear in your account after confirmation"
+      },
+      "step3": {
+        "hint": "Choose a convenient day and time",
+        "available_time": "Available times",
+        "pick_day": "← Select a day to see available times"
+      },
+      "step4": {
+        "details_title": "Appointment details",
+        "specialist": "Specialist",
+        "datetime": "Date & time",
+        "format": "Format",
+        "cost": "Cost",
+        "free": "Free",
+        "subscription_tip": "Covered by your company subscription. Free sessions remaining: {{remaining}}",
+        "online": "Online booking",
+        "phone": "Book via WO",
+        "info": "After confirmation you will receive an email and the event will appear in your account. Reminder — 12 hours before the consultation.",
+        "cancel_policy": "Cancellation",
+        "cancel_policy_text": "at least 2 hours in advance. Cancellations within 2 hours require a reason.",
+        "payment_title": "Payment",
+        "payment_sub_subscription": "Covered by company subscription",
+        "payment_sub_online": "Online payment after confirmation",
+        "payment_sub_free": "Free consultation"
+      },
+      "step5": {
+        "success_title": "Appointment confirmed!",
+        "email_hint": "A confirmation email has been sent. A reminder will arrive 12 hours before the consultation.",
+        "pay_notice": "This consultation requires payment. Pay now or later in the My Appointments section.",
+        "pay_now": "Pay now",
+        "close": "Close"
+      },
+      "nav": {
+        "cancel": "Cancel",
+        "back": "← Back",
+        "next": "Next →",
+        "submit": "Confirm appointment"
+      }
+    }
+  },
+  "specialist": {
+    "type": {
+      "psychologist": "Psychologist",
+      "therapist": "Psychotherapist",
+      "coach": "Coach"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "all": "All notifications",
+    "mark_all": "Mark all as read",
+    "empty": "No notifications",
+    "review_cta": "Leave a review"
+  },
+  "payments": {
+    "title": "Payments",
+    "banner_sub": "Amount due",
+    "pay_btn": "Pay",
+    "history_title": "Payment history",
+    "empty": "No payments yet",
+    "status": {
+      "paid": "Paid",
+      "refunded": "Refunded",
+      "unpaid": "Unpaid",
+      "pending": "Awaiting payment"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "change_photo": "Change photo",
+    "uploading": "Uploading...",
+    "personal_data": "Personal information",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Data saved successfully",
+    "fields": {
+      "last_name": "LAST NAME",
+      "first_name": "FIRST NAME",
+      "phone": "PHONE",
+      "email": "EMAIL",
+      "company": "COMPANY"
+    },
+    "terms": "I agree to the",
+    "terms_link1": "Terms of Service",
+    "terms_and": "and",
+    "terms_link2": "Privacy Policy"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "notifications": "Notifications",
+      "integrations": "Integrations"
+    },
+    "notifications": {
+      "channels_title": "Notification channels",
+      "saving": "Saving..."
+    },
+    "google": {
+      "name": "Google Calendar",
+      "desc": "Automatically add consultations to your calendar and create Google Meet links",
+      "connected": "Connected",
+      "not_connected": "Not connected",
+      "loading": "Loading...",
+      "disconnect": "Disconnect",
+      "disconnecting": "Disconnecting...",
+      "connect": "Connect Google Calendar",
+      "connecting": "Redirecting to Google..."
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "upload_title": "Drag a file here or click to upload",
+    "uploading": "Uploading...",
+    "upload_sub": "Supports PDF, JPG, PNG, DOC, DOCX up to 10 MB",
+    "select_btn": "Select file",
+    "list_title": "Uploaded documents",
+    "empty": "No documents yet",
+    "download": "Download"
+  },
+  "support": {
+    "title": "Contact WO",
+    "chatbot_title": "Support chatbot",
+    "chatbot_desc": "Quick response via our bot in Telegram or Viber",
+    "emergency_title": "Emergency contact",
+    "emergency_desc": "Psychological crisis support service",
+    "form_title": "Send a message",
+    "subject_label": "Subject",
+    "subject_placeholder": "Briefly describe your question...",
+    "contact_label": "Preferred contact method",
+    "message_label": "Message",
+    "message_placeholder": "Describe your question or issue in detail...",
+    "send": "Send",
+    "success_title": "Message sent!",
+    "success_sub": "We received your message and will review it shortly. A response will be sent via your preferred method — usually within 1 business day.",
+    "new_ticket": "Send another message"
+  },
+  "lang": {
+    "uk": "Українська",
+    "en": "English"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "empty": "Nothing found"
+  }
+}

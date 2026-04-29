@@ -9,6 +9,7 @@ use common\models\NotificationSetting;
 use common\models\Payment;
 use common\models\UserGoogleToken;
 use common\services\GoogleCalendarService;
+use common\services\NotificationService;
 use common\services\payment\LiqPayGateway;
 use common\services\payment\UaPayGateway;
 use Yii;
@@ -128,6 +129,11 @@ class PaymentService
                 )->execute();
 
                 $this->addToCalendarAfterPayment($payment->appointment_id, $payment->user_id);
+
+                $appt = Appointment::findOne($payment->appointment_id);
+                if ($appt) {
+                    (new NotificationService())->notifyAppointmentConfirmed($appt);
+                }
             }
         } else {
             $payment->status = Payment::STATUS_FAILED;
@@ -191,10 +197,64 @@ class PaymentService
                 )->execute();
 
                 $this->addToCalendarAfterPayment($payment->appointment_id, $payment->user_id);
+
+                $appt = Appointment::findOne($payment->appointment_id);
+                if ($appt) {
+                    (new NotificationService())->notifyAppointmentConfirmed($appt);
+                }
             }
         }
 
         return ['status' => $result['status'], 'payment_id' => $payment->id];
+    }
+
+    public function refundForAppointment(int $appointmentId): array
+    {
+        // Read via raw SQL — gateway columns not visible through AR schema cache
+        $row = Yii::$app->db->createCommand(
+            'SELECT id, status, gateway, gateway_order_id, amount, refund_status
+             FROM payment
+             WHERE appointment_id = :a AND status = :s
+             LIMIT 1',
+            [':a' => $appointmentId, ':s' => Payment::STATUS_COMPLETED]
+        )->queryOne();
+
+        if (!$row) {
+            return ['type' => 'none'];
+        }
+
+        // Idempotency — refund already processed; treat as success so appointment gets updated
+        if (!empty($row['refund_status'])) {
+            return ['type' => 'already_refunded', 'success' => true, 'amount' => (float)$row['amount']];
+        }
+
+        $paymentId   = (int)$row['id'];
+        $gatewayName = $row['gateway'] ?? '';
+        $orderId     = $row['gateway_order_id'] ?? '';
+        $amount      = (float)$row['amount'];
+
+        try {
+            $gateway = $gatewayName === 'uapay' ? new UaPayGateway() : new LiqPayGateway();
+            $success = $gateway->refund($orderId, $amount, 'Скасування запису');
+        } catch (\Throwable $e) {
+            Yii::error('Refund error: ' . $e->getMessage(), 'payment');
+            $success = false;
+        }
+
+        if ($success) {
+            Yii::$app->db->createCommand()->update('payment', [
+                'status'        => Payment::STATUS_REFUNDED,
+                'refund_status' => 'completed',
+                'refunded_at'   => time(),
+                'refund_amount' => $amount,
+            ], ['id' => $paymentId])->execute();
+        } else {
+            Yii::$app->db->createCommand()->update('payment', [
+                'refund_status' => 'failed',
+            ], ['id' => $paymentId])->execute();
+        }
+
+        return ['type' => 'gateway', 'success' => $success, 'amount' => $amount];
     }
 
     private function addToCalendarAfterPayment(int $appointmentId, int $userId): void

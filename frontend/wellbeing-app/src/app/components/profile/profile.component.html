@@ -1,4 +1,4 @@
-<h2 class="section-title">Мій профіль</h2>
+<h2 class="section-title">{{ 'profile.title' | translate }}</h2>
 
 <div *ngIf="loading" class="loading-wrap">
   <div class="spinner-lg"></div>
@@ -21,7 +21,7 @@
 
     <label class="btn-change-photo" [class.disabled]="avatarUploading">
       <app-icon name="upload" [size]="14"></app-icon>
-      {{ avatarUploading ? 'Завантаження...' : 'Змінити фото' }}
+      {{ avatarUploading ? ('profile.uploading' | translate) : ('profile.change_photo' | translate) }}
       <input type="file" accept="image/*" (change)="onAvatarFileSelected($event)"
              style="display:none" [disabled]="avatarUploading">
     </label>
@@ -33,17 +33,17 @@
   <!-- Form card -->
   <div class="card">
     <div class="form-header">
-      <span class="form-title">Особисті дані</span>
+      <span class="form-title">{{ 'profile.personal_data' | translate }}</span>
       <div *ngIf="!editing">
         <button class="btn-edit" (click)="startEdit()">
           <app-icon name="edit" [size]="14"></app-icon>
-          Редагувати
+          {{ 'profile.edit' | translate }}
         </button>
       </div>
       <div *ngIf="editing" class="edit-btns">
-        <button class="btn-cancel-edit" (click)="cancelEdit()" [disabled]="saving">Скасувати</button>
+        <button class="btn-cancel-edit" (click)="cancelEdit()" [disabled]="saving">{{ 'profile.cancel' | translate }}</button>
         <button class="btn-save" (click)="save()" [disabled]="saving">
-          <span *ngIf="!saving">Зберегти</span>
+          <span *ngIf="!saving">{{ 'profile.save' | translate }}</span>
           <span *ngIf="saving" class="spinner-sm"></span>
         </button>
       </div>
@@ -51,7 +51,7 @@
 
     <div *ngIf="saved" class="save-notice">
       <app-icon name="check" [size]="16" stroke="var(--green-dark)"></app-icon>
-      Дані успішно збережено
+      {{ 'profile.saved' | translate }}
     </div>
 
     <div *ngIf="error" class="error-notice">
@@ -61,26 +61,26 @@
 
     <div class="form-grid">
       <div class="form-field">
-        <label>ПРІЗВИЩЕ</label>
+        <label>{{ 'profile.fields.last_name' | translate }}</label>
         <input type="text" [(ngModel)]="form.lastName"
                [disabled]="!editing" [class.active]="editing">
       </div>
       <div class="form-field">
-        <label>ІМ'Я</label>
+        <label>{{ 'profile.fields.first_name' | translate }}</label>
         <input type="text" [(ngModel)]="form.firstName"
                [disabled]="!editing" [class.active]="editing">
       </div>
       <div class="form-field">
-        <label>ТЕЛЕФОН</label>
+        <label>{{ 'profile.fields.phone' | translate }}</label>
         <input type="tel" [(ngModel)]="form.phone"
                [disabled]="!editing" [class.active]="editing">
       </div>
       <div class="form-field">
-        <label>EMAIL</label>
+        <label>{{ 'profile.fields.email' | translate }}</label>
         <input type="email" [value]="form.email" disabled>
       </div>
       <div class="form-field full-width">
-        <label>КОМПАНІЯ</label>
+        <label>{{ 'profile.fields.company' | translate }}</label>
         <input type="text" [value]="companyName || '—'" disabled>
       </div>
     </div>
@@ -93,8 +93,8 @@
         <app-icon *ngIf="form.acceptedTerms" name="check" [size]="12" stroke="#fff" [strokeWidth]="2.5"></app-icon>
       </div>
       <span class="terms-text">
-        Я погоджуюсь з <span class="link-green">умовами користування сервісом</span>
-        та <span class="link-green">політикою конфіденційності</span>
+        {{ 'profile.terms' | translate }} <span class="link-green">{{ 'profile.terms_link1' | translate }}</span>
+        {{ 'profile.terms_and' | translate }} <span class="link-green">{{ 'profile.terms_link2' | translate }}</span>
       </span>
     </div>
   </div>

@@ -120,6 +120,7 @@
 }
 .pay-paid   { color: #1B7A35; }
 .pay-unpaid { color: #8B6200; }
+.pay-subscription { color: #1565C0; }
 
 /* ── Pagination ── */
 .pagination {

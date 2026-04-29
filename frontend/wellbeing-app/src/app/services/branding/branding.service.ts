@@ -21,18 +21,17 @@ const DEFAULT_BRANDING: CompanyBranding = {
   accent_color: '#E8F5E9',
 };
 
-/**
- * Holds the current user's company branding and applies it as CSS variables
- * on document.documentElement so any component using var(--brand-*) reflects it.
- *
- * Design system already exposes --green / --green-dark / --green-light. We override
- * those root vars when a branded company is set, so existing components
- * automatically pick up the new colors.
- */
+const BRANDING_KEY = 'wb_branding';
+
 @Injectable({ providedIn: 'root' })
 export class BrandingService {
-  private brandingSubject = new BehaviorSubject<CompanyBranding>(DEFAULT_BRANDING);
+  private brandingSubject = new BehaviorSubject<CompanyBranding>(this.readCached());
   branding$ = this.brandingSubject.asObservable();
+
+  constructor() {
+    // Apply cached CSS variables immediately on startup — before any API call
+    this.applyToCss(this.brandingSubject.value);
+  }
 
   get current(): CompanyBranding {
     return this.brandingSubject.value;
@@ -42,21 +41,38 @@ export class BrandingService {
     const next = branding ?? DEFAULT_BRANDING;
     this.brandingSubject.next(next);
     this.applyToCss(next);
+    try {
+      if (branding) {
+        localStorage.setItem(BRANDING_KEY, JSON.stringify(branding));
+      } else {
+        localStorage.removeItem(BRANDING_KEY);
+      }
+    } catch {}
   }
 
   reset(): void {
     this.set(null);
+    try { localStorage.removeItem(BRANDING_KEY); } catch {}
+  }
+
+  private readCached(): CompanyBranding {
+    try {
+      const raw = localStorage.getItem(BRANDING_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.primary_color) return parsed as CompanyBranding;
+      }
+    } catch {}
+    return DEFAULT_BRANDING;
   }
 
   private applyToCss(b: CompanyBranding): void {
     const root = document.documentElement;
-    // Override the design system variables that drive primary actions/highlights.
-    root.style.setProperty('--green', b.primary_color);
-    root.style.setProperty('--green-dark', b.secondary_color);
-    root.style.setProperty('--green-light', b.accent_color);
-    // Brand-specific aliases (use these in new components for clarity).
-    root.style.setProperty('--brand-primary', b.primary_color);
-    root.style.setProperty('--brand-secondary', b.secondary_color);
-    root.style.setProperty('--brand-accent', b.accent_color);
+    root.style.setProperty('--green',          b.primary_color);
+    root.style.setProperty('--green-dark',     b.secondary_color);
+    root.style.setProperty('--green-light',    b.accent_color);
+    root.style.setProperty('--brand-primary',  b.primary_color);
+    root.style.setProperty('--brand-secondary',b.secondary_color);
+    root.style.setProperty('--brand-accent',   b.accent_color);
   }
 }

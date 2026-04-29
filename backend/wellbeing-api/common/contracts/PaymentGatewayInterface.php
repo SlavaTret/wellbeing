@@ -26,4 +26,10 @@ interface PaymentGatewayInterface
      * Returns ['status' => 'success'|'pending'|'failure', 'payment_id' => string]
      */
     public function getStatus(string $orderId): array;
+
+    /**
+     * Refund a completed payment.
+     * Returns true if refund was accepted (completed or pending), false on error.
+     */
+    public function refund(string $gatewayOrderId, float $amount, string $description): bool;
 }

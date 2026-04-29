@@ -245,8 +245,17 @@ export class AdminAppointmentsPageComponent implements OnInit {
     return m[s] || 'badge--pending';
   }
 
-  paymentClass(s: string): string { return s === 'paid' ? 'badge--paid' : 'badge--unpaid'; }
-  paymentLabel(s: string): string { return s === 'paid' ? 'Оплачено' : 'Не оплачено'; }
+  paymentClass(s: string): string { 
+    if (s === 'paid') return 'badge--paid';
+    if (s === 'subscription') return 'badge--subscription';
+    return 'badge--unpaid'; 
+  }
+  
+  paymentLabel(s: string): string { 
+    if (s === 'paid') return 'Оплачено';
+    if (s === 'subscription') return 'Корпоративна підписка';
+    return 'Не оплачено'; 
+  }
 
   formatDate(d: string): string {
     if (!d) return '—';

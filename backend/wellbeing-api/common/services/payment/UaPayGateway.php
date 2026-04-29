@@ -69,6 +69,19 @@ class UaPayGateway implements PaymentGatewayInterface
         ];
     }
 
+    public function refund(string $gatewayOrderId, float $amount, string $description): bool
+    {
+        $response = $this->request('POST', '/api/v1/refunds', [
+            'orderId'     => $gatewayOrderId,
+            'amount'      => (int)round($amount * 100),
+            'description' => $description,
+        ]);
+
+        $status = strtolower($response['status'] ?? '');
+        // UaPay may return 200 with status pending (async) — treat as success
+        return isset($response['id']) || in_array($status, ['success', 'pending', 'processing']);
+    }
+
     private function request(string $method, string $path, array $body = []): array
     {
         $ch = curl_init($this->apiUrl . $path);

@@ -6,12 +6,12 @@
       </div>
       <div>
         <div class="logo-text">well<strong>being</strong></div>
-        <div class="logo-sub">Портал підтримки</div>
+        <div class="logo-sub">{{ 'sidebar.portal' | translate }}</div>
       </div>
     </div>
 
-    <h1 class="auth-title">Вхід до кабінету</h1>
-    <p class="auth-desc">Введіть ваші дані для входу</p>
+    <h1 class="auth-title">{{ 'auth.login.title' | translate }}</h1>
+    <p class="auth-desc">{{ 'auth.login.desc' | translate }}</p>
 
     <div *ngIf="error" class="error-box">
       <app-icon name="info" [size]="16" stroke="#C62828"></app-icon>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="form-field">
-      <label>Email</label>
+      <label>{{ 'auth.login.email' | translate }}</label>
       <div class="input-wrap">
         <app-icon name="mail" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <input type="email" [(ngModel)]="email" placeholder="you@company.com" [disabled]="loading" />
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-field">
-      <label>Пароль</label>
+      <label>{{ 'auth.login.password' | translate }}</label>
       <div class="input-wrap">
         <app-icon name="shield" [size]="16" stroke="#6B8879" class="input-icon"></app-icon>
         <input
@@ -43,12 +43,12 @@
     </div>
 
     <button class="btn-primary" (click)="submit()" [disabled]="loading">
-      <span *ngIf="!loading">Увійти</span>
+      <span *ngIf="!loading">{{ 'auth.login.submit' | translate }}</span>
       <span *ngIf="loading" class="spinner"></span>
     </button>
 
     <p class="auth-link">
-      Немає акаунту? <a routerLink="/register">Зареєструватися</a>
+      {{ 'auth.login.no_account' | translate }} <a routerLink="/register">{{ 'auth.login.register_link' | translate }}</a>
     </p>
   </div>
 </div>

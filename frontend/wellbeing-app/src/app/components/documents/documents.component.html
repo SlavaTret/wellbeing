@@ -1,4 +1,4 @@
-<h2 class="section-title">Документи</h2>
+<h2 class="section-title">{{ 'documents.title' | translate }}</h2>
 
 <!-- Upload zone -->
 <div class="upload-zone"
@@ -12,10 +12,10 @@
     <app-icon *ngIf="!uploading" name="upload" [size]="24" stroke="var(--green)" [strokeWidth]="2"></app-icon>
     <div *ngIf="uploading" class="spinner-md"></div>
   </div>
-  <div class="upload-title">{{ uploading ? 'Завантаження...' : 'Перетягніть файл або натисніть для завантаження' }}</div>
-  <div class="upload-sub">Підтримуються PDF, JPG, PNG, DOC, DOCX до 10 МБ</div>
+  <div class="upload-title">{{ uploading ? ('documents.uploading' | translate) : ('documents.upload_title' | translate) }}</div>
+  <div class="upload-sub">{{ 'documents.upload_sub' | translate }}</div>
   <button class="btn-select" (click)="$event.stopPropagation(); openFilePicker()" [disabled]="uploading">
-    Вибрати файл
+    {{ 'documents.select_btn' | translate }}
   </button>
   <input #fileInput type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,application/pdf,image/*"
          style="display:none" (change)="onFileSelected($event)">
@@ -28,13 +28,13 @@
 
 <!-- Doc list -->
 <div class="card">
-  <div class="list-title">Завантажені документи</div>
+  <div class="list-title">{{ 'documents.list_title' | translate }}</div>
 
   <div *ngIf="loading" class="loading-wrap"><div class="spinner-md"></div></div>
 
   <div *ngIf="!loading && docs.length === 0" class="empty-docs">
     <app-icon name="file" [size]="28" stroke="var(--text-muted)"></app-icon>
-    <span>Документів ще немає</span>
+    <span>{{ 'documents.empty' | translate }}</span>
   </div>
 
   <div *ngFor="let d of docs; let last = last"
@@ -44,7 +44,7 @@
       <div class="doc-name">{{ d.name }}</div>
       <div class="doc-meta">{{ d.size_label }} · {{ d.date }}</div>
     </div>
-    <button class="btn-download" (click)="download(d)">Завантажити</button>
+    <button class="btn-download" (click)="download(d)">{{ 'documents.download' | translate }}</button>
     <button class="btn-delete" (click)="remove(d)" aria-label="Видалити">
       <app-icon name="x" [size]="14" stroke="var(--text-muted)"></app-icon>
     </button>

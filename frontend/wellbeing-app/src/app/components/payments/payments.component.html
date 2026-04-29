@@ -1,4 +1,4 @@
-<h2 class="section-title">Оплата</h2>
+<h2 class="section-title">{{ 'payments.title' | translate }}</h2>
 
 <div *ngIf="loading" class="loading-wrap"><div class="spinner-md"></div></div>
 
@@ -6,23 +6,23 @@
   <!-- Pay banner (shown only when there's a pending payment) -->
   <div *ngIf="pending" class="pay-banner">
     <div>
-      <div class="banner-sub">До оплати</div>
+      <div class="banner-sub">{{ 'payments.banner_sub' | translate }}</div>
       <div class="banner-amount">₴ {{ pending.amount | number:'1.0-0' }}</div>
-      <div class="banner-desc">Консультація · {{ pending.specialist }} · {{ pending.date }}</div>
+      <div class="banner-desc">{{ pending.specialist }} · {{ pending.date }}</div>
     </div>
     <button class="btn-pay" (click)="pay()" [disabled]="paying">
-      <span *ngIf="!paying">Оплатити</span>
+      <span *ngIf="!paying">{{ 'payments.pay_btn' | translate }}</span>
       <span *ngIf="paying" class="spinner-sm spinner-white"></span>
     </button>
   </div>
 
   <!-- History -->
   <div class="card">
-    <div class="list-title">Історія оплат</div>
+    <div class="list-title">{{ 'payments.history_title' | translate }}</div>
 
     <div *ngIf="payments.length === 0" class="empty-payments">
       <app-icon name="card" [size]="28" stroke="var(--text-muted)"></app-icon>
-      <span>Оплат ще немає</span>
+      <span>{{ 'payments.empty' | translate }}</span>
     </div>
 
     <div *ngFor="let p of payments; let last = last" class="pay-row" [class.no-border]="last">
@@ -36,7 +36,8 @@
       <div class="pay-amount" [class.unpaid-text]="!isPaid(p)">
         ₴ {{ p.amount | number:'1.0-0' }}
       </div>
-      <span class="status-badge" [ngClass]="isPaid(p) ? 'badge-paid' : 'badge-unpaid'">
+      <span class="status-badge"
+        [ngClass]="isPaid(p) ? 'badge-paid' : (isRefunded(p) ? 'badge-refunded' : 'badge-unpaid')">
         {{ statusLabel(p) }}
       </span>
     </div>
