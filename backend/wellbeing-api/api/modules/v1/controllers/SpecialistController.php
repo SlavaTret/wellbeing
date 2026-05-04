@@ -31,7 +31,10 @@ class SpecialistController extends Controller
     {
         Yii::$app->response->format = 'json';
         $db        = Yii::$app->db;
-        $cacheKey  = 'specialists_list_' . date('Y-m-d');
+        $kyivNow   = new \DateTime('now', new \DateTimeZone('Europe/Kyiv'));
+        $todayKyiv = $kyivNow->format('Y-m-d');
+        $nowMin    = (int)$kyivNow->format('H') * 60 + (int)$kyivNow->format('i') + 30;
+        $cacheKey  = 'specialists_list_v4_' . $kyivNow->format('Y-m-d-H');
         $cached    = Yii::$app->cache->get($cacheKey);
         if ($cached !== false) {
             return $cached;
@@ -41,12 +44,14 @@ class SpecialistController extends Controller
         $rows = $db->createCommand("
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
-                s.categories, s.avatar_initials, s.price,
+                s.categories, s.avatar_initials, s.avatar_url, s.price,
+                COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating,    0) AS avg_rating,
                 COALESCE(rv.reviews_count, 0) AS reviews_count,
                 ss.day_of_week,
                 ss.time_slot
             FROM specialist s
+            LEFT JOIN specialization sp ON sp.key = s.type
             LEFT JOIN (
                 SELECT specialist_id,
                        ROUND(AVG(rating)::numeric, 1) AS avg_rating,
@@ -81,10 +86,10 @@ class SpecialistController extends Controller
         }
 
         $idList = implode(',', array_keys($specialists));
-        $today  = new \DateTime('today');
-        $end    = (clone $today)->modify('+14 days');
-        $from   = $today->format('Y-m-d');
-        $to     = $end->format('Y-m-d');
+        $today  = \DateTime::createFromFormat('Y-m-d', $todayKyiv);
+        $end       = (clone $today)->modify('+14 days');
+        $from      = $todayKyiv;
+        $to        = $end->format('Y-m-d');
 
         // Query 2: blocked dates + booked slots for all specialists via UNION
         $blockedMap = [];
@@ -109,6 +114,8 @@ class SpecialistController extends Controller
             }
         }
 
+        $slotMin = fn(string $t): int => (int)explode(':', $t)[0] * 60 + (int)explode(':', $t)[1];
+
         $result = [];
         foreach ($specialists as $id => $s) {
             $blocked = $blockedMap[$id] ?? [];
@@ -124,6 +131,7 @@ class SpecialistController extends Controller
                     $free = array_values(array_filter(
                         $byDay[$dow],
                         fn($t) => !isset($booked[$dateStr . '_' . $t])
+                            && ($dateStr !== $todayKyiv || $slotMin($t) > $nowMin)
                     ));
                     if ($free) {
                         $slots[] = ['date' => $dateStr, 'slots' => $free];
@@ -147,6 +155,8 @@ class SpecialistController extends Controller
                 'reviews_count'    => $reviewsCount,
                 'categories'       => $cats,
                 'avatar_initials'  => $s['avatar_initials'],
+                'avatar_url'       => $s['avatar_url'] ?? null,
+                'type_name'        => $s['type_name'],
                 'price'            => (float)$s['price'],
                 'available_slots'  => $slots,
             ];

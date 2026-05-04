@@ -144,6 +144,18 @@ class NotificationService
         );
     }
 
+    public function notifyAppointmentCreatedByAdmin(Appointment $appt): void
+    {
+        $date = $this->formatDate($appt->appointment_date);
+        $this->createForUser(
+            $appt->user_id,
+            Notification::TYPE_APPOINTMENT_REMINDER,
+            'Новий запис',
+            "Вам створено запис до {$appt->specialist_name} на {$date} о {$appt->appointment_time}. Очікує підтвердження та оплати.",
+            $appt->id
+        );
+    }
+
     private function formatDate(string $ymd): string
     {
         $ukMonths = [

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AdminApiService } from '../../services/admin-api.service';
 
 interface AdminSpecialist {
@@ -14,6 +14,7 @@ interface AdminSpecialist {
   categories: string[];
   categories_str: string;
   avatar_initials: string;
+  avatar_url?: string | null;
   price: number;
   is_active: boolean;
   created_at: string | number;
@@ -30,6 +31,13 @@ interface SpecialistForm {
   email: string;
 }
 
+interface Specialization {
+  id: number;
+  name: string;
+  key: string;
+  is_active: boolean;
+}
+
 @Component({
   selector: 'app-admin-specialists',
   templateUrl: './admin-specialists.component.html',
@@ -37,6 +45,7 @@ interface SpecialistForm {
 })
 export class AdminSpecialistsComponent implements OnInit {
   specialists: AdminSpecialist[] = [];
+  specializations: Specialization[] = [];
   loading = true;
   error   = '';
   search  = '';
@@ -49,15 +58,24 @@ export class AdminSpecialistsComponent implements OnInit {
   saving        = false;
   modalError    = '';
 
+  // Avatar
+  @ViewChild('avatarInput') avatarInput!: ElementRef<HTMLInputElement>;
+  avatarFile: File | null    = null;
+  avatarPreview: string | null = null;
+
   // Categories
   formCats: string[]   = [];
   allCats: string[]    = [];
-
 
   constructor(private adminApi: AdminApiService) {}
 
   ngOnInit(): void {
     this.loadSpecialists();
+    this.adminApi.getAdminSpecializations().subscribe({
+      next: (list: any[]) => {
+        this.specializations = (list || []).filter((s: any) => s.is_active);
+      }
+    });
     this.adminApi.getAdminCategories().subscribe({
       next: (list: any[]) => {
         this.allCats = (list || [])
@@ -88,7 +106,6 @@ export class AdminSpecialistsComponent implements OnInit {
     this.searchTimer = setTimeout(() => this.loadSpecialists(), 350);
   }
 
-
   get totalActive(): number { return this.specialists.filter(s => s.is_active).length; }
 
   get availableCats(): string[] {
@@ -98,28 +115,31 @@ export class AdminSpecialistsComponent implements OnInit {
   // ── Modal ──────────────────────────────────────────────────────────
 
   openCreate(): void {
-    this.modalSpec  = null;
-    this.form       = this.emptyForm();
-    this.formCats   = [];
-    this.modalError = '';
+    this.modalSpec    = null;
+    this.form         = this.emptyForm();
+    this.formCats     = [];
+    this.modalError   = '';
+    this.avatarFile   = null;
+    this.avatarPreview = null;
     this.showModal    = true;
   }
 
   openEdit(s: AdminSpecialist): void {
     this.modalSpec    = s;
-    const validTypes = ['psychologist', 'therapist', 'coach'];
     this.form = {
       name:             s.name,
-      type:             validTypes.includes(s.type) ? s.type : 'psychologist',
+      type:             s.type || (this.specializations[0]?.key ?? 'psychologist'),
       bio:              s.bio,
       experience_years: s.experience_years || '',
       price:            s.price || '',
       status:           s.is_active ? 'active' : 'inactive',
       email:            s.email || ''
     };
-    this.formCats   = [...s.categories];
-    this.modalError = '';
-    this.showModal  = true;
+    this.formCats     = [...s.categories];
+    this.modalError   = '';
+    this.avatarFile   = null;
+    this.avatarPreview = null;
+    this.showModal    = true;
   }
 
   closeModal(): void { this.showModal = false; this.modalSpec = null; }
@@ -145,14 +165,18 @@ export class AdminSpecialistsComponent implements OnInit {
 
     obs.subscribe({
       next: (res: any) => {
-        if (this.modalSpec) {
-          const idx = this.specialists.findIndex(s => s.id === this.modalSpec!.id);
-          if (idx !== -1) this.specialists[idx] = res.specialist;
+        const specialist: AdminSpecialist = res.specialist;
+        if (this.avatarFile) {
+          this.adminApi.uploadSpecialistAvatar(specialist.id, this.avatarFile).subscribe({
+            next: (up: any) => {
+              specialist.avatar_url = up.avatar_url;
+              this.finishSave(specialist);
+            },
+            error: () => this.finishSave(specialist)
+          });
         } else {
-          this.specialists.unshift(res.specialist);
+          this.finishSave(specialist);
         }
-        this.saving = false;
-        this.closeModal();
       },
       error: (err: any) => {
         const errs = err?.error?.errors;
@@ -162,6 +186,40 @@ export class AdminSpecialistsComponent implements OnInit {
         this.saving = false;
       }
     });
+  }
+
+  private finishSave(specialist: AdminSpecialist): void {
+    if (this.modalSpec) {
+      const idx = this.specialists.findIndex(s => s.id === this.modalSpec!.id);
+      if (idx !== -1) this.specialists[idx] = specialist;
+    } else {
+      this.specialists.unshift(specialist);
+    }
+    this.saving = false;
+    this.closeModal();
+  }
+
+  // ── Avatar ────────────────────────────────────────────────────────
+
+  triggerAvatarInput(): void {
+    this.avatarInput.nativeElement.click();
+  }
+
+  onAvatarChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file  = input.files?.[0];
+    if (!file) return;
+    this.avatarFile = file;
+    const reader = new FileReader();
+    reader.onload = (e) => { this.avatarPreview = e.target?.result as string; };
+    reader.readAsDataURL(file);
+    input.value = '';
+  }
+
+  get avatarSrc(): string | null {
+    if (this.avatarPreview) return this.avatarPreview;
+    if (this.modalSpec?.avatar_url) return this.modalSpec.avatar_url;
+    return null;
   }
 
   // ── Categories ────────────────────────────────────────────────────
@@ -178,7 +236,7 @@ export class AdminSpecialistsComponent implements OnInit {
   // ── Helpers ───────────────────────────────────────────────────────
 
   private emptyForm(): SpecialistForm {
-    return { name: '', type: 'psychologist', bio: '', experience_years: '', price: '', status: 'active', email: '' };
+    return { name: '', type: '', bio: '', experience_years: '', price: '', status: 'active', email: '' };
   }
 
   initials(name: string): string {
@@ -190,11 +248,16 @@ export class AdminSpecialistsComponent implements OnInit {
   }
 
   typeClass(type: string): string {
-    return { psychologist: 'badge--psychologist', therapist: 'badge--therapist', coach: 'badge--coach' }[type] || 'badge--psychologist';
+    const map: { [k: string]: string } = {
+      psychologist: 'badge--psychologist',
+      therapist:    'badge--therapist',
+      coach:        'badge--coach'
+    };
+    return map[type] || 'badge--generic';
   }
 
-  typeName(type: string): string {
-    return { psychologist: 'Психолог', therapist: 'Психотерапевт', coach: 'Коуч' }[type] || type;
+  typeName(s: AdminSpecialist): string {
+    return s.type_name || s.type || '—';
   }
 
   expLabel(y: number | ''): string {

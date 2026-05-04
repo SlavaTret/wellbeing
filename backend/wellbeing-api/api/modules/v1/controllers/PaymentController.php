@@ -176,4 +176,70 @@ class PaymentController extends Controller
         if (!$dt) return $ymd;
         return $dt->format('j') . ' ' . $months[(int)$dt->format('n')] . ' ' . $dt->format('Y');
     }
+
+    /** GET /v1/debug/liqpay — diagnostic: verify keys and generate a test checkout URL */
+    public function actionDebugLiqpay()
+    {
+        Yii::$app->response->format = 'json';
+
+        $publicKey  = \common\models\AppSettings::get('liqpay_public_key');
+        $privateKey = \common\models\AppSettings::get('liqpay_private_key');
+
+        // Build minimal test params
+        $testOrderId = 'DEBUG-' . time();
+        $params = [
+            'version'     => 3,
+            'public_key'  => $publicKey,
+            'action'      => 'pay',
+            'amount'      => '10.00',
+            'currency'    => 'UAH',
+            'description' => 'Debug test',
+            'order_id'    => $testOrderId,
+            'result_url'  => 'https://example.com/ok',
+            'server_url'  => 'https://httpbin.org/post',
+            'language'    => 'uk',
+        ];
+
+        $data      = base64_encode(json_encode($params));
+        $signature = base64_encode(sha1($privateKey . $data . $privateKey, true));
+        $checkoutUrl = 'https://www.liqpay.ua/api/3/checkout?data=' . urlencode($data) . '&signature=' . urlencode($signature);
+
+        // Test actual LiqPay API with status request for a fake order
+        $statusParams = [
+            'version'    => 3,
+            'public_key' => $publicKey,
+            'action'     => 'status',
+            'order_id'   => 'PROBE-' . time(),
+        ];
+        $statusData = base64_encode(json_encode($statusParams));
+        $statusSig  = base64_encode(sha1($privateKey . $statusData . $privateKey, true));
+
+        $ch = curl_init('https://www.liqpay.ua/api/request');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['data' => $statusData, 'signature' => $statusSig]));
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $raw = curl_exec($ch);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        $apiResponse = json_decode($raw ?: '{}', true) ?? [];
+
+        return [
+            'public_key'        => $publicKey,
+            'public_key_length' => strlen($publicKey),
+            'private_key_set'   => !empty($privateKey),
+            'private_key_length'=> strlen($privateKey),
+            'private_key_prefix'=> substr($privateKey, 0, 8) . '...',
+            'test_params'       => $params,
+            'generated_data_b64'=> $data,
+            'generated_sig'     => $signature,
+            'checkout_url'      => $checkoutUrl,
+            'api_status_probe'  => [
+                'raw_response' => $raw,
+                'parsed'       => $apiResponse,
+                'curl_error'   => $curlError,
+            ],
+        ];
+    }
 }

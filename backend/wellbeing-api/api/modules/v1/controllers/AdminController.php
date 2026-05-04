@@ -327,7 +327,7 @@ class AdminController extends Controller
         $search  = Yii::$app->request->get('search', '');
         $status  = Yii::$app->request->get('status', '');
         $page    = max(1, (int)Yii::$app->request->get('page', 1));
-        $limit   = 8;
+        $limit   = min(500, max(1, (int)Yii::$app->request->get('per_page', 8)));
         $offset  = ($page - 1) * $limit;
 
         $where = ['u.status != 40'];
@@ -520,12 +520,14 @@ class AdminController extends Controller
         $rows = Yii::$app->db->createCommand("
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
-                s.categories, s.avatar_initials, s.price,
+                s.categories, s.avatar_initials, s.avatar_url, s.price,
                 s.is_active, s.created_at, s.email,
+                COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating, 0)  AS computed_rating,
                 COALESCE(rv.cnt, 0)         AS reviews_count,
                 COALESCE(ac.cnt, 0)         AS sessions_count
             FROM specialist s
+            LEFT JOIN specialization sp ON sp.key = s.type
             LEFT JOIN (
                 SELECT specialist_id,
                        ROUND(AVG(rating)::numeric, 1) AS avg_rating,
@@ -809,6 +811,76 @@ class AdminController extends Controller
         return ['success' => true, 'date' => $date];
     }
 
+    public function actionAdminSpecialistAvailableSlots(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $db        = Yii::$app->db;
+        $kyivNow   = new \DateTime('now', new \DateTimeZone('Europe/Kyiv'));
+        $todayKyiv = $kyivNow->format('Y-m-d');
+        $nowMin    = (int)$kyivNow->format('H') * 60 + (int)$kyivNow->format('i') + 30;
+        $today     = \DateTime::createFromFormat('Y-m-d', $todayKyiv);
+        $end       = (clone $today)->modify('+30 days');
+        $from      = $todayKyiv;
+        $to        = $end->format('Y-m-d');
+
+        $scheduleRows = $db->createCommand(
+            'SELECT day_of_week, time_slot FROM specialist_schedule WHERE specialist_id = :id ORDER BY day_of_week, time_slot',
+            [':id' => $id]
+        )->queryAll();
+
+        $byDay = [];
+        foreach ($scheduleRows as $r) {
+            $byDay[(int)$r['day_of_week']][] = $r['time_slot'];
+        }
+
+        if (!$byDay) {
+            return [];
+        }
+
+        $blockedMap = [];
+        $bookedMap  = [];
+        foreach ($db->createCommand("
+            SELECT 'b' AS t, block_date::text AS d, NULL AS tm
+            FROM specialist_day_block
+            WHERE specialist_id = :id AND block_date >= :from AND block_date <= :to
+            UNION ALL
+            SELECT 'a', appointment_date::text, appointment_time
+            FROM appointment
+            WHERE specialist_id = :id AND appointment_date >= :from AND appointment_date <= :to
+              AND status NOT IN ('cancelled')
+        ", [':id' => $id, ':from' => $from, ':to' => $to])->queryAll() as $r) {
+            if ($r['t'] === 'b') {
+                $blockedMap[$r['d']] = true;
+            } else {
+                $bookedMap[$r['d'] . '_' . $r['tm']] = true;
+            }
+        }
+
+        $slotMin = fn(string $t): int => (int)explode(':', $t)[0] * 60 + (int)explode(':', $t)[1];
+
+        $result = [];
+        $d = clone $today;
+        while ($d <= $end) {
+            $dow     = (int)$d->format('w');
+            $dateStr = $d->format('Y-m-d');
+            if (isset($byDay[$dow]) && !isset($blockedMap[$dateStr])) {
+                $free = array_values(array_filter(
+                    $byDay[$dow],
+                    fn($t) => !isset($bookedMap[$dateStr . '_' . $t])
+                        && ($dateStr !== $todayKyiv || $slotMin($t) > $nowMin)
+                ));
+                if ($free) {
+                    $result[] = ['date' => $dateStr, 'slots' => $free];
+                }
+            }
+            $d->modify('+1 day');
+        }
+
+        return $result;
+    }
+
     private function clearSpecialistCache(): void
     {
         Yii::$app->cache->delete('specialists_list_' . date('Y-m-d'));
@@ -841,14 +913,11 @@ class AdminController extends Controller
             mb_substr($parts[0] ?? '', 0, 1) . mb_substr($parts[1] ?? '', 0, 1)
         );
 
-        $validTypes = ['psychologist', 'therapist', 'coach'];
-        $type = in_array($r['type'], $validTypes) ? $r['type'] : 'psychologist';
-
         return [
             'id'               => (int)$r['id'],
             'name'             => $r['name'],
-            'type'             => $type,
-            'type_name'        => $this->specialistTypeName($type),
+            'type'             => $r['type'] ?? '',
+            'type_name'        => $r['type_name'] ?? $this->specialistTypeName($r['type'] ?? ''),
             'bio'              => $r['bio'] ?? '',
             'experience_years' => (int)$r['experience_years'],
             'rating'           => $r['computed_rating'] ? round((float)$r['computed_rating'], 1) : 0.0,
@@ -857,6 +926,7 @@ class AdminController extends Controller
             'categories'       => array_values($cats),
             'categories_str'   => $r['categories'] ?? '',
             'avatar_initials'  => $r['avatar_initials'] ?: $initials,
+            'avatar_url'       => $r['avatar_url'] ?? null,
             'price'            => (float)$r['price'],
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
@@ -868,12 +938,15 @@ class AdminController extends Controller
     {
         $row = Yii::$app->db->createCommand("
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
-                   s.categories, s.avatar_initials, s.price,
+                   s.categories, s.avatar_initials, s.avatar_url, s.price,
                    s.is_active, s.created_at, s.email,
+                   COALESCE(sp.name, s.type) AS type_name,
                    (SELECT ROUND(AVG(r.rating)::numeric, 1) FROM specialist_review r WHERE r.specialist_id = s.id) AS computed_rating,
                    (SELECT COUNT(*) FROM specialist_review r WHERE r.specialist_id = s.id) AS reviews_count,
                    (SELECT COUNT(*) FROM appointment a WHERE a.specialist_name = s.name) AS sessions_count
-            FROM specialist s WHERE s.id = :id
+            FROM specialist s
+            LEFT JOIN specialization sp ON sp.key = s.type
+            WHERE s.id = :id
         ", [':id' => $id])->queryOne();
         return $this->specialistRow($row);
     }
@@ -886,6 +959,175 @@ class AdminController extends Controller
             'coach'        => 'Коуч',
             default        => $type,
         };
+    }
+
+    // ── Specialist avatar upload ─────────────────────────────────────────
+
+    public function actionUploadSpecialistAvatar(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $s = \common\models\Specialist::findOne($id);
+        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+
+        $file = \yii\web\UploadedFile::getInstanceByName('avatar');
+        if (!$file) {
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'Файл не отримано'];
+        }
+
+        $ext = strtolower($file->extension);
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Дозволені формати: JPG, PNG, WEBP'];
+        }
+
+        if ($file->size > 5 * 1024 * 1024) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Файл завеликий (макс. 5 МБ)'];
+        }
+
+        $dir = Yii::getAlias('@webroot/uploads/specialists');
+        if (!is_dir($dir)) mkdir($dir, 0755, true);
+
+        // Remove old avatar if it was a local upload
+        if ($s->avatar_url && str_contains($s->avatar_url, '/uploads/specialists/')) {
+            $oldPath = Yii::getAlias('@webroot') . parse_url($s->avatar_url, PHP_URL_PATH);
+            if (is_file($oldPath)) @unlink($oldPath);
+        }
+
+        $filename = 'spec_' . $id . '_' . time() . '_' . Yii::$app->security->generateRandomString(6) . '.' . $ext;
+        $path     = $dir . '/' . $filename;
+
+        if (!$file->saveAs($path)) {
+            Yii::$app->response->statusCode = 500;
+            return ['error' => 'Не вдалося зберегти файл'];
+        }
+
+        $avatarUrl = '/api/uploads/specialists/' . $filename;
+        Yii::$app->db->createCommand()->update('specialist', ['avatar_url' => $avatarUrl], ['id' => $id])->execute();
+        $this->clearSpecialistCache();
+
+        return ['avatar_url' => $avatarUrl];
+    }
+
+    // ── Specializations ──────────────────────────────────────────────────
+
+    public function actionAdminSpecializations()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $rows = Yii::$app->db->createCommand("
+            SELECT
+                sp.id, sp.name, sp.key, sp.is_active, sp.sort_order, sp.created_at,
+                COUNT(s.id) AS specialist_count
+            FROM specialization sp
+            LEFT JOIN specialist s ON s.type = sp.key AND s.is_active = true
+            GROUP BY sp.id
+            ORDER BY sp.sort_order ASC, sp.name ASC
+        ")->queryAll();
+
+        return array_map(fn($r) => [
+            'id'               => (int)$r['id'],
+            'name'             => $r['name'],
+            'key'              => $r['key'],
+            'is_active'        => (bool)$r['is_active'],
+            'sort_order'       => (int)$r['sort_order'],
+            'specialist_count' => (int)$r['specialist_count'],
+            'created_at'       => $r['created_at'],
+        ], $rows);
+    }
+
+    public function actionCreateSpecialization()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $data = Yii::$app->request->post();
+
+        $sp = new \common\models\Specialization();
+        $sp->name       = trim($data['name'] ?? '');
+        $sp->key        = trim($data['key'] ?? '');
+        $sp->is_active  = isset($data['is_active']) ? (bool)$data['is_active'] : true;
+        $sp->sort_order = (int)($data['sort_order'] ?? 0);
+
+        if (!$sp->validate()) {
+            Yii::$app->response->statusCode = 422;
+            return ['errors' => $sp->getErrors()];
+        }
+        if (!$sp->save()) {
+            Yii::$app->response->statusCode = 500;
+            return ['error' => 'Не вдалося зберегти'];
+        }
+
+        return ['success' => true, 'specialization' => $this->specializationRow($sp->id)];
+    }
+
+    public function actionUpdateSpecialization(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $sp = \common\models\Specialization::findOne($id);
+        if (!$sp) throw new NotFoundHttpException('Спеціалізацію не знайдено');
+
+        $data = Yii::$app->request->post();
+        if (isset($data['name']))       $sp->name       = trim($data['name']);
+        if (isset($data['is_active']))  $sp->is_active  = (bool)$data['is_active'];
+        if (isset($data['sort_order'])) $sp->sort_order = (int)$data['sort_order'];
+
+        if (!$sp->validate()) {
+            Yii::$app->response->statusCode = 422;
+            return ['errors' => $sp->getErrors()];
+        }
+        $sp->save();
+
+        return ['success' => true, 'specialization' => $this->specializationRow($sp->id)];
+    }
+
+    public function actionDeleteSpecialization(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $sp = \common\models\Specialization::findOne($id);
+        if (!$sp) throw new NotFoundHttpException('Спеціалізацію не знайдено');
+
+        $usedBy = (int)Yii::$app->db->createCommand(
+            'SELECT COUNT(*) FROM specialist WHERE type = :k', [':k' => $sp->key]
+        )->queryScalar();
+
+        if ($usedBy > 0) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => "Неможливо видалити: використовується $usedBy спеціалістом(и)"];
+        }
+
+        $sp->delete();
+        return ['success' => true];
+    }
+
+    private function specializationRow(int $id): array
+    {
+        $r = Yii::$app->db->createCommand("
+            SELECT sp.id, sp.name, sp.key, sp.is_active, sp.sort_order, sp.created_at,
+                   COUNT(s.id) AS specialist_count
+            FROM specialization sp
+            LEFT JOIN specialist s ON s.type = sp.key AND s.is_active = true
+            WHERE sp.id = :id
+            GROUP BY sp.id
+        ", [':id' => $id])->queryOne();
+
+        return [
+            'id'               => (int)$r['id'],
+            'name'             => $r['name'],
+            'key'              => $r['key'],
+            'is_active'        => (bool)$r['is_active'],
+            'sort_order'       => (int)$r['sort_order'],
+            'specialist_count' => (int)$r['specialist_count'],
+            'created_at'       => $r['created_at'],
+        ];
     }
 
     private function userRow(array $r): array
@@ -968,15 +1210,19 @@ class AdminController extends Controller
 
         $rows = Yii::$app->db->createCommand("
             SELECT
-                a.id, a.user_id, a.specialist_name, a.specialist_type,
+                a.id, a.user_id, a.specialist_id, a.specialist_name, a.specialist_type,
                 a.appointment_date, a.appointment_time,
                 a.status, a.payment_status, a.notes, a.price, a.created_at,
                 COALESCE(u.first_name || ' ' || u.last_name, 'Видалений') AS user_name,
                 u.email AS user_email,
-                COALESCE(c.name, '') AS company_name
+                COALESCE(c.name, '') AS company_name,
+                COALESCE(spz.name, spc.type, a.specialist_type) AS type_name,
+                (SELECT 1 FROM payment WHERE appointment_id = a.id AND status IN ('completed','refunded') LIMIT 1) AS has_gateway_payment
             FROM appointment a
             LEFT JOIN \"user\" u ON u.id = a.user_id
             LEFT JOIN company c ON c.id = u.company_id
+            LEFT JOIN specialist spc ON spc.id = a.specialist_id
+            LEFT JOIN specialization spz ON spz.key = spc.type
             WHERE $whereStr
             ORDER BY a.appointment_date DESC, a.appointment_time DESC
             LIMIT $perPage OFFSET $offset
@@ -998,16 +1244,25 @@ class AdminController extends Controller
 
         $data = Yii::$app->request->post();
 
+        $paymentVia = $data['payment_via'] ?? 'card';
+        $isSubscription = ($paymentVia === 'subscription');
+
         $a = new \common\models\Appointment();
         $a->user_id          = (int)($data['user_id'] ?? 0);
         $a->specialist_name  = trim($data['specialist_name'] ?? '');
         $a->specialist_type  = $data['specialist_type'] ?? 'psychologist';
         $a->appointment_date = $data['appointment_date'] ?? '';
         $a->appointment_time = $data['appointment_time'] ?? '';
-        $a->status           = $data['status'] ?? \common\models\Appointment::STATUS_PENDING;
-        $a->payment_status   = $data['payment_status'] ?? \common\models\Appointment::PAYMENT_UNPAID;
         $a->notes            = $data['notes'] ?? '';
         $a->price            = (float)($data['price'] ?? 0);
+
+        if ($isSubscription) {
+            $a->status         = \common\models\Appointment::STATUS_CONFIRMED;
+            $a->payment_status = \common\models\Appointment::PAYMENT_SUBSCRIPTION;
+        } else {
+            $a->status         = \common\models\Appointment::STATUS_PENDING;
+            $a->payment_status = \common\models\Appointment::PAYMENT_UNPAID;
+        }
 
         if (isset($data['specialist_id'])) {
             $a->specialist_id = (int)$data['specialist_id'];
@@ -1020,6 +1275,17 @@ class AdminController extends Controller
         if (!$a->save()) {
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося створити запис'];
+        }
+
+        try {
+            $notifSvc = new \common\services\NotificationService();
+            if ($isSubscription) {
+                $notifSvc->notifyAppointmentConfirmed($a);
+            } else {
+                $notifSvc->notifyAppointmentCreatedByAdmin($a);
+            }
+        } catch (\Throwable $e) {
+            Yii::warning('Admin appointment notification failed: ' . $e->getMessage(), 'admin');
         }
 
         return ['success' => true, 'appointment' => $this->appointmentRowById($a->id)];
@@ -1068,6 +1334,11 @@ class AdminController extends Controller
 
     private function appointmentRow(array $r): array
     {
+        $paymentStatus = $r['payment_status'] ?? 'unpaid';
+        if ($paymentStatus === 'paid' && empty($r['has_gateway_payment']) && (float)($r['price'] ?? 0) > 0) {
+            $paymentStatus = 'subscription';
+        }
+
         return [
             'id'               => (int)$r['id'],
             'user_id'          => (int)$r['user_id'],
@@ -1076,10 +1347,11 @@ class AdminController extends Controller
             'company_name'     => $r['company_name'] ?? '',
             'specialist_name'  => $r['specialist_name'] ?? '',
             'specialist_type'  => $r['specialist_type'] ?? '',
+            'type_name'        => $r['type_name'] ?? $r['specialist_type'] ?? '',
             'appointment_date' => $r['appointment_date'] ?? '',
             'appointment_time' => $r['appointment_time'] ?? '',
             'status'           => $r['status'] ?? 'pending',
-            'payment_status'   => $r['payment_status'] ?? 'unpaid',
+            'payment_status'   => $paymentStatus,
             'notes'            => $r['notes'] ?? '',
             'price'            => (float)$r['price'],
             'created_at'       => $r['created_at'],
@@ -1090,15 +1362,19 @@ class AdminController extends Controller
     {
         $row = Yii::$app->db->createCommand("
             SELECT
-                a.id, a.user_id, a.specialist_name, a.specialist_type,
+                a.id, a.user_id, a.specialist_id, a.specialist_name, a.specialist_type,
                 a.appointment_date, a.appointment_time,
                 a.status, a.payment_status, a.notes, a.price, a.created_at,
                 COALESCE(u.first_name || ' ' || u.last_name, 'Видалений') AS user_name,
                 u.email AS user_email,
-                COALESCE(c.name, '') AS company_name
+                COALESCE(c.name, '') AS company_name,
+                COALESCE(spz.name, spc.type, a.specialist_type) AS type_name,
+                (SELECT 1 FROM payment WHERE appointment_id = a.id AND status IN ('completed','refunded') LIMIT 1) AS has_gateway_payment
             FROM appointment a
             LEFT JOIN \"user\" u ON u.id = a.user_id
             LEFT JOIN company c ON c.id = u.company_id
+            LEFT JOIN specialist spc ON spc.id = a.specialist_id
+            LEFT JOIN specialization spz ON spz.key = spc.type
             WHERE a.id = :id
         ", [':id' => $id])->queryOne();
         return $this->appointmentRow($row);

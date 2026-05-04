@@ -52,10 +52,15 @@ class DashboardController extends Controller
             }
         }
 
-        // "Used" = all non-cancelled appointments (company covers them)
-        $usedFree = Appointment::find()->where(['user_id' => $userId])
-            ->andWhere(['NOT IN', 'status', [Appointment::STATUS_CANCELLED]])
-            ->count();
+        // "Used" = only subscription-covered appointments (no payment record = subscription)
+        $usedFree = (int)Yii::$app->db->createCommand(
+            'SELECT COUNT(*) FROM appointment a
+             WHERE a.user_id = :uid
+               AND a.status NOT IN (:cancelled)
+               AND a.payment_status = :paid
+               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)',
+            [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
+        )->queryScalar();
 
         $remainingFree     = max(0, $freeTotal - $usedFree);
         $freeProgressPct   = $freeTotal > 0 ? round(($usedFree / $freeTotal) * 100) : 0;
@@ -99,10 +104,10 @@ class DashboardController extends Controller
 
         return [
             'stats' => [
-                'upcoming'          => (int)$upcoming,
-                'completed'         => (int)$completed,
-                'cancelled'         => (int)$cancelled,
-                'free_remaining'    => $remainingFree,
+                'upcoming'       => (int)$upcoming,
+                'completed'      => (int)$completed,
+                'cancelled'      => (int)$cancelled,
+                'free_remaining' => $remainingFree,
             ],
             'free_sessions' => [
                 'total'       => $freeTotal,
@@ -111,6 +116,40 @@ class DashboardController extends Controller
                 'percent'     => $freeProgressPct,
             ],
             'upcoming_appointments' => $upcomingFormatted,
+        ];
+    }
+
+    public function actionFreeSessions()
+    {
+        Yii::$app->response->format = 'json';
+        $user   = Yii::$app->user->identity;
+        $userId = $user->id;
+
+        $freeTotal = 5;
+        if ($user->company_id) {
+            $company = Company::findOne($user->company_id);
+            if ($company && $company->free_sessions_per_user > 0) {
+                $freeTotal = (int)$company->free_sessions_per_user;
+            }
+        }
+
+        $usedFree = (int)Yii::$app->db->createCommand(
+            'SELECT COUNT(*) FROM appointment a
+             WHERE a.user_id = :uid
+               AND a.status NOT IN (:cancelled)
+               AND a.payment_status = :paid
+               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)',
+            [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
+        )->queryScalar();
+
+        $remaining = max(0, $freeTotal - $usedFree);
+        $percent   = $freeTotal > 0 ? round(($usedFree / $freeTotal) * 100) : 0;
+
+        return [
+            'total'     => $freeTotal,
+            'used'      => $usedFree,
+            'remaining' => $remaining,
+            'percent'   => $percent,
         ];
     }
 }

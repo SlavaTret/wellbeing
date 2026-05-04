@@ -21,6 +21,7 @@ import { AdminPaymentsPageComponent } from './admin/components/payments/admin-pa
 import { AdminSpecialistsComponent } from './admin/components/specialists/admin-specialists.component';
 import { AdminAppointmentsPageComponent } from './admin/components/appointments/admin-appointments.component';
 import { AdminCategoriesComponent } from './admin/components/categories/admin-categories.component';
+import { AdminSpecializationsComponent } from './admin/components/specializations/admin-specializations.component';
 import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
 import { AdminSettingsComponent } from './admin/components/settings/admin-settings.component';
 import { AdminGuard } from './admin/guards/admin.guard';
@@ -52,6 +53,7 @@ const routes: Routes = [
       { path: 'specialists', component: AdminSpecialistsComponent },
       { path: 'appointments', component: AdminAppointmentsPageComponent },
       { path: 'categories', component: AdminCategoriesComponent },
+      { path: 'specializations', component: AdminSpecializationsComponent },
       { path: 'slots', component: AdminSlotsComponent },
       { path: 'settings', component: AdminSettingsComponent },
     ]

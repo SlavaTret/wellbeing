@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { BrandingService } from '../branding/branding.service';
 
@@ -56,6 +56,13 @@ export class UserService {
   invalidateFreeSessions(): void {
     try { localStorage.removeItem(FREE_SESSIONS_KEY); } catch {}
     this.freeSessionsSubject.next(null);
+  }
+
+  loadFreeSessions(): Observable<FreeSessions> {
+    return this.api.getFreeSessions().pipe(
+      tap((fs: FreeSessions) => this.setFreeSessions(fs)),
+      catchError(() => of(this.freeSessions as FreeSessions))
+    );
   }
 
   clear(): void {

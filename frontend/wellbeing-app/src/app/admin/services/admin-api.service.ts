@@ -62,11 +62,12 @@ export class AdminApiService {
     return this.http.delete(`${this.apiUrl}/admin/companies/${id}`, { headers: this.authHeaders() });
   }
 
-  getAdminUsers(params: { search?: string; status?: string; page?: number } = {}): Observable<any> {
+  getAdminUsers(params: { search?: string; status?: string; page?: number; per_page?: number } = {}): Observable<any> {
     const parts: string[] = [];
     if (params.search)                  parts.push(`search=${encodeURIComponent(params.search)}`);
     if (params.status)                  parts.push(`status=${params.status}`);
     if (params.page && params.page > 1) parts.push(`page=${params.page}`);
+    if (params.per_page)                parts.push(`per_page=${params.per_page}`);
     const query = parts.length ? '?' + parts.join('&') : '';
     return this.http.get(`${this.apiUrl}/admin/users${query}`, { headers: this.authHeaders() });
   }
@@ -153,6 +154,36 @@ export class AdminApiService {
 
   deleteSpecialist(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/admin/specialists/${id}`, { headers: this.authHeaders() });
+  }
+
+  uploadSpecialistAvatar(id: number, file: File): Observable<any> {
+    const fd = new FormData();
+    fd.append('avatar', file, file.name);
+    return this.http.post(
+      `${this.apiUrl}/admin/specialists/${id}/upload-avatar`,
+      fd,
+      { headers: new HttpHeaders({ Authorization: `Bearer ${this.getAdminToken()}` }) }
+    );
+  }
+
+  getAdminSpecializations(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/specializations`, { headers: this.authHeaders() });
+  }
+
+  createSpecialization(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/specializations`, data, { headers: this.authHeaders() });
+  }
+
+  updateSpecialization(id: number, data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/specializations/${id}`, data, { headers: this.authHeaders() });
+  }
+
+  deleteSpecialization(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/admin/specializations/${id}`, { headers: this.authHeaders() });
+  }
+
+  getAdminSpecialistAvailableSlots(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/specialists/${id}/available-slots`, { headers: this.authHeaders() });
   }
 
   getSpecialistSlots(id: number): Observable<any> {

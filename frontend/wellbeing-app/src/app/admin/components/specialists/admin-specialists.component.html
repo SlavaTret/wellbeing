@@ -43,11 +43,14 @@
 
       <!-- Card header: avatar + name + badges -->
       <div class="spec-card-top">
-        <div class="avatar">{{ s.avatar_initials || initials(s.name) }}</div>
+        <div class="avatar">
+          <img *ngIf="s.avatar_url" [src]="s.avatar_url" alt="{{ s.name }}" class="avatar-img" />
+          <span *ngIf="!s.avatar_url">{{ s.avatar_initials || initials(s.name) }}</span>
+        </div>
         <div class="spec-info">
           <div class="spec-name">{{ s.name }}</div>
           <div class="spec-badges">
-            <span class="badge" [ngClass]="typeClass(s.type)">{{ s.type_name }}</span>
+            <span class="badge" [ngClass]="typeClass(s.type)">{{ typeName(s) }}</span>
             <span class="badge" [ngClass]="s.is_active ? 'badge--active' : 'badge--inactive'">
               {{ s.is_active ? 'Активний' : 'Неактивний' }}
             </span>
@@ -99,15 +102,45 @@
       <div class="modal-body">
         <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
 
-        <!-- Name (split into last + first) -->
+        <!-- Avatar upload -->
+        <div class="avatar-upload-section">
+          <div class="avatar-upload-row">
+            <div class="avatar-upload-circle" (click)="triggerAvatarInput()">
+              <img *ngIf="avatarSrc" [src]="avatarSrc" alt="" class="avatar-upload-img" />
+              <span *ngIf="!avatarSrc" class="avatar-upload-initials">
+                {{ initials(form.name) || '?' }}
+              </span>
+              <div class="avatar-upload-overlay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </div>
+            </div>
+            <div class="avatar-upload-hint">
+              <p class="avatar-hint-title">Фото спеціаліста</p>
+              <p class="avatar-hint-sub">JPG, PNG або WEBP &middot; до 5 МБ</p>
+              <button type="button" class="btn btn--ghost btn--sm" (click)="triggerAvatarInput()">
+                Обрати файл
+              </button>
+            </div>
+          </div>
+          <input #avatarInput type="file" style="display:none"
+                 accept="image/jpeg,image/png,image/webp"
+                 (change)="onAvatarChange($event)" />
+        </div>
+
+        <div class="section-divider"><span class="section-label">Основна інформація</span></div>
+
+        <!-- Name (split into first + last) -->
         <div class="form-grid-2">
           <div class="form-field">
-            <label>Прізвище</label>
+            <label>Ім'я</label>
             <input type="text" [value]="form.name.split(' ')[0] || ''"
                    (input)="form.name = $any($event.target).value.trim() + ' ' + form.name.split(' ').slice(1).join(' ')" />
           </div>
           <div class="form-field">
-            <label>Ім'я</label>
+            <label>Прізвище</label>
             <input type="text" [value]="form.name.split(' ').slice(1).join(' ')"
                    (input)="form.name = (form.name.split(' ')[0] || '') + ' ' + $any($event.target).value.trim()" />
           </div>
@@ -118,9 +151,7 @@
           <div class="form-field">
             <label>Спеціалізація</label>
             <select [(ngModel)]="form.type">
-              <option value="psychologist">Психолог</option>
-              <option value="therapist">Психотерапевт</option>
-              <option value="coach">Коуч</option>
+              <option *ngFor="let sp of specializations" [value]="sp.key">{{ sp.name }}</option>
             </select>
           </div>
           <div class="form-field">
@@ -185,8 +216,6 @@
             </button>
           </div>
         </div>
-
-
 
       </div>
 

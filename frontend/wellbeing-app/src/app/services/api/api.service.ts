@@ -95,6 +95,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/dashboard`);
   }
 
+  getFreeSessions(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/dashboard/free-sessions`);
+  }
+
   // ==================== SPECIALISTS ====================
   getSpecialists(): Observable<any> {
     return this.http.get(`${this.apiUrl}/specialist`);

@@ -42,23 +42,28 @@
 <div *ngIf="!loading" class="appts-list">
   <div class="card appt-card" *ngFor="let a of filtered">
     <div class="appt-top">
-      <div class="avatar-circle">{{ a.avatar }}</div>
+      <div class="avatar-circle">
+        <img *ngIf="a.avatar_url" [src]="a.avatar_url" alt="{{ a.specialist }}" class="avatar-circle-img" />
+        <span *ngIf="!a.avatar_url">{{ a.avatar }}</span>
+      </div>
       <div class="appt-info">
         <div class="appt-name">{{ a.specialist }}</div>
-        <div class="appt-meta">{{ typeName(a.type) }} · {{ a.date }}, {{ a.time }}</div>
+        <div class="appt-meta">{{ typeName(a.type, a.type_name) }} · {{ a.date }}, {{ a.time }}</div>
       </div>
       <span class="status-badge" [ngClass]="'badge-' + a.status">{{ getStatusLabel(a.status) }}</span>
     </div>
     <div class="appt-bottom">
       <div class="pay-info"
-        [class.paid]="a.paid"
+        [class.paid]="a.paid && a.payment_status !== 'subscription'"
         [class.pay-refunded]="a.payment_status === 'refunded'"
         [class.pay-subscription]="a.payment_status === 'subscription'"
         [class.unpaid]="!a.paid && a.payment_status !== 'pending' && a.payment_status !== 'refunded' && a.payment_status !== 'subscription'"
         [class.pay-pending]="a.payment_status === 'pending'">
-        <app-icon name="card" [size]="14"
-          [stroke]="a.paid ? 'var(--green)' : (a.payment_status === 'pending' ? '#C77800' : (a.payment_status === 'subscription' ? '#1565C0' : (a.payment_status === 'refunded' ? '#1565C0' : '#8B6200')))"></app-icon>
-        {{ a.paid ? ('appointments.payment.paid' | translate) : (a.payment_status === 'pending' ? ('appointments.payment.pending' | translate) : (a.payment_status === 'subscription' ? ('appointments.payment.subscription' | translate) : (a.payment_status === 'refunded' ? ('appointments.payment.refunded' | translate) : ('appointments.payment.unpaid' | translate)))) }}
+        <app-icon
+          [name]="a.payment_status === 'subscription' ? 'building' : 'card'"
+          [size]="14"
+          [stroke]="a.payment_status === 'subscription' ? 'var(--green)' : (a.paid ? 'var(--green)' : (a.payment_status === 'pending' ? '#C77800' : (a.payment_status === 'refunded' ? '#1565C0' : '#8B6200')))"></app-icon>
+        {{ a.payment_status === 'subscription' ? ('appointments.payment.subscription' | translate) : (a.paid ? ('appointments.payment.paid' | translate) : (a.payment_status === 'pending' ? ('appointments.payment.pending' | translate) : (a.payment_status === 'refunded' ? ('appointments.payment.refunded' | translate) : ('appointments.payment.unpaid' | translate)))) }}
       </div>
       <div class="appt-actions">
         <button *ngIf="a.payment_status === 'pending' && (a.status === 'confirmed' || a.status === 'pending')"
@@ -184,11 +189,14 @@
           <div *ngFor="let sp of filteredSpecialists"
             class="bk-spec-card"
             (click)="selectSpec(sp)">
-            <div class="bk-spec-avatar">{{ sp.avatar_initials }}</div>
+            <div class="bk-spec-avatar">
+              <img *ngIf="sp.avatar_url" [src]="sp.avatar_url" alt="{{ sp.name }}" class="bk-spec-avatar-img" />
+              <span *ngIf="!sp.avatar_url">{{ sp.avatar_initials }}</span>
+            </div>
             <div class="bk-spec-info">
               <div class="bk-spec-name-row">
                 <span class="bk-spec-name">{{ sp.name }}</span>
-                <span class="bk-spec-type-tag">{{ typeName(sp.type) }}</span>
+                <span class="bk-spec-type-tag">{{ typeName(sp.type, sp.type_name) }}</span>
                 <span class="bk-spec-price-tag">{{ sp.price | number:'1.0-0' }} грн</span>
               </div>
               <div class="bk-spec-meta">
@@ -213,10 +221,13 @@
       <!-- ──────── STEP 2 ──────── -->
       <div *ngIf="bookingStep === 2 && selectedSpec">
         <div class="bk-profile-row">
-          <div class="bk-profile-avatar">{{ selectedSpec.avatar_initials }}</div>
+          <div class="bk-profile-avatar">
+            <img *ngIf="selectedSpec.avatar_url" [src]="selectedSpec.avatar_url" alt="{{ selectedSpec.name }}" class="bk-profile-avatar-img" />
+            <span *ngIf="!selectedSpec.avatar_url">{{ selectedSpec.avatar_initials }}</span>
+          </div>
           <div>
             <div class="bk-profile-name">{{ selectedSpec.name }}</div>
-            <div class="bk-profile-meta">{{ typeName(selectedSpec.type) }} · {{ selectedSpec.experience_years }} {{ 'appointments.booking.step1.experience' | translate }}</div>
+            <div class="bk-profile-meta">{{ typeName(selectedSpec.type, selectedSpec.type_name) }} · {{ selectedSpec.experience_years }} {{ 'appointments.booking.step1.experience' | translate }}</div>
             <div class="bk-cat-tags">
               <span *ngFor="let c of selectedSpec.categories" class="bk-cat-tag">{{ c }}</span>
             </div>
@@ -239,31 +250,36 @@
           <span class="bk-rating-count">{{ 'appointments.booking.step2.no_reviews' | translate }}</span>
         </div>
 
-        <div class="bk-method-label">{{ 'appointments.booking.step2.method_label' | translate }}</div>
+        <div class="bk-method-label">{{ 'appointments.booking.step2.payment_method_label' | translate }}</div>
         <div class="bk-method-grid">
-          <div class="bk-method-card" [class.bk-method-active]="bookVia === 'online'"
-            (click)="bookVia = 'online'">
+          <div class="bk-method-card" [class.bk-method-active]="paymentVia === 'card'"
+            (click)="paymentVia = 'card'">
             <div class="bk-method-top">
-              <app-icon name="calendar" [size]="16"
-                [stroke]="bookVia === 'online' ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
+              <app-icon name="card" [size]="16"
+                [stroke]="paymentVia === 'card' ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
               <span class="bk-method-title"
-                [style.color]="bookVia === 'online' ? 'var(--green-dark)' : 'var(--text)'">
-                {{ 'appointments.booking.step2.online_title' | translate }}
+                [style.color]="paymentVia === 'card' ? 'var(--green-dark)' : 'var(--text)'">
+                {{ 'appointments.booking.step2.card_title' | translate }}
               </span>
             </div>
-            <div class="bk-method-sub">{{ 'appointments.booking.step2.online_sub' | translate }}</div>
+            <div class="bk-method-sub">{{ 'appointments.booking.step2.card_sub' | translate }}</div>
           </div>
-          <div class="bk-method-card" [class.bk-method-active]="bookVia === 'phone'"
-            (click)="bookVia = 'phone'">
+          <div class="bk-method-card"
+            [class.bk-method-active]="paymentVia === 'subscription'"
+            [class.bk-method-disabled]="freeRemaining === 0"
+            (click)="freeRemaining > 0 ? (paymentVia = 'subscription') : null">
             <div class="bk-method-top">
-              <app-icon name="phone" [size]="16"
-                [stroke]="bookVia === 'phone' ? 'var(--green)' : 'var(--text-muted)'"></app-icon>
+              <app-icon name="building" [size]="16"
+                [stroke]="freeRemaining === 0 ? '#ccc' : (paymentVia === 'subscription' ? 'var(--green)' : 'var(--text-muted)')"></app-icon>
               <span class="bk-method-title"
-                [style.color]="bookVia === 'phone' ? 'var(--green-dark)' : 'var(--text)'">
-                {{ 'appointments.booking.step2.phone_title' | translate }}
+                [style.color]="freeRemaining === 0 ? '#bbb' : (paymentVia === 'subscription' ? 'var(--green-dark)' : 'var(--text)')">
+                {{ 'appointments.booking.step2.subscription_title' | translate }}
               </span>
             </div>
-            <div class="bk-method-sub">{{ 'appointments.booking.step2.phone_sub' | translate }}</div>
+            <div class="bk-method-sub" [style.color]="freeRemaining === 0 ? '#bbb' : ''">
+              <span *ngIf="freeRemaining > 0">{{ 'appointments.booking.step2.subscription_sub' | translate: { remaining: freeRemaining } }}</span>
+              <span *ngIf="freeRemaining === 0">{{ 'appointments.booking.step2.subscription_exhausted' | translate }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -297,26 +313,23 @@
           <div class="bk-confirm-title">{{ 'appointments.booking.step4.details_title' | translate }}</div>
           <div class="bk-confirm-row">
             <span class="bk-confirm-label">{{ 'appointments.booking.step4.specialist' | translate }}</span>
-            <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ typeName(selectedSpec.type) }})</span>
+            <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ typeName(selectedSpec.type, selectedSpec.type_name) }})</span>
           </div>
           <div class="bk-confirm-row">
             <span class="bk-confirm-label">{{ 'appointments.booking.step4.datetime' | translate }}</span>
             <span class="bk-confirm-val">{{ formatDateLabel(selectedDay) }} о {{ selectedTime }}</span>
           </div>
-          <div class="bk-confirm-row">
-            <span class="bk-confirm-label">{{ 'appointments.booking.step4.format' | translate }}</span>
-            <span class="bk-confirm-val">{{ bookVia === 'online' ? ('appointments.booking.step4.online' | translate) : ('appointments.booking.step4.phone' | translate) }}</span>
-          </div>
           <div class="bk-confirm-row bk-confirm-row-last">
             <span class="bk-confirm-label">{{ 'appointments.booking.step4.cost' | translate }}</span>
-            <span class="bk-confirm-val" *ngIf="freeRemaining > 0">
+            <span class="bk-confirm-val" *ngIf="paymentVia === 'subscription'">
               <span class="bk-price-strike">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
               <span class="bk-free-badge bk-free-tip"
                     [attr.data-tip]="'appointments.booking.step4.subscription_tip' | translate: { remaining: freeRemaining }">
                 {{ 'appointments.booking.step4.free' | translate }}
               </span>
             </span>
-            <span class="bk-confirm-val" *ngIf="freeRemaining === 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
+            <span class="bk-confirm-val" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
+            <span class="bk-confirm-val" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.free' | translate }}</span>
           </div>
         </div>
 
@@ -331,12 +344,12 @@
         <div class="bk-payment-row">
           <div>
             <div class="bk-payment-title">{{ 'appointments.booking.step4.payment_title' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="freeRemaining > 0">{{ 'appointments.booking.step4.payment_sub_subscription' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="freeRemaining === 0 && selectedSpec?.price > 0">{{ 'appointments.booking.step4.payment_sub_online' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="freeRemaining === 0 && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.payment_sub_free' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'subscription'">{{ 'appointments.booking.step4.payment_sub_subscription' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">{{ 'appointments.booking.step4.payment_sub_online' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.payment_sub_free' | translate }}</div>
           </div>
-          <div class="bk-payment-amount" *ngIf="freeRemaining === 0 && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
-          <div class="bk-payment-amount bk-payment-free" *ngIf="freeRemaining > 0 || !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.free' | translate }}</div>
+          <div class="bk-payment-amount" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
+          <div class="bk-payment-amount bk-payment-free" *ngIf="paymentVia === 'subscription' || !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.free' | translate }}</div>
         </div>
       </div>
 
@@ -372,15 +385,15 @@
 
     <!-- ── Fixed Footer ── -->
     <div *ngIf="bookingStep < 5" class="bk-footer">
-      <button class="bk-btn-back" (click)="stepBack()">
+      <button class="bk-btn-back" (click)="stepBack()" [disabled]="bookingSaving || initiatingPayment">
         {{ bookingStep === 1 ? ('appointments.booking.nav.cancel' | translate) : ('appointments.booking.nav.back' | translate) }}
       </button>
       <button class="bk-btn-next"
-        [class.bk-btn-disabled]="!canGoNext || bookingSaving"
+        [class.bk-btn-disabled]="!canGoNext || bookingSaving || initiatingPayment"
         (click)="stepNext()"
-        [disabled]="bookingSaving">
-        <span *ngIf="!bookingSaving">{{ bookingStep === 4 ? ('appointments.booking.nav.submit' | translate) : ('appointments.booking.nav.next' | translate) }}</span>
-        <span *ngIf="bookingSaving" class="spinner-sm"></span>
+        [disabled]="bookingSaving || initiatingPayment">
+        <span *ngIf="!bookingSaving && !initiatingPayment">{{ bookingStep === 4 ? ('appointments.booking.nav.submit' | translate) : ('appointments.booking.nav.next' | translate) }}</span>
+        <span *ngIf="bookingSaving || initiatingPayment" class="spinner-sm"></span>
       </button>
     </div>
 

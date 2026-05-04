@@ -17,10 +17,10 @@ export class SettingsComponent implements OnInit {
   };
 
   readonly settingsList = [
-    { key: 'email_enabled',     label: 'Email сповіщення',      desc: 'Підтвердження та нагадування на пошту' },
-    { key: 'calendar_enabled',  label: 'Google Calendar',        desc: 'Автоматично додавати події в календар' },
-    { key: 'sms_enabled',       label: 'SMS нагадування',        desc: 'Нагадування на номер телефону' },
-    { key: 'reminders_enabled', label: 'Нагадування за 12 год',  desc: 'Push/email перед кожною консультацією' },
+    { key: 'email_enabled',     labelKey: 'settings.notifications.email_label',    descKey: 'settings.notifications.email_desc' },
+    { key: 'calendar_enabled',  labelKey: 'settings.notifications.calendar_label', descKey: 'settings.notifications.calendar_desc' },
+    { key: 'sms_enabled',       labelKey: 'settings.notifications.sms_label',      descKey: 'settings.notifications.sms_desc' },
+    { key: 'reminders_enabled', labelKey: 'settings.notifications.reminder_label', descKey: 'settings.notifications.reminder_desc' },
   ];
 
   // ── Google Calendar ────────────────────────────────────────────

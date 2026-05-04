@@ -40,7 +40,15 @@ class PaymentService
 
         $gateway     = $this->getGateway();
         $gatewayName = $this->getActiveGatewayName();
-        $appUrl      = rtrim(AppSettings::get('app_url', 'http://localhost:4200'), '/');
+
+        // Use configured app_url; fall back to current request host so localhost dev works
+        $configuredUrl = AppSettings::get('app_url', '');
+        if ($configuredUrl) {
+            $appUrl = rtrim($configuredUrl, '/');
+        } else {
+            $scheme = (Yii::$app->request->isSecureConnection) ? 'https' : 'http';
+            $appUrl = $scheme . '://' . Yii::$app->request->hostName;
+        }
 
         $orderId = 'WB-' . $appointmentId . '-' . time();
 
@@ -52,6 +60,8 @@ class PaymentService
             'return_url'  => $appUrl . '/appointments?payment=success&order=' . $orderId,
             'callback_url'=> $appUrl . '/api/v1/payment/callback/' . $gatewayName,
         ];
+
+        Yii::warning('LiqPay initiatePayment: appUrl=' . $appUrl . ' return_url=' . $order['return_url'] . ' callback_url=' . $order['callback_url'] . ' amount=' . $order['amount'], 'payment');
 
         $result = $gateway->createPayment($order);
 

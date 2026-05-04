@@ -20,8 +20,18 @@ class LiqPayGateway implements PaymentGatewayInterface
         $this->privateKey = AppSettings::get('liqpay_private_key');
     }
 
+    private function isSandbox(): bool
+    {
+        // Sandbox if key starts with sandbox_, OR if explicitly configured
+        return str_starts_with($this->publicKey, 'sandbox_')
+            || str_starts_with($this->privateKey, 'sandbox_')
+            || AppSettings::get('liqpay_sandbox', '0') === '1';
+    }
+
     public function createPayment(array $order): array
     {
+        $sandbox = $this->isSandbox();
+
         $params = [
             'version'     => 3,
             'public_key'  => $this->publicKey,
@@ -37,6 +47,8 @@ class LiqPayGateway implements PaymentGatewayInterface
 
         $data      = base64_encode(json_encode($params));
         $signature = $this->sign($data);
+
+        Yii::warning('LiqPay createPayment sandbox=' . ($sandbox ? 'yes' : 'no') . ' params=' . json_encode($params), 'payment');
 
         return [
             'checkout_url' => self::CHECKOUT_URL . '?data=' . urlencode($data) . '&signature=' . urlencode($signature),

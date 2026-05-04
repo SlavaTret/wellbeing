@@ -72,16 +72,24 @@
             <td>
               <div class="cell-2">
                 <span class="cell-main">{{ a.specialist_name }}</span>
-                <span class="cell-sub">{{ typeLabel(a.specialist_type) }}</span>
+                <span class="cell-sub">{{ typeLabel(a.specialist_type, a.type_name) }}</span>
               </div>
             </td>
             <td class="td-nowrap">{{ formatDate(a.appointment_date) }} о {{ a.appointment_time }}</td>
             <td>
-              <span class="pay-info" 
-                [class.pay-paid]="a.payment_status === 'paid'" 
+              <span class="pay-info"
+                [class.pay-paid]="a.payment_status === 'paid'"
                 [class.pay-subscription]="a.payment_status === 'subscription'"
                 [class.pay-unpaid]="a.payment_status !== 'paid' && a.payment_status !== 'subscription'">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="a.payment_status === 'paid' ? '#1B7A35' : (a.payment_status === 'subscription' ? '#1565C0' : '#8B6200')" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                <ng-container *ngIf="a.payment_status === 'subscription'; else cardIcon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
+                    <path d="M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                </ng-container>
+                <ng-template #cardIcon>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                </ng-template>
                 {{ paymentLabel(a.payment_status) }}
               </span>
             </td>
@@ -135,7 +143,7 @@
         </div>
         <div class="detail-row">
           <span class="detail-label">Спеціаліст</span>
-          <span class="detail-val">{{ modalApp.specialist_name }} ({{ typeLabel(modalApp.specialist_type) }})</span>
+          <span class="detail-val">{{ modalApp.specialist_name }} ({{ typeLabel(modalApp.specialist_type, modalApp.type_name) }})</span>
         </div>
         <div class="detail-row">
           <span class="detail-label">Дата та час</span>
@@ -143,11 +151,19 @@
         </div>
         <div class="detail-row">
           <span class="detail-label">Оплата</span>
-          <span class="pay-info" 
-            [class.pay-paid]="modalApp.payment_status === 'paid'" 
+          <span class="pay-info"
+            [class.pay-paid]="modalApp.payment_status === 'paid'"
             [class.pay-subscription]="modalApp.payment_status === 'subscription'"
             [class.pay-unpaid]="modalApp.payment_status !== 'paid' && modalApp.payment_status !== 'subscription'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" [attr.stroke]="modalApp.payment_status === 'paid' ? '#1B7A35' : (modalApp.payment_status === 'subscription' ? '#1565C0' : '#8B6200')" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <ng-container *ngIf="modalApp.payment_status === 'subscription'; else modalCardIcon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
+                <path d="M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </ng-container>
+            <ng-template #modalCardIcon>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </ng-template>
             {{ paymentLabel(modalApp.payment_status) }}
           </span>
         </div>
@@ -201,28 +217,65 @@
 
         <div class="form-field">
           <label>Користувач</label>
-          <select [(ngModel)]="createUserId">
+          <select [(ngModel)]="createUserId" (ngModelChange)="onUserSelectCreate()">
             <option value="">— оберіть користувача —</option>
-            <option *ngFor="let u of users" [value]="u.id">{{ u.name || (u.first_name + ' ' + u.last_name) }}</option>
+            <option *ngFor="let u of users" [value]="u.id">{{ u.first_name + ' ' + u.last_name }} {{ u.email ? '(' + u.email + ')' : '' }}</option>
           </select>
         </div>
 
         <div class="form-field">
           <label>Спеціаліст</label>
-          <select [(ngModel)]="createSpecId">
+          <select [(ngModel)]="createSpecId" (ngModelChange)="onSpecSelectCreate()">
             <option value="">— оберіть спеціаліста —</option>
-            <option *ngFor="let s of specialists" [value]="s.id">{{ s.name }}</option>
+            <option *ngFor="let s of specialists" [value]="s.id">{{ s.name }} — {{ s.type_name || s.type }}</option>
           </select>
         </div>
 
-        <div class="form-grid-2">
+        <!-- Payment method selector -->
+        <div class="form-field" *ngIf="createUserId">
+          <label>Спосіб оплати</label>
+          <div class="pay-method-row">
+            <button type="button" class="pay-method-btn"
+                    [class.pay-method-btn--active]="createPaymentVia === 'card'"
+                    (click)="createPaymentVia = 'card'">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span class="pay-method-label">Оплата карткою</span>
+            </button>
+            <button type="button" class="pay-method-btn"
+                    [class.pay-method-btn--active]="createPaymentVia === 'subscription'"
+                    [class.pay-method-btn--disabled]="!createUserHasSubscription"
+                    [disabled]="!createUserHasSubscription"
+                    (click)="createUserHasSubscription && (createPaymentVia = 'subscription')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
+                <path d="M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+              <span class="pay-method-label">
+                Корпоративна підписка
+                <span class="pay-method-sessions" *ngIf="selectedUserForCreate">
+                  {{ createUserHasSubscription ? ('залишилось ' + selectedUserForCreate.sessions_left) : 'вичерпано' }}
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-grid-2" *ngIf="createSpecId">
           <div class="form-field">
             <label>Дата</label>
-            <input type="date" [(ngModel)]="createDate" />
+            <div *ngIf="slotsLoading" class="slots-loading">Завантаження...</div>
+            <select *ngIf="!slotsLoading && specDates.length > 0" [(ngModel)]="createDate" (ngModelChange)="onDateSelectCreate()">
+              <option value="">— оберіть дату —</option>
+              <option *ngFor="let d of specDates" [value]="d">{{ formatDate(d) }}</option>
+            </select>
+            <div *ngIf="!slotsLoading && specDates.length === 0" class="slots-empty">Немає доступних дат</div>
           </div>
           <div class="form-field">
             <label>Час</label>
-            <input type="time" [(ngModel)]="createTime" />
+            <select [(ngModel)]="createTime" [disabled]="!createDate || specTimes.length === 0">
+              <option value="">— оберіть час —</option>
+              <option *ngFor="let t of specTimes" [value]="t">{{ t }}</option>
+            </select>
           </div>
         </div>
       </div>

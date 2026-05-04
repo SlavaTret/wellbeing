@@ -158,7 +158,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getStatusClass(status: string): string { return `badge-${status}`; }
 
   typeName(type: string): string {
-    return this.translate.instant('specialist.type.' + type) || type;
+    const key = 'specialist.type.' + type;
+    const translated = this.translate.instant(key);
+    return translated !== key ? translated : type;
   }
 
   goToAppointments() { this.router.navigate(['/appointments']); }

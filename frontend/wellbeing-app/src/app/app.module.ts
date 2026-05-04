@@ -32,6 +32,7 @@ import { AdminPaymentsPageComponent } from './admin/components/payments/admin-pa
 import { AdminSpecialistsComponent } from './admin/components/specialists/admin-specialists.component';
 import { AdminAppointmentsPageComponent } from './admin/components/appointments/admin-appointments.component';
 import { AdminCategoriesComponent } from './admin/components/categories/admin-categories.component';
+import { AdminSpecializationsComponent } from './admin/components/specializations/admin-specializations.component';
 import { AdminSlotsComponent } from './admin/components/slots/admin-slots.component';
 import { AdminSettingsComponent } from './admin/components/settings/admin-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -60,6 +61,7 @@ import { LangSwitcherComponent } from './components/shared/lang-switcher/lang-sw
     AdminSpecialistsComponent,
     AdminAppointmentsPageComponent,
     AdminCategoriesComponent,
+    AdminSpecializationsComponent,
     AdminSlotsComponent,
     AdminSettingsComponent,
     SettingsComponent,

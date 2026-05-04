@@ -3,7 +3,7 @@
     "dashboard": "Dashboard",
     "appointments": "My Appointments",
     "documents": "Documents",
-    "payments": "Payments",
+    "payments": "Payments history",
     "notifications": "Notifications",
     "questionnaire": "Questionnaire",
     "support": "Contact WO",
@@ -151,11 +151,12 @@
         "about": "About specialist",
         "reviews_count": "client reviews",
         "no_reviews": "No reviews yet — be the first!",
-        "method_label": "Booking method",
-        "online_title": "Online booking",
-        "online_sub": "Self-service through the portal",
-        "phone_title": "Book via WO",
-        "phone_sub": "Will appear in your account after confirmation"
+        "payment_method_label": "Payment method",
+        "card_title": "Pay by card",
+        "card_sub": "Secure online payment",
+        "subscription_title": "Corporate subscription",
+        "subscription_sub": "Sessions remaining: {{remaining}}",
+        "subscription_exhausted": "Limit exhausted"
       },
       "step3": {
         "hint": "Choose a convenient day and time",
@@ -251,7 +252,15 @@
     },
     "notifications": {
       "channels_title": "Notification channels",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "email_label": "Email notifications",
+      "email_desc": "Confirmations and reminders by email",
+      "calendar_label": "Google Calendar",
+      "calendar_desc": "Automatically add events to your calendar",
+      "sms_label": "SMS reminders",
+      "sms_desc": "Reminders to your phone number",
+      "reminder_label": "12-hour reminders",
+      "reminder_desc": "Push/email before each consultation"
     },
     "google": {
       "name": "Google Calendar",

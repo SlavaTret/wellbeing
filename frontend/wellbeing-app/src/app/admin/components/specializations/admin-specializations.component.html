@@ -1,0 +1,157 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Спеціалізації</h2>
+      <p class="section-sub">{{ specializations.length }} спеціалізацій, {{ totalActive }} активних</p>
+    </div>
+    <button class="btn btn--primary" (click)="openCreate()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16m8-8H4"/></svg>
+      Додати спеціалізацію
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-box">{{ error }}</div>
+
+  <!-- Table -->
+  <div class="card" *ngIf="!loading && !error" [class.card--loading]="listLoading">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Назва спеціалізації</th>
+            <th>Ключ</th>
+            <th>Спеціалістів</th>
+            <th>Порядок</th>
+            <th>Статус</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="specializations.length === 0">
+            <td colspan="6" class="empty-cell">Спеціалізацій не знайдено</td>
+          </tr>
+          <tr *ngFor="let s of specializations; let i = index"
+              [class.row-odd]="i % 2 !== 0"
+              class="row-clickable"
+              (click)="openEdit(s, $event)">
+            <td>
+              <div class="spec-name-cell">
+                <div class="spec-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2DB928" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="5"/>
+                    <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/>
+                  </svg>
+                </div>
+                <span class="spec-name">{{ s.name }}</span>
+              </div>
+            </td>
+            <td><code class="key-badge">{{ s.key }}</code></td>
+            <td class="td-num">{{ s.specialist_count }}</td>
+            <td class="td-num">{{ s.sort_order }}</td>
+            <td>
+              <span class="badge" [ngClass]="s.is_active ? 'badge--active' : 'badge--inactive'">
+                {{ s.is_active ? 'Активна' : 'Неактивна' }}
+              </span>
+            </td>
+            <td class="td-actions" (click)="$event.stopPropagation()">
+              <button class="btn-edit" (click)="openEdit(s, $event)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                Ред.
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<ng-container *ngIf="showModal">
+  <div class="modal-wrap" (click)="closeModal()">
+    <div class="modal-inner" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="modal-head">
+        <div class="modal-title">{{ modalSpec ? 'Редагування: ' + modalSpec.name : 'Нова спеціалізація' }}</div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="modalError" class="modal-error">{{ modalError }}</div>
+
+        <!-- Name -->
+        <div class="form-field">
+          <label>Назва спеціалізації</label>
+          <input type="text" [(ngModel)]="formName" (input)="onNameInput()"
+                 placeholder="Наприклад: Психолог" (keydown.enter)="save()" />
+        </div>
+
+        <!-- Key (auto or manual) -->
+        <div class="form-field">
+          <label>
+            Ключ (латиниця, цифри, _)
+            <span class="field-hint" *ngIf="!modalSpec"> — автозаповнення з назви</span>
+            <span class="field-hint field-hint--warn" *ngIf="modalSpec"> — незмінний після створення</span>
+          </label>
+          <input type="text" [(ngModel)]="formKey" (input)="onKeyInput()"
+                 [readonly]="!!modalSpec"
+                 [class.readonly]="!!modalSpec"
+                 placeholder="psychologist" />
+        </div>
+
+        <!-- Sort order + Status -->
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Порядок сортування</label>
+            <input type="number" [(ngModel)]="formSortOrder" min="0" placeholder="0" />
+          </div>
+          <div class="form-field">
+            <label>Статус</label>
+            <select [(ngModel)]="formStatus">
+              <option value="active">Активна</option>
+              <option value="inactive">Неактивна</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Stats for existing -->
+        <div class="spec-stats" *ngIf="modalSpec">
+          <div class="spec-stat-item">
+            <span class="spec-stat-val">{{ modalSpec.specialist_count }}</span>
+            <span class="spec-stat-lbl">Спеціалістів</span>
+          </div>
+        </div>
+
+        <div class="delete-hint" *ngIf="modalSpec && modalSpec.specialist_count > 0">
+          ⚠ Видалення недоступне — спеціалізацію використовують {{ modalSpec.specialist_count }} спеціаліст(и).
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--danger"
+                *ngIf="modalSpec"
+                (click)="delete()"
+                [disabled]="deleting || (modalSpec ? modalSpec.specialist_count > 0 : false)">
+          {{ deleting ? '...' : 'Видалити' }}
+        </button>
+        <button class="btn btn--ghost" (click)="closeModal()">Скасувати</button>
+        <button class="btn btn--primary" (click)="save()" [disabled]="saving || !formName.trim() || !formKey.trim()">
+          <span *ngIf="saving" class="btn-spinner"></span>
+          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

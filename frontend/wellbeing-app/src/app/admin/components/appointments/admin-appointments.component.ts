@@ -9,6 +9,7 @@ interface AdminAppointment {
   company_name: string;
   specialist_name: string;
   specialist_type: string;
+  type_name: string;
   appointment_date: string;
   appointment_time: string;
   status: string;
@@ -32,6 +33,8 @@ const TYPE_LABELS: Record<string, string> = {
   therapist:    'Психотерапевт',
   coach:        'Коуч',
 };
+
+interface AvailableSlot { date: string; slots: string[]; }
 
 @Component({
   selector: 'app-admin-appointments',
@@ -60,10 +63,22 @@ export class AdminAppointmentsPageComponent implements OnInit {
   modalApp: AdminAppointment | null = null;
 
   // Create form fields
-  createUserId      = '';
-  createSpecId      = '';
-  createDate        = '';
-  createTime        = '';
+  createUserId          = '';
+  createSpecId          = '';
+  createDate            = '';
+  createTime            = '';
+  createPaymentVia      = 'card';
+  selectedUserForCreate: any = null;
+
+  get createUserHasSubscription(): boolean {
+    return (this.selectedUserForCreate?.sessions_left ?? 0) > 0;
+  }
+
+  // Available slots for selected specialist
+  specAvailableSlots: AvailableSlot[] = [];
+  specDates: string[]                 = [];
+  specTimes: string[]                 = [];
+  slotsLoading                        = false;
 
   // Quick-status change
   quickStatusValue  = '';
@@ -132,14 +147,19 @@ export class AdminAppointmentsPageComponent implements OnInit {
   // ── Modal ───────────────────────────────────────────────────────
 
   openCreate(): void {
-    this.isCreate        = true;
-    this.modalApp        = null;
-    this.createUserId    = '';
-    this.createSpecId    = '';
-    this.createDate      = '';
-    this.createTime      = '';
-    this.modalError      = '';
-    this.showModal       = true;
+    this.isCreate             = true;
+    this.modalApp             = null;
+    this.createUserId         = '';
+    this.createSpecId         = '';
+    this.createDate           = '';
+    this.createTime           = '';
+    this.createPaymentVia     = 'card';
+    this.selectedUserForCreate = null;
+    this.specAvailableSlots   = [];
+    this.specDates            = [];
+    this.specTimes            = [];
+    this.modalError           = '';
+    this.showModal            = true;
     this.loadLists();
   }
 
@@ -157,12 +177,51 @@ export class AdminAppointmentsPageComponent implements OnInit {
   private loadLists(): void {
     if (this.listsLoaded) return;
     this.adminApi.getAdminSpecialists().subscribe({ next: (s: any[]) => { this.specialists = s || []; } });
-    this.adminApi.getAdminUsers().subscribe({ next: (res: any) => { this.users = res.items || []; this.listsLoaded = true; } });
+    this.adminApi.getAdminUsers({ per_page: 500 }).subscribe({
+      next: (res: any) => { this.users = res.users || []; this.listsLoaded = true; }
+    });
   }
 
-  onSpecSelect(e: Event): void {
-    const id = +(e.target as HTMLSelectElement).value;
-    this.createSpecId = String(id);
+  onUserSelectCreate(): void {
+    this.selectedUserForCreate = this.users.find((u: any) => String(u.id) === String(this.createUserId)) || null;
+    // If no subscription available, reset to card
+    if (!this.createUserHasSubscription) {
+      this.createPaymentVia = 'card';
+    }
+  }
+
+  onSpecSelectCreate(): void {
+    this.createDate = '';
+    this.createTime = '';
+    this.specAvailableSlots = [];
+    this.specDates  = [];
+    this.specTimes  = [];
+
+    const id = +this.createSpecId;
+    if (!id) return;
+
+    this.slotsLoading = true;
+    this.adminApi.getAdminSpecialistAvailableSlots(id).subscribe({
+      next: (slots: AvailableSlot[]) => {
+        this.specAvailableSlots = slots || [];
+        this.specDates = (slots || []).map(s => s.date);
+        this.slotsLoading = false;
+      },
+      error: () => { this.slotsLoading = false; }
+    });
+  }
+
+  onDateSelectCreate(): void {
+    this.createTime = '';
+    const found = this.specAvailableSlots.find(s => s.date === this.createDate);
+    this.specTimes = found ? found.slots : [];
+  }
+
+  formatDateLabel(d: string): string {
+    if (!d) return '';
+    const [y, m, day] = d.split('-');
+    const months = ['','січ','лют','бер','квіт','трав','черв','лип','серп','вер','жовт','лист','груд'];
+    return `${day} ${months[+m]}`;
   }
 
   saveCreate(): void {
@@ -177,8 +236,7 @@ export class AdminAppointmentsPageComponent implements OnInit {
       specialist_id:    spec?.id || undefined,
       appointment_date: this.createDate,
       appointment_time: this.createTime,
-      status:           'pending',
-      payment_status:   'unpaid',
+      payment_via:      this.createPaymentVia,
       price:            spec?.price || 0,
     };
 
@@ -231,8 +289,8 @@ export class AdminAppointmentsPageComponent implements OnInit {
 
   // ── Helpers ─────────────────────────────────────────────────────
 
-  statusLabel(s: string): string  { return STATUS_LABELS[s] || s; }
-  typeLabel(t: string): string    { return TYPE_LABELS[t] || t; }
+  statusLabel(s: string): string              { return STATUS_LABELS[s] || s; }
+  typeLabel(t: string, typeName?: string): string { return typeName || TYPE_LABELS[t] || t; }
 
   statusClass(s: string): string {
     const m: Record<string, string> = {

@@ -73,7 +73,8 @@ return [
                 'POST v1/user/upload-avatar'    => 'v1/user/upload-avatar',
 
                 // Dashboard
-                'GET v1/dashboard'              => 'v1/dashboard/index',
+                'GET v1/dashboard/free-sessions' => 'v1/dashboard/free-sessions',
+                'GET v1/dashboard'               => 'v1/dashboard/index',
 
                 // Notifications
                 'GET  v1/notification'                        => 'v1/notification/index',
@@ -96,6 +97,9 @@ return [
                 'GET  v1/document'              => 'v1/document/index',
                 'POST v1/document/upload'       => 'v1/document/upload',
                 'DELETE v1/document/<id:\d+>'   => 'v1/document/delete',
+
+                // Diagnostics (remove before production)
+                'GET v1/debug/liqpay' => 'v1/payment/debug-liqpay',
 
                 // Payments
                 'GET  v1/payment'                                => 'v1/payment/index',
@@ -136,11 +140,18 @@ return [
                 'POST   v1/admin/specialists'                    => 'v1/admin/create-specialist',
                 'POST   v1/admin/specialists/<id:\d+>'           => 'v1/admin/update-specialist',
                 'DELETE v1/admin/specialists/<id:\d+>'           => 'v1/admin/delete-specialist',
+                'POST   v1/admin/specialists/<id:\d+>/upload-avatar' => 'v1/admin/upload-specialist-avatar',
                 'GET    v1/admin/specialists/<id:\d+>/slots'          => 'v1/admin/specialist-slots',
                 'POST   v1/admin/specialists/<id:\d+>/slots'          => 'v1/admin/save-specialist-slots',
+                'GET    v1/admin/specialists/<id:\d+>/available-slots'  => 'v1/admin/admin-specialist-available-slots',
                 'GET    v1/admin/specialists/<id:\d+>/week-schedule'   => 'v1/admin/specialist-week-schedule',
                 'POST   v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/block-specialist-date',
                 'DELETE v1/admin/specialists/<id:\d+>/block-date'      => 'v1/admin/unblock-specialist-date',
+
+                'GET    v1/admin/specializations'                => 'v1/admin/admin-specializations',
+                'POST   v1/admin/specializations'                => 'v1/admin/create-specialization',
+                'POST   v1/admin/specializations/<id:\d+>'       => 'v1/admin/update-specialization',
+                'DELETE v1/admin/specializations/<id:\d+>'       => 'v1/admin/delete-specialization',
 
                 // Admin Settings
                 'GET    v1/admin/settings'                       => 'v1/admin/settings',

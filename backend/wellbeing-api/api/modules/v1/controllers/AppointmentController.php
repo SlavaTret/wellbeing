@@ -130,7 +130,8 @@ class AppointmentController extends Controller
                     $appointment->save(false);
                 }
             }
-            $this->handlePaymentForNewAppointment($user, $appointment);
+            $paymentVia = $data['payment_via'] ?? 'auto';
+            $this->handlePaymentForNewAppointment($user, $appointment, $paymentVia);
             // Add to Google Calendar only if already paid (free session or zero price).
             // For paid appointments, calendar is added after payment confirmation.
             if ($appointment->payment_status === 'paid') {
@@ -354,7 +355,7 @@ class AppointmentController extends Controller
         }
     }
 
-    private function handlePaymentForNewAppointment($user, Appointment $appointment): void
+    private function handlePaymentForNewAppointment($user, Appointment $appointment, string $paymentVia = 'auto'): void
     {
         $price = (float)$appointment->price;
         if ($price <= 0) {
@@ -364,44 +365,41 @@ class AppointmentController extends Controller
             return;
         }
 
-        // Determine free sessions quota
-        $freeTotal = 0;
-        if ($user->company_id) {
-            $company = Company::findOne($user->company_id);
-            if ($company && $company->free_sessions_per_user > 0) {
-                $freeTotal = (int)$company->free_sessions_per_user;
+        if ($paymentVia === 'subscription' || $paymentVia === 'auto') {
+            $freeTotal = 0;
+            if ($user->company_id) {
+                $company = Company::findOne($user->company_id);
+                if ($company && $company->free_sessions_per_user > 0) {
+                    $freeTotal = (int)$company->free_sessions_per_user;
+                }
+            }
+
+            if ($freeTotal > 0 || $paymentVia === 'subscription') {
+                $usedFree = $this->countSubscriptionSessions($user->id, $appointment->id);
+                $freeRemaining = max(0, $freeTotal - $usedFree);
+
+                if ($freeRemaining > 0) {
+                    $appointment->payment_status = 'paid';
+                    $appointment->status = Appointment::STATUS_CONFIRMED;
+                    $appointment->save(false);
+                    return;
+                }
             }
         }
 
-        if ($freeTotal > 0) {
-            // Count non-cancelled appointments excluding this new one
-            $usedFree = (int)Appointment::find()
-                ->where(['user_id' => $user->id])
-                ->andWhere(['NOT IN', 'status', [Appointment::STATUS_CANCELLED]])
-                ->andWhere(['!=', 'id', $appointment->id])
-                ->count();
-            $freeRemaining = max(0, $freeTotal - $usedFree);
-        } else {
-            $freeRemaining = 0;
-        }
+        // Card payment path
+        $appointment->payment_status = 'pending';
+        $appointment->status = Appointment::STATUS_PENDING;
+        $appointment->save(false);
 
-        if ($freeRemaining > 0) {
-            $appointment->payment_status = 'paid';
-            $appointment->status = Appointment::STATUS_CONFIRMED;
-            $appointment->save(false);
-        } else {
-            $appointment->payment_status = 'pending';
-            $appointment->save(false);
-
-            $payment = new Payment();
-            $payment->user_id = $user->id;
-            $payment->appointment_id = $appointment->id;
-            $payment->amount = $price;
-            $payment->currency = 'UAH';
-            $payment->status = Payment::STATUS_PENDING;
-            $payment->payment_method = Payment::PAYMENT_METHOD_CARD;
-            $payment->save();
-        }
+        $payment = new Payment();
+        $payment->user_id = $user->id;
+        $payment->appointment_id = $appointment->id;
+        $payment->amount = $price;
+        $payment->currency = 'UAH';
+        $payment->status = Payment::STATUS_PENDING;
+        $payment->payment_method = Payment::PAYMENT_METHOD_CARD;
+        $payment->save();
     }
 
     private function formatAppointment($a, ?int $reviewRating = null): array
@@ -417,17 +415,30 @@ class AppointmentController extends Controller
             [':id' => $a->id, ':s1' => 'completed', ':s2' => 'refunded']
         )->queryScalar();
 
-        // If no payment gateway transaction, it means it was covered by corporate subscription
+        // Subscription: paid by company (no gateway transaction) vs card: pending/completed via gateway
         $paymentStatus = $a->payment_status;
-        if (!$gatewayPaid && $a->price > 0) {
+        if ($a->payment_status === 'paid' && !$gatewayPaid && $a->price > 0) {
             $paymentStatus = 'subscription';
         }
+
+        // Fetch specialist avatar_url and type_name via JOIN
+        $specRow = $a->specialist_id
+            ? Yii::$app->db->createCommand(
+                'SELECT s.avatar_url, COALESCE(sp.name, s.type) AS type_name
+                 FROM specialist s
+                 LEFT JOIN specialization sp ON sp.key = s.type
+                 WHERE s.id = :id',
+                [':id' => $a->specialist_id]
+            )->queryOne()
+            : null;
 
         return [
             'id'               => $a->id,
             'specialist_id'    => $a->specialist_id,
             'specialist'       => $a->specialist_name,
             'type'             => $a->specialist_type,
+            'type_name'        => $specRow['type_name'] ?? $a->specialist_type,
+            'avatar_url'       => $specRow['avatar_url'] ?? null,
             'date'             => $dateLabel,
             'date_raw'         => $a->appointment_date,
             'time'             => $a->appointment_time,
@@ -464,5 +475,28 @@ class AppointmentController extends Controller
             Yii::$app->response->statusCode = 403;
             throw new \yii\web\ForbiddenHttpException('Access denied');
         }
+    }
+
+    /**
+     * Count appointments paid via corporate subscription (no payment record = subscription).
+     * Excludes the given appointment ID (used when creating a new one).
+     */
+    private function countSubscriptionSessions(int $userId, int $excludeId = 0): int
+    {
+        $sql = 'SELECT COUNT(*) FROM appointment a
+                WHERE a.user_id = :uid
+                  AND a.status NOT IN (:cancelled)
+                  AND a.payment_status = :paid
+                  AND (:excl = 0 OR a.id != :excl)
+                  AND NOT EXISTS (
+                      SELECT 1 FROM payment p
+                      WHERE p.appointment_id = a.id
+                  )';
+        return (int)Yii::$app->db->createCommand($sql, [
+            ':uid'       => $userId,
+            ':cancelled' => Appointment::STATUS_CANCELLED,
+            ':paid'      => 'paid',
+            ':excl'      => $excludeId,
+        ])->queryScalar();
     }
 }

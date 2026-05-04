@@ -38,7 +38,7 @@ export class AppointmentsComponent implements OnInit {
   selectedSpec: any = null;
   selectedDay = '';
   selectedTime = '';
-  bookVia: 'online' | 'phone' = 'online';
+  paymentVia: 'card' | 'subscription' = 'card';
   bookingSaving = false;
   newAppt: any = null;
   initiatingPayment = false;
@@ -226,7 +226,13 @@ export class AppointmentsComponent implements OnInit {
     this.selectedSpec = null;
     this.selectedDay = '';
     this.selectedTime = '';
-    this.bookVia = 'online';
+    this.paymentVia = this.freeRemaining > 0 ? 'subscription' : 'card';
+
+    // Always refresh free sessions count from server so payment method step is accurate
+    this.userService.loadFreeSessions().subscribe(fs => {
+      this.freeRemaining = fs?.remaining ?? 0;
+      this.paymentVia = this.freeRemaining > 0 ? 'subscription' : 'card';
+    });
 
     if (!this.specialists.length) {
       this.specialistsLoading = true;
@@ -274,7 +280,7 @@ export class AppointmentsComponent implements OnInit {
 
   get canGoNext(): boolean {
     if (this.bookingStep === 1) return !!this.selectedSpec;
-    if (this.bookingStep === 2) return !!this.bookVia;
+    if (this.bookingStep === 2) return !!this.paymentVia;
     if (this.bookingStep === 3) return !!this.selectedTime;
     return true;
   }
@@ -301,13 +307,33 @@ export class AppointmentsComponent implements OnInit {
       specialist_type:  this.selectedSpec.type,
       appointment_date: this.selectedDay,
       appointment_time: this.selectedTime,
+      payment_via:      this.paymentVia,
     }).subscribe({
       next: (appt: any) => {
         this.newAppt = appt;
         this.allAppts.unshift(appt);
-        this.bookingStep = 5;
         this.bookingSaving = false;
         this.userService.invalidateFreeSessions();
+
+        if (this.paymentVia === 'card' && appt.payment_status === 'pending') {
+          this.initiatingPayment = true;
+          this.api.initiatePayment(appt.id).subscribe({
+            next: (res: any) => {
+              this.initiatingPayment = false;
+              if (res?.checkout_url) {
+                window.location.href = res.checkout_url;
+              } else {
+                this.bookingStep = 5;
+              }
+            },
+            error: () => {
+              this.initiatingPayment = false;
+              this.bookingStep = 5;
+            }
+          });
+        } else {
+          this.bookingStep = 5;
+        }
       },
       error: () => { this.bookingSaving = false; }
     });
@@ -334,7 +360,10 @@ export class AppointmentsComponent implements OnInit {
     return `${parseInt(parts[2])} ${ukMonths[parseInt(parts[1])]} ${parts[0]}`;
   }
 
-  typeName(type: string): string {
-    return this.translate.instant('specialist.type.' + type) || type;
+  typeName(type: string, typeName?: string): string {
+    if (typeName) return typeName;
+    const key = 'specialist.type.' + type;
+    const translated = this.translate.instant(key);
+    return translated !== key ? translated : type;
   }
 }

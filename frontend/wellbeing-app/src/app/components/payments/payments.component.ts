@@ -35,16 +35,12 @@ export class PaymentsComponent implements OnInit {
   pay(): void {
     if (!this.pending || this.paying) return;
     this.paying = true;
-    this.api.processPayment(this.pending.id).subscribe({
+    this.api.initiatePayment(this.pending.appointment_id).subscribe({
       next: (res: any) => {
         this.paying = false;
-        // Update local state: mark in list and remove from banner
-        const updated = res?.payment;
-        if (updated) {
-          const i = this.payments.findIndex(p => p.id === updated.id);
-          if (i !== -1) this.payments[i] = updated;
+        if (res?.checkout_url) {
+          window.location.href = res.checkout_url;
         }
-        this.pending = null;
       },
       error: () => { this.paying = false; }
     });

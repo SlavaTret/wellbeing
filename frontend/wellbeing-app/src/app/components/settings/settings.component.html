@@ -26,8 +26,8 @@
 
     <div *ngFor="let s of settingsList" class="setting-row">
       <div class="setting-info">
-        <span class="setting-label">{{ s.label }}</span>
-        <span class="setting-desc">{{ s.desc }}</span>
+        <span class="setting-label">{{ s.labelKey | translate }}</span>
+        <span class="setting-desc">{{ s.descKey | translate }}</span>
       </div>
       <div class="toggle" [class.on]="settings[s.key]" (click)="toggleSetting(s.key)">
         <div class="toggle-knob"></div>

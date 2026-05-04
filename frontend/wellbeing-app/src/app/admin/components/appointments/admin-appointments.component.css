@@ -210,6 +210,23 @@
 .form-field input:focus,
 .form-field select:focus { border-color: #2DB928; }
 
+.slots-loading { font-size: 13px; color: #9FB8A8; padding: 10px 0; }
+.slots-empty   { font-size: 13px; color: #E65100; padding: 10px 14px; background: #FFF3E0; border-radius: 10px; }
+
+/* Payment method selector */
+.pay-method-row { display: flex; gap: 8px; }
+.pay-method-btn {
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border: 1.5px solid #DCE9DC; border-radius: 10px;
+  background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+  color: #4B6B57; font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.15s, background 0.15s; text-align: left;
+}
+.pay-method-btn--active { border-color: #2DB928; background: #F0FBF0; color: #1C2B20; }
+.pay-method-btn--disabled { opacity: 0.45; cursor: not-allowed; }
+.pay-method-label { display: flex; flex-direction: column; gap: 1px; }
+.pay-method-sessions { font-size: 11px; color: #6B8879; font-weight: 400; }
+
 /* ── Mobile ── */
 @media (max-width: 600px) {
   .form-grid-2 { grid-template-columns: 1fr; }

@@ -3,7 +3,7 @@
     "dashboard": "Дашборд",
     "appointments": "Мої записи",
     "documents": "Документи",
-    "payments": "Оплата",
+    "payments": "Оплати",
     "notifications": "Сповіщення",
     "questionnaire": "Анкета",
     "support": "Зв'язок з WO",
@@ -151,11 +151,12 @@
         "about": "Про спеціаліста",
         "reviews_count": "відгуків клієнтів",
         "no_reviews": "Відгуків ще немає — будьте першим!",
-        "method_label": "Спосіб запису",
-        "online_title": "Онлайн-запис",
-        "online_sub": "Самостійно через портал",
-        "phone_title": "Запис через WO",
-        "phone_sub": "Відображення у кабінеті після підтвердження"
+        "payment_method_label": "Спосіб оплати",
+        "card_title": "Онлайн карткою",
+        "card_sub": "Безпечна онлайн-оплата",
+        "subscription_title": "Корпоративна підписка",
+        "subscription_sub": "Залишилось сесій: {{remaining}}",
+        "subscription_exhausted": "Ліміт вичерпано"
       },
       "step3": {
         "hint": "Оберіть зручний день та час",
@@ -210,7 +211,7 @@
     "review_cta": "Залишити відгук"
   },
   "payments": {
-    "title": "Оплата",
+    "title": "Оплати",
     "banner_sub": "До оплати",
     "pay_btn": "Оплатити",
     "history_title": "Історія оплат",
@@ -251,7 +252,15 @@
     },
     "notifications": {
       "channels_title": "Канали сповіщень",
-      "saving": "Збереження..."
+      "saving": "Збереження...",
+      "email_label": "Email сповіщення",
+      "email_desc": "Підтвердження та нагадування на пошту",
+      "calendar_label": "Google Calendar",
+      "calendar_desc": "Автоматично додавати події в календар",
+      "sms_label": "SMS нагадування",
+      "sms_desc": "Нагадування на номер телефону",
+      "reminder_label": "Нагадування за 12 год",
+      "reminder_desc": "Push/email перед кожною консультацією"
     },
     "google": {
       "name": "Google Calendar",
