@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── 1. Збірка Frontend (Angular) ──────────────────────────────────────
+      # ── 1. Frontend Build ────────────────────────────────────────────────
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,8 +27,8 @@ jobs:
           npm ci
           npm run build -- --configuration=production
 
-      # ── 2. Деплой фронтенду на сервер ─────────────────────────────────────
-      - name: Deploy frontend to server
+      # ── 2. Sync to Server ────────────────────────────────────────────────
+      - name: Deploy frontend
         uses: easingthemes/ssh-deploy@v5.0.3
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -38,36 +38,36 @@ jobs:
           SOURCE: frontend/wellbeing-app/dist/wellbeing-app/
           ARGS: "-avzr --delete"
 
-      # ── 3. Деплой бекенду та запуск міграцій ──────────────────────────────
+      # ── 3. Backend & Database ────────────────────────────────────────────
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add server to known hosts
+      - name: Add to Known Hosts
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Remote Server Commands
+      - name: Remote Commands
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
             export COMPOSER_ALLOW_SUPERUSER=1
             set -e
             
-            # Насильно оновлюємо код
-            cd /var/www/wellbeing
+            cd /var/www/wellbeing/backend/wellbeing-api
+            
+            # Оновлюємо код
             git config --global --add safe.directory /var/www/wellbeing
             git fetch origin main
             git reset --hard origin/main
 
-            # Заходимо в бекенд для роботи з Composer
-            cd backend/wellbeing-api
+            # Composer
             composer install --no-dev --optimize-autoloader --no-interaction
             
-            # ЗАПУСК YII (використовуємо знайдений шлях)
-            php vendor/bin/yii cache/flush-all --interactive=0
-            php vendor/bin/yii migrate --interactive=0
+            # Міграції (тепер файл 'yii' на місці!)
+            php yii cache/flush-all --interactive=0
+            php yii migrate --interactive=0
 
-            # Права доступу на runtime
-            chown -R www-data:www-data api/runtime
-            chmod -R 775 api/runtime
+            # Права доступу
+            chown -R www-data:www-data /var/www/wellbeing/backend/wellbeing-api/api/runtime
+            chmod -R 775 /var/www/wellbeing/backend/wellbeing-api/api/runtime
           ENDSSH
