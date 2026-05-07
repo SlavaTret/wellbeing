@@ -28,16 +28,16 @@ jobs:
         working-directory: frontend/wellbeing-app
         run: npm run build -- --configuration=production
 
-      # ── Deploy frontend via rsync ──────────────────────────────────────────
+      # ── Deploy frontend via SSH-Deploy ─────────────────────────────────────
       - name: Deploy frontend to server
-        uses: burntsushi/rsync-deployments@v1.4.0
+        uses: easingthemes/ssh-deploy@v5.0.3
         with:
-          switches: -avzr --delete
-          path: frontend/wellbeing-app/dist/wellbeing-app/
-          remote_path: /var/www/wellbeing/frontend/
-          remote_host: ${{ secrets.REMOTE_HOST }}
-          remote_user: ${{ secrets.REMOTE_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /var/www/wellbeing/frontend/
+          SOURCE: frontend/wellbeing-app/dist/wellbeing-app/
+          ARGS: "-avzr --delete"
 
       # ── Deploy backend + run migrations via SSH ────────────────────────────
       - name: Setup SSH
@@ -52,24 +52,20 @@ jobs:
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
             set -e
-
             cd /var/www/wellbeing
-
-            # Pull latest code
+            
+            # Оновлюємо код
             git pull origin main
 
-            # Install PHP dependencies (no dev, optimised autoloader)
+            # Бекенд налаштування
             cd backend/wellbeing-api
             composer install --no-dev --optimize-autoloader --no-interaction
 
-            # Run pending migrations
+            # Міграції в нову базу PostgreSQL
             php yii migrate --interactive=0
-
-            # Flush Yii cache so AppSettings picks up any new defaults
             php yii cache/flush-all --interactive=0
 
-            # Fix permissions
+            # Права доступу
             chown -R www-data:www-data /var/www/wellbeing/backend/wellbeing-api/api/runtime
-            chown -R www-data:www-data /var/www/wellbeing/backend/wellbeing-api/api/web/assets
-            chmod -R 755 /var/www/wellbeing/backend/wellbeing-api/api/runtime
+            chmod -R 775 /var/www/wellbeing/backend/wellbeing-api/api/runtime
           ENDSSH
