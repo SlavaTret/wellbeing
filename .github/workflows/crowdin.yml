@@ -45,7 +45,7 @@ jobs:
           pull_request_body: "Auto-generated PR with latest translations from Crowdin."
           pull_request_base_branch_name: main
           project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
-          token: ${{ secrets.CROWDIN_API_TOKEN }}
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
           source: /frontend/wellbeing-app/src/assets/i18n/uk.json
           translation: /frontend/wellbeing-app/src/assets/i18n/%locale%.json
         env:
