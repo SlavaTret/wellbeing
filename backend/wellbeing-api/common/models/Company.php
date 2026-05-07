@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property bool   $is_active
  * @property int    $created_at
  * @property int    $updated_at
+ * @property string|null $creatio_account_id  Creatio Account GUID for bidirectional sync
  */
 class Company extends ActiveRecord
 {
@@ -42,6 +43,7 @@ class Company extends ActiveRecord
             [['primary_color', 'secondary_color', 'accent_color'], 'string', 'max' => 7],
             [['is_active'], 'boolean'],
             [['free_sessions_per_user'], 'integer'],
+            [['creatio_account_id'], 'string', 'max' => 36],
         ];
     }
 

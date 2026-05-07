@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { UserService } from '../../../services/user/user.service';
+import { LangService, Lang } from '../../../services/lang/lang.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email = '';
   password = '';
   showPassword = false;
@@ -18,8 +19,23 @@ export class LoginComponent {
   constructor(
     private api: ApiService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private langService: LangService
   ) {}
+
+  ngOnInit(): void {
+    const saved = localStorage.getItem('wb_lang');
+    if (!saved) {
+      const browser = navigator.language || '';
+      let detected: Lang = 'uk';
+      if (browser.startsWith('ru')) {
+        detected = 'ru';
+      } else if (browser.startsWith('en')) {
+        detected = 'en';
+      }
+      this.langService.use(detected);
+    }
+  }
 
   submit(): void {
     if (!this.email || !this.password) {

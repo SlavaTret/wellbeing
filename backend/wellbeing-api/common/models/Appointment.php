@@ -22,6 +22,8 @@ use yii\db\ActiveRecord;
  * @property int $updated_at
  *
  * @property User $user
+ * @property string|null $creatio_activity_id  Creatio Activity GUID for bidirectional sync
+ * @property string|null $communication_method  google_meet | zoom | teams
  */
 class Appointment extends ActiveRecord
 {
@@ -61,6 +63,8 @@ class Appointment extends ActiveRecord
             [['status'], 'in', 'range' => [self::STATUS_CONFIRMED, self::STATUS_PENDING, self::STATUS_COMPLETED, self::STATUS_CANCELLED, self::STATUS_NOSHOW]],
             [['payment_status'], 'in', 'range' => [self::PAYMENT_PAID, self::PAYMENT_UNPAID, self::PAYMENT_PENDING, self::PAYMENT_NOT_REQUIRED, self::PAYMENT_FAILED, self::PAYMENT_SUBSCRIPTION]],
             [['price'], 'number', 'min' => 0],
+            [['creatio_activity_id'], 'string', 'max' => 36],
+            [['communication_method'], 'in', 'range' => ['google_meet', 'zoom', 'teams'], 'skipOnEmpty' => true],
         ];
     }
 

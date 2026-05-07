@@ -1,0 +1,28 @@
+<?php
+// ============================================================
+// PRODUCTION config — place this file on the server as:
+//   /var/www/wellbeing/backend/wellbeing-api/common/config/main-local.php
+//
+// DO NOT commit this file to git.
+// ============================================================
+
+return [
+    'components' => [
+        'db' => [
+            'class'    => 'yii\db\Connection',
+            'dsn'      => 'pgsql:host=localhost;port=5432;dbname=wellbeing_db',
+            'username' => 'wellbeing_user',
+            'password' => '010298As@',
+            'charset'  => 'utf8',
+        ],
+        'cache' => [
+            'class'     => 'yii\caching\FileCache',
+            'cachePath' => '@runtime/cache',
+        ],
+        'mailer' => [
+            'class'            => 'yii\swiftmailer\Mailer',
+            'viewPath'         => '@common/mail',
+            'useFileTransport' => false,
+        ],
+    ],
+];

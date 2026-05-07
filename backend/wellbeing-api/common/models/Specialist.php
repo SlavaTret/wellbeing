@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property bool        $is_active
  * @property string|null $email
  * @property string|null $avatar_url
+ * @property string|null $creatio_contact_id  Creatio Contact GUID for bidirectional sync
  */
 class Specialist extends ActiveRecord
 {
@@ -42,6 +43,7 @@ class Specialist extends ActiveRecord
             [['is_active'], 'boolean'],
             [['email'], 'email'],
             [['email', 'avatar_url'], 'string', 'max' => 512],
+            [['creatio_contact_id'], 'string', 'max' => 36],
         ];
     }
 

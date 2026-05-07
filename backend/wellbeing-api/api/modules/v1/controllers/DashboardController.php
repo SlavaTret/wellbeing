@@ -76,7 +76,30 @@ class DashboardController extends Controller
         $ukMonths = ['', 'січня','лютого','березня','квітня','травня','червня',
                          'липня','серпня','вересня','жовтня','листопада','грудня'];
 
-        $upcomingFormatted = array_map(function (Appointment $a) use ($ukMonths) {
+        // Pre-fetch specialization names for all unique types in one query
+        $typeKeys = array_unique(array_column(
+            array_map(fn($a) => ['type' => $a->specialist_type], $nextAppointments),
+            'type'
+        ));
+        $typeNames = [];
+        if ($typeKeys) {
+            $params = [];
+            $placeholders = [];
+            foreach (array_values($typeKeys) as $i => $key) {
+                $param = ':tk' . $i;
+                $placeholders[] = $param;
+                $params[$param] = $key;
+            }
+            $rows = Yii::$app->db->createCommand(
+                'SELECT key, name FROM specialization WHERE key IN (' . implode(',', $placeholders) . ')',
+                $params
+            )->queryAll();
+            foreach ($rows as $row) {
+                $typeNames[$row['key']] = $row['name'];
+            }
+        }
+
+        $upcomingFormatted = array_map(function (Appointment $a) use ($ukMonths, $typeNames) {
             $d    = \DateTime::createFromFormat('Y-m-d', $a->appointment_date);
             $date = $d
                 ? $d->format('j') . ' ' . $ukMonths[(int)$d->format('n')]
@@ -94,6 +117,7 @@ class DashboardController extends Controller
                 'id'         => $a->id,
                 'specialist' => $a->specialist_name,
                 'type'       => $a->specialist_type,
+                'type_name'  => $typeNames[$a->specialist_type] ?? $a->specialist_type,
                 'date'       => $date,
                 'date_raw'   => $a->appointment_date,
                 'time'       => $a->appointment_time,

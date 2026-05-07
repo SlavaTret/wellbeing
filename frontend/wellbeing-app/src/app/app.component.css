@@ -98,6 +98,18 @@
   letter-spacing: 0.5px;
 }
 
+.logo-img-wb-sidebar {
+  height: 46px;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.logo-img-wb-mobile {
+  height: 26px;
+  max-width: 130px;
+  object-fit: contain;
+}
+
 /* ───── Sidebar ───── */
 .desktop-sidebar {
   position: fixed;

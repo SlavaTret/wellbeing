@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AdminApiService } from '../../services/admin-api.service';
 
 interface AdminUser {
@@ -32,6 +32,7 @@ interface UserForm {
 
 @Component({
   selector: 'app-admin-users',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
@@ -59,7 +60,7 @@ export class AdminUsersComponent implements OnInit {
   saving      = false;
   modalError  = '';
 
-  constructor(private adminApi: AdminApiService) {}
+  constructor(private adminApi: AdminApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -85,10 +86,12 @@ export class AdminUsersComponent implements OnInit {
         this.pages     = res.pages    || 1;
         this.perPage   = res.per_page || 8;
         this.loading   = false;
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         this.error   = err?.error?.error || 'Помилка завантаження';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -54,6 +54,9 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                // Portal settings (public)
+                'GET  v1/portal-settings'        => 'v1/portal-settings/index',
+
                 // Companies (public)
                 'GET  v1/company'               => 'v1/company/index',
 
@@ -156,6 +159,7 @@ return [
                 // Admin Settings
                 'GET    v1/admin/settings'                       => 'v1/admin/settings',
                 'POST   v1/admin/settings'                       => 'v1/admin/save-settings',
+                'POST   v1/admin/settings/upload-favicon'        => 'v1/admin/upload-favicon',
                 'GET    v1/admin/payment-settings'               => 'v1/admin/payment-settings',
                 'POST   v1/admin/payment-settings'               => 'v1/admin/save-payment-settings',
                 'POST   v1/admin/payments/<id:\d+>/check-status' => 'v1/admin/check-payment-status',
@@ -181,6 +185,11 @@ return [
                 'GET  v1/questionnaire/<id:\d+>' => 'v1/questionnaire/view',
                 'POST v1/questionnaire/<id:\d+>' => 'v1/questionnaire/update',
 
+                // Mood tracker
+                'GET  v1/mood/today'            => 'v1/mood/today',
+                'GET  v1/mood/history'          => 'v1/mood/history',
+                'POST v1/mood'                  => 'v1/mood/create',
+
                 // Support
                 'GET  v1/support-ticket'        => 'v1/support-ticket/index',
                 'POST v1/support-ticket'        => 'v1/support-ticket/create',
@@ -188,6 +197,23 @@ return [
                 'POST v1/support-ticket/<id:\d+>' => 'v1/support-ticket/update',
                 'POST v1/support-ticket/<id:\d+>/reply' => 'v1/support-ticket/reply',
                 'POST v1/support-ticket/<id:\d+>/close' => 'v1/support-ticket/close',
+
+                // Surveys (user)
+                'GET  v1/survey/active'         => 'v1/survey/active',
+                'GET  v1/survey/my-status'      => 'v1/survey/my-status',
+                'POST v1/survey/respond'        => 'v1/survey/respond',
+
+                // Admin Surveys
+                'GET    v1/admin/survey'                               => 'v1/admin-survey/index',
+                'POST   v1/admin/survey'                               => 'v1/admin-survey/create',
+                'POST   v1/admin/survey/<id:\d+>'                      => 'v1/admin-survey/update',
+                'DELETE v1/admin/survey/<id:\d+>'                      => 'v1/admin-survey/delete',
+                'POST   v1/admin/survey/<id:\d+>/activate'             => 'v1/admin-survey/activate',
+                'GET    v1/admin/survey/<id:\d+>/questions'            => 'v1/admin-survey/questions',
+                'POST   v1/admin/survey/<id:\d+>/questions'            => 'v1/admin-survey/create-question',
+                'POST   v1/admin/survey/<id:\d+>/questions/<qid:\d+>'  => 'v1/admin-survey/update-question',
+                'DELETE v1/admin/survey/<id:\d+>/questions/<qid:\d+>'  => 'v1/admin-survey/delete-question',
+                'GET    v1/admin/survey/<id:\d+>/results'              => 'v1/admin-survey/results',
 
                 // OPTIONS preflight for CORS
                 'OPTIONS <path:.*>' => 'v1/default/options',

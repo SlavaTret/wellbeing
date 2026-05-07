@@ -12,14 +12,8 @@
   padding: 16px 20px; border-bottom: 1px solid #DCE9DC;
   display: flex; align-items: center; justify-content: space-between;
 }
-.logo-row { display: flex; align-items: center; gap: 10px; }
-.logo-circle {
-  width: 34px; height: 34px; border-radius: 50%; background: #2DB928; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.logo-name { font-weight: 800; font-size: 14px; color: #1C2B20; letter-spacing: -0.3px; }
-.logo-green { color: #2DB928; }
-.logo-sub { font-size: 10px; color: #6B8879; text-transform: uppercase; letter-spacing: 0.5px; }
+.logo-row { display: flex; align-items: center; }
+.admin-logo-img { height: 46px; max-width: 180px; object-fit: contain; }
 .sidebar-close { background: none; border: none; cursor: pointer; display: none; padding: 4px; }
 
 .sidebar-nav { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 2px; }
@@ -60,13 +54,9 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .menu-btn { background: none; border: none; cursor: pointer; padding: 4px; flex-shrink: 0; }
-.mobile-logo-row { display: flex; align-items: center; gap: 8px; }
-.logo-circle-sm {
-  width: 26px; height: 26px; border-radius: 50%; background: #2DB928; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.mobile-logo-text { font-weight: 700; font-size: 15px; color: #1C2B20; }
-.mobile-page-label { font-weight: 400; color: #6B8879; margin-left: 8px; font-size: 13px; }
+.mobile-logo-row { display: flex; align-items: center; gap: 10px; }
+.admin-logo-img-mobile { height: 24px; max-width: 110px; object-fit: contain; flex-shrink: 0; }
+.mobile-page-label { font-weight: 400; color: #6B8879; font-size: 13px; }
 
 /* ── Overlay ── */
 .drawer-overlay {

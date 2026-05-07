@@ -138,6 +138,10 @@ class AppointmentController extends Controller
                 $this->addToGoogleCalendar($user, $appointment, $data);
                 (new \common\services\NotificationService())->notifyAppointmentConfirmed($appointment);
             }
+            try {
+                $creatioUser = Yii::$app->user->identity;
+                (new \common\services\CreatioSyncService())->syncAppointment($appointment, $creatioUser);
+            } catch (\Throwable $e) {}
             Yii::$app->response->statusCode = 201;
             return $this->formatAppointment($appointment);
         }

@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\AppSettings;
 use common\models\Specialist;
 use common\models\SpecialistReview;
 use Yii;
@@ -31,7 +32,8 @@ class SpecialistController extends Controller
     {
         Yii::$app->response->format = 'json';
         $db        = Yii::$app->db;
-        $kyivNow   = new \DateTime('now', new \DateTimeZone('Europe/Kyiv'));
+        $tz        = AppSettings::get('timezone', 'Europe/Kyiv');
+        $kyivNow   = new \DateTime('now', new \DateTimeZone($tz));
         $todayKyiv = $kyivNow->format('Y-m-d');
         $nowMin    = (int)$kyivNow->format('H') * 60 + (int)$kyivNow->format('i') + 30;
         $cacheKey  = 'specialists_list_v4_' . $kyivNow->format('Y-m-d-H');

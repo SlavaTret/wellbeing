@@ -342,3 +342,51 @@
   background: #3367D6;
 }
 
+
+/* ── Mood mini-chart ── */
+.mood-chart-card { margin-bottom: 24px; }
+
+.mood-chart-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 16px;
+}
+.mood-chart-title { font-weight: 600; font-size: 15px; color: var(--text); }
+.mood-chart-sub   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.mood-chart-link  { font-size: 12px; color: var(--green); font-weight: 600; white-space: nowrap; }
+
+.mood-chart-row { display: flex; gap: 8px; }
+
+.mood-day-col {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+
+.mood-day-square {
+  width: 100%; aspect-ratio: 1 / 1; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid transparent;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.mood-day-square:hover { transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.mood-day-empty { background: #F0F4F1; border: 1.5px dashed #D6E3D6; }
+
+.mood-day-emoji { font-size: 22px; line-height: 1; }
+
+.mood-day-label {
+  font-size: 10px; color: var(--text-muted); text-align: center;
+  font-weight: 500; white-space: nowrap;
+}
+.mood-day-today { color: var(--green); font-weight: 700; }
+
+.mood-day-name {
+  font-size: 9px; color: var(--text-muted); text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%; line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .mood-chart-row { gap: 4px; }
+  .mood-day-square { border-radius: 8px; }
+  .mood-day-emoji  { font-size: 18px; }
+  .mood-day-label  { font-size: 9px; }
+  .mood-day-name   { display: none; }
+}

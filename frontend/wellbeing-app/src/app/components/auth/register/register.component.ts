@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { CompanyBranding } from '../../../services/branding/branding.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService, Lang } from '../../../services/lang/lang.service';
 
 @Component({
   selector: 'app-register',
@@ -21,9 +23,36 @@ export class RegisterComponent implements OnInit {
   showPassword = false;
   acceptedTerms = false;
 
-  constructor(private api: ApiService, private router: Router) {}
+  legalModal: 'terms' | 'privacy' | null = null;
+  private portalSettings: any = {};
+
+  get termsContent():   string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['terms_of_service_' + l] || this.portalSettings['terms_of_service_uk'] || ''; }
+  get privacyContent(): string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['privacy_policy_' + l]   || this.portalSettings['privacy_policy_uk']   || ''; }
+
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private translate: TranslateService,
+    private langService: LangService
+  ) {}
 
   ngOnInit(): void {
+    const saved = localStorage.getItem('wb_lang');
+    if (!saved) {
+      const browser = navigator.language || '';
+      let detected: Lang = 'uk';
+      if (browser.startsWith('ru')) {
+        detected = 'ru';
+      } else if (browser.startsWith('en')) {
+        detected = 'en';
+      }
+      this.langService.use(detected);
+    }
+
+    this.api.getPortalSettings().subscribe({
+      next: (s: any) => { this.portalSettings = s; }
+    });
+
     this.api.getCompanies().subscribe({
       next: (list: CompanyBranding[]) => {
         this.companies = list || [];

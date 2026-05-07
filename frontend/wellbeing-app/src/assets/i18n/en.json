@@ -137,6 +137,7 @@
         "catalog": "Catalog",
         "specialist": "Specialist",
         "slot": "Slot",
+        "comm_method": "Details",
         "confirm": "Confirmation"
       },
       "step1": {
@@ -164,15 +165,19 @@
         "pick_day": "← Select a day to see available times"
       },
       "step4": {
+        "comm_label": "Connection method",
+        "google_meet_sub": "Video call via Google Meet",
+        "zoom_sub": "Video call via Zoom",
+        "teams_sub": "Video call via Microsoft Teams"
+      },
+      "step5": {
         "details_title": "Appointment details",
         "specialist": "Specialist",
         "datetime": "Date & time",
-        "format": "Format",
+        "comm_method": "Connection method",
         "cost": "Cost",
         "free": "Free",
         "subscription_tip": "Covered by your company subscription. Free sessions remaining: {{remaining}}",
-        "online": "Online booking",
-        "phone": "Book via WO",
         "info": "After confirmation you will receive an email and the event will appear in your account. Reminder — 12 hours before the consultation.",
         "cancel_policy": "Cancellation",
         "cancel_policy_text": "at least 2 hours in advance. Cancellations within 2 hours require a reason.",
@@ -181,7 +186,7 @@
         "payment_sub_online": "Online payment after confirmation",
         "payment_sub_free": "Free consultation"
       },
-      "step5": {
+      "step6": {
         "success_title": "Appointment confirmed!",
         "email_hint": "A confirmation email has been sent. A reminder will arrive 12 hours before the consultation.",
         "pay_notice": "This consultation requires payment. Pay now or later in the My Appointments section.",
@@ -274,6 +279,32 @@
       "connecting": "Redirecting to Google..."
     }
   },
+  "questionnaire": {
+    "title": "Health questionnaire",
+    "mood_title": "How are you feeling today?",
+    "mood_labels": [
+      "Very bad",
+      "Bad",
+      "Okay",
+      "Good",
+      "Great"
+    ],
+    "mood_saved": "✓ Mood saved for today",
+    "mood_saving": "Saving...",
+    "mood_error": "Failed to save. Please try again.",
+    "no_survey_title": "No active surveys right now",
+    "no_survey_desc": "New surveys will appear here when an administrator activates them",
+    "already_done_title": "You've already completed this survey",
+    "already_done_desc": "Thank you! Your responses have already been recorded.",
+    "back": "← Back",
+    "next": "Next →",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "submit_error": "Error. Please try again.",
+    "success_title": "Thank you! Responses received",
+    "success_desc": "Your responses have been saved and sent to your specialist.",
+    "home": "Home"
+  },
   "documents": {
     "title": "Documents",
     "upload_title": "Drag a file here or click to upload",
@@ -303,7 +334,8 @@
   },
   "lang": {
     "uk": "Українська",
-    "en": "English"
+    "en": "English",
+    "ru": "Russian"
   },
   "common": {
     "loading": "Loading...",

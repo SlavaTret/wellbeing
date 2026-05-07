@@ -388,7 +388,10 @@
 .bk-rating-count { font-size: 13px; color: var(--text-muted); }
 
 .bk-method-label { font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+.bk-method-label-mt { margin-top: 20px; }
 .bk-method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bk-comm-grid { grid-template-columns: 1fr 1fr 1fr; }
+.bk-comm-favicon { flex-shrink: 0; border-radius: 4px; }
 .bk-method-card {
   padding: 14px; border-radius: 12px;
   border: 2px solid var(--border); background: #fff;
@@ -551,6 +554,7 @@
   .bk-footer { padding: 14px 20px; }
   .bk-modal { max-height: 95vh; border-radius: 20px; }
   .bk-method-grid { grid-template-columns: 1fr; }
+  .bk-comm-grid { grid-template-columns: 1fr; }
   .bk-profile-avatar { width: 60px; height: 60px; font-size: 20px; }
   .bk-profile-name { font-size: 18px; }
 }

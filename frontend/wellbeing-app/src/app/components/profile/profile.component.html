@@ -93,9 +93,25 @@
         <app-icon *ngIf="form.acceptedTerms" name="check" [size]="12" stroke="#fff" [strokeWidth]="2.5"></app-icon>
       </div>
       <span class="terms-text">
-        {{ 'profile.terms' | translate }} <span class="link-green">{{ 'profile.terms_link1' | translate }}</span>
-        {{ 'profile.terms_and' | translate }} <span class="link-green">{{ 'profile.terms_link2' | translate }}</span>
+        {{ 'profile.terms' | translate }}
+        <span class="link-green" style="cursor:pointer" (click)="legalModal='terms'">{{ 'profile.terms_link1' | translate }}</span>
+        {{ 'profile.terms_and' | translate }}
+        <span class="link-green" style="cursor:pointer" (click)="legalModal='privacy'">{{ 'profile.terms_link2' | translate }}</span>
       </span>
     </div>
   </div>
 </div>
+
+<app-legal-modal
+  *ngIf="legalModal === 'terms'"
+  [title]="'profile.terms_link1' | translate"
+  [content]="termsContent"
+  (closed)="legalModal = null"
+></app-legal-modal>
+
+<app-legal-modal
+  *ngIf="legalModal === 'privacy'"
+  [title]="'profile.terms_link2' | translate"
+  [content]="privacyContent"
+  (closed)="legalModal = null"
+></app-legal-modal>

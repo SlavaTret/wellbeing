@@ -143,7 +143,7 @@
     <div class="bk-header">
       <div class="bk-title-row">
         <div class="bk-title">
-          {{ bookingStep === 5 ? ('appointments.booking.confirmed_title' | translate) : ('appointments.booking.title' | translate) }}
+          {{ bookingStep === 6 ? ('appointments.booking.confirmed_title' | translate) : ('appointments.booking.title' | translate) }}
         </div>
         <button class="bk-close" (click)="closeBooking()">
           <app-icon name="x" [size]="22"></app-icon>
@@ -151,7 +151,7 @@
       </div>
 
       <!-- Stepper -->
-      <div *ngIf="bookingStep < 5" class="bk-stepper">
+      <div *ngIf="bookingStep < 6" class="bk-stepper">
         <ng-container *ngFor="let label of stepLabels; let i = index">
           <div class="bk-step-col">
             <div class="bk-step-circle"
@@ -249,6 +249,33 @@
         <div class="bk-rating-box" *ngIf="selectedSpec.reviews_count === 0">
           <span class="bk-rating-count">{{ 'appointments.booking.step2.no_reviews' | translate }}</span>
         </div>
+      </div>
+
+      <!-- ──────── STEP 3 ──────── -->
+      <div *ngIf="bookingStep === 3 && selectedSpec">
+        <div class="bk-hint">{{ 'appointments.booking.step3.hint' | translate }}</div>
+
+        <div class="bk-days">
+          <button *ngFor="let d of availableDates" class="bk-day-btn"
+            [class.bk-day-active]="selectedDay === d.date"
+            (click)="selectedDay = d.date; selectedTime = ''">{{ d.label }}</button>
+        </div>
+
+        <div *ngIf="selectedDay">
+          <div class="bk-time-label">{{ 'appointments.booking.step3.available_time' | translate }}</div>
+          <div class="bk-times">
+            <button *ngFor="let t of selectedDaySlots" class="bk-time-btn"
+              [class.bk-time-active]="selectedTime === t"
+              (click)="selectedTime = t">{{ t }}</button>
+          </div>
+        </div>
+        <div *ngIf="!selectedDay" class="bk-hint bk-hint-center">
+          {{ 'appointments.booking.step3.pick_day' | translate }}
+        </div>
+      </div>
+
+      <!-- ──────── STEP 4: Payment + Communication ──────── -->
+      <div *ngIf="bookingStep === 4 && selectedSpec">
 
         <div class="bk-method-label">{{ 'appointments.booking.step2.payment_method_label' | translate }}</div>
         <div class="bk-method-grid">
@@ -282,109 +309,135 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- ──────── STEP 3 ──────── -->
-      <div *ngIf="bookingStep === 3 && selectedSpec">
-        <div class="bk-hint">{{ 'appointments.booking.step3.hint' | translate }}</div>
+        <div class="bk-method-label bk-method-label-mt">{{ 'appointments.booking.step4.comm_label' | translate }}</div>
+        <div class="bk-method-grid bk-comm-grid">
+          <div class="bk-method-card"
+            [class.bk-method-active]="communicationMethod === 'google_meet'"
+            (click)="communicationMethod = 'google_meet'">
+            <div class="bk-method-top">
+              <img src="https://www.google.com/s2/favicons?domain=meet.google.com&sz=64"
+                   width="20" height="20" alt="Google Meet" class="bk-comm-favicon">
+              <span class="bk-method-title"
+                [style.color]="communicationMethod === 'google_meet' ? 'var(--green-dark)' : 'var(--text)'">
+                Google Meet
+              </span>
+            </div>
+            <div class="bk-method-sub">{{ 'appointments.booking.step4.google_meet_sub' | translate }}</div>
+          </div>
 
-        <div class="bk-days">
-          <button *ngFor="let d of availableDates" class="bk-day-btn"
-            [class.bk-day-active]="selectedDay === d.date"
-            (click)="selectedDay = d.date; selectedTime = ''">{{ d.label }}</button>
-        </div>
+          <div class="bk-method-card"
+            [class.bk-method-active]="communicationMethod === 'zoom'"
+            (click)="communicationMethod = 'zoom'">
+            <div class="bk-method-top">
+              <img src="https://www.google.com/s2/favicons?domain=zoom.us&sz=64"
+                   width="20" height="20" alt="Zoom" class="bk-comm-favicon">
+              <span class="bk-method-title"
+                [style.color]="communicationMethod === 'zoom' ? 'var(--green-dark)' : 'var(--text)'">
+                Zoom
+              </span>
+            </div>
+            <div class="bk-method-sub">{{ 'appointments.booking.step4.zoom_sub' | translate }}</div>
+          </div>
 
-        <div *ngIf="selectedDay">
-          <div class="bk-time-label">{{ 'appointments.booking.step3.available_time' | translate }}</div>
-          <div class="bk-times">
-            <button *ngFor="let t of selectedDaySlots" class="bk-time-btn"
-              [class.bk-time-active]="selectedTime === t"
-              (click)="selectedTime = t">{{ t }}</button>
+          <div class="bk-method-card"
+            [class.bk-method-active]="communicationMethod === 'teams'"
+            (click)="communicationMethod = 'teams'">
+            <div class="bk-method-top">
+              <img src="https://www.google.com/s2/favicons?domain=teams.microsoft.com&sz=64"
+                   width="20" height="20" alt="MS Teams" class="bk-comm-favicon">
+              <span class="bk-method-title"
+                [style.color]="communicationMethod === 'teams' ? 'var(--green-dark)' : 'var(--text)'">
+                MS Teams
+              </span>
+            </div>
+            <div class="bk-method-sub">{{ 'appointments.booking.step4.teams_sub' | translate }}</div>
           </div>
         </div>
-        <div *ngIf="!selectedDay" class="bk-hint bk-hint-center">
-          {{ 'appointments.booking.step3.pick_day' | translate }}
-        </div>
       </div>
 
-      <!-- ──────── STEP 4 ──────── -->
-      <div *ngIf="bookingStep === 4 && selectedSpec">
+      <!-- ──────── STEP 5: Confirm ──────── -->
+      <div *ngIf="bookingStep === 5 && selectedSpec">
         <div class="bk-confirm-card">
-          <div class="bk-confirm-title">{{ 'appointments.booking.step4.details_title' | translate }}</div>
+          <div class="bk-confirm-title">{{ 'appointments.booking.step5.details_title' | translate }}</div>
           <div class="bk-confirm-row">
-            <span class="bk-confirm-label">{{ 'appointments.booking.step4.specialist' | translate }}</span>
+            <span class="bk-confirm-label">{{ 'appointments.booking.step5.specialist' | translate }}</span>
             <span class="bk-confirm-val">{{ selectedSpec.name }} ({{ typeName(selectedSpec.type, selectedSpec.type_name) }})</span>
           </div>
           <div class="bk-confirm-row">
-            <span class="bk-confirm-label">{{ 'appointments.booking.step4.datetime' | translate }}</span>
+            <span class="bk-confirm-label">{{ 'appointments.booking.step5.datetime' | translate }}</span>
             <span class="bk-confirm-val">{{ formatDateLabel(selectedDay) }} о {{ selectedTime }}</span>
           </div>
+          <div class="bk-confirm-row">
+            <span class="bk-confirm-label">{{ 'appointments.booking.step5.comm_method' | translate }}</span>
+            <span class="bk-confirm-val">{{ communicationMethodLabel }}</span>
+          </div>
           <div class="bk-confirm-row bk-confirm-row-last">
-            <span class="bk-confirm-label">{{ 'appointments.booking.step4.cost' | translate }}</span>
+            <span class="bk-confirm-label">{{ 'appointments.booking.step5.cost' | translate }}</span>
             <span class="bk-confirm-val" *ngIf="paymentVia === 'subscription'">
               <span class="bk-price-strike">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
               <span class="bk-free-badge bk-free-tip"
-                    [attr.data-tip]="'appointments.booking.step4.subscription_tip' | translate: { remaining: freeRemaining }">
-                {{ 'appointments.booking.step4.free' | translate }}
+                    [attr.data-tip]="'appointments.booking.step5.subscription_tip' | translate: { remaining: freeRemaining }">
+                {{ 'appointments.booking.step5.free' | translate }}
               </span>
             </span>
             <span class="bk-confirm-val" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</span>
-            <span class="bk-confirm-val" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.free' | translate }}</span>
+            <span class="bk-confirm-val" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step5.free' | translate }}</span>
           </div>
         </div>
 
         <div class="bk-info-notice">
           <app-icon name="info" [size]="16" stroke="#8B6200" style="flex-shrink:0; margin-top:1px"></app-icon>
           <div>
-            {{ 'appointments.booking.step4.info' | translate }}<br>
-            <strong>{{ 'appointments.booking.step4.cancel_policy' | translate }}</strong> — {{ 'appointments.booking.step4.cancel_policy_text' | translate }}
+            {{ 'appointments.booking.step5.info' | translate }}<br>
+            <strong>{{ 'appointments.booking.step5.cancel_policy' | translate }}</strong> — {{ 'appointments.booking.step5.cancel_policy_text' | translate }}
           </div>
         </div>
 
         <div class="bk-payment-row">
           <div>
-            <div class="bk-payment-title">{{ 'appointments.booking.step4.payment_title' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="paymentVia === 'subscription'">{{ 'appointments.booking.step4.payment_sub_subscription' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">{{ 'appointments.booking.step4.payment_sub_online' | translate }}</div>
-            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.payment_sub_free' | translate }}</div>
+            <div class="bk-payment-title">{{ 'appointments.booking.step5.payment_title' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'subscription'">{{ 'appointments.booking.step5.payment_sub_subscription' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">{{ 'appointments.booking.step5.payment_sub_online' | translate }}</div>
+            <div class="bk-payment-sub" *ngIf="paymentVia === 'card' && !(selectedSpec?.price > 0)">{{ 'appointments.booking.step5.payment_sub_free' | translate }}</div>
           </div>
           <div class="bk-payment-amount" *ngIf="paymentVia === 'card' && selectedSpec?.price > 0">₴ {{ selectedSpec.price | number:'1.0-0' }}</div>
-          <div class="bk-payment-amount bk-payment-free" *ngIf="paymentVia === 'subscription' || !(selectedSpec?.price > 0)">{{ 'appointments.booking.step4.free' | translate }}</div>
+          <div class="bk-payment-amount bk-payment-free" *ngIf="paymentVia === 'subscription' || !(selectedSpec?.price > 0)">{{ 'appointments.booking.step5.free' | translate }}</div>
         </div>
       </div>
 
-      <!-- ──────── STEP 5 ──────── -->
-      <div *ngIf="bookingStep === 5" class="bk-success">
+      <!-- ──────── STEP 6: Success ──────── -->
+      <div *ngIf="bookingStep === 6" class="bk-success">
         <div class="bk-success-icon">
           <app-icon name="check" [size]="36" stroke="var(--green)" [strokeWidth]="2.5"></app-icon>
         </div>
-        <div class="bk-success-title">{{ 'appointments.booking.step5.success_title' | translate }}</div>
+        <div class="bk-success-title">{{ 'appointments.booking.step6.success_title' | translate }}</div>
         <div class="bk-success-sub">
           {{ selectedSpec?.name }} · {{ formatDateLabel(selectedDay) }} о {{ selectedTime }}<br>
-          {{ 'appointments.booking.step5.email_hint' | translate }}
+          {{ 'appointments.booking.step6.email_hint' | translate }}
         </div>
 
         <div *ngIf="newAppt && newAppt.payment_status === 'pending'" class="bk-pay-notice">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B6200" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
             <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
           </svg>
-          <span>{{ 'appointments.booking.step5.pay_notice' | translate }}</span>
+          <span>{{ 'appointments.booking.step6.pay_notice' | translate }}</span>
         </div>
 
         <div class="bk-success-btns">
           <button *ngIf="newAppt && newAppt.payment_status === 'pending'"
             class="bk-btn-green" (click)="payNewAppt()" [disabled]="initiatingPayment">
             <span *ngIf="initiatingPayment" class="spinner-sm" style="border-color:rgba(255,255,255,.4);border-top-color:#fff"></span>
-            <span *ngIf="!initiatingPayment">{{ 'appointments.booking.step5.pay_now' | translate }}</span>
+            <span *ngIf="!initiatingPayment">{{ 'appointments.booking.step6.pay_now' | translate }}</span>
           </button>
-          <button class="bk-btn-outline" (click)="closeBooking()">{{ 'appointments.booking.step5.close' | translate }}</button>
+          <button class="bk-btn-outline" (click)="closeBooking()">{{ 'appointments.booking.step6.close' | translate }}</button>
         </div>
       </div>
 
     </div><!-- /bk-body -->
 
     <!-- ── Fixed Footer ── -->
-    <div *ngIf="bookingStep < 5" class="bk-footer">
+    <div *ngIf="bookingStep < 6" class="bk-footer">
       <button class="bk-btn-back" (click)="stepBack()" [disabled]="bookingSaving || initiatingPayment">
         {{ bookingStep === 1 ? ('appointments.booking.nav.cancel' | translate) : ('appointments.booking.nav.back' | translate) }}
       </button>
@@ -392,7 +445,7 @@
         [class.bk-btn-disabled]="!canGoNext || bookingSaving || initiatingPayment"
         (click)="stepNext()"
         [disabled]="bookingSaving || initiatingPayment">
-        <span *ngIf="!bookingSaving && !initiatingPayment">{{ bookingStep === 4 ? ('appointments.booking.nav.submit' | translate) : ('appointments.booking.nav.next' | translate) }}</span>
+        <span *ngIf="!bookingSaving && !initiatingPayment">{{ bookingStep === 5 ? ('appointments.booking.nav.submit' | translate) : ('appointments.booking.nav.next' | translate) }}</span>
         <span *ngIf="bookingSaving || initiatingPayment" class="spinner-sm"></span>
       </button>
     </div>

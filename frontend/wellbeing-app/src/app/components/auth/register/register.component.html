@@ -1,13 +1,7 @@
 <div class="auth-page">
   <div class="auth-card">
     <div class="auth-logo">
-      <div class="logo-mark">
-        <app-icon name="heart" [size]="16" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon>
-      </div>
-      <div>
-        <div class="logo-text">well<strong>being</strong></div>
-        <div class="logo-sub">{{ 'sidebar.portal' | translate }}</div>
-      </div>
+      <img src="assets/wellbeing-logo.png" alt="Wellbeing Company" class="auth-logo-img" />
     </div>
 
     <h1 class="auth-title">{{ 'auth.register.title' | translate }}</h1>
@@ -81,10 +75,26 @@
         </svg>
       </div>
       <span class="terms-text">
-        {{ 'auth.register.terms' | translate }} <span class="link-green">{{ 'auth.register.terms_link1' | translate }}</span>
-        {{ 'auth.register.terms_and' | translate }} <span class="link-green">{{ 'auth.register.terms_link2' | translate }}</span>
+        {{ 'auth.register.terms' | translate }}
+        <span class="link-green" style="cursor:pointer" (click)="legalModal='terms'">{{ 'auth.register.terms_link1' | translate }}</span>
+        {{ 'auth.register.terms_and' | translate }}
+        <span class="link-green" style="cursor:pointer" (click)="legalModal='privacy'">{{ 'auth.register.terms_link2' | translate }}</span>
       </span>
     </div>
+
+    <app-legal-modal
+      *ngIf="legalModal === 'terms'"
+      [title]="'auth.register.terms_link1' | translate"
+      [content]="termsContent"
+      (closed)="legalModal = null"
+    ></app-legal-modal>
+
+    <app-legal-modal
+      *ngIf="legalModal === 'privacy'"
+      [title]="'auth.register.terms_link2' | translate"
+      [content]="privacyContent"
+      (closed)="legalModal = null"
+    ></app-legal-modal>
 
     <button class="btn-primary" (click)="submit()" [disabled]="loading">
       <span *ngIf="!loading">{{ 'auth.register.submit' | translate }}</span>

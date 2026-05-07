@@ -1,0 +1,87 @@
+.legal-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.legal-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+}
+
+.legal-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #DCE9DC;
+  flex-shrink: 0;
+}
+
+.legal-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.legal-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  transition: color 0.15s, background 0.15s;
+}
+
+.legal-modal-close:hover {
+  color: #333;
+  background: #F2F7F3;
+}
+
+.legal-modal-body {
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Full reset for all elements inside the modal body */
+.legal-modal-body * {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.legal-modal-body h1 { font-size: 20px; font-weight: 700; margin: 16px 0 8px; }
+.legal-modal-body h2 { font-size: 16px; font-weight: 600; margin: 14px 0 6px; }
+.legal-modal-body h3 { font-size: 14px; font-weight: 600; margin: 10px 0 4px; }
+.legal-modal-body p  { font-size: 14px; margin: 6px 0; }
+.legal-modal-body ul,
+.legal-modal-body ol { font-size: 14px; padding-left: 20px; margin: 6px 0; }
+.legal-modal-body li { margin: 3px 0; }
+.legal-modal-body a  { color: #2DB928; }
+.legal-modal-body strong { font-weight: 600; }
+.legal-modal-body em { font-style: italic; }
+
+.legal-modal-body:empty::before {
+  content: 'Контент ще не додано.';
+  color: #aaa;
+  font-style: italic;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { ApiService } from '../../services/api/api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,12 @@ export class ProfileComponent implements OnInit {
   avatarError = '';
   termsSaving = false;
 
+  legalModal: 'terms' | 'privacy' | null = null;
+  private portalSettings: any = {};
+
+  get termsContent():   string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['terms_of_service_' + l] || this.portalSettings['terms_of_service_uk'] || ''; }
+  get privacyContent(): string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['privacy_policy_' + l]   || this.portalSettings['privacy_policy_uk']   || ''; }
+
   companyName = '';
 
   form = {
@@ -28,9 +35,13 @@ export class ProfileComponent implements OnInit {
     acceptedTerms: false
   };
 
-  constructor(public userService: UserService, private api: ApiService) {}
+  constructor(public userService: UserService, private api: ApiService, private translate: TranslateService) {}
 
   ngOnInit(): void {
+    this.api.getPortalSettings().subscribe({
+      next: (s: any) => { this.portalSettings = s; }
+    });
+
     this.userService.user$.subscribe(user => {
       if (user) {
         this.loading = false;

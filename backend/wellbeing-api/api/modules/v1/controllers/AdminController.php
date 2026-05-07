@@ -225,6 +225,8 @@ class AdminController extends Controller
             return ['error' => 'Не вдалося зберегти компанію'];
         }
 
+        try { (new \common\services\CreatioSyncService())->syncCompany($company); } catch (\Throwable $e) {}
+
         return ['success' => true, 'company' => $this->companyRow($company)];
     }
 
@@ -256,6 +258,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося оновити компанію'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncCompany($company); } catch (\Throwable $e) {}
 
         return ['success' => true, 'company' => $this->companyRow($company)];
     }
@@ -579,6 +583,8 @@ class AdminController extends Controller
             return ['error' => 'Не вдалося створити спеціаліста'];
         }
 
+        try { (new \common\services\CreatioSyncService())->syncSpecialist($s); } catch (\Throwable $e) {}
+
         if (!empty($data['slots'])) {
             $this->saveSpecialistSlots($s->id, $data['slots']);
         }
@@ -619,6 +625,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося оновити спеціаліста'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncSpecialist($s); } catch (\Throwable $e) {}
 
         if (array_key_exists('slots', $data)) {
             $this->saveSpecialistSlots($s->id, $data['slots'] ?? []);
@@ -817,7 +825,8 @@ class AdminController extends Controller
         $this->requireAdmin();
 
         $db        = Yii::$app->db;
-        $kyivNow   = new \DateTime('now', new \DateTimeZone('Europe/Kyiv'));
+        $tz        = AppSettings::get('timezone', 'Europe/Kyiv');
+        $kyivNow   = new \DateTime('now', new \DateTimeZone($tz));
         $todayKyiv = $kyivNow->format('Y-m-d');
         $nowMin    = (int)$kyivNow->format('H') * 60 + (int)$kyivNow->format('i') + 30;
         $today     = \DateTime::createFromFormat('Y-m-d', $todayKyiv);
@@ -1735,7 +1744,14 @@ class AdminController extends Controller
         Yii::$app->response->format = 'json';
         $this->requireAdmin();
 
-        $keys = ['app_url', 'google_client_id', 'google_client_secret'];
+        $keys = [
+            'app_url', 'google_client_id', 'google_client_secret',
+            'site_title_prefix', 'company_name', 'favicon_url', 'timezone', 'default_locale',
+            'terms_of_service_uk', 'terms_of_service_en',
+            'privacy_policy_uk', 'privacy_policy_en',
+            'support_phone', 'support_viber_url', 'support_tg_url',
+            'creatio_base_url', 'creatio_client_id', 'creatio_client_secret', 'creatio_enabled',
+        ];
         $raw  = AppSettings::getAll($keys);
 
         $secret = $raw['google_client_secret'];
@@ -1744,6 +1760,24 @@ class AdminController extends Controller
             'google_client_id'     => $raw['google_client_id'],
             'google_client_secret' => $secret ? ('••••' . mb_substr($secret, -4)) : '',
             'google_configured'    => $raw['google_client_id'] !== '' && $secret !== '',
+            'site_title_prefix'    => $raw['site_title_prefix'] ?: 'Wellbeing',
+            'company_name'         => $raw['company_name'],
+            'favicon_url'          => $raw['favicon_url'],
+            'timezone'             => $raw['timezone'] ?: 'Europe/Kyiv',
+            'default_locale'       => $raw['default_locale'] ?: 'uk',
+            'terms_of_service_uk'  => $raw['terms_of_service_uk'],
+            'terms_of_service_en'  => $raw['terms_of_service_en'],
+            'privacy_policy_uk'    => $raw['privacy_policy_uk'],
+            'privacy_policy_en'    => $raw['privacy_policy_en'],
+            'support_phone'           => $raw['support_phone'],
+            'support_viber_url'       => $raw['support_viber_url'],
+            'support_tg_url'          => $raw['support_tg_url'],
+            'creatio_base_url'        => $raw['creatio_base_url'],
+            'creatio_client_id'       => $raw['creatio_client_id'],
+            'creatio_client_secret'   => $raw['creatio_client_secret']
+                ? ('••••' . mb_substr($raw['creatio_client_secret'], -4)) : '',
+            'creatio_enabled'         => $raw['creatio_enabled'] === '1',
+            'creatio_configured'      => $raw['creatio_base_url'] !== '' && $raw['creatio_client_id'] !== '',
         ];
     }
 
@@ -1763,8 +1797,86 @@ class AdminController extends Controller
         if (isset($data['google_client_secret']) && !str_starts_with($data['google_client_secret'], '••••')) {
             AppSettings::set('google_client_secret', trim($data['google_client_secret']));
         }
+        if (isset($data['site_title_prefix'])) {
+            AppSettings::set('site_title_prefix', trim($data['site_title_prefix']));
+        }
+        if (isset($data['company_name'])) {
+            AppSettings::set('company_name', trim($data['company_name']));
+        }
+        if (isset($data['timezone'])) {
+            AppSettings::set('timezone', trim($data['timezone']));
+        }
+        if (isset($data['default_locale'])) {
+            AppSettings::set('default_locale', trim($data['default_locale']));
+        }
+        if (isset($data['terms_of_service_uk'])) {
+            AppSettings::set('terms_of_service_uk', $data['terms_of_service_uk']);
+        }
+        if (isset($data['terms_of_service_en'])) {
+            AppSettings::set('terms_of_service_en', $data['terms_of_service_en']);
+        }
+        if (isset($data['privacy_policy_uk'])) {
+            AppSettings::set('privacy_policy_uk', $data['privacy_policy_uk']);
+        }
+        if (isset($data['privacy_policy_en'])) {
+            AppSettings::set('privacy_policy_en', $data['privacy_policy_en']);
+        }
+        if (isset($data['support_phone'])) {
+            AppSettings::set('support_phone', trim($data['support_phone']));
+        }
+        if (isset($data['support_viber_url'])) {
+            AppSettings::set('support_viber_url', trim($data['support_viber_url']));
+        }
+        if (isset($data['support_tg_url'])) {
+            AppSettings::set('support_tg_url', trim($data['support_tg_url']));
+        }
+        if (isset($data['creatio_base_url'])) {
+            AppSettings::set('creatio_base_url', rtrim(trim($data['creatio_base_url']), '/'));
+        }
+        if (isset($data['creatio_client_id'])) {
+            AppSettings::set('creatio_client_id', trim($data['creatio_client_id']));
+        }
+        if (isset($data['creatio_client_secret']) && !str_starts_with($data['creatio_client_secret'], '••••')) {
+            AppSettings::set('creatio_client_secret', trim($data['creatio_client_secret']));
+        }
+        if (isset($data['creatio_enabled'])) {
+            AppSettings::set('creatio_enabled', $data['creatio_enabled'] ? '1' : '0');
+        }
 
         return ['success' => true];
+    }
+
+    public function actionUploadFavicon()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $file = \yii\web\UploadedFile::getInstanceByName('favicon');
+        if (!$file) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Файл не знайдено'];
+        }
+
+        $ext = strtolower($file->extension);
+        if (!in_array($ext, ['png', 'ico', 'jpg', 'jpeg', 'svg', 'gif'], true)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Дозволені формати: png, ico, jpg, jpeg, svg, gif'];
+        }
+
+        $dir = Yii::getAlias('@webroot/uploads/favicon');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+
+        $filename = 'favicon.' . $ext;
+        if ($file->saveAs($dir . '/' . $filename)) {
+            $url = '/uploads/favicon/' . $filename;
+            AppSettings::set('favicon_url', $url);
+            return ['success' => true, 'favicon_url' => $url . '?v=' . time()];
+        }
+
+        Yii::$app->response->statusCode = 500;
+        return ['error' => 'Не вдалось зберегти файл'];
     }
 
     /* ═══════════════════════════════════════════

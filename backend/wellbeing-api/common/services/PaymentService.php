@@ -143,6 +143,7 @@ class PaymentService
                 $appt = Appointment::findOne($payment->appointment_id);
                 if ($appt) {
                     (new NotificationService())->notifyAppointmentConfirmed($appt);
+                    try { (new \common\services\CreatioSyncService())->markAppointmentPaid($appt); } catch (\Throwable $e) {}
                 }
             }
         } else {
@@ -211,6 +212,7 @@ class PaymentService
                 $appt = Appointment::findOne($payment->appointment_id);
                 if ($appt) {
                     (new NotificationService())->notifyAppointmentConfirmed($appt);
+                    try { (new \common\services\CreatioSyncService())->markAppointmentPaid($appt); } catch (\Throwable $e) {}
                 }
             }
         }

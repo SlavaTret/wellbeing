@@ -33,12 +33,39 @@ class UserController extends Controller
         return $behaviors;
     }
 
+    // ── Rate limit helpers ────────────────────────────────────────
+
+    private function checkRateLimit(string $action, int $maxAttempts, int $windowSeconds): bool
+    {
+        $ip  = Yii::$app->request->userIP ?? 'unknown';
+        $key = "rate_{$action}_{$ip}";
+        $hits = (int)Yii::$app->cache->get($key);
+        if ($hits >= $maxAttempts) {
+            Yii::$app->response->statusCode = 429;
+            Yii::$app->response->headers->set('Retry-After', (string)$windowSeconds);
+            return false;
+        }
+        // Зберігаємо лічильник; якщо ключа ще немає — TTL стартує з першого хіту
+        $existing = Yii::$app->cache->get($key);
+        if ($existing === false) {
+            Yii::$app->cache->set($key, 1, $windowSeconds);
+        } else {
+            Yii::$app->cache->set($key, $hits + 1, $windowSeconds);
+        }
+        return true;
+    }
+
     /**
      * Register new user
      */
     public function actionRegister()
     {
         Yii::$app->response->format = 'json';
+
+        // 5 спроб / 10 хвилин з одного IP
+        if (!$this->checkRateLimit('register', 5, 600)) {
+            return ['error' => 'Забагато спроб реєстрації. Спробуйте через 10 хвилин.'];
+        }
 
         $data = Yii::$app->request->post();
         $user = new User();
@@ -66,6 +93,9 @@ class UserController extends Controller
         }
 
         if ($user->save()) {
+            try {
+                (new \common\services\CreatioSyncService())->syncUser($user);
+            } catch (\Throwable $e) {}
             return [
                 'success' => true,
                 'user' => $this->getUserData($user),
@@ -83,6 +113,11 @@ class UserController extends Controller
     public function actionLogin()
     {
         Yii::$app->response->format = 'json';
+
+        // 10 спроб / 5 хвилин з одного IP
+        if (!$this->checkRateLimit('login', 10, 300)) {
+            return ['error' => 'Забагато спроб входу. Спробуйте через 5 хвилин.'];
+        }
 
         $email = Yii::$app->request->post('email');
         $password = Yii::$app->request->post('password');

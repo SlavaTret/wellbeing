@@ -27,6 +27,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   upcoming: any[] = [];
 
+  // Mood chart
+  moodDays: { date: string; mood: number | null; label: string }[] = [];
+  moodLabels = ['', 'Дуже погано', 'Погано', 'Нормально', 'Добре', 'Чудово'];
+  moodEmojis = ['', '😔', '😕', '😐', '🙂', '😊'];
+  moodColors = ['', '#EF5350', '#FF7043', '#FFC107', '#66BB6A', '#2DB928'];
+  moodBgColors = ['', '#FFEBEE', '#FFF3E0', '#FFFDE7', '#F1F8E9', '#E8F5E9'];
+
   // Google Calendar
   googleConnected      = false;
   googleEvents: any[]  = [];
@@ -40,6 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadGoogleEvents();
     this.googleInterval = setInterval(() => this.loadGoogleEvents(), 60_000);
+    this.loadMoodChart();
 
     // Show cached free-sessions immediately — no API wait
     const cached = this.userService.freeSessions;
@@ -79,6 +87,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.rafIds.forEach(id => cancelAnimationFrame(id));
     if (this.googleInterval) clearInterval(this.googleInterval);
+  }
+
+  private loadMoodChart(): void {
+    const days = 7;
+    const today = new Date();
+    const grid: { date: string; mood: number | null; label: string }[] = [];
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().slice(0, 10);
+      const dayNames = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+      grid.push({ date: dateStr, mood: null, label: i === 0 ? 'Сьогодні' : dayNames[d.getDay()] });
+    }
+
+    this.api.getMoodHistory(days).subscribe({
+      next: (rows) => {
+        rows.forEach(r => {
+          const item = grid.find(g => g.date === r.logged_at);
+          if (item) item.mood = r.mood;
+        });
+        this.moodDays = grid;
+      },
+      error: () => { this.moodDays = grid; }
+    });
   }
 
   private loadGoogleEvents(): void {

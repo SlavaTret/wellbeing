@@ -43,6 +43,32 @@
   </div>
 </div>
 
+<!-- Mood mini-chart -->
+<div class="card mood-chart-card" *ngIf="moodDays.length" routerLink="/questionnaire" style="cursor:pointer">
+  <div class="mood-chart-header">
+    <div>
+      <div class="mood-chart-title">Трекер настрою</div>
+      <div class="mood-chart-sub">Останні 7 днів</div>
+    </div>
+    <span class="mood-chart-link">Відкрити →</span>
+  </div>
+  <div class="mood-chart-row">
+    <div *ngFor="let d of moodDays" class="mood-day-col">
+      <div
+        class="mood-day-square"
+        [class.mood-day-empty]="d.mood === null"
+        [style.background]="d.mood ? moodBgColors[d.mood] : ''"
+        [style.borderColor]="d.mood ? moodColors[d.mood] : ''"
+        [title]="d.mood ? moodLabels[d.mood] : 'Немає даних'"
+      >
+        <span *ngIf="d.mood" class="mood-day-emoji">{{ moodEmojis[d.mood] }}</span>
+      </div>
+      <div class="mood-day-label" [class.mood-day-today]="d.label === 'Сьогодні'">{{ d.label }}</div>
+      <div class="mood-day-name" *ngIf="d.mood">{{ moodLabels[d.mood] }}</div>
+    </div>
+  </div>
+</div>
+
 <!-- Two-column row -->
 <div class="two-col">
   <!-- Upcoming appointments -->
@@ -67,7 +93,7 @@
         <div class="avatar-circle">{{ u.avatar }}</div>
         <div class="upcoming-info">
           <div class="upcoming-name">{{ u.specialist }}</div>
-          <div class="upcoming-meta">{{ typeName(u.type) }} · {{ u.date }}, {{ u.time }}</div>
+          <div class="upcoming-meta">{{ u.type_name || u.type }} · {{ u.date }}, {{ u.time }}</div>
         </div>
         <span class="status-badge" [ngClass]="getStatusClass(u.status)">{{ getStatusLabel(u.status) }}</span>
       </div>

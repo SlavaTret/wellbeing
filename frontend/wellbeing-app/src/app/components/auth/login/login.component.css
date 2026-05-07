@@ -20,35 +20,14 @@
 
 .auth-logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  justify-content: center;
   margin-bottom: 32px;
 }
 
-.logo-mark {
-  width: 36px;
-  height: 36px;
-  background: #2DB928;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.logo-text {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1C2B20;
-  letter-spacing: -0.3px;
-}
-.logo-text strong { color: #2DB928; }
-
-.logo-sub {
-  font-size: 10px;
-  color: #6B8879;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.auth-logo-img {
+  height: 64px;
+  max-width: 280px;
+  object-fit: contain;
 }
 
 .auth-title {

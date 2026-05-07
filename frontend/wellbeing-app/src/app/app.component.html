@@ -12,8 +12,7 @@
         <img class="logo-img" [src]="branding.current.logo_url" [alt]="branding.current.name" />
       </ng-container>
       <ng-template #mobileFallback>
-        <div class="logo-mark"><app-icon name="heart" [size]="14" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
-        <div class="logo-text">well<strong>being</strong></div>
+        <img src="assets/wellbeing-logo.png" alt="Wellbeing" class="logo-img-wb-mobile" />
       </ng-template>
     </div>
 
@@ -31,14 +30,9 @@
     <div class="logo-section">
       <ng-container *ngIf="branding.current.logo_url; else sidebarFallback">
         <img class="logo-img-lg" [src]="branding.current.logo_url" [alt]="branding.current.name" />
-        <div class="logo-subtext">{{ 'sidebar.portal' | translate }}</div>
       </ng-container>
       <ng-template #sidebarFallback>
-        <div class="logo-mark logo-mark-lg"><app-icon name="heart" [size]="18" stroke="#fff" fill="#fff" [strokeWidth]="0"></app-icon></div>
-        <div>
-          <div class="logo-text">well<strong>being</strong></div>
-          <div class="logo-subtext">{{ 'sidebar.portal' | translate }}</div>
-        </div>
+        <img src="assets/wellbeing-logo.png" alt="Wellbeing" class="logo-img-wb-sidebar" />
       </ng-template>
     </div>
 

@@ -22,6 +22,7 @@ export class AdminLayoutComponent {
     { id: 'appointments',    label: 'Записи',         icon: 'calendar' },
     { id: 'categories',      label: 'Категорії',      icon: 'tag' },
     { id: 'slots',        label: 'Слоти',        icon: 'clock' },
+    { id: 'surveys',      label: 'Опитування',   icon: 'list' },
     { id: 'settings',     label: 'Налаштування', icon: 'settings' },
   ];
 
@@ -40,6 +41,7 @@ export class AdminLayoutComponent {
     logout:      ['M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'],
     menu:        ['M3 6h18', 'M3 12h18', 'M3 18h18'],
     x:           ['M6 18L18 6M6 6l12 12'],
+    list:        ['M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01'],
   };
 
   getIconPaths(icon: string): string[] {
