@@ -124,6 +124,23 @@ class m260426_144000_init_db extends Migration
         $this->addForeignKey('fk_support_ticket_user_id', '{{%support_ticket}}', 'user_id', '{{%user}}', 'id', 'CASCADE');
         $this->createIndex('idx_support_ticket_user_id', '{{%support_ticket}}', 'user_id');
         $this->createIndex('idx_support_ticket_status', '{{%support_ticket}}', 'status');
+
+        // Створюємо повноцінного адміністратора для посилань Foreign Key
+        $this->insert('{{%user}}', [
+            'id' => 1,
+            'username' => 'admin',
+            'first_name' => 'Слава',
+            'last_name' => 'Адмін',
+            'email' => 'admin@wellbeing.pp.ua',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'password_hash' => Yii::$app->security->generatePasswordHash('admin123'),
+            'status' => 10, // Active
+            'created_at' => time(),
+            'updated_at' => time(),
+        ]);
+
+        // Оновлюємо лічильник автоінкременту PostgreSQL
+        $this->execute("SELECT setval('user_id_seq', (SELECT MAX(id) FROM \"user\"))");
     }
 
     public function down()
