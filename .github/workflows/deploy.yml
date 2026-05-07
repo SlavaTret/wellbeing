@@ -47,7 +47,7 @@ jobs:
       - name: Add to Known Hosts
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Remote Commands
+      - name: Remote Server Commands
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
             export COMPOSER_ALLOW_SUPERUSER=1
@@ -63,11 +63,12 @@ jobs:
             # Composer
             composer install --no-dev --optimize-autoloader --no-interaction
             
-            # Міграції (тепер файл 'yii' на місці!)
+            # ВАЖЛИВО: використовуємо локальний файл yii, а не vendor/bin/yii
+            # Він підтягне твій common/config/main-local.php з паролем
             php yii cache/flush-all --interactive=0
             php yii migrate --interactive=0
 
             # Права доступу
-            chown -R www-data:www-data /var/www/wellbeing/backend/wellbeing-api/api/runtime
-            chmod -R 775 /var/www/wellbeing/backend/wellbeing-api/api/runtime
+            chown -R www-data:www-data api/runtime
+            chmod -R 775 api/runtime
           ENDSSH
