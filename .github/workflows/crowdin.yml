@@ -5,13 +5,15 @@ on:
     branches: [main]
     paths:
       - 'frontend/wellbeing-app/src/assets/i18n/uk.json'
-  workflow_dispatch:
+  workflow_dispatch: # Дозволяє запускати вручну з вкладки Actions
 
 jobs:
   # ── Push source strings to Crowdin ──────────────────────────
   upload-sources:
     name: Upload source (uk.json) to Crowdin
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
 
@@ -22,15 +24,17 @@ jobs:
           upload_translations: false
           create_pull_request: false
           project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
-          token: ${{ secrets.CROWDIN_API_TOKEN }}
-          source: /frontend/wellbeing-app/src/assets/i18n/uk.json
-          translation: /frontend/wellbeing-app/src/assets/i18n/%locale%.json
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          source: 'frontend/wellbeing-app/src/assets/i18n/uk.json'
+          translation: 'frontend/wellbeing-app/src/assets/i18n/%locale%.json'
 
   # ── Pull finished translations from Crowdin ─────────────────
   download-translations:
     name: Download translations from Crowdin
     runs-on: ubuntu-latest
     needs: upload-sources
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +50,7 @@ jobs:
           pull_request_base_branch_name: main
           project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-          source: /frontend/wellbeing-app/src/assets/i18n/uk.json
-          translation: /frontend/wellbeing-app/src/assets/i18n/%locale%.json
+          source: 'frontend/wellbeing-app/src/assets/i18n/uk.json'
+          translation: 'frontend/wellbeing-app/src/assets/i18n/%locale%.json'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

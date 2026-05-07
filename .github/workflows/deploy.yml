@@ -3,6 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── Frontend build ─────────────────────────────────────────────────────
+      # ── 1. Збірка Frontend (Angular) ──────────────────────────────────────
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -28,7 +29,7 @@ jobs:
         working-directory: frontend/wellbeing-app
         run: npm run build -- --configuration=production
 
-      # ── Deploy frontend via SSH-Deploy ─────────────────────────────────────
+      # ── 2. Деплой фронтенду на сервер ─────────────────────────────────────
       - name: Deploy frontend to server
         uses: easingthemes/ssh-deploy@v5.0.3
         with:
@@ -39,8 +40,8 @@ jobs:
           SOURCE: frontend/wellbeing-app/dist/wellbeing-app/
           ARGS: "-avzr --delete"
 
-      # ── Deploy backend + run migrations via SSH ────────────────────────────
-      - name: Setup SSH
+      # ── 3. Деплой бекенду та запуск міграцій ──────────────────────────────
+      - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -48,24 +49,28 @@ jobs:
       - name: Add server to known hosts
         run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy backend and run migrations
+      - name: Run remote deploy commands
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
             set -e
+            
+            # Вирішуємо проблему "dubious ownership" для Git
+            git config --global --add safe.directory /var/www/wellbeing
+            
             cd /var/www/wellbeing
             
-            # Оновлюємо код
+            # Оновлюємо код бекенду з GitHub
             git pull origin main
 
-            # Бекенд налаштування
+            # Налаштування PHP/Yii2
             cd backend/wellbeing-api
             composer install --no-dev --optimize-autoloader --no-interaction
-
-            # Міграції в нову базу PostgreSQL
+            
+            # Запуск міграцій (тепер вони підуть у твій новий Postgres у Docker)
             php yii migrate --interactive=0
             php yii cache/flush-all --interactive=0
 
-            # Права доступу
+            # Виставляємо права, щоб сервер міг писати в кеш
             chown -R www-data:www-data /var/www/wellbeing/backend/wellbeing-api/api/runtime
             chmod -R 775 /var/www/wellbeing/backend/wellbeing-api/api/runtime
           ENDSSH
