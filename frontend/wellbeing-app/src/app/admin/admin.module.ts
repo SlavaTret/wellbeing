@@ -14,6 +14,9 @@ import { AdminSpecializationsComponent } from './components/specializations/admi
 import { AdminSlotsComponent } from './components/slots/admin-slots.component';
 import { AdminSettingsComponent } from './components/settings/admin-settings.component';
 import { AdminSurveysComponent } from './components/surveys/admin-surveys.component';
+import { SpecialistDashboardComponent } from './components/specialist-dashboard/specialist-dashboard.component';
+import { SpecialistAppointmentsComponent } from './components/specialist-appointments/specialist-appointments.component';
+import { SpecialistSlotsComponent } from './components/specialist-slots/specialist-slots.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { AdminSurveysComponent } from './components/surveys/admin-surveys.compon
     AdminSlotsComponent,
     AdminSettingsComponent,
     AdminSurveysComponent,
+    SpecialistDashboardComponent,
+    SpecialistAppointmentsComponent,
+    SpecialistSlotsComponent,
   ],
   imports: [
     SharedModule,

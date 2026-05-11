@@ -261,6 +261,7 @@ class UserController extends Controller
             'avatar_url'       => $user->avatar_url,
             'accepted_terms'   => $user->accepted_terms,
             'is_admin'         => (bool)$user->is_admin,
+            'role'             => $user->role ?? 'user',
             'created_at'       => $user->created_at,
         ];
     }

@@ -81,6 +81,11 @@ export class AppointmentsComponent implements OnInit {
     const paymentResult = params['payment'];
     const orderId = params['order'] || '';
 
+    if (params['book'] === '1') {
+      this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+      this.openBooking();
+    }
+
     if (paymentResult === 'success' && orderId) {
       // Clear URL immediately so refresh won't re-trigger toast
       this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });

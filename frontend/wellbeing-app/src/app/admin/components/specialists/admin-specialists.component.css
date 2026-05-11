@@ -302,6 +302,34 @@
 .avatar-hint-title { font-size: 13px; font-weight: 600; color: #1C2B20; margin: 0 0 3px; }
 .avatar-hint-sub   { font-size: 12px; color: #9FB8A8; margin: 0 0 10px; }
 
+/* ── Access section ── */
+.access-linked {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: #E8F5E9; border-radius: 10px;
+  font-size: 13px; font-weight: 600; color: #1B7A35;
+}
+.access-linked span { flex: 1; }
+.btn-unlink {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 7px; border: 1px solid #FFCDD2;
+  background: #FFEBEE; color: #C62828; font-size: 12px; font-weight: 600;
+  font-family: 'Montserrat', sans-serif; cursor: pointer; transition: background 0.15s;
+}
+.btn-unlink:hover:not(:disabled) { background: #FFCDD2; }
+.btn-unlink:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.access-form { display: flex; flex-direction: column; gap: 10px; }
+
+.access-msg { padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; }
+.access-msg--error { background: #FFEBEE; color: #C62828; }
+.access-msg--ok    { background: #E8F5E9; color: #2E7D32; }
+
+.btn-spinner--dark {
+  display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.2); border-top-color: #333;
+  animation: spin 0.75s linear infinite;
+}
+
 /* ── Mobile ── */
 @media (max-width: 600px) {
   .form-grid-2 { grid-template-columns: 1fr; }

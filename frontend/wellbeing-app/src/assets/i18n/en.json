@@ -8,7 +8,8 @@
     "questionnaire": "Questionnaire",
     "support": "Contact WO",
     "settings": "Settings",
-    "logout": "Log out"
+    "logout": "Log out",
+    "book": "Book session"
   },
   "sidebar": {
     "portal": "Support Portal"
@@ -251,8 +252,10 @@
   },
   "settings": {
     "title": "Settings",
+    "lang_title": "Interface language",
+    "lang_label": "Choose language",
     "tabs": {
-      "notifications": "Notifications",
+      "notifications": "General",
       "integrations": "Integrations"
     },
     "notifications": {

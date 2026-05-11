@@ -8,7 +8,7 @@ const ADMIN_TOKEN_KEY = 'admin_access_token';
 export class AdminAuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Додаємо токен тільки до запитів адмінки і лише якщо хедер ще не встановлено
-    if (!req.url.includes('/admin/') || req.headers.has('Authorization')) {
+    if ((!req.url.includes('/admin/') && !req.url.includes('/specialist-panel/')) || req.headers.has('Authorization')) {
       return next.handle(req);
     }
 

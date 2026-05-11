@@ -121,6 +121,12 @@ export class AppComponent implements OnInit {
     if (window.innerWidth <= 768) this.sidebarOpen = false;
   }
 
+  bookAppointment(): void {
+    this.activeTab = 'appointments';
+    this.router.navigate(['/appointments'], { queryParams: { book: '1' } });
+    if (window.innerWidth <= 768) this.sidebarOpen = false;
+  }
+
   openSidebar(): void  { this.sidebarOpen = true; }
   closeSidebar(): void { this.sidebarOpen = false; }
 

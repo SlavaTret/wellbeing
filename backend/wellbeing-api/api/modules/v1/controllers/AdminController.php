@@ -526,12 +526,14 @@ class AdminController extends Controller
                 s.id, s.name, s.type, s.bio, s.experience_years,
                 s.categories, s.avatar_initials, s.avatar_url, s.price,
                 s.is_active, s.created_at, s.email,
+                s.user_id, u.email AS linked_email,
                 COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating, 0)  AS computed_rating,
                 COALESCE(rv.cnt, 0)         AS reviews_count,
                 COALESCE(ac.cnt, 0)         AS sessions_count
             FROM specialist s
             LEFT JOIN specialization sp ON sp.key = s.type
+            LEFT JOIN \"user\" u ON u.id = s.user_id
             LEFT JOIN (
                 SELECT specialist_id,
                        ROUND(AVG(rating)::numeric, 1) AS avg_rating,
@@ -940,6 +942,8 @@ class AdminController extends Controller
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
             'email'            => $r['email'] ?? null,
+            'user_id'          => $r['user_id'] ? (int)$r['user_id'] : null,
+            'linked_email'     => $r['linked_email'] ?? null,
         ];
     }
 
@@ -949,12 +953,14 @@ class AdminController extends Controller
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
                    s.categories, s.avatar_initials, s.avatar_url, s.price,
                    s.is_active, s.created_at, s.email,
+                   s.user_id, u.email AS linked_email,
                    COALESCE(sp.name, s.type) AS type_name,
                    (SELECT ROUND(AVG(r.rating)::numeric, 1) FROM specialist_review r WHERE r.specialist_id = s.id) AS computed_rating,
                    (SELECT COUNT(*) FROM specialist_review r WHERE r.specialist_id = s.id) AS reviews_count,
                    (SELECT COUNT(*) FROM appointment a WHERE a.specialist_name = s.name) AS sessions_count
             FROM specialist s
             LEFT JOIN specialization sp ON sp.key = s.type
+            LEFT JOIN \"user\" u ON u.id = s.user_id
             WHERE s.id = :id
         ", [':id' => $id])->queryOne();
         return $this->specialistRow($row);
@@ -968,6 +974,87 @@ class AdminController extends Controller
             'coach'        => 'Коуч',
             default        => $type,
         };
+    }
+
+    // ── Specialist account linking ────────────────────────────────────────
+
+    public function actionLinkSpecialistUser(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $s = \common\models\Specialist::findOne($id);
+        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+
+        $data     = Yii::$app->request->post();
+        $email    = trim($data['email'] ?? '');
+        $password = $data['password'] ?? '';
+
+        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Вкажіть коректний email'];
+        }
+        if (strlen($password) < 8) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Пароль має бути не менше 8 символів'];
+        }
+
+        $existing = \common\models\User::findOne(['email' => $email]);
+        if ($existing) {
+            // Link existing user if not already a specialist
+            if ($existing->role === 'specialist' && $existing->id !== $s->user_id) {
+                Yii::$app->response->statusCode = 422;
+                return ['error' => 'Цей email вже прив\'язаний до іншого спеціаліста'];
+            }
+            $existing->role = 'specialist';
+            if ($password) $existing->setPassword($password);
+            $existing->save(false);
+            $user = $existing;
+        } else {
+            $user             = new \common\models\User();
+            $user->email      = $email;
+            $user->username   = $email;
+            $user->first_name = explode(' ', $s->name)[0] ?? $s->name;
+            $user->last_name  = implode(' ', array_slice(explode(' ', $s->name), 1)) ?: '';
+            $user->role       = 'specialist';
+            $user->status     = \common\models\User::STATUS_ACTIVE;
+            $user->setPassword($password);
+            $user->generateAuthKey();
+            if (!$user->validate() || !$user->save()) {
+                Yii::$app->response->statusCode = 422;
+                return ['errors' => $user->getErrors()];
+            }
+        }
+
+        $s->user_id = $user->id;
+        $s->save(false);
+
+        return [
+            'success'  => true,
+            'user_id'  => $user->id,
+            'email'    => $user->email,
+        ];
+    }
+
+    public function actionUnlinkSpecialistUser(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $s = \common\models\Specialist::findOne($id);
+        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+
+        if ($s->user_id) {
+            $user = \common\models\User::findOne($s->user_id);
+            if ($user) {
+                $user->role = 'user';
+                $user->save(false);
+            }
+            $s->user_id = null;
+            $s->save(false);
+        }
+
+        return ['success' => true];
     }
 
     // ── Specialist avatar upload ─────────────────────────────────────────

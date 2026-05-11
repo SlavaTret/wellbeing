@@ -281,3 +281,7 @@ input:disabled, textarea:disabled {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Hide reCAPTCHA badge globally — shown only on login/register via body class */
+.grecaptcha-badge { visibility: hidden !important; }
+body.show-recaptcha .grecaptcha-badge { visibility: visible !important; }

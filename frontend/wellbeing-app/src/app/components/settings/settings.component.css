@@ -198,6 +198,8 @@
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.lang-card .setting-row { align-items: center; }
+
 @media (max-width: 600px) {
   .tabs { width: 100%; }
   .tab-btn { flex: 1; justify-content: center; }

@@ -8,7 +8,8 @@
     "questionnaire": "Анкета",
     "support": "Связь с WO",
     "settings": "Настройки",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "book": "Записаться"
   },
   "sidebar": {
     "portal": "Портал поддержки"
@@ -251,8 +252,10 @@
   },
   "settings": {
     "title": "Настройки",
+    "lang_title": "Язык интерфейса",
+    "lang_label": "Выберите язык",
     "tabs": {
-      "notifications": "Уведомления",
+      "notifications": "Общие",
       "integrations": "Интеграции"
     },
     "notifications": {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { CompanyBranding } from '../../../services/branding/branding.service';
@@ -11,7 +11,7 @@ import { RecaptchaService } from '../../../services/recaptcha/recaptcha.service'
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   firstName = '';
   lastName = '';
   email = '';
@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    document.body.classList.add('show-recaptcha');
     const saved = localStorage.getItem('wb_lang');
     if (!saved) {
       const browser = navigator.language || '';
@@ -64,6 +65,10 @@ export class RegisterComponent implements OnInit {
         this.loadingCompanies = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('show-recaptcha');
   }
 
   generatePassword(): void {

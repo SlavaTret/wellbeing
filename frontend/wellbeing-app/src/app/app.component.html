@@ -20,6 +20,9 @@
       <app-icon name="bell" [size]="22"></app-icon>
       <span *ngIf="notificationsCount > 0" class="badge-dot">{{ notificationsCount }}</span>
     </button>
+    <button class="mobile-book-btn" (click)="bookAppointment()" [attr.aria-label]="'nav.book' | translate">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6zM12 14v4M10 16h4"/></svg>
+    </button>
   </header>
 
   <!-- Drawer overlay (mobile only) -->
@@ -59,7 +62,10 @@
     </nav>
 
     <div class="sidebar-footer">
-      <app-lang-switcher></app-lang-switcher>
+      <button class="sidebar-book-btn" (click)="bookAppointment()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6zM12 14v4M10 16h4"/></svg>
+        {{ 'nav.book' | translate }}
+      </button>
       <button (click)="logout()" class="btn-logout">
         <app-icon name="logout" [size]="18"></app-icon>
         <span>{{ 'nav.logout' | translate }}</span>

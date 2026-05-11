@@ -215,6 +215,20 @@ return [
                 'DELETE v1/admin/survey/<id:\d+>/questions/<qid:\d+>'  => 'v1/admin-survey/delete-question',
                 'GET    v1/admin/survey/<id:\d+>/results'              => 'v1/admin-survey/results',
 
+                // Specialist panel (role=specialist)
+                'GET    v1/specialist-panel/dashboard'           => 'v1/specialist-panel/dashboard',
+                'GET    v1/specialist-panel/appointments'        => 'v1/specialist-panel/appointments',
+                'POST   v1/specialist-panel/appointments/<id:\d+>' => 'v1/specialist-panel/update-appointment',
+                'GET    v1/specialist-panel/my-slots'            => 'v1/specialist-panel/my-slots',
+                'POST   v1/specialist-panel/my-slots'            => 'v1/specialist-panel/save-my-slots',
+                'GET    v1/specialist-panel/my-week-schedule'    => 'v1/specialist-panel/my-week-schedule',
+                'POST   v1/specialist-panel/block-date'          => 'v1/specialist-panel/block-my-date',
+                'DELETE v1/specialist-panel/block-date'          => 'v1/specialist-panel/unblock-my-date',
+
+                // Admin: link/unlink specialist user account
+                'POST   v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/link-specialist-user',
+                'DELETE v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/unlink-specialist-user',
+
                 // OPTIONS preflight for CORS
                 'OPTIONS <path:.*>' => 'v1/default/options',
             ],

@@ -14,8 +14,10 @@ export class AdminApiService {
 
   setAdminSession(token: string, user: any): void {
     localStorage.setItem(this.TOKEN_KEY, token);
-    // Зберігаємо тільки мінімум — не кешуємо дані юзера між сесіями
-    localStorage.setItem(this.USER_KEY, JSON.stringify({ id: user.id, email: user.email, role: user.role }));
+    localStorage.setItem(this.USER_KEY, JSON.stringify({
+      id: user.id, email: user.email, role: user.role ?? 'user', is_admin: !!user.is_admin,
+      first_name: user.first_name, last_name: user.last_name
+    }));
   }
 
   clearAdminSession(): void {
@@ -23,6 +25,9 @@ export class AdminApiService {
   }
 
   isAdminLoggedIn(): boolean { return !!this.getAdminToken(); }
+
+  isSpecialist(): boolean { return this.getAdminUser()?.role === 'specialist'; }
+  isAdmin(): boolean { return !!this.getAdminUser()?.is_admin; }
 
   getAdminUser(): any {
     try { return JSON.parse(localStorage.getItem(this.USER_KEY) || 'null'); } catch { return null; }
@@ -234,5 +239,52 @@ export class AdminApiService {
   // ==================== SPECIALISTS (public read via admin) ====================
   getSpecialists(): Observable<any> {
     return this.http.get(`${this.apiUrl}/specialist`);
+  }
+
+  linkSpecialistUser(id: number, data: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/specialists/${id}/link-user`, data);
+  }
+
+  unlinkSpecialistUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/admin/specialists/${id}/link-user`);
+  }
+
+  // ==================== SPECIALIST PANEL ====================
+  getSpecialistDashboard(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/specialist-panel/dashboard`);
+  }
+
+  getMyAppointments(params: { search?: string; status?: string; page?: number } = {}): Observable<any> {
+    const parts: string[] = [];
+    if (params.search)                  parts.push(`search=${encodeURIComponent(params.search)}`);
+    if (params.status && params.status !== 'all') parts.push(`status=${params.status}`);
+    if (params.page && params.page > 1) parts.push(`page=${params.page}`);
+    const q = parts.length ? '?' + parts.join('&') : '';
+    return this.http.get(`${this.apiUrl}/specialist-panel/appointments${q}`);
+  }
+
+  updateMyAppointment(id: number, data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/specialist-panel/appointments/${id}`, data);
+  }
+
+  getMySlots(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/specialist-panel/my-slots`);
+  }
+
+  saveMySlots(slots: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/specialist-panel/my-slots`, { slots });
+  }
+
+  getMyWeekSchedule(from?: string): Observable<any> {
+    const q = from ? `?from=${from}` : '';
+    return this.http.get(`${this.apiUrl}/specialist-panel/my-week-schedule${q}`);
+  }
+
+  blockMyDate(date: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/specialist-panel/block-date`, { date });
+  }
+
+  unblockMyDate(date: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/specialist-panel/block-date`, { body: { date } });
   }
 }
