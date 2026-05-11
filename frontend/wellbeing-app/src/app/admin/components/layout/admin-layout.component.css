@@ -3,13 +3,13 @@
 /* ── Sidebar ── */
 .admin-sidebar {
   width: 256px; min-height: 100vh; background: #fff;
-  border-right: 1px solid #DCE9DC;
+  border-right: 1px solid var(--border);
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 10;
   transition: transform 0.28s cubic-bezier(.4,0,.2,1);
 }
 .sidebar-logo {
-  padding: 16px 20px; border-bottom: 1px solid #DCE9DC;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
 .logo-row { display: flex; align-items: center; }
@@ -25,14 +25,14 @@
   font-size: 14px; font-weight: 400; text-align: left; width: 100%;
   cursor: pointer; transition: all 0.15s; font-family: 'Montserrat', sans-serif;
 }
-.nav-item:hover { background: #E8F5E9; color: #1E9020; }
-.nav-item.active { background: #E8F5E9; color: #1E9020; font-weight: 600; }
+.nav-item:hover { background: var(--green-light); color: var(--green-dark); }
+.nav-item.active { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
 
-.sidebar-footer { padding: 12px 16px; border-top: 1px solid #DCE9DC; }
+.sidebar-footer { padding: 12px 16px; border-top: 1px solid var(--border); }
 .admin-user-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .admin-avatar {
   width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-  background: linear-gradient(135deg, #2DB928, #1E9020);
+  background: var(--brand-gradient);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; color: #fff; font-size: 13px;
 }
@@ -49,7 +49,7 @@
 /* ── Mobile Header ── */
 .mobile-header {
   display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 8;
-  height: 56px; background: #fff; border-bottom: 1px solid #DCE9DC;
+  height: 56px; background: #fff; border-bottom: 1px solid var(--border);
   align-items: center; padding: 0 16px; gap: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }

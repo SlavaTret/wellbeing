@@ -35,6 +35,7 @@ export class AppointmentsComponent implements OnInit {
   specialists: any[] = [];
   specialistsLoading = false;
   catFilter = 'all';
+  specFilter = 'all';
   selectedSpec: any = null;
   selectedDay = '';
   selectedTime = '';
@@ -233,6 +234,7 @@ export class AppointmentsComponent implements OnInit {
     this.bookingOpen = true;
     this.bookingStep = 1;
     this.catFilter = 'all';
+    this.specFilter = 'all';
     this.selectedSpec = null;
     this.selectedDay = '';
     this.selectedTime = '';
@@ -259,11 +261,56 @@ export class AppointmentsComponent implements OnInit {
 
   closeBooking(): void { this.bookingOpen = false; }
 
+  get previousSpecialistIds(): Set<number> {
+    return new Set(this.allAppts.filter(a => a.specialist_id).map(a => a.specialist_id));
+  }
+
+  get specializations(): { type: string; label: string }[] {
+    const seen = new Set<string>();
+    const result: { type: string; label: string }[] = [];
+    for (const s of this.specialists) {
+      if (!seen.has(s.type)) {
+        seen.add(s.type);
+        result.push({ type: s.type, label: s.type_name || s.type });
+      }
+    }
+    return result.sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  get filteredCategories(): { id: string; label: string }[] {
+    if (this.specFilter === 'all') return this.categories;
+    const catSet = new Set<string>();
+    this.specialists
+      .filter(s => s.type === this.specFilter)
+      .forEach(s => (s.categories || []).forEach((c: string) => catSet.add(c)));
+    return [
+      { id: 'all', label: 'appointments.booking.step1.all_categories' },
+      ...this.categories.filter(c => c.id !== 'all' && catSet.has(c.id)),
+    ];
+  }
+
+  setSpecFilter(type: string): void {
+    this.specFilter = type;
+    this.catFilter = 'all';
+  }
+
   get filteredSpecialists() {
-    if (this.catFilter === 'all') return this.specialists;
-    return this.specialists.filter(s =>
-      s.categories && s.categories.some((c: string) => c === this.catFilter)
-    );
+    let list = this.specialists;
+    if (this.specFilter !== 'all') {
+      list = list.filter(s => s.type === this.specFilter);
+    }
+    if (this.catFilter !== 'all') {
+      list = list.filter(s => s.categories?.some((c: string) => c === this.catFilter));
+    }
+    const prevIds = this.previousSpecialistIds;
+    if (prevIds.size > 0) {
+      list = [...list].sort((a, b) => {
+        const ap = prevIds.has(a.id) ? 0 : 1;
+        const bp = prevIds.has(b.id) ? 0 : 1;
+        return ap - bp;
+      });
+    }
+    return list;
   }
 
   selectSpec(s: any): void {

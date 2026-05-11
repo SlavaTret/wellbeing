@@ -21,11 +21,11 @@ class UserController extends Controller
         ];
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::class,
-            'only' => ['get', 'update', 'profile', 'upload-avatar'],
+            'only' => ['get', 'update', 'profile', 'upload-avatar', 'change-password'],
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['get', 'update', 'profile', 'upload-avatar'],
+                    'actions' => ['get', 'update', 'profile', 'upload-avatar', 'change-password'],
                     'roles' => ['@'],
                 ],
             ],
@@ -327,6 +327,48 @@ class UserController extends Controller
             'avatar_url' => $user->avatar_url,
             'user'       => $this->getUserData($user),
         ];
+    }
+
+    /**
+     * Change password
+     */
+    public function actionChangePassword()
+    {
+        Yii::$app->response->format = 'json';
+
+        $user = Yii::$app->user->identity;
+        if (!$user) {
+            Yii::$app->response->statusCode = 401;
+            return ['error' => 'Unauthorized'];
+        }
+
+        $oldPassword = Yii::$app->request->post('old_password', '');
+        $newPassword = Yii::$app->request->post('new_password', '');
+
+        if (!$oldPassword || !$newPassword) {
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'Заповніть усі поля'];
+        }
+
+        if (!$user->validatePassword($oldPassword)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Невірний поточний пароль'];
+        }
+
+        if (mb_strlen($newPassword) < 6) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Новий пароль має містити щонайменше 6 символів'];
+        }
+
+        $user->setPassword($newPassword);
+        $user->generateAuthKey();
+
+        if ($user->save(false)) {
+            return ['success' => true];
+        }
+
+        Yii::$app->response->statusCode = 500;
+        return ['error' => 'Не вдалося змінити пароль'];
     }
 
     /**

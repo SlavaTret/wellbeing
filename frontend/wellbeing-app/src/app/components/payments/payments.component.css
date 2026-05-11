@@ -1,9 +1,8 @@
-:host { --green: #2DB928; --green-dark: #1E9020; --green-light: #E8F5E9; --text: #1C2B20; --text-muted: #6B8879; --border: #DCE9DC; }
 .section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
 .card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
 
 .pay-banner {
-  background: linear-gradient(135deg, #2DB928, #1E9020);
+  background: var(--brand-gradient);
   border-radius: 16px; padding: 24px;
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 24px;
@@ -35,7 +34,7 @@
 .pay-amount.unpaid-text { color: #C62828; }
 
 .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-.badge-paid      { background: var(--green-light); color: var(--green-dark); }
+.badge-paid      { background: #E8F5E9; color: #1B7A35; }
 .badge-unpaid    { background: #FFEBEE; color: #C62828; }
 .badge-refunded  { background: #E3F2FD; color: #1565C0; }
 

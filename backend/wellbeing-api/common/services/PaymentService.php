@@ -295,13 +295,18 @@ class PaymentService
                 )->queryScalar();
             }
 
+            $userEmail = (string)Yii::$app->db->createCommand(
+                'SELECT email FROM {{%user}} WHERE id = :id',
+                [':id' => $userId]
+            )->queryScalar();
+
             $svc    = new GoogleCalendarService();
             $result = $svc->createEventWithMeet($token, [
-                'appointment_date' => $appt->appointment_date,
-                'appointment_time' => $appt->appointment_time,
-                'specialist_name'  => $appt->specialist_name,
-                'book_via'         => 'online',
-            ], $specialistEmail ?: '');
+                'appointment_date'    => $appt->appointment_date,
+                'appointment_time'    => $appt->appointment_time,
+                'specialist_name'     => $appt->specialist_name,
+                'communication_method'=> $appt->communication_method ?? 'google_meet',
+            ], $specialistEmail ?: '', $userEmail);
 
             if (!empty($result['event_id'])) {
                 Yii::$app->db->createCommand()->update('appointment', [

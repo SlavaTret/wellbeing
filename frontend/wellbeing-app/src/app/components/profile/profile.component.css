@@ -1,14 +1,10 @@
-:host {
-  --green: #2DB928; --green-dark: #1E9020; --green-light: #E8F5E9;
-  --text: #1C2B20; --text-muted: #6B8879; --border: #DCE9DC; --bg: #F2F7F3;
-}
 .section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
 .card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
 .profile-grid { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: start; }
 .avatar-card { display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 200px; }
 .avatar-img {
   width: 96px; height: 96px; border-radius: 50%;
-  background: linear-gradient(135deg, #2DB928, #1E9020);
+  background: var(--brand-gradient);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; color: #fff; font-size: 32px;
   position: relative; overflow: hidden;
@@ -28,6 +24,14 @@
 }
 .btn-change-photo:hover { border-color: var(--green); color: var(--green); }
 .btn-change-photo.disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+.btn-change-password {
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 10px;
+  background: transparent; font-size: 13px; color: var(--text-muted);
+  cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: inherit;
+  width: 100%; justify-content: center;
+}
+.btn-change-password:hover { border-color: var(--green); color: var(--green); }
+
 .avatar-error { font-size: 11px; color: #C62828; text-align: center; }
 .spinner-white { border-color: rgba(255,255,255,0.3); border-top-color: #fff; }
 .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -143,7 +147,113 @@
 
 .btn-save:disabled { opacity: 0.7; cursor: default; }
 
+/* ── Change Password Modal ── */
+.pwd-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  transition: background 0.28s ease;
+}
+.pwd-overlay--visible { background: rgba(0,0,0,0.45); }
+
+.pwd-modal {
+  background: #fff; border-radius: 20px; width: 100%; max-width: 440px;
+  padding: 28px; display: flex; flex-direction: column; gap: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  transform: translateY(24px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(.4,0,.2,1), opacity 0.28s ease;
+}
+.pwd-modal--visible { transform: translateY(0) scale(1); opacity: 1; }
+
+.pwd-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pwd-modal-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.pwd-close-btn {
+  width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  flex-shrink: 0;
+}
+.pwd-close-btn:hover { background: var(--green-hover); border-color: var(--green-hover-border); color: var(--green-dark); }
+
+.pwd-field { display: flex; flex-direction: column; gap: 6px; }
+.pwd-field label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.pwd-input-wrap {
+  position: relative; display: flex; align-items: center;
+}
+.pwd-input-wrap input {
+  width: 100%; padding: 11px 42px 11px 14px; border: 1px solid var(--border);
+  border-radius: 10px; font-size: 14px; font-family: inherit;
+  background: var(--bg); color: var(--text); outline: none;
+  transition: border-color 0.15s; box-sizing: border-box;
+}
+.pwd-input-wrap input:focus { border-color: var(--green); background: #fff; }
+.pwd-input-wrap input:disabled { opacity: 0.6; cursor: not-allowed; }
+.pwd-eye-btn,
+.pwd-gen-btn {
+  position: absolute;
+  background: transparent; border: none; cursor: pointer; padding: 6px;
+  color: var(--text-muted); display: flex; align-items: center;
+  transition: background 0.15s; border-radius: 6px;
+}
+.pwd-eye-btn:hover,
+.pwd-gen-btn:hover:not(:disabled) { background: var(--green-light); color: var(--green-dark); }
+.pwd-gen-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* eye button: at the right edge by default */
+.pwd-eye-btn { right: 4px; }
+/* when generate button is also present, shift eye left */
+.pwd-input-wrap:has(.pwd-gen-btn) .pwd-eye-btn { right: 38px; }
+/* generate button: rightmost */
+.pwd-gen-btn { right: 4px; }
+
+/* extra right padding for field that has both buttons */
+.pwd-input--with-gen { padding-right: 74px !important; }
+
+.pwd-error {
+  display: flex; align-items: center; gap: 7px;
+  background: #FFEBEE; border: 1px solid #FFCDD2; border-radius: 10px;
+  padding: 10px 14px; color: #C62828; font-size: 13px; font-weight: 500;
+}
+
+.pwd-success {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--green-light); border-radius: 10px;
+  padding: 14px 16px; color: var(--success); font-size: 14px; font-weight: 600;
+}
+
+.pwd-actions {
+  display: flex; gap: 8px; justify-content: flex-end; padding-top: 4px;
+}
+.pwd-btn-cancel {
+  padding: 10px 20px; border: 1px solid var(--border); border-radius: 10px;
+  background: transparent; color: var(--text-muted); font-size: 14px;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.pwd-btn-cancel:hover:not(:disabled) { background: var(--green-hover); border-color: var(--green-hover-border); }
+.pwd-btn-cancel:disabled { opacity: 0.5; cursor: not-allowed; }
+.pwd-btn-submit {
+  padding: 10px 24px; border: none; border-radius: 10px;
+  background: var(--green); color: #fff; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+  display: flex; align-items: center; justify-content: center; min-width: 100px;
+}
+.pwd-btn-submit:hover:not(:disabled) { background: var(--green-dark); }
+.pwd-btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+.btn-spinner {
+  display: inline-block; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  animation: spin 0.75s linear infinite;
+}
+
 @media (max-width: 700px) {
   .profile-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
+  .pwd-modal { padding: 20px; }
 }

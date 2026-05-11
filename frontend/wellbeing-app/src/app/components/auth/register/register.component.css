@@ -1,6 +1,6 @@
 .auth-page {
   min-height: 100vh;
-  background: #F2F7F3;
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
 .auth-card {
   background: #fff;
   border-radius: 20px;
-  border: 1px solid #DCE9DC;
+  border: 1px solid var(--border);
   padding: 40px;
   width: 100%;
   max-width: 460px;
@@ -33,13 +33,13 @@
 .auth-title {
   font-size: 22px;
   font-weight: 700;
-  color: #1C2B20;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
 .auth-desc {
   font-size: 14px;
-  color: #6B8879;
+  color: var(--text-muted);
   margin-bottom: 28px;
 }
 
@@ -69,7 +69,7 @@
 .form-field label {
   display: block;
   font-size: 12px;
-  color: #6B8879;
+  color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -96,11 +96,11 @@
 .form-field input {
   width: 100%;
   padding: 12px 14px 12px 38px;
-  border: 1px solid #DCE9DC;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 14px;
-  color: #1C2B20;
-  background: #F2F7F3;
+  color: var(--text);
+  background: var(--bg);
   outline: none;
   font-family: 'Montserrat', sans-serif;
   box-sizing: border-box;
@@ -114,7 +114,7 @@
 
 .input-wrap input:focus,
 .form-field input:focus {
-  border-color: #2DB928;
+  border-color: var(--green);
   background: #fff;
 }
 
@@ -127,11 +127,11 @@
 .select-wrap select {
   width: 100%;
   padding: 12px 36px 12px 38px;
-  border: 1px solid #DCE9DC;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 14px;
-  color: #1C2B20;
-  background: #F2F7F3;
+  color: var(--text);
+  background: var(--bg);
   outline: none;
   font-family: 'Montserrat', sans-serif;
   appearance: none;
@@ -140,7 +140,7 @@
   box-sizing: border-box;
   transition: border-color 0.15s;
 }
-.select-wrap select:focus { border-color: #2DB928; background: #fff; }
+.select-wrap select:focus { border-color: var(--green); background: #fff; }
 .select-wrap select:disabled { opacity: 0.6; cursor: default; }
 
 .select-arrow {
@@ -161,22 +161,22 @@
   align-items: center;
   border-radius: 6px;
   transition: background 0.15s;
-  color: #6B8879;
+  color: var(--text-muted);
 }
-.icon-btn:hover { background: #E8F5E9; }
+.icon-btn:hover { background: var(--green-light); }
 .icon-btn:nth-of-type(1) { right: 38px; }
 .icon-btn:nth-of-type(2) { right: 4px; }
 
 .password-hint {
   font-size: 11px;
-  color: #6B8879;
+  color: var(--text-muted);
   margin-top: 6px;
 }
 
 .btn-primary {
   width: 100%;
   padding: 13px;
-  background: #2DB928;
+  background: var(--green);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -191,7 +191,7 @@
   justify-content: center;
   min-height: 46px;
 }
-.btn-primary:hover:not(:disabled) { background: #1E9020; }
+.btn-primary:hover:not(:disabled) { background: var(--green-dark); }
 .btn-primary:disabled { opacity: 0.6; cursor: default; }
 
 .spinner {
@@ -209,9 +209,9 @@
   text-align: center;
   margin-top: 20px;
   font-size: 13px;
-  color: #6B8879;
+  color: var(--text-muted);
 }
-.auth-link a { color: #2DB928; font-weight: 600; text-decoration: none; }
+.auth-link a { color: var(--green); font-weight: 600; text-decoration: none; }
 .auth-link a:hover { text-decoration: underline; }
 
 .terms-row {
@@ -220,14 +220,14 @@
 }
 .checkbox-custom {
   width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 2px;
-  background: #fff; border: 1.5px solid #DCE9DC;
+  background: #fff; border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all 0.15s;
 }
-.checkbox-custom.checked { background: #2DB928; border-color: #2DB928; }
-.checkbox-custom:hover:not(.checked) { border-color: #2DB928; }
-.terms-text { font-size: 13px; color: #6B8879; line-height: 1.5; }
-.link-green { color: #2DB928; cursor: pointer; }
+.checkbox-custom.checked { background: var(--green); border-color: var(--green); }
+.checkbox-custom:hover:not(.checked) { border-color: var(--green); }
+.terms-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.link-green { color: var(--green); cursor: pointer; }
 
 @media (max-width: 480px) {
   .auth-card { padding: 28px 20px; }

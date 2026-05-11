@@ -311,11 +311,11 @@ class AppointmentController extends Controller
 
             $svc = new GoogleCalendarService();
             $result = $svc->createEventWithMeet($token, [
-                'appointment_date' => $appointment->appointment_date,
-                'appointment_time' => $appointment->appointment_time,
-                'specialist_name'  => $appointment->specialist_name,
-                'book_via'         => $data['book_via'] ?? 'online',
-            ], $specialistEmail ?: '');
+                'appointment_date'    => $appointment->appointment_date,
+                'appointment_time'    => $appointment->appointment_time,
+                'specialist_name'     => $appointment->specialist_name,
+                'communication_method'=> $appointment->communication_method ?? 'google_meet',
+            ], $specialistEmail ?: '', $user->email ?? '');
 
             if ($result['event_id']) {
                 Yii::$app->db->createCommand()->update(

@@ -1,5 +1,5 @@
 .wysiwyg-wrap {
-  border: 1px solid #DCE9DC;
+  border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
@@ -10,8 +10,8 @@
   align-items: center;
   gap: 2px;
   padding: 6px 10px;
-  background: #F2F7F3;
-  border-bottom: 1px solid #DCE9DC;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
 
@@ -28,13 +28,13 @@
 }
 
 .wysiwyg-toolbar button:hover {
-  background: #DCE9DC;
+  background: var(--border);
 }
 
 .wysiwyg-sep {
   width: 1px;
   height: 18px;
-  background: #DCE9DC;
+  background: var(--border);
   margin: 0 4px;
 }
 
@@ -52,4 +52,4 @@
 .wysiwyg-editor h3 { font-size: 15px; font-weight: 600; margin: 10px 0 4px; }
 .wysiwyg-editor p  { margin: 6px 0; }
 .wysiwyg-editor ul, .wysiwyg-editor ol { padding-left: 20px; margin: 6px 0; }
-.wysiwyg-editor a  { color: #2DB928; text-decoration: underline; }
+.wysiwyg-editor a  { color: var(--green); text-decoration: underline; }

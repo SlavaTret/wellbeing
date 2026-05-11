@@ -101,54 +101,68 @@ class GoogleCalendarService
     }
 
     /**
-     * Create a Calendar event with Google Meet link.
+     * Create a Calendar event.
      * Returns ['event_id' => ..., 'meet_link' => ..., 'html_link' => ...]
      */
     public function createEventWithMeet(
         UserGoogleToken $token,
         array $appointment,
-        string $specialistEmail
+        string $specialistEmail,
+        string $userEmail = ''
     ): array {
         $token = $this->refreshToken($token);
 
-        $startDateTime = $appointment['appointment_date'] . 'T' . $appointment['appointment_time'] . ':00';
-        // Calculate end time = start + 1 hour
+        // Normalize time to HH:MM to handle both HH:MM and HH:MM:SS stored values
+        $time = substr($appointment['appointment_time'], 0, 5);
+        $startDateTime = $appointment['appointment_date'] . 'T' . $time . ':00';
         $end = new \DateTime($startDateTime);
         $end->modify('+1 hour');
         $endDateTime = $end->format('Y-m-d\TH:i:s');
+
+        $commMethod = $appointment['communication_method'] ?? 'google_meet';
+        $formatLabel = match ($commMethod) {
+            'zoom'  => 'Zoom',
+            'teams' => 'Microsoft Teams',
+            default => 'Google Meet',
+        };
+
+        // Build unique attendee list from all provided emails
+        $attendeeEmails = array_values(array_unique(array_filter([
+            $token->google_email,
+            $userEmail,
+            $specialistEmail,
+        ])));
 
         $body = [
             'summary'     => 'Консультація з ' . $appointment['specialist_name'],
             'description' => 'Wellbeing — онлайн консультація.' .
                              "\nСпеціаліст: " . $appointment['specialist_name'] .
-                             "\nФормат: " . ($appointment['book_via'] === 'phone' ? 'Телефон' : 'Google Meet'),
+                             "\nФормат: " . $formatLabel,
             'start'       => ['dateTime' => $startDateTime, 'timeZone' => 'Europe/Kiev'],
             'end'         => ['dateTime' => $endDateTime,   'timeZone' => 'Europe/Kiev'],
-            'attendees'   => array_filter([
-                ['email' => $token->google_email],
-                $specialistEmail ? ['email' => $specialistEmail] : null,
-            ]),
-            'conferenceData' => [
-                'createRequest' => [
-                    'requestId'             => uniqid('wb_', true),
-                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
-                ],
-            ],
-            'reminders' => [
+            'attendees'   => array_map(fn($e) => ['email' => $e], $attendeeEmails),
+            'reminders'   => [
                 'useDefault' => false,
                 'overrides'  => [
                     ['method' => 'email',  'minutes' => 24 * 60],
-                    ['method' => 'popup',  'minutes' => 30],
+                    ['method' => 'popup',  'minutes' => 60],
                 ],
             ],
         ];
 
-        $result = $this->post(
-            self::CALENDAR_URL . '/calendars/primary/events?conferenceDataVersion=1&sendUpdates=all',
-            $body,
-            $token->access_token,
-            true
-        );
+        $url = self::CALENDAR_URL . '/calendars/primary/events?sendUpdates=all';
+
+        if ($commMethod === 'google_meet') {
+            $body['conferenceData'] = [
+                'createRequest' => [
+                    'requestId'             => uniqid('wb_', true),
+                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                ],
+            ];
+            $url .= '&conferenceDataVersion=1';
+        }
+
+        $result = $this->post($url, $body, $token->access_token, true);
 
         $meetLink = '';
         foreach ($result['conferenceData']['entryPoints'] ?? [] as $ep) {

@@ -48,7 +48,9 @@
       </div>
       <div class="appt-info">
         <div class="appt-name">{{ a.specialist }}</div>
-        <div class="appt-meta">{{ typeName(a.type, a.type_name) }} · {{ a.date }}, {{ a.time }}</div>
+        <div class="appt-meta">
+          <span class="appt-type">{{ typeName(a.type, a.type_name) }}</span><span class="appt-sep"> · </span><span class="appt-datetime">{{ a.date }}, {{ a.time }}</span>
+        </div>
       </div>
       <span class="status-badge" [ngClass]="'badge-' + a.status">{{ getStatusLabel(a.status) }}</span>
     </div>
@@ -62,7 +64,7 @@
         <app-icon
           [name]="a.payment_status === 'subscription' ? 'building' : 'card'"
           [size]="14"
-          [stroke]="a.payment_status === 'subscription' ? 'var(--green)' : (a.paid ? 'var(--green)' : (a.payment_status === 'pending' ? '#C77800' : (a.payment_status === 'refunded' ? '#1565C0' : '#8B6200')))"></app-icon>
+          [stroke]="a.payment_status === 'subscription' ? '#1B7A35' : (a.paid ? '#1B7A35' : (a.payment_status === 'pending' ? '#C77800' : (a.payment_status === 'refunded' ? '#1565C0' : '#8B6200')))"></app-icon>
         {{ a.payment_status === 'subscription' ? ('appointments.payment.subscription' | translate) : (a.paid ? ('appointments.payment.paid' | translate) : (a.payment_status === 'pending' ? ('appointments.payment.pending' | translate) : (a.payment_status === 'refunded' ? ('appointments.payment.refunded' | translate) : ('appointments.payment.unpaid' | translate)))) }}
       </div>
       <div class="appt-actions">
@@ -175,12 +177,28 @@
 
       <!-- ──────── STEP 1 ──────── -->
       <div *ngIf="bookingStep === 1">
-        <div class="bk-hint">{{ 'appointments.booking.step1.hint' | translate }}</div>
 
-        <div class="bk-chips">
-          <button *ngFor="let c of categories" class="bk-chip"
-            [class.bk-chip-active]="catFilter === c.id"
-            (click)="catFilter = c.id">{{ c.id === 'all' ? (c.label | translate) : c.label }}</button>
+        <!-- Specialization filter -->
+        <div class="bk-filter-section">
+          <div class="bk-filter-label">{{ 'appointments.booking.step1.spec_label' | translate }}</div>
+          <div class="bk-chips">
+            <button class="bk-chip" [class.bk-chip-active]="specFilter === 'all'" (click)="setSpecFilter('all')">
+              {{ 'appointments.booking.step1.all_specs' | translate }}
+            </button>
+            <button *ngFor="let sp of specializations" class="bk-chip"
+              [class.bk-chip-active]="specFilter === sp.type"
+              (click)="setSpecFilter(sp.type)">{{ sp.label }}</button>
+          </div>
+        </div>
+
+        <!-- Category filter (only if there are categories to show) -->
+        <div class="bk-filter-section" *ngIf="filteredCategories.length > 1">
+          <div class="bk-filter-label">{{ 'appointments.booking.step1.cat_label' | translate }}</div>
+          <div class="bk-chips">
+            <button *ngFor="let c of filteredCategories" class="bk-chip"
+              [class.bk-chip-active]="catFilter === c.id"
+              (click)="catFilter = c.id">{{ c.id === 'all' ? (c.label | translate) : c.label }}</button>
+          </div>
         </div>
 
         <div *ngIf="specialistsLoading" class="loading-wrap"><div class="spinner-lg"></div></div>
@@ -188,6 +206,7 @@
         <div *ngIf="!specialistsLoading" class="bk-spec-list">
           <div *ngFor="let sp of filteredSpecialists"
             class="bk-spec-card"
+            [class.bk-spec-card--prev]="previousSpecialistIds.has(sp.id)"
             (click)="selectSpec(sp)">
             <div class="bk-spec-avatar">
               <img *ngIf="sp.avatar_url" [src]="sp.avatar_url" alt="{{ sp.name }}" class="bk-spec-avatar-img" />
@@ -196,8 +215,11 @@
             <div class="bk-spec-info">
               <div class="bk-spec-name-row">
                 <span class="bk-spec-name">{{ sp.name }}</span>
+                <span *ngIf="previousSpecialistIds.has(sp.id)" class="bk-prev-badge">
+                  ✓ {{ 'appointments.booking.step1.prev_badge' | translate }}
+                </span>
                 <span class="bk-spec-type-tag">{{ typeName(sp.type, sp.type_name) }}</span>
-                <span class="bk-spec-price-tag">{{ sp.price | number:'1.0-0' }} грн</span>
+                <span class="bk-spec-price-tag">{{ sp.price | number:'1.0-0' }} ₴</span>
               </div>
               <div class="bk-spec-meta">
                 {{ sp.categories?.join(' · ') }} · {{ sp.experience_years }} {{ 'appointments.booking.step1.experience' | translate }}

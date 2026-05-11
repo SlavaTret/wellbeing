@@ -23040,3 +23040,1752 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1778495578.7766
     'REQUEST_TIME' => 1778495578
 ]
+2026-05-11 10:43:35 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:43:35 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:43:33 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '18720fd5dd267d9220f7e22fe5f8afe6136e9cf950a239cf69438aae8370ae31a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"Qs_AQGswN2q9qmbSx5V7XdrtuBrTkMAA\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64280'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=18720fd5dd267d9220f7e22fe5f8afe6136e9cf950a239cf69438aae8370ae31a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Qs_AQGswN2q9qmbSx5V7XdrtuBrTkMAA%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778496213.8636
+    'REQUEST_TIME' => 1778496213
+]
+2026-05-11 10:43:52 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:43:52 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:43:51 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '8122a9444dcdd0441745dba5e152ff2161e296a35f1eb685ee5a0b4225caf5f1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"KDEI7W-NmnSt6qT36kJOo45bBYlODbZV\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64376'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=8122a9444dcdd0441745dba5e152ff2161e296a35f1eb685ee5a0b4225caf5f1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22KDEI7W-NmnSt6qT36kJOo45bBYlODbZV%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778496231.0689
+    'REQUEST_TIME' => 1778496231
+]
+2026-05-11 10:46:41 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:46:41 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:46:39 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '9d2ccad316c8745d7d1b4f82cf7a1b03182784b2fc71c2993f7886d2105e0194a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"BGY-0L_7cCbsbBba1_WtSZanOGCOCeht\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49200'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=9d2ccad316c8745d7d1b4f82cf7a1b03182784b2fc71c2993f7886d2105e0194a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22BGY-0L_7cCbsbBba1_WtSZanOGCOCeht%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778496399.6984
+    'REQUEST_TIME' => 1778496399
+]
+2026-05-11 10:47:28 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:47:28 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:47:27 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '92cee476bccf42263d9a834cbffa467e7271507df1e6c0be0d7201027dc02d3ba:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"o1r1dlf3jTBbXSxPqpfIViX318AuICtB\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49480'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=92cee476bccf42263d9a834cbffa467e7271507df1e6c0be0d7201027dc02d3ba%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22o1r1dlf3jTBbXSxPqpfIViX318AuICtB%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CACHE_CONTROL' => 'no-cache'
+    'HTTP_PRAGMA' => 'no-cache'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778496447.2973
+    'REQUEST_TIME' => 1778496447
+]
+2026-05-11 10:48:19 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:48:19 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:48:18 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'e93d988cd12ab2f430bb48ad21014fac26b1121fd0c24ce00fccc425758f4f7ea:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"nqYkejBtLDjjO98KZa8yBCsiTWIDeOnW\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49879'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=e93d988cd12ab2f430bb48ad21014fac26b1121fd0c24ce00fccc425758f4f7ea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22nqYkejBtLDjjO98KZa8yBCsiTWIDeOnW%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?1'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"iOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778496498.6918
+    'REQUEST_TIME' => 1778496498
+]
+2026-05-11 10:59:08 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 10:59:08 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 10:59:07 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '71f0e76b6a7117451926d75160e1bbac36f5c049b071ecf510d7c1007379a9a0a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"nfDlFXtp-LgcejR6SL4pF-PGUuCaoEc4\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54180'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=71f0e76b6a7117451926d75160e1bbac36f5c049b071ecf510d7c1007379a9a0a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22nfDlFXtp-LgcejR6SL4pF-PGUuCaoEc4%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778497147.2301
+    'REQUEST_TIME' => 1778497147
+]
+2026-05-11 11:21:47 [127.0.0.1][1][-][warning][creatio] [Creatio] requesting token from: https://dev-wellbeing-company-is.creatio.com/connect/token
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:428
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:122
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:48 [127.0.0.1][1][-][warning][creatio] [Creatio] token attempt1 HTTP 200: {"access_token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IkRCNEE3NkMwOTdGOEM0RkI1MkY5NDkzREZGNzRFMTY5RTNFMkMwN0NSUzI1NiIsIng1dCI6IjIwcDJ3SmY0eFB0Uy1VazlfM1RoYWVQaXdIdyIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJjcmVhdGlvLmNvbSIsIm5iZiI6MTc3ODQ5ODUwOCwiaWF0IjoxNzc4NDk4NTA4LCJleHAiOjE3Nzg1MDIxMDgsImF1ZCI6IkFwcGxpY2F0aW9uQW
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:441
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:122
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:48 [127.0.0.1][1][-][warning][creatio] [Creatio] token obtained OK
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:470
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:122
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:49 [127.0.0.1][1][-][warning][creatio] [Creatio] creating new account for company=EPAM
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:143
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:50 [127.0.0.1][1][-][warning][creatio] [Creatio] created account id=7e4838d0-5d34-4216-96d9-ec730dd8d083
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:147
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:50 [127.0.0.1][1][-][warning][creatio] [Creatio] saved creatio_account_id=7e4838d0-5d34-4216-96d9-ec730dd8d083 for portal company_id=1
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:156
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:22:05 [127.0.0.1][1][-][warning][creatio] [Creatio] logo download failed: code=0 err=Operation timed out after 15002 milliseconds with 0 bytes received url=http://localhost:8000/uploads/logos/logo_1777289226_ew1XC_E3.svg
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:658
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:161
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:22:05 [127.0.0.1][1][-][warning][creatio] [Creatio] syncCompany completed OK for EPAM
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:164
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:262
+2026-05-11 11:21:45 [127.0.0.1][1][-][info][application] $_GET = [
+    'id' => '1'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '145a7c3160a83c4147f2b1fdf795c0b31cc040570776000f88397eca48dc8ee0a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"yFgywQfMT4-wbYPoJMNYiIhmmnBkQBoC\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '63136'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/admin/companies/1'
+    'REQUEST_METHOD' => 'POST'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/admin/companies/1'
+    'PHP_SELF' => '/index.php/v1/admin/companies/1'
+    'HTTP_COOKIE' => '_csrf=145a7c3160a83c4147f2b1fdf795c0b31cc040570776000f88397eca48dc8ee0a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22yFgywQfMT4-wbYPoJMNYiIhmmnBkQBoC%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/admin/companies'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_ORIGIN' => 'http://localhost:4200'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_CONTENT_TYPE' => 'application/json'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'CONTENT_LENGTH' => '230'
+    'HTTP_CONTENT_LENGTH' => '230'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778498505.6731
+    'REQUEST_TIME' => 1778498505
+]
+2026-05-11 11:22:17 [127.0.0.1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(36): yii\base\Application->run()
+#12 {main}
+2026-05-11 11:22:16 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'b9f49217ad51a04f888a6eb27feea7cc99241252936a4636930e55b44cd2b028a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"uu0nFYsIoIHfo_V-WnLJohbRrre76PSP\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '63342'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=b9f49217ad51a04f888a6eb27feea7cc99241252936a4636930e55b44cd2b028a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22uu0nFYsIoIHfo_V-WnLJohbRrre76PSP%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/login'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_PURPOSE' => 'prefetch;prerender'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778498536.6024
+    'REQUEST_TIME' => 1778498536
+]
+2026-05-11 11:22:26 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 11:22:26 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 11:22:24 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '206f9147948cd367dfe49926c4b9f1a3f26f5892b9078e4b3d278318a4d419cca:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"94bqjPiG52Of4atA9t5-ARgsSEKDReiF\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '63407'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=206f9147948cd367dfe49926c4b9f1a3f26f5892b9078e4b3d278318a4d419cca%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%2294bqjPiG52Of4atA9t5-ARgsSEKDReiF%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778498544.6492
+    'REQUEST_TIME' => 1778498544
+]
+2026-05-11 11:24:42 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 11:24:42 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 11:24:41 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '97ea72bcd975c9f43b88fd3433df1a46579dd08f4b73b5b9bb4ce244ec4ac2eaa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"_aTDsw8iLSi7eIQlMr9ZgkyNTghcpTKX\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64312'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=97ea72bcd975c9f43b88fd3433df1a46579dd08f4b73b5b9bb4ce244ec4ac2eaa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22_aTDsw8iLSi7eIQlMr9ZgkyNTghcpTKX%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778498681.0013
+    'REQUEST_TIME' => 1778498681
+]
+2026-05-11 11:33:30 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 11:33:30 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 11:33:29 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '2f4ba4d2bbd4b6a8c8ce0957d5e5a00985a2d7521f8eb080cb9736417020b3a8a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"7uGw-LfQM5oMmkR-7bapheE7MbiI1bXb\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49761'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=2f4ba4d2bbd4b6a8c8ce0957d5e5a00985a2d7521f8eb080cb9736417020b3a8a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227uGw-LfQM5oMmkR-7bapheE7MbiI1bXb%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778499209.2764
+    'REQUEST_TIME' => 1778499209
+]
+2026-05-11 11:36:31 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 11:36:31 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 11:36:30 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '3a20e693e3b6b0490ac0d7d0f39a0e99a41921f5641bb2ad2a1b32da5a5fc2dba:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"7tbPDoV3aMq5nyjoymruFjXnLcvZHl1_\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '50474'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=3a20e693e3b6b0490ac0d7d0f39a0e99a41921f5641bb2ad2a1b32da5a5fc2dba%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227tbPDoV3aMq5nyjoymruFjXnLcvZHl1_%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778499390.4003
+    'REQUEST_TIME' => 1778499390
+]
+2026-05-11 11:36:38 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 11:36:38 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 11:36:36 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '3a20e693e3b6b0490ac0d7d0f39a0e99a41921f5641bb2ad2a1b32da5a5fc2dba:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"7tbPDoV3aMq5nyjoymruFjXnLcvZHl1_\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '50489'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=3a20e693e3b6b0490ac0d7d0f39a0e99a41921f5641bb2ad2a1b32da5a5fc2dba%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227tbPDoV3aMq5nyjoymruFjXnLcvZHl1_%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778499396.9189
+    'REQUEST_TIME' => 1778499396
+]
+2026-05-11 12:00:08 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:00:08 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:00:07 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '9f9a7326233e4667fc2b4c7b02b4d3821a2cd9e26d5b282003dd75686b025608a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"vFydcSMsORlZoiIao2tieEhHwmXHCXnV\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54087'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=9f9a7326233e4667fc2b4c7b02b4d3821a2cd9e26d5b282003dd75686b025608a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22vFydcSMsORlZoiIao2tieEhHwmXHCXnV%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778500807.0966
+    'REQUEST_TIME' => 1778500807
+]
+2026-05-11 12:01:08 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:01:08 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:01:07 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'a6e00da5591b9e9d11536a57db220a98f351a52117f14acf6e28bd96b63d7af5a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"IzVUz812xL7jnWYf233T042FDHSvrTZK\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54221'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=a6e00da5591b9e9d11536a57db220a98f351a52117f14acf6e28bd96b63d7af5a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22IzVUz812xL7jnWYf233T042FDHSvrTZK%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778500867.1044
+    'REQUEST_TIME' => 1778500867
+]
+2026-05-11 12:02:35 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:02:35 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:02:34 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'e7ff0c12750edae635e088faa5901f47ca216f427e01753be7b47f5ff73228a1a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"vo8qBLg7csWKu5aZF5-5hnavvAc3g6wU\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54454'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=e7ff0c12750edae635e088faa5901f47ca216f427e01753be7b47f5ff73228a1a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22vo8qBLg7csWKu5aZF5-5hnavvAc3g6wU%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778500954.0975
+    'REQUEST_TIME' => 1778500954
+]
+2026-05-11 12:13:33 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:13:33 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:13:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '53cf9166108728859d22c76c62e7bc5c6b37fa57dff2a0550a7843f7083c0096a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"JvWqeBUErXZhCtv8PFhWmhR_i11afb2T\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56161'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=53cf9166108728859d22c76c62e7bc5c6b37fa57dff2a0550a7843f7083c0096a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22JvWqeBUErXZhCtv8PFhWmhR_i11afb2T%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501612.8463
+    'REQUEST_TIME' => 1778501612
+]
+2026-05-11 12:14:34 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:14:34 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:14:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '10c1dda7662ff458b9000684f48f7e27c920e8ec60ce3ace6e951b1b9f6d8777a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"cswg9D3yFuct3eBvMySYox-96btxh8Kr\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56303'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=10c1dda7662ff458b9000684f48f7e27c920e8ec60ce3ace6e951b1b9f6d8777a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22cswg9D3yFuct3eBvMySYox-96btxh8Kr%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501672.8834
+    'REQUEST_TIME' => 1778501672
+]
+2026-05-11 12:15:33 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:15:33 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:15:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '1457e9a4c071a2997f6e68640dc7e1439573015e7a2dcdca0da452c0d3fa6290a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"P9DdwNJr_8TleUOvaQPiFjnwWOfoWrHe\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56428'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=1457e9a4c071a2997f6e68640dc7e1439573015e7a2dcdca0da452c0d3fa6290a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22P9DdwNJr_8TleUOvaQPiFjnwWOfoWrHe%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501732.8737
+    'REQUEST_TIME' => 1778501732
+]
+2026-05-11 12:16:34 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:16:34 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:16:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '3278ca65ca918ad99b7654ad3c04c3c6ba1a839e95e2c33296fc4659f7e9eb8ba:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"rgCispNXo9dmGFkjqTKAJo9YGDpDu29S\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56553'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=3278ca65ca918ad99b7654ad3c04c3c6ba1a839e95e2c33296fc4659f7e9eb8ba%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22rgCispNXo9dmGFkjqTKAJo9YGDpDu29S%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501792.8798
+    'REQUEST_TIME' => 1778501792
+]
+2026-05-11 12:17:33 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:17:33 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:17:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '0bd7df5a4de37bef709ad155ae5330609f360149af1f514ad76d233ec5d995cea:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"MvU4GzU3HMrIY4hCYmNr55_xZ8_H0Ug2\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56681'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=0bd7df5a4de37bef709ad155ae5330609f360149af1f514ad76d233ec5d995cea%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22MvU4GzU3HMrIY4hCYmNr55_xZ8_H0Ug2%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501852.8755
+    'REQUEST_TIME' => 1778501852
+]
+2026-05-11 12:18:34 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:18:34 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:18:32 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '815f23024c70479139d70026064a615ca110ba50ddd596ad6b218f18e7073f7ca:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"EgZKhqnONyusTYFRJnzr16r4_JRA8CzE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56812'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=815f23024c70479139d70026064a615ca110ba50ddd596ad6b218f18e7073f7ca%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22EgZKhqnONyusTYFRJnzr16r4_JRA8CzE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501912.8785
+    'REQUEST_TIME' => 1778501912
+]
+2026-05-11 12:18:57 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:18:57 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:18:56 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'b3a0c14b387ef7b9e58617ec000a874dea33273757459dcf481b69a3002afc01a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"7oTnbswRu0PpqFOesjcy9Mmva9f0JtIr\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '56874'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=b3a0c14b387ef7b9e58617ec000a874dea33273757459dcf481b69a3002afc01a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%227oTnbswRu0PpqFOesjcy9Mmva9f0JtIr%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778501936.191
+    'REQUEST_TIME' => 1778501936
+]
+2026-05-11 12:23:52 [127.0.0.1][1][-][warning][creatio] [Creatio] requesting token from: https://dev-wellbeing-company-is.creatio.com/connect/token
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:428
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:184
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:631
+2026-05-11 12:23:53 [127.0.0.1][1][-][warning][creatio] [Creatio] token attempt1 HTTP 200: {"access_token":"eyJhbGciOiJSUzI1NiIsImtpZCI6IkRCNEE3NkMwOTdGOEM0RkI1MkY5NDkzREZGNzRFMTY5RTNFMkMwN0NSUzI1NiIsIng1dCI6IjIwcDJ3SmY0eFB0Uy1VazlfM1RoYWVQaXdIdyIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJjcmVhdGlvLmNvbSIsIm5iZiI6MTc3ODUwMjIzMywiaWF0IjoxNzc4NTAyMjMzLCJleHAiOjE3Nzg1MDU4MzMsImF1ZCI6IkFwcGxpY2F0aW9uQW
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:441
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:184
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:631
+2026-05-11 12:23:53 [127.0.0.1][1][-][warning][creatio] [Creatio] token obtained OK
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:470
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:184
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:631
+2026-05-11 12:23:53 [127.0.0.1][1][-][warning][creatio] [Creatio] patching expert contact 1b61000c-7aa9-48d1-aa60-f428f1ed12b0 for specialist=Вячеслав Третьяк
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:209
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:631
+2026-05-11 12:23:55 [127.0.0.1][1][-][warning][creatio] [Creatio] syncSpecialist completed OK for Вячеслав Третьяк
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/CreatioSyncService.php:237
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/AdminController.php:631
+2026-05-11 12:23:50 [127.0.0.1][1][-][info][application] $_GET = [
+    'id' => '3'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '8061ddcc47f1afc849f35c56834626ed69647338099c4ae37d3d2489e3dbc295a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"5jXSlnIfXbzqklrVIpzOxSdiRS04E2gR\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57693'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/admin/specialists/3'
+    'REQUEST_METHOD' => 'POST'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/admin/specialists/3'
+    'PHP_SELF' => '/index.php/v1/admin/specialists/3'
+    'HTTP_COOKIE' => '_csrf=8061ddcc47f1afc849f35c56834626ed69647338099c4ae37d3d2489e3dbc295a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%225jXSlnIfXbzqklrVIpzOxSdiRS04E2gR%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/admin/specialists'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_ORIGIN' => 'http://localhost:4200'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'CONTENT_TYPE' => 'application/json'
+    'HTTP_CONTENT_TYPE' => 'application/json'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'CONTENT_LENGTH' => '330'
+    'HTTP_CONTENT_LENGTH' => '330'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502230.5054
+    'REQUEST_TIME' => 1778502230
+]
+2026-05-11 12:24:02 [127.0.0.1][-][-][error][yii\web\HttpException:401] yii\web\UnauthorizedHttpException: Your request was made with invalid credentials. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php:103
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/HttpHeaderAuth.php(70): yii\filters\auth\AuthMethod->handleFailure(Object(yii\web\Response))
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/filters/auth/AuthMethod.php(68): yii\filters\auth\HttpHeaderAuth->authenticate(Object(yii\web\User), Object(yii\web\Request), Object(yii\web\Response))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/ActionFilter.php(83): yii\filters\auth\AuthMethod->beforeAction(Object(yii\base\InlineAction))
+#3 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#4 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Component.php(653): call_user_func(Array, Object(yii\base\ActionEvent))
+#5 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(334): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#6 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Controller.php(344): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#7 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Controller.php(195): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#8 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Module.php(554): yii\base\Controller->runAction('profile', Array)
+#9 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(112): yii\base\Module->runAction('v1/user/profile', Array)
+#10 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#11 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(36): yii\base\Application->run()
+#12 {main}
+2026-05-11 12:24:01 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'ef368ab3fc801f184d0084c598474a0d11affa1cb3c69dba1508c276169038e9a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"OyImLLGHxoCJA0x974c0Vs6napNeq55q\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57723'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/user/profile'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/user/profile'
+    'PHP_SELF' => '/index.php/v1/user/profile'
+    'HTTP_COOKIE' => '_csrf=ef368ab3fc801f184d0084c598474a0d11affa1cb3c69dba1508c276169038e9a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22OyImLLGHxoCJA0x974c0Vs6napNeq55q%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/login'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502241.4494
+    'REQUEST_TIME' => 1778502241
+]
+2026-05-11 12:24:12 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:24:12 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:24:10 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '6790bfb4f42fa026c818c260d93204e6ed4e50aa0db55de352b8f78b23417d3fa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"bmKAV0rkeuQsw0nzYz0akyTP7Emg0C8i\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57751'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=6790bfb4f42fa026c818c260d93204e6ed4e50aa0db55de352b8f78b23417d3fa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22bmKAV0rkeuQsw0nzYz0akyTP7Emg0C8i%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502250.409
+    'REQUEST_TIME' => 1778502250
+]
+2026-05-11 12:24:25 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:24:25 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:24:24 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '0065aaa4f405954a6044d3810db4636ed4796ecd150bc6500e5d306c7d1a21e5a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"IZ6CbqFn7DgBft79oxg2e6ovYmKJPaIr\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57792'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=0065aaa4f405954a6044d3810db4636ed4796ecd150bc6500e5d306c7d1a21e5a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22IZ6CbqFn7DgBft79oxg2e6ovYmKJPaIr%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502264.3833
+    'REQUEST_TIME' => 1778502264
+]
+2026-05-11 12:24:36 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:24:36 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:24:35 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'f31efd16a73f961e967279ce89d8c07f0e32c6999c3435d815cf36f39bc344b7a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"rWUpmAM5t2dPOtnEnli7-Xiyg-OeuCOp\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57833'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=f31efd16a73f961e967279ce89d8c07f0e32c6999c3435d815cf36f39bc344b7a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22rWUpmAM5t2dPOtnEnli7-Xiyg-OeuCOp%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502275.6289
+    'REQUEST_TIME' => 1778502275
+]
+2026-05-11 12:25:36 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:25:36 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:25:35 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '70ad81511429a33f4ed934962134da7b3430eb5bd02027611e2b29c57581424fa:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"bXUVvglAyH9l8J70rZzqPWHYTynevQAf\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57955'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=70ad81511429a33f4ed934962134da7b3430eb5bd02027611e2b29c57581424fa%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22bXUVvglAyH9l8J70rZzqPWHYTynevQAf%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502335.7708
+    'REQUEST_TIME' => 1778502335
+]
+2026-05-11 12:28:22 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:28:22 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:28:21 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '604cc43f7523e015a20545932d2afb315953f5e07d9931ea5c0c487c5a3d9737a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"eX_7-3Sr1OIPszBlw6joc14jT3aOSzzA\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58322'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=604cc43f7523e015a20545932d2afb315953f5e07d9931ea5c0c487c5a3d9737a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22eX_7-3Sr1OIPszBlw6joc14jT3aOSzzA%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502501.1998
+    'REQUEST_TIME' => 1778502501
+]
+2026-05-11 12:29:22 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:29:22 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:29:21 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'f64374036bdf3173dcbf0072ca70cbe7215e869eafdcbf92ff1aaeb08f1fb96da:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"xpnvxydpGFlUPjpqnPbBDd4bVQVg5Si4\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58450'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=f64374036bdf3173dcbf0072ca70cbe7215e869eafdcbf92ff1aaeb08f1fb96da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22xpnvxydpGFlUPjpqnPbBDd4bVQVg5Si4%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502561.8569
+    'REQUEST_TIME' => 1778502561
+]
+2026-05-11 12:30:22 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:30:22 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:30:21 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '7720ee9b9f0108e17693aa1c20433cbc16e9013d16eab3082f38931133535a47a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"C3_aHZwgZT5O2SfYx9-_yhDobq4PMRck\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58580'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=7720ee9b9f0108e17693aa1c20433cbc16e9013d16eab3082f38931133535a47a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22C3_aHZwgZT5O2SfYx9-_yhDobq4PMRck%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502621.8603
+    'REQUEST_TIME' => 1778502621
+]
+2026-05-11 12:31:22 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:182
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:31:22 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:31:21 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'fa529e2d085ed6d7f1ff98bb761c191ec66b3518be316922a2ecce722af39e13a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"3q-Kb1rgqBMzpqfa3DAUoDXKwnKae0TE\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58701'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=fa529e2d085ed6d7f1ff98bb761c191ec66b3518be316922a2ecce722af39e13a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%223q-Kb1rgqBMzpqfa3DAUoDXKwnKae0TE%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502681.8517
+    'REQUEST_TIME' => 1778502681
+]
+2026-05-11 12:32:23 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:196
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:32:23 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:32:21 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => 'f577dfc2d233ec5211e1ad6b177b72bb60055ad52060c1317a99192c5d8cd0f9a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"Zf0_mM1He1ONAmnINJOZ_q59pfSnVJvk\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58834'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=f577dfc2d233ec5211e1ad6b177b72bb60055ad52060c1317a99192c5d8cd0f9a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Zf0_mM1He1ONAmnINJOZ_q59pfSnVJvk%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502741.9408
+    'REQUEST_TIME' => 1778502741
+]
+2026-05-11 12:32:52 [127.0.0.1][1][-][error][google] Google token refresh failed: Token has been expired or revoked.
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:82
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:196
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:164
+2026-05-11 12:32:52 [127.0.0.1][1][-][error][google] Google upcoming-events failed: Google token refresh failed: Token has been expired or revoked. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/common/services/GoogleCalendarService.php:83
+    in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/modules/v1/controllers/GoogleController.php:166
+2026-05-11 12:32:51 [127.0.0.1][1][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '_csrf' => '38c4175c296af47498d76fcfc076eca9410552ad99d87689bfca00a725570e63a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"d_p0nF0-JDrSZm8ed2ACFnZ337ui3HZz\";}'
+]
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '58909'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/v1/google/upcoming-events'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/v1/google/upcoming-events'
+    'PHP_SELF' => '/index.php/v1/google/upcoming-events'
+    'HTTP_COOKIE' => '_csrf=38c4175c296af47498d76fcfc076eca9410552ad99d87689bfca00a725570e63a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22d_p0nF0-JDrSZm8ed2ACFnZ337ui3HZz%22%3B%7D'
+    'HTTP_ACCEPT_LANGUAGE' => 'uk,en-US;q=0.9,en;q=0.8,ru;q=0.7'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br, zstd'
+    'HTTP_REFERER' => 'http://localhost:4200/dashboard'
+    'HTTP_SEC_FETCH_DEST' => 'empty'
+    'HTTP_SEC_FETCH_MODE' => 'cors'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"'
+    'HTTP_ACCEPT' => 'application/json, text/plain, */*'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+    'HTTP_AUTHORIZATION' => '***'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"macOS\"'
+    'HTTP_CONNECTION' => 'close'
+    'HTTP_HOST' => '127.0.0.1:8000'
+    'REQUEST_TIME_FLOAT' => 1778502771.8574
+    'REQUEST_TIME' => 1778502771
+]

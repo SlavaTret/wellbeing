@@ -74,6 +74,7 @@ return [
                 'GET  v1/user/profile'          => 'v1/user/profile',
                 'POST v1/user/update-profile'   => 'v1/user/update-profile',
                 'POST v1/user/upload-avatar'    => 'v1/user/upload-avatar',
+                'POST v1/user/change-password'  => 'v1/user/change-password',
 
                 // Dashboard
                 'GET v1/dashboard/free-sessions' => 'v1/dashboard/free-sessions',

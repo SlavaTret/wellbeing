@@ -26,6 +26,11 @@
              style="display:none" [disabled]="avatarUploading">
     </label>
 
+    <button class="btn-change-password" (click)="openPwdModal()">
+      <app-icon name="lock" [size]="14"></app-icon>
+      {{ 'profile.change_password' | translate }}
+    </button>
+
     <div *ngIf="avatarError" class="avatar-error">{{ avatarError }}</div>
     <div class="user-id">ID: {{ userId }}</div>
   </div>
@@ -99,6 +104,79 @@
         <span class="link-green" style="cursor:pointer" (click)="legalModal='privacy'">{{ 'profile.terms_link2' | translate }}</span>
       </span>
     </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div *ngIf="pwdModalOpen" class="pwd-overlay" [class.pwd-overlay--visible]="pwdModalVisible" (click)="closePwdModal()">
+  <div class="pwd-modal" [class.pwd-modal--visible]="pwdModalVisible" (click)="$event.stopPropagation()">
+
+    <div class="pwd-modal-head">
+      <span class="pwd-modal-title">{{ 'profile.change_password' | translate }}</span>
+      <button class="pwd-close-btn" (click)="closePwdModal()">
+        <app-icon name="x" [size]="18"></app-icon>
+      </button>
+    </div>
+
+    <div *ngIf="pwdSuccess" class="pwd-success">
+      <app-icon name="checkCircle" [size]="18" stroke="var(--success)"></app-icon>
+      {{ 'profile.pwd_success' | translate }}
+    </div>
+
+    <ng-container *ngIf="!pwdSuccess">
+      <div class="pwd-field">
+        <label>{{ 'profile.pwd_old' | translate }}</label>
+        <div class="pwd-input-wrap">
+          <input [type]="pwdShowOld ? 'text' : 'password'" [(ngModel)]="pwdOld"
+                 [placeholder]="'profile.pwd_old_placeholder' | translate"
+                 [disabled]="pwdSaving">
+          <button class="pwd-eye-btn" type="button" (click)="pwdShowOld = !pwdShowOld">
+            <app-icon [name]="pwdShowOld ? 'eyeOff' : 'eye'" [size]="16"></app-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="pwd-field">
+        <label>{{ 'profile.pwd_new' | translate }}</label>
+        <div class="pwd-input-wrap">
+          <input [type]="pwdShowNew ? 'text' : 'password'" [(ngModel)]="pwdNew"
+                 [placeholder]="'profile.pwd_new_placeholder' | translate"
+                 [disabled]="pwdSaving" class="pwd-input--with-gen">
+          <button class="pwd-eye-btn" type="button" (click)="pwdShowNew = !pwdShowNew">
+            <app-icon [name]="pwdShowNew ? 'eyeOff' : 'eye'" [size]="16"></app-icon>
+          </button>
+          <button class="pwd-gen-btn" type="button" (click)="generatePassword()" [disabled]="pwdSaving"
+                  [title]="'profile.pwd_generate' | translate">
+            <app-icon name="sparkles" [size]="16"></app-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="pwd-field">
+        <label>{{ 'profile.pwd_confirm' | translate }}</label>
+        <div class="pwd-input-wrap">
+          <input [type]="pwdShowNew ? 'text' : 'password'" [(ngModel)]="pwdConfirm"
+                 [placeholder]="'profile.pwd_confirm_placeholder' | translate"
+                 [disabled]="pwdSaving">
+        </div>
+      </div>
+
+      <div *ngIf="pwdError" class="pwd-error">
+        <app-icon name="alertCircle" [size]="15" stroke="#C62828"></app-icon>
+        {{ pwdError }}
+      </div>
+
+      <div class="pwd-actions">
+        <button class="pwd-btn-cancel" (click)="closePwdModal()" [disabled]="pwdSaving">
+          {{ 'profile.cancel' | translate }}
+        </button>
+        <button class="pwd-btn-submit" (click)="submitPwd()" [disabled]="pwdSaving">
+          <span *ngIf="!pwdSaving">{{ 'profile.pwd_save' | translate }}</span>
+          <span *ngIf="pwdSaving" class="btn-spinner"></span>
+        </button>
+      </div>
+    </ng-container>
+
   </div>
 </div>
 

@@ -142,8 +142,12 @@
         "confirm": "Confirmation"
       },
       "step1": {
-        "hint": "Select a category or browse all specialists",
+        "hint": "Select a specialization and category, or browse all specialists",
+        "spec_label": "Specialization",
+        "all_specs": "All specialists",
+        "cat_label": "Category",
         "all_categories": "All categories",
+        "prev_badge": "Your specialist",
         "experience": "yrs exp.",
         "reviews": "reviews",
         "no_reviews": "No reviews yet",
@@ -232,6 +236,7 @@
   "profile": {
     "title": "My Profile",
     "change_photo": "Change photo",
+    "change_password": "Change password",
     "uploading": "Uploading...",
     "personal_data": "Personal information",
     "edit": "Edit",
@@ -245,6 +250,15 @@
       "email": "EMAIL",
       "company": "COMPANY"
     },
+    "pwd_old": "Current password",
+    "pwd_old_placeholder": "Enter current password",
+    "pwd_new": "New password",
+    "pwd_new_placeholder": "Enter new password",
+    "pwd_confirm": "Confirm password",
+    "pwd_confirm_placeholder": "Repeat new password",
+    "pwd_generate": "Generate",
+    "pwd_save": "Save password",
+    "pwd_success": "Password changed successfully",
     "terms": "I agree to the",
     "terms_link1": "Terms of Service",
     "terms_and": "and",

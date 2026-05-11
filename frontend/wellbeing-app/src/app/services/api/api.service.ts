@@ -110,6 +110,13 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/user/upload-avatar`, fd);
   }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user/change-password`, {
+      old_password: oldPassword,
+      new_password: newPassword,
+    });
+  }
+
   // ==================== DASHBOARD ====================
   getDashboard(): Observable<any> {
     return this.http.get(`${this.apiUrl}/dashboard`);
