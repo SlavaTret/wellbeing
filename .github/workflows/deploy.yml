@@ -71,4 +71,10 @@ jobs:
             # Права доступу
             chown -R www-data:www-data api/runtime
             chmod -R 775 api/runtime
+
+            # Встановлюємо/перезапускаємо systemd сервіс
+            cp /var/www/wellbeing/scripts/wellbeing-api.service /etc/systemd/system/wellbeing-api.service
+            systemctl daemon-reload
+            systemctl enable wellbeing-api
+            systemctl restart wellbeing-api
           ENDSSH

@@ -378,16 +378,14 @@ class AppointmentController extends Controller
                 }
             }
 
-            if ($freeTotal > 0 || $paymentVia === 'subscription') {
-                $usedFree = $this->countSubscriptionSessions($user->id, $appointment->id);
-                $freeRemaining = max(0, $freeTotal - $usedFree);
+            $usedFree = $this->countSubscriptionSessions($user->id, $appointment->id);
+            $freeRemaining = max(0, $freeTotal - $usedFree);
 
-                if ($freeRemaining > 0) {
-                    $appointment->payment_status = 'paid';
-                    $appointment->status = Appointment::STATUS_CONFIRMED;
-                    $appointment->save(false);
-                    return;
-                }
+            if ($freeRemaining > 0) {
+                $appointment->payment_status = 'paid';
+                $appointment->status = Appointment::STATUS_CONFIRMED;
+                $appointment->save(false);
+                return;
             }
         }
 
@@ -487,15 +485,16 @@ class AppointmentController extends Controller
      */
     private function countSubscriptionSessions(int $userId, int $excludeId = 0): int
     {
-        $sql = 'SELECT COUNT(*) FROM appointment a
+        $sql = "SELECT COUNT(*) FROM appointment a
                 WHERE a.user_id = :uid
                   AND a.status NOT IN (:cancelled)
                   AND a.payment_status = :paid
                   AND (:excl = 0 OR a.id != :excl)
+                  AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
                   AND NOT EXISTS (
                       SELECT 1 FROM payment p
                       WHERE p.appointment_id = a.id
-                  )';
+                  )";
         return (int)Yii::$app->db->createCommand($sql, [
             ':uid'       => $userId,
             ':cancelled' => Appointment::STATUS_CANCELLED,

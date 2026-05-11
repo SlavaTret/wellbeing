@@ -43,8 +43,7 @@ class DashboardController extends Controller
             ->count();
 
         // ── Free sessions ──────────────────────────────────────
-        // Total limit comes from user's company; default 5 if no company linked.
-        $freeTotal = 5;
+        $freeTotal = 0;
         if ($user->company_id) {
             $company = Company::findOne($user->company_id);
             if ($company && $company->free_sessions_per_user > 0) {
@@ -52,13 +51,14 @@ class DashboardController extends Controller
             }
         }
 
-        // "Used" = only subscription-covered appointments (no payment record = subscription)
+        // "Used" = subscription-covered appointments this calendar month (no payment record = subscription)
         $usedFree = (int)Yii::$app->db->createCommand(
-            'SELECT COUNT(*) FROM appointment a
+            "SELECT COUNT(*) FROM appointment a
              WHERE a.user_id = :uid
                AND a.status NOT IN (:cancelled)
                AND a.payment_status = :paid
-               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)',
+               AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
+               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)",
             [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
         )->queryScalar();
 
@@ -149,7 +149,7 @@ class DashboardController extends Controller
         $user   = Yii::$app->user->identity;
         $userId = $user->id;
 
-        $freeTotal = 5;
+        $freeTotal = 0;
         if ($user->company_id) {
             $company = Company::findOne($user->company_id);
             if ($company && $company->free_sessions_per_user > 0) {
@@ -158,11 +158,12 @@ class DashboardController extends Controller
         }
 
         $usedFree = (int)Yii::$app->db->createCommand(
-            'SELECT COUNT(*) FROM appointment a
+            "SELECT COUNT(*) FROM appointment a
              WHERE a.user_id = :uid
                AND a.status NOT IN (:cancelled)
                AND a.payment_status = :paid
-               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)',
+               AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
+               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)",
             [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
         )->queryScalar();
 

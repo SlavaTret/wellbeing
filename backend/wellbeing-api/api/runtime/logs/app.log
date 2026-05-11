@@ -19734,3 +19734,37 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1778142396.4052
     'REQUEST_TIME' => 1778142396
 ]
+2026-05-11 05:51:35 [127.0.0.1][-][-][error][yii\web\HttpException:404] yii\web\NotFoundHttpException: Page not found. in /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Request.php:329
+Stack trace:
+#0 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/web/Application.php(91): yii\web\Request->resolve()
+#1 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/vendor/yiisoft/yii2/base/Application.php(391): yii\web\Application->handleRequest(Object(yii\web\Request))
+#2 /Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php(36): yii\base\Application->run()
+#3 {main}
+2026-05-11 05:51:35 [127.0.0.1][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = []
+
+$_SERVER = [
+    'DOCUMENT_ROOT' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '57395'
+    'SERVER_SOFTWARE' => 'PHP/8.4.4 (Development Server)'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'SERVER_NAME' => '0.0.0.0'
+    'SERVER_PORT' => '8000'
+    'REQUEST_URI' => '/api/v1/health'
+    'REQUEST_METHOD' => 'GET'
+    'SCRIPT_NAME' => '/index.php'
+    'SCRIPT_FILENAME' => '/Users/slavafoxy/Documents/Cloude Cowork/wellbeing/wellbeing/backend/wellbeing-api/api/web/index.php'
+    'PATH_INFO' => '/api/v1/health'
+    'PHP_SELF' => '/index.php/api/v1/health'
+    'HTTP_HOST' => 'localhost:8000'
+    'HTTP_USER_AGENT' => 'curl/7.86.0'
+    'HTTP_ACCEPT' => '*/*'
+    'REQUEST_TIME_FLOAT' => 1778478695.5509
+    'REQUEST_TIME' => 1778478695
+]
