@@ -28,7 +28,7 @@ export class ApiService {
 
   // ==================== AUTH ====================
   register(payload: {
-    email: string; password: string; firstName: string; lastName: string; companyId?: number | null; acceptedTerms?: boolean;
+    email: string; password: string; firstName: string; lastName: string; companyId?: number | null; acceptedTerms?: boolean; recaptchaToken?: string;
   }): Observable<any> {
     return this.http.post(`${this.apiUrl}/user/register`, {
       email: payload.email,
@@ -36,7 +36,8 @@ export class ApiService {
       first_name: payload.firstName,
       last_name: payload.lastName,
       company_id: payload.companyId ?? null,
-      accepted_terms: payload.acceptedTerms ?? false
+      accepted_terms: payload.acceptedTerms ?? false,
+      recaptcha_token: payload.recaptchaToken ?? ''
     }).pipe(
       tap((response: any) => {
         if (response.access_token) {
@@ -56,8 +57,8 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/company`);
   }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/login`, { email, password }).pipe(
+  login(email: string, password: string, recaptchaToken = ''): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user/login`, { email, password, recaptcha_token: recaptchaToken }).pipe(
       tap((response: any) => {
         if (response.access_token) {
           this.setAccessToken(response.access_token);

@@ -163,9 +163,8 @@ class GoogleController extends Controller
         try {
             $events = $this->service()->getUpcomingEvents($token);
         } catch (\Throwable $e) {
-            // Token exists but events fetch failed (expired access token, network, etc.)
-            // Still report connected=true so the dashboard doesn't show "connect" prompt.
-            return ['connected' => true, 'events' => [], 'error' => 'Не вдалося завантажити події календаря'];
+            Yii::error('Google upcoming-events failed: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(), 'google');
+            return ['connected' => true, 'events' => [], 'error' => $e->getMessage()];
         }
 
         // Only show events created by Wellbeing (identified by description marker)

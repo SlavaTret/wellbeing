@@ -327,15 +327,72 @@ Danger light:     #FFEBEE
 
 ---
 
+## MIGRATIONS — CRITICAL RULES
+
+**Production DB is live with real user data.**
+
+1. `safeUp()` adds/modifies **schema only** — `createTable`, `addColumn`, `addForeignKey`, `createIndex`
+2. **No INSERT, UPDATE, DELETE** in `safeUp()` — ever
+3. Every `addColumn` must be idempotent:
+   ```php
+   $table = $this->db->getTableSchema('{{%table}}');
+   if ($table && !isset($table->columns['col'])) {
+       $this->addColumn('{{%table}}', 'col', $this->string()->null());
+   }
+   ```
+4. Use `safeUp()` / `safeDown()` (not `up()` / `down()`)
+5. Run: `php yii migrate --interactive=0`
+6. Never run `php init --overwrite=All` — destroys `main-local.php` (DB credentials)
+
+---
+
+## FREE SESSIONS (MONTHLY)
+
+`company.free_sessions_per_user` = limit per user **per calendar month**.
+
+All three places below must stay in sync — scope to current month:
+```sql
+AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
+```
+- `DashboardController::actionIndex()` — dashboard widget
+- `DashboardController::actionFreeSessions()` — `/dashboard/free-sessions` endpoint
+- `AppointmentController::countSubscriptionSessions()` — booking validation
+
+**No hardcoded defaults.** `$freeTotal = 0` unless company has `free_sessions_per_user > 0`.
+"Subscription appointment" = `payment_status='paid'` AND no row in `payment` table (no gateway).
+
+---
+
+## GOOGLE CALENDAR
+
+- `actionCallback()` redirects to `Yii::$app->params['frontendUrl']` (set in `params-local.php` on server)
+- `actionUpcomingEvents()`: if token exists but fetching fails → return `['connected' => true, 'events' => []]` — token is valid, events just failed to load. Never return `connected: false` when token exists in DB.
+
+---
+
+## APPOINTMENT — EXTRA FIELDS
+
+`appointment.communication_method` — values: `'google_meet'`, `'zoom'`, `'teams'` (nullable).
+Sent to Creatio as `WelCommunicationMethodId` GUID + title suffix in `CreatioSyncService`.
+
+---
+
+## COMPANY MODEL
+
+`company.free_sessions_per_user` (INT, DEFAULT 0) — set via admin panel per company.
+`company.free_sessions_per_user` column added in migration `m260511_000000_add_company_columns_idempotent`.
+
+---
+
 ## WHAT NOT TO DO
 - Do NOT explore the codebase to "understand architecture" — it's documented above
 - Do NOT read migration files to understand DB schema — it's documented above
 - Do NOT add `console.log` debug statements
-- Do NOT use `any` type in TypeScript unless casting from external JSON
-- Do NOT create new services for one-off API calls — add methods to `api.service.ts`
-- Do NOT use `ngModel` in reactive forms — this project uses template-driven forms with `ngModel`
 - Do NOT wrap actions in try/catch unless using Yii2 transactions (use Yii2 exception filters)
 - Do NOT run migrations without `--interactive=0` flag
+- Do NOT add INSERT/UPDATE/DELETE to any migration `safeUp()` — production DB has real data
+- Do NOT run `php init --overwrite=All` — destroys main-local.php
+- Do NOT hardcode free session counts — always read from `company.free_sessions_per_user`
 
 ## WHAT TO DO
 - Read a specific file only when you need its EXACT current content to write a targeted edit

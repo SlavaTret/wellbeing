@@ -564,6 +564,54 @@ resultsModal: { survey, results: any[], loading: boolean } | null
 
 ---
 
+## LOCAL DEVELOPMENT
+
+### Start backend
+```bash
+cd backend/wellbeing-api
+PHP_CLI_SERVER_WORKERS=4 php yii serve 0.0.0.0 --docroot=api/web --port=8000
+```
+`PHP_CLI_SERVER_WORKERS=4` is required — without it Angular's concurrent startup requests all timeout (504).
+
+### Start frontend
+```bash
+cd frontend/wellbeing-app
+npm start
+```
+
+### Proxy (`proxy.conf.json`)
+Target MUST be `http://127.0.0.1:8000` (NOT `http://localhost:8000`).
+On macOS `localhost` → `::1` (IPv6), PHP listens IPv4 only → 504 Gateway Timeout.
+
+---
+
+## APPOINTMENT BOOKING — 6-STEP FLOW
+
+| Step | Content |
+|---|---|
+| 1 | Specialist catalog |
+| 2 | Specialist profile (read-only, no forms) |
+| 3 | Time slot selection |
+| 4 | Payment method + **Communication method** (Google Meet / Zoom / MS Teams) |
+| 5 | Confirm details |
+| 6 | Success |
+
+`paymentVia: 'card' | 'subscription'` — subscription available only if `freeRemaining > 0` from `/dashboard/free-sessions`.
+`communicationMethod: 'google_meet' | 'zoom' | 'teams' | ''` — required at step 4.
+Icons: real favicons via `<img src="https://www.google.com/s2/favicons?domain=meet.google.com&sz=64" width="20" height="20">`.
+`canGoNext` at step 4: `!!this.paymentVia && !!this.communicationMethod`.
+
+---
+
+## GOOGLE CALENDAR — TWO SEPARATE CHECKS
+
+- **Dashboard** (`dashboard.component.ts`): calls `getGoogleUpcomingEvents()` → sets `googleConnected = res.connected`. Response always has `connected: true` when token exists (even if events fail to load).
+- **Settings** (`settings.component.ts`): calls `getGoogleStatus()` → sets `googleConnected = res.connected` + `googleEmail`.
+
+Do NOT swap these calls — they serve different purposes.
+
+---
+
 ## WHAT NOT TO DO
 - Do NOT use `ReactiveFormsModule` or `FormGroup/FormControl` — this project uses template-driven forms with `ngModel`
 - Do NOT use Angular `date` pipe for Ukrainian date formatting — use the ukMonths array pattern

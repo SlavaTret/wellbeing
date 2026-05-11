@@ -33,6 +33,36 @@ class UserController extends Controller
         return $behaviors;
     }
 
+    // ── reCAPTCHA v3 ─────────────────────────────────────────────
+
+    private function verifyRecaptcha(string $token, string $action): bool
+    {
+        $secret = Yii::$app->params['recaptchaSecret'] ?? '';
+        if (!$secret || !$token) {
+            return true; // Not configured or token missing — skip (rate limiting still active)
+        }
+
+        $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_TIMEOUT        => 5,
+            CURLOPT_POSTFIELDS     => http_build_query([
+                'secret'   => $secret,
+                'response' => $token,
+                'remoteip' => Yii::$app->request->userIP ?? '',
+            ]),
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $data = json_decode($response ?: '{}', true) ?? [];
+
+        return ($data['success'] ?? false)
+            && ($data['score'] ?? 0) >= 0.5
+            && ($data['action'] ?? '') === $action;
+    }
+
     // ── Rate limit helpers ────────────────────────────────────────
 
     private function checkRateLimit(string $action, int $maxAttempts, int $windowSeconds): bool
@@ -65,6 +95,12 @@ class UserController extends Controller
         // 5 спроб / 10 хвилин з одного IP
         if (!$this->checkRateLimit('register', 5, 600)) {
             return ['error' => 'Забагато спроб реєстрації. Спробуйте через 10 хвилин.'];
+        }
+
+        $recaptchaToken = Yii::$app->request->post('recaptcha_token', '');
+        if (!$this->verifyRecaptcha($recaptchaToken, 'register')) {
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'Перевірку reCAPTCHA не пройдено. Спробуйте ще раз.'];
         }
 
         $data = Yii::$app->request->post();
@@ -117,6 +153,12 @@ class UserController extends Controller
         // 10 спроб / 5 хвилин з одного IP
         if (!$this->checkRateLimit('login', 10, 300)) {
             return ['error' => 'Забагато спроб входу. Спробуйте через 5 хвилин.'];
+        }
+
+        $recaptchaToken = Yii::$app->request->post('recaptcha_token', '');
+        if (!$this->verifyRecaptcha($recaptchaToken, 'login')) {
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'Перевірку reCAPTCHA не пройдено. Спробуйте ще раз.'];
         }
 
         $email = Yii::$app->request->post('email');

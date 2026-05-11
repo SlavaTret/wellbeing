@@ -4,6 +4,7 @@ import { ApiService } from '../../../services/api/api.service';
 import { CompanyBranding } from '../../../services/branding/branding.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService, Lang } from '../../../services/lang/lang.service';
+import { RecaptchaService } from '../../../services/recaptcha/recaptcha.service';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +34,8 @@ export class RegisterComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     private translate: TranslateService,
-    private langService: LangService
+    private langService: LangService,
+    private recaptcha: RecaptchaService
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +87,7 @@ export class RegisterComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     if (!this.firstName || !this.lastName || !this.email || !this.password) {
       this.error = 'Заповніть усі поля';
       return;
@@ -104,13 +106,17 @@ export class RegisterComponent implements OnInit {
     }
     this.loading = true;
     this.error = '';
+
+    const recaptchaToken = await this.recaptcha.execute('register');
+
     this.api.register({
       email: this.email,
       password: this.password,
       firstName: this.firstName,
       lastName: this.lastName,
       companyId: this.companyId,
-      acceptedTerms: true
+      acceptedTerms: true,
+      recaptchaToken
     }).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err) => {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { UserService } from '../../../services/user/user.service';
 import { LangService, Lang } from '../../../services/lang/lang.service';
+import { RecaptchaService } from '../../../services/recaptcha/recaptcha.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private userService: UserService,
     private router: Router,
-    private langService: LangService
+    private langService: LangService,
+    private recaptcha: RecaptchaService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     if (!this.email || !this.password) {
       this.error = 'Заповніть усі поля';
       return;
@@ -45,7 +47,9 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    this.api.login(this.email, this.password).subscribe({
+    const recaptchaToken = await this.recaptcha.execute('login');
+
+    this.api.login(this.email, this.password, recaptchaToken).subscribe({
       next: () => {
         // Load profile before navigating so sidebar has data immediately
         this.userService.load().subscribe({

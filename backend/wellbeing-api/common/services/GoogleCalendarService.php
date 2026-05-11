@@ -77,6 +77,10 @@ class GoogleCalendarService
             $token->expires_at   = time() + (int)($data['expires_in'] ?? 3600);
             $token->updated_at   = time();
             $token->save(false);
+        } else {
+            $errorDesc = $data['error_description'] ?? $data['error'] ?? 'unknown';
+            Yii::error('Google token refresh failed: ' . $errorDesc, 'google');
+            throw new \RuntimeException('Google token refresh failed: ' . $errorDesc);
         }
 
         return $token;
