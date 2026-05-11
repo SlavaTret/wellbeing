@@ -22,14 +22,7 @@ class m260504_110000_specialist_avatar_and_specializations extends Migration
             )
         ");
 
-        $now = time();
-        $this->execute("
-            INSERT INTO specialization (name, key, is_active, sort_order, created_at, updated_at) VALUES
-                ('Психолог',      'psychologist', true, 1, $now, $now),
-                ('Психотерапевт', 'therapist',    true, 2, $now, $now),
-                ('Коуч',          'coach',        true, 3, $now, $now)
-            ON CONFLICT (key) DO NOTHING
-        ");
+        // Seed data removed — specializations are managed via admin panel on production.
     }
 
     public function down()

@@ -14,27 +14,7 @@ class m260427_200000_create_categories extends Migration
             'updated_at' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
-        // Seed from existing specialist.categories CSV strings
-        $db = $this->db;
-        $rows = $db->createCommand("SELECT categories FROM specialist WHERE categories IS NOT NULL AND categories <> ''")->queryAll();
-
-        $names = [];
-        foreach ($rows as $row) {
-            foreach (explode(',', $row['categories']) as $cat) {
-                $cat = trim($cat);
-                if ($cat !== '') $names[$cat] = true;
-            }
-        }
-
-        $now = time();
-        foreach (array_keys($names) as $name) {
-            $db->createCommand()->insert('{{%category}}', [
-                'name'       => $name,
-                'status'     => 'active',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ])->execute();
-        }
+        // Seed data removed — categories are managed via admin panel on production.
     }
 
     public function safeDown()
