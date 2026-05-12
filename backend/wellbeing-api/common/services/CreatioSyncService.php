@@ -305,12 +305,11 @@ class CreatioSyncService
                 'Title'                      => $title,
                 'TypeId'                     => 'fbe0acdc-cfc0-df11-b00f-001d60e938c6', // Консультація
                 'ActivityCategoryId'         => '6e7fa16e-7d4f-4a68-9ff7-b6086f7a4375',
-                'StatusId'                   => '384d4b84-58e6-df11-971b-001d60e938c6',
+                'StatusId'                   => '384d4b84-58e6-df11-971b-001d60e938c6', // Не розпочато
                 'StartDate'                  => $startIso,
                 'DueDate'                    => $dueIso,
                 'WelClientTime'              => $startIso,
                 'DurationInMinutes'          => 60,
-                'WelStatusId'                => '044dbfd2-b27d-4f50-ad93-19b4f486de85',
                 'WelConsultationServiceId'   => 'bb17fc22-3ac5-408e-a46a-99a133bf992b', // Консультація індивідуальна
                 'WelIsConsultation'          => true,
                 'WelIsPaid'                  => $isPaid,
@@ -1055,16 +1054,19 @@ class CreatioSyncService
      */
     private function buildIso(string $date, ?string $time, int $offsetSeconds = 0): string
     {
-        // appointment_time is stored as HH:MM — add seconds if missing
+        // appointment_time is stored as Kyiv local time (HH:MM) — convert to UTC for Creatio
         $timeStr = $time ?: '00:00';
         if (strlen($timeStr) === 5) {
             $timeStr .= ':00';
         }
-        $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $date . ' ' . $timeStr, new \DateTimeZone('UTC'));
+        $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $date . ' ' . $timeStr, new \DateTimeZone('Europe/Kiev'));
 
         if (!$datetime) {
-            $datetime = new \DateTime('now', new \DateTimeZone('UTC'));
+            $datetime = new \DateTime('now', new \DateTimeZone('Europe/Kiev'));
         }
+
+        // Convert to UTC so Creatio displays the correct local time regardless of DST
+        $datetime->setTimezone(new \DateTimeZone('UTC'));
 
         if ($offsetSeconds) {
             $datetime->modify("+{$offsetSeconds} seconds");
