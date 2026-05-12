@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { CompanyBranding } from '../../../services/branding/branding.service';
+import { UserService } from '../../../services/user/user.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService, Lang } from '../../../services/lang/lang.service';
 import { RecaptchaService } from '../../../services/recaptcha/recaptcha.service';
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
+    private userService: UserService,
     private router: Router,
     private translate: TranslateService,
     private langService: LangService,
@@ -123,7 +125,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       acceptedTerms: true,
       recaptchaToken
     }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: (resp: any) => {
+        if (resp?.user) {
+          this.userService.setUser(resp.user);
+        }
+        this.router.navigate(['/dashboard']);
+      },
       error: (err) => {
         this.loading = false;
         this.error = err?.error?.message || err?.error?.error || 'Помилка реєстрації. Спробуйте ще раз.';

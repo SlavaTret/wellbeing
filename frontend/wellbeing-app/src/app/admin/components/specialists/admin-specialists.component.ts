@@ -20,6 +20,7 @@ interface AdminSpecialist {
   email?: string;
   user_id?: number | null;
   linked_email?: string | null;
+  creatio_contact_id?: string | null;
 }
 
 interface SpecialistForm {
@@ -29,6 +30,7 @@ interface SpecialistForm {
   experience_years: number | '';
   status: 'active' | 'inactive';
   email: string;
+  creatio_contact_id: string;
 }
 
 interface Specialization {
@@ -135,12 +137,13 @@ export class AdminSpecialistsComponent implements OnInit {
   openEdit(s: AdminSpecialist): void {
     this.modalSpec    = s;
     this.form = {
-      name:             s.name,
-      type:             s.type || (this.specializations[0]?.key ?? 'psychologist'),
-      bio:              s.bio,
-      experience_years: s.experience_years || '',
-      status:           s.is_active ? 'active' : 'inactive',
-      email:            s.email || ''
+      name:               s.name,
+      type:               s.type || (this.specializations[0]?.key ?? 'psychologist'),
+      bio:                s.bio,
+      experience_years:   s.experience_years || '',
+      status:             s.is_active ? 'active' : 'inactive',
+      email:              s.email || '',
+      creatio_contact_id: s.creatio_contact_id || ''
     };
     this.formCats     = [...s.categories];
     this.modalError   = '';
@@ -160,13 +163,14 @@ export class AdminSpecialistsComponent implements OnInit {
     this.modalError = '';
 
     const payload: any = {
-      name:             this.form.name,
-      type:             this.form.type,
-      bio:              this.form.bio,
-      experience_years: this.form.experience_years || 0,
-      categories:       this.formCats.join(', '),
-      is_active:        this.form.status === 'active',
-      email:            this.form.email || null
+      name:               this.form.name,
+      type:               this.form.type,
+      bio:                this.form.bio,
+      experience_years:   this.form.experience_years || 0,
+      categories:         this.formCats.join(', '),
+      is_active:          this.form.status === 'active',
+      email:              this.form.email || null,
+      creatio_contact_id: this.form.creatio_contact_id?.trim() || null
     };
 
     const obs = this.modalSpec
@@ -296,7 +300,7 @@ export class AdminSpecialistsComponent implements OnInit {
   // ── Helpers ───────────────────────────────────────────────────────
 
   private emptyForm(): SpecialistForm {
-    return { name: '', type: '', bio: '', experience_years: '', status: 'active', email: '' };
+    return { name: '', type: '', bio: '', experience_years: '', status: 'active', email: '', creatio_contact_id: '' };
   }
 
   initials(name: string): string {

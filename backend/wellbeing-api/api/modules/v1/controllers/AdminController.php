@@ -533,7 +533,7 @@ class AdminController extends Controller
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
                 s.categories, s.avatar_initials, s.avatar_url,
-                s.is_active, s.created_at, s.email,
+                s.is_active, s.created_at, s.email, s.creatio_contact_id,
                 s.user_id, u.email AS linked_email,
                 COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating, 0)  AS computed_rating,
@@ -619,6 +619,7 @@ class AdminController extends Controller
         if (isset($data['categories']))       $s->categories       = $data['categories'];
         if (isset($data['is_active']))        $s->is_active        = (bool)$data['is_active'];
         if (array_key_exists('email', $data)) $s->email            = $data['email'] ?: null;
+        if (array_key_exists('creatio_contact_id', $data)) $s->creatio_contact_id = $data['creatio_contact_id'] ?: null;
 
         $parts = preg_split('/\s+/', trim($s->name));
         $s->avatar_initials = mb_strtoupper(
@@ -946,9 +947,10 @@ class AdminController extends Controller
             'avatar_url'       => $r['avatar_url'] ?? null,
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
-            'email'            => $r['email'] ?? null,
-            'user_id'          => $r['user_id'] ? (int)$r['user_id'] : null,
-            'linked_email'     => $r['linked_email'] ?? null,
+            'email'               => $r['email'] ?? null,
+            'user_id'             => $r['user_id'] ? (int)$r['user_id'] : null,
+            'linked_email'        => $r['linked_email'] ?? null,
+            'creatio_contact_id'  => $r['creatio_contact_id'] ?? null,
         ];
     }
 
@@ -957,7 +959,7 @@ class AdminController extends Controller
         $row = Yii::$app->db->createCommand("
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
                    s.categories, s.avatar_initials, s.avatar_url,
-                   s.is_active, s.created_at, s.email,
+                   s.is_active, s.created_at, s.email, s.creatio_contact_id,
                    s.user_id, u.email AS linked_email,
                    COALESCE(sp.name, s.type) AS type_name,
                    (SELECT ROUND(AVG(r.rating)::numeric, 1) FROM specialist_review r WHERE r.specialist_id = s.id) AS computed_rating,

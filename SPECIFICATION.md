@@ -67,7 +67,8 @@
 
 #### Корпоративні безкоштовні сеанси
 - Прогрес-бар: використано / ліміт (місячний)
-- Лімит задається на рівні компанії (`free_sessions_per_user`)
+- Лімит береться з активного контракту компанії (`contract.free_sessions_per_employee`), синхронізованого з Creatio
+- Якщо немає активного контракту або ліміт = 0 — підписка недоступна
 - Якщо вичерпано — повідомлення про платний режим
 - Реальний час: підрахунок по поточному місяцю
 
@@ -210,9 +211,11 @@
 - Drag-and-drop зона завантаження файлів
 - Підтримувані формати: PDF, JPG, PNG, DOC, DOCX
 - Обмеження розміру: 10 МБ
-- Список завантажених документів: назва, дата, кнопка "Скачати"
+- Список завантажених документів: назва, розмір, дата, кнопка "Скачати", кнопка видалення
 - Порожній стан
 - Кнопка вибору файлу (альтернатива drag-and-drop)
+- **Creatio sync**: при завантаженні файл автоматично синхронізується до розділу "Файли і примітки" профілю контакту в Creatio (якщо увімкнено інтеграцію)
+- При видаленні — файл видаляється з Creatio (best-effort)
 
 ---
 
@@ -528,24 +531,59 @@
 
 ### 5.3 Creatio CRM
 
+Сервіс: `common/services/CreatioSyncService.php`  
+Налаштування у таблиці `app_settings`: `creatio_enabled`, `creatio_base_url`, `creatio_identity_url`, `creatio_client_id`, `creatio_client_secret`
+
 #### Синхронізація компаній
-- `creatio_id` у таблиці `company`
-- Синхронізація при створенні/оновленні компанії
+- `company.creatio_account_id` — GUID акаунту Creatio
+- Синхронізація при створенні/оновленні компанії (`syncCompany()`)
+- При створенні компанії в порталі → автоматично створюється Account в Creatio, GUID зберігається назад
+- Адмін може вручну вказати `creatio_account_id` для прив'язки до існуючого акаунту Creatio
+- При створенні — завантажується логотип через SysImage API
 
 #### Синхронізація спеціалістів
-- `creatio_contact_id` у таблиці `specialist`
-- Синхронізація при створенні спеціаліста
+- `specialist.creatio_contact_id` — GUID контакту Creatio (тип=Експерт)
+- Синхронізація при створенні/оновленні спеціаліста (`syncSpecialist()`)
+- Після створення встановлюється `WelCurrentExpertId` (self-reference)
 
 #### Синхронізація користувачів
-- `creatio_contact_id` у таблиці `user`
-- Синхронізація при реєстрації
+- `user.creatio_contact_id` — GUID контакту Creatio (тип=Клієнт)
+- Синхронізація **виключно при реєстрації** (`syncUser()` в `UserController::actionRegister()`)
+- НЕ викликається при записі на консультацію або адмінських операціях
+- `WelAdditionalCode = 'PC{user_id}'`
 
 #### Синхронізація записів
-- `creatio_activity_id` у таблиці `appointment`
-- При створенні запису: `syncAppointment()` → створення Activity в Creatio з:
-  - WelCommunicationMethodId (GUID за типом зв'язку: Google Meet / Zoom / Teams)
-  - Назва, дата/час, учасники
-- При оплаті: `markAppointmentPaid()` → оновлення Activity в Creatio
+- `appointment.creatio_activity_id` — GUID Activity в Creatio
+- При створенні запису: `syncAppointment()` → Activity з:
+  - `WelCommunicationMethodId` (GUID за типом зв'язку: Google Meet / Zoom / Teams)
+  - `WelCode = appointment_id`, `WelContactAdditionalCode = 'PC{user_id}'`
+  - `ContactId`, `AccountId`, `WelExpertId`, `OwnerId` — з збережених GUID
+- При оплаті: `markAppointmentPaid()` → PATCH `WelIsPaid=true`
+
+#### Синхронізація контрактів (договорів)
+- `contract` таблиця: `creatio_contract_id`, `company_id`, `name`, `start_date`, `end_date`, `session_price`, `free_sessions_per_employee`, `is_active`, `synced_at`
+- Джерело: Creatio `WelContract` entity
+- Ключові поля Creatio: `WelNumberOfFreeConsultation` → `free_sessions_per_employee`, `WelPriceConsultation` → `session_price`
+- Синхронізація запускається:
+  1. Нічний крон (03:00) через systemd timer → `php yii creatio/sync-contracts`
+  2. Вручну адміном: `POST /v1/admin/companies/{id}/contracts/sync`
+  3. Real-time webhook: `POST /v1/creatio/webhook/contract` (Creatio → портал)
+- Dual lookup при sync: за `WelAccountId == company.creatio_account_id` (нові) + за існуючим `creatio_contract_id` (оновлення)
+- **Безкоштовні сеанси беруться з контракту**, не з `company.free_sessions_per_user`
+
+#### Синхронізація документів
+- `document.creatio_file_id` — GUID ContactFile в Creatio
+- При завантаженні файлу користувачем (`POST /v1/document/upload`):
+  1. POST ContactFile метадані → отримати GUID
+  2. PUT бінарні дані до `ContactFile(id)/Data`
+  3. Зберегти GUID в `document.creatio_file_id`
+- При видаленні документу — DELETE ContactFile (best-effort)
+- Вимагає `user.creatio_contact_id` (є у всіх зареєстрованих після інтеграції)
+
+#### Webhook
+- `POST /v1/creatio/webhook/contract` — публічний endpoint
+- Автентифікація: `X-Creatio-Secret` header = `creatio_webhook_secret` з `app_settings`
+- Отримує `WelContract` payload → `upsertContractPayload()` → оновлення в БД
 
 ---
 

@@ -175,6 +175,16 @@
           <input type="email" [(ngModel)]="form.email" placeholder="specialist@example.com" />
         </div>
 
+        <div class="section-divider"><span class="section-label">Інтеграції</span></div>
+
+        <!-- Creatio Contact ID -->
+        <div class="form-field">
+          <label>Creatio Contact ID</label>
+          <input class="creatio-id-input" type="text" [(ngModel)]="form.creatio_contact_id"
+                 placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" maxlength="36" />
+          <div class="field-hint">GUID контакту Creatio (тип Експерт). Якщо заповнено — синхронізація використовує цей ID замість пошуку за email.</div>
+        </div>
+
         <!-- Bio -->
         <div class="form-field">
           <label>Опис</label>

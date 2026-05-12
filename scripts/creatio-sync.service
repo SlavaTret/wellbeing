@@ -1,0 +1,12 @@
+[Unit]
+Description=Wellbeing — Creatio contracts sync (one-shot)
+After=network.target wellbeing-api.service
+
+[Service]
+Type=oneshot
+User=www-data
+WorkingDirectory=/var/www/wellbeing/backend/wellbeing-api
+ExecStart=/usr/bin/php yii creatio/sync-contracts
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wellbeing-creatio-sync
