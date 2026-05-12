@@ -4,6 +4,8 @@ namespace api\modules\v1\controllers;
 
 use common\models\AppSettings;
 use common\models\Company;
+use common\models\Contract;
+use common\services\CreatioSyncService;
 use Yii;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
@@ -164,8 +166,8 @@ class AdminController extends Controller
             SELECT
                 c.id, c.code, c.name, c.logo_url,
                 c.primary_color, c.secondary_color, c.accent_color,
-                c.free_sessions_per_user, c.is_active,
-                c.created_at,
+                c.free_sessions_per_user, c.session_price, c.is_active,
+                c.creatio_account_id, c.created_at,
                 COUNT(DISTINCT u.id) AS total_users,
                 COUNT(DISTINCT a.id) AS total_appointments,
                 (
@@ -190,7 +192,9 @@ class AdminController extends Controller
             'secondary_color'      => $r['secondary_color'],
             'accent_color'         => $r['accent_color'],
             'free_sessions_per_user' => (int)$r['free_sessions_per_user'],
+            'session_price'        => $r['session_price'] !== null ? (float)$r['session_price'] : null,
             'is_active'            => (bool)$r['is_active'],
+            'creatio_account_id'   => $r['creatio_account_id'] ?: null,
             'created_at'           => $r['created_at'],
             'total_users'          => (int)$r['total_users'],
             'total_appointments'   => (int)$r['total_appointments'],
@@ -212,8 +216,10 @@ class AdminController extends Controller
         $company->primary_color         = $data['primary_color'] ?? '#2DB928';
         $company->secondary_color       = $data['secondary_color'] ?? '#1C2B20';
         $company->accent_color          = $data['accent_color'] ?? '#E8F5E9';
-        $company->free_sessions_per_user = (int)($data['free_sessions_per_user'] ?? 5);
         $company->is_active             = isset($data['is_active']) ? (bool)$data['is_active'] : true;
+        if (array_key_exists('creatio_account_id', $data)) {
+            $company->creatio_account_id = $data['creatio_account_id'] ?: null;
+        }
 
         if (!$company->validate()) {
             Yii::$app->response->statusCode = 422;
@@ -246,8 +252,10 @@ class AdminController extends Controller
         if (isset($data['primary_color']))          $company->primary_color          = $data['primary_color'];
         if (isset($data['secondary_color']))        $company->secondary_color        = $data['secondary_color'];
         if (isset($data['accent_color']))           $company->accent_color           = $data['accent_color'];
-        if (isset($data['free_sessions_per_user'])) $company->free_sessions_per_user = (int)$data['free_sessions_per_user'];
         if (isset($data['is_active']))              $company->is_active              = (bool)$data['is_active'];
+        if (array_key_exists('creatio_account_id', $data)) {
+            $company->creatio_account_id = $data['creatio_account_id'] ?: null;
+        }
 
         if (!$company->validate()) {
             Yii::$app->response->statusCode = 422;
@@ -524,7 +532,7 @@ class AdminController extends Controller
         $rows = Yii::$app->db->createCommand("
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
-                s.categories, s.avatar_initials, s.avatar_url, s.price,
+                s.categories, s.avatar_initials, s.avatar_url,
                 s.is_active, s.created_at, s.email,
                 s.user_id, u.email AS linked_email,
                 COALESCE(sp.name, s.type) AS type_name,
@@ -565,7 +573,6 @@ class AdminController extends Controller
         $s->type             = $data['type'] ?? 'psychologist';
         $s->bio              = $data['bio'] ?? '';
         $s->experience_years = (int)($data['experience_years'] ?? 0);
-        $s->price            = (float)($data['price'] ?? 0);
         $s->categories       = $data['categories'] ?? '';
         $s->is_active        = isset($data['is_active']) ? (bool)$data['is_active'] : true;
         $s->email            = $data['email'] ?? null;
@@ -609,7 +616,6 @@ class AdminController extends Controller
         if (isset($data['type']))             $s->type             = $data['type'];
         if (isset($data['bio']))              $s->bio              = $data['bio'];
         if (isset($data['experience_years'])) $s->experience_years = (int)$data['experience_years'];
-        if (isset($data['price']))            $s->price            = (float)$data['price'];
         if (isset($data['categories']))       $s->categories       = $data['categories'];
         if (isset($data['is_active']))        $s->is_active        = (bool)$data['is_active'];
         if (array_key_exists('email', $data)) $s->email            = $data['email'] ?: null;
@@ -938,7 +944,6 @@ class AdminController extends Controller
             'categories_str'   => $r['categories'] ?? '',
             'avatar_initials'  => $r['avatar_initials'] ?: $initials,
             'avatar_url'       => $r['avatar_url'] ?? null,
-            'price'            => (float)$r['price'],
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
             'email'            => $r['email'] ?? null,
@@ -951,7 +956,7 @@ class AdminController extends Controller
     {
         $row = Yii::$app->db->createCommand("
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
-                   s.categories, s.avatar_initials, s.avatar_url, s.price,
+                   s.categories, s.avatar_initials, s.avatar_url,
                    s.is_active, s.created_at, s.email,
                    s.user_id, u.email AS linked_email,
                    COALESCE(sp.name, s.type) AS type_name,
@@ -1259,7 +1264,9 @@ class AdminController extends Controller
             'secondary_color'        => $c->secondary_color,
             'accent_color'           => $c->accent_color,
             'free_sessions_per_user' => (int)$c->free_sessions_per_user,
+            'session_price'          => $c->session_price !== null ? (float)$c->session_price : null,
             'is_active'              => (bool)$c->is_active,
+            'creatio_account_id'     => $c->creatio_account_id ?: null,
             'created_at'             => $c->created_at,
             'total_users'            => 0,
             'total_appointments'     => 0,
@@ -2031,5 +2038,70 @@ class AdminController extends Controller
 
         $result = (new \common\services\PaymentService())->syncPaymentStatus((int)$id);
         return $result;
+    }
+
+    // ── Contracts ────────────────────────────────────────────────────────────
+
+    public function actionCompanyContracts(int $id): array
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $company = Company::findOne($id);
+        if (!$company) {
+            Yii::$app->response->statusCode = 404;
+            return ['error' => 'Company not found'];
+        }
+
+        $contracts = Contract::find()
+            ->where(['company_id' => $id])
+            ->orderBy(['start_date' => SORT_DESC])
+            ->all();
+
+        return array_map(fn(Contract $c) => $this->contractRow($c), $contracts);
+    }
+
+    public function actionSyncCompanyContracts(int $id): array
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $company = Company::findOne($id);
+        if (!$company) {
+            Yii::$app->response->statusCode = 404;
+            return ['error' => 'Company not found'];
+        }
+
+        if (!$company->creatio_account_id) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Company has no Creatio account ID'];
+        }
+
+        (new CreatioSyncService())->syncContracts($company->creatio_account_id);
+
+        $contracts = Contract::find()
+            ->where(['company_id' => $id])
+            ->orderBy(['start_date' => SORT_DESC])
+            ->all();
+
+        return [
+            'ok'        => true,
+            'contracts' => array_map(fn(Contract $c) => $this->contractRow($c), $contracts),
+        ];
+    }
+
+    private function contractRow(Contract $c): array
+    {
+        return [
+            'id'                         => $c->id,
+            'creatio_contract_id'        => $c->creatio_contract_id,
+            'name'                       => $c->name,
+            'start_date'                 => $c->start_date,
+            'end_date'                   => $c->end_date,
+            'session_price'              => $c->session_price !== null ? (float)$c->session_price : null,
+            'free_sessions_per_employee' => (int)$c->free_sessions_per_employee,
+            'is_active'                  => (bool)$c->is_active,
+            'synced_at'                  => $c->synced_at,
+        ];
     }
 }

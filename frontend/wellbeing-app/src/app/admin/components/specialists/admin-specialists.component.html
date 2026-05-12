@@ -160,19 +160,13 @@
           </div>
         </div>
 
-        <!-- Price + Status -->
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label>Ціна за сесію (₴)</label>
-            <input type="number" [(ngModel)]="form.price" min="0" placeholder="0" />
-          </div>
-          <div class="form-field">
-            <label>Статус</label>
-            <select [(ngModel)]="form.status">
-              <option value="active">Активний</option>
-              <option value="inactive">Неактивний</option>
-            </select>
-          </div>
+        <!-- Status -->
+        <div class="form-field">
+          <label>Статус</label>
+          <select [(ngModel)]="form.status">
+            <option value="active">Активний</option>
+            <option value="inactive">Неактивний</option>
+          </select>
         </div>
 
         <!-- Email -->

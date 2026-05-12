@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $file_url
  * @property string $file_type (pdf, jpg, png, etc)
  * @property int $file_size
+ * @property string|null $creatio_file_id  Creatio ContactFile GUID
  * @property int $created_at
  * @property int $updated_at
  *
@@ -42,6 +43,7 @@ class Document extends ActiveRecord
             [['user_id', 'file_size'], 'integer'],
             [['document_name', 'file_url', 'file_type'], 'string'],
             [['file_type'], 'in', 'range' => self::ALLOWED_TYPES],
+            [['creatio_file_id'], 'string', 'max' => 36],
         ];
     }
 

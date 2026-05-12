@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'frontend/wellbeing-app/src/assets/i18n/uk.json'
-  workflow_dispatch: # Дозволяє запускати вручну з вкладки Actions
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  # ── Push source strings to Crowdin ──────────────────────────
   upload-sources:
     name: Upload source (uk.json) to Crowdin
     runs-on: ubuntu-latest

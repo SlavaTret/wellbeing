@@ -15,7 +15,6 @@ interface AdminSpecialist {
   categories_str: string;
   avatar_initials: string;
   avatar_url?: string | null;
-  price: number;
   is_active: boolean;
   created_at: string | number;
   email?: string;
@@ -28,7 +27,6 @@ interface SpecialistForm {
   type: string;
   bio: string;
   experience_years: number | '';
-  price: number | '';
   status: 'active' | 'inactive';
   email: string;
 }
@@ -141,7 +139,6 @@ export class AdminSpecialistsComponent implements OnInit {
       type:             s.type || (this.specializations[0]?.key ?? 'psychologist'),
       bio:              s.bio,
       experience_years: s.experience_years || '',
-      price:            s.price || '',
       status:           s.is_active ? 'active' : 'inactive',
       email:            s.email || ''
     };
@@ -167,7 +164,6 @@ export class AdminSpecialistsComponent implements OnInit {
       type:             this.form.type,
       bio:              this.form.bio,
       experience_years: this.form.experience_years || 0,
-      price:            this.form.price || 0,
       categories:       this.formCats.join(', '),
       is_active:        this.form.status === 'active',
       email:            this.form.email || null
@@ -300,7 +296,7 @@ export class AdminSpecialistsComponent implements OnInit {
   // ── Helpers ───────────────────────────────────────────────────────
 
   private emptyForm(): SpecialistForm {
-    return { name: '', type: '', bio: '', experience_years: '', price: '', status: 'active', email: '' };
+    return { name: '', type: '', bio: '', experience_years: '', status: 'active', email: '' };
   }
 
   initials(name: string): string {

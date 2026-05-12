@@ -68,6 +68,8 @@ export class AppointmentsComponent implements OnInit {
   readonly stars = [1, 2, 3, 4, 5];
 
   freeRemaining = 0;
+  sessionPrice: number | null = null;
+  noContract = false;
 
   constructor(
     private api: ApiService,
@@ -110,8 +112,12 @@ export class AppointmentsComponent implements OnInit {
       this.loadAppointments();
     }
     this.freeRemaining = this.userService.freeSessions?.remaining ?? 0;
+    this.sessionPrice  = this.userService.freeSessions?.session_price ?? null;
+    this.noContract    = this.userService.freeSessions?.no_contract ?? false;
     this.userService.freeSessions$.subscribe(fs => {
       this.freeRemaining = fs?.remaining ?? 0;
+      this.sessionPrice  = fs?.session_price ?? null;
+      this.noContract    = fs?.no_contract ?? false;
     });
     this.api.getCategories().subscribe({
       next: (list: any[]) => {
@@ -244,7 +250,9 @@ export class AppointmentsComponent implements OnInit {
     // Always refresh free sessions count from server so payment method step is accurate
     this.userService.loadFreeSessions().subscribe(fs => {
       this.freeRemaining = fs?.remaining ?? 0;
-      this.paymentVia = this.freeRemaining > 0 ? 'subscription' : 'card';
+      this.sessionPrice  = fs?.session_price ?? null;
+      this.noContract    = fs?.no_contract ?? false;
+      this.paymentVia    = (!this.noContract && this.freeRemaining > 0) ? 'subscription' : 'card';
     });
 
     if (!this.specialists.length) {
@@ -262,7 +270,10 @@ export class AppointmentsComponent implements OnInit {
   closeBooking(): void { this.bookingOpen = false; }
 
   get previousSpecialistIds(): Set<number> {
-    return new Set(this.allAppts.filter(a => a.specialist_id).map(a => a.specialist_id));
+    const withSpec = this.allAppts.filter(a => a.specialist_id);
+    if (withSpec.length === 0) return new Set();
+    const latest = [...withSpec].sort((a, b) => (b.date_raw || '').localeCompare(a.date_raw || ''))[0];
+    return new Set([latest.specialist_id]);
   }
 
   get specializations(): { type: string; label: string }[] {

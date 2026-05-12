@@ -10,7 +10,9 @@ interface Company {
   secondary_color: string;
   accent_color: string;
   free_sessions_per_user: number;
+  session_price: number | null;
   is_active: boolean;
+  creatio_account_id: string | null;
   created_at: number;
   total_users: number;
   total_appointments: number;
@@ -38,7 +40,15 @@ export class AdminCompaniesComponent implements OnInit {
   deleteConfirmId: number | null = null;
   deleting = false;
 
-  form: Partial<Company> & { name: string; code: string } = this.emptyForm();
+  // Contracts panel
+  contractsCompanyId: number | null = null;
+  contracts: any[] = [];
+  contractsLoading = false;
+  contractsSyncing = false;
+  contractsSyncError = '';
+  contractsSyncOk = false;
+
+  form: Partial<Company> & { name: string; code: string; creatio_account_id: string } = this.emptyForm();
 
   constructor(private adminApi: AdminApiService) {}
 
@@ -67,8 +77,8 @@ export class AdminCompaniesComponent implements OnInit {
       primary_color: c.primary_color || '#2DB928',
       secondary_color: c.secondary_color || '#1C2B20',
       accent_color: c.accent_color || '#E8F5E9',
-      free_sessions_per_user: c.free_sessions_per_user,
       is_active: c.is_active,
+      creatio_account_id: c.creatio_account_id || '',
     };
     this.logoPreview = c.logo_url || null;
     this.modalMode = 'edit';
@@ -134,8 +144,8 @@ export class AdminCompaniesComponent implements OnInit {
       primary_color: this.form.primary_color,
       secondary_color: this.form.secondary_color,
       accent_color: this.form.accent_color,
-      free_sessions_per_user: this.form.free_sessions_per_user,
       is_active: this.form.is_active ?? true,
+      creatio_account_id: this.form.creatio_account_id?.trim() || null,
     };
 
     const req = this.modalMode === 'create'
@@ -152,6 +162,43 @@ export class AdminCompaniesComponent implements OnInit {
         } else {
           this.modalError = err?.error?.error || 'Помилка збереження';
         }
+      }
+    });
+  }
+
+  openContracts(c: Company): void {
+    this.contractsCompanyId = c.id;
+    this.contracts = [];
+    this.contractsSyncError = '';
+    this.contractsSyncOk = false;
+    this.contractsLoading = true;
+    this.adminApi.getCompanyContracts(c.id).subscribe({
+      next: (res: any[]) => { this.contracts = res || []; this.contractsLoading = false; },
+      error: () => { this.contractsLoading = false; }
+    });
+  }
+
+  closeContracts(): void { this.contractsCompanyId = null; }
+
+  syncContracts(): void {
+    if (!this.contractsCompanyId) return;
+    this.contractsSyncing = true;
+    this.contractsSyncError = '';
+    this.contractsSyncOk = false;
+    this.adminApi.syncCompanyContracts(this.contractsCompanyId).subscribe({
+      next: (res: any) => {
+        this.contracts = res.contracts || [];
+        this.contractsSyncing = false;
+        this.contractsSyncOk = true;
+        setTimeout(() => { this.contractsSyncOk = false; }, 4000);
+      },
+      error: (err: any) => {
+        this.contractsSyncing = false;
+        this.contractsSyncError = err?.error?.error || 'Помилка синхронізації';
+        // reload from DB anyway to show what's there
+        this.adminApi.getCompanyContracts(this.contractsCompanyId!).subscribe({
+          next: (res: any[]) => { this.contracts = res || []; }
+        });
       }
     });
   }
@@ -184,7 +231,7 @@ export class AdminCompaniesComponent implements OnInit {
     return {
       name: '', code: '', logo_url: '',
       primary_color: '#2DB928', secondary_color: '#1C2B20',
-      accent_color: '#E8F5E9', free_sessions_per_user: 5, is_active: true,
+      accent_color: '#E8F5E9', is_active: true, creatio_account_id: '',
     };
   }
 }

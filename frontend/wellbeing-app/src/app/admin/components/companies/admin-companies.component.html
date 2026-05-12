@@ -52,13 +52,15 @@
         </div>
         <div class="cc-divider"></div>
         <div class="cc-stat">
-          <div class="cc-stat-val">{{ c.free_sessions_per_user }}</div>
-          <div class="cc-stat-lbl">Сесій / юзер</div>
+          <div class="cc-stat-val">₴{{ formatAmount(c.total_revenue) }}</div>
+          <div class="cc-stat-lbl">Дохід</div>
         </div>
         <div class="cc-divider"></div>
         <div class="cc-stat">
-          <div class="cc-stat-val">₴{{ formatAmount(c.total_revenue) }}</div>
-          <div class="cc-stat-lbl">Дохід</div>
+          <div class="cc-stat-val crm-link" [class.crm-link--set]="c.creatio_account_id">
+            {{ c.creatio_account_id ? 'CRM' : '—' }}
+          </div>
+          <div class="cc-stat-lbl">Creatio</div>
         </div>
       </div>
 
@@ -72,6 +74,10 @@
 
       <!-- Actions -->
       <div class="cc-actions">
+        <button class="btn-action btn-contracts" (click)="openContracts(c)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Контракти
+        </button>
         <button class="btn-action btn-edit" (click)="openEdit(c)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Редагувати
@@ -157,8 +163,11 @@
     </div>
 
     <div class="field">
-      <label>Безкоштовних сесій на користувача</label>
-      <input type="number" [(ngModel)]="form.free_sessions_per_user" min="0" max="100" />
+      <label>Creatio Account ID</label>
+      <input type="text" [(ngModel)]="form.creatio_account_id"
+        placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        class="creatio-id-input" />
+      <div class="field-hint">GUID акаунту в Creatio CRM. Необхідний для синхронізації контрактів.</div>
     </div>
 
     <div class="form-row">
@@ -203,6 +212,79 @@
     <button class="btn-primary" (click)="save()" [disabled]="saving">
       <span *ngIf="!saving">{{ modalMode === 'create' ? 'Створити' : 'Зберегти' }}</span>
       <span *ngIf="saving" class="btn-spinner"></span>
+    </button>
+  </div>
+</div>
+
+<!-- ── Contracts Modal ── -->
+<div class="modal-backdrop" *ngIf="contractsCompanyId" (click)="closeContracts()"></div>
+<div class="modal modal--contracts" *ngIf="contractsCompanyId">
+  <div class="modal-header">
+    <h2 class="modal-title">Контракти компанії</h2>
+    <button class="modal-close" (click)="closeContracts()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8879" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <!-- Sync feedback -->
+    <div class="sync-ok" *ngIf="contractsSyncOk">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Синхронізовано успішно
+    </div>
+    <div class="sync-error" *ngIf="contractsSyncError">{{ contractsSyncError }}</div>
+
+    <!-- Loading -->
+    <div *ngIf="contractsLoading" class="loading-wrap"><div class="spinner"></div></div>
+
+    <!-- Empty -->
+    <div *ngIf="!contractsLoading && contracts.length === 0" class="contracts-empty">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#DCE9DC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <p>Контрактів не знайдено.<br>Натисніть кнопку синхронізації нижче.</p>
+    </div>
+
+    <!-- Table -->
+    <div class="contracts-scroll" *ngIf="!contractsLoading && contracts.length > 0">
+      <table class="contracts-table">
+        <thead>
+          <tr>
+            <th class="col-name">Назва</th>
+            <th class="col-date">Початок</th>
+            <th class="col-date">Кінець</th>
+            <th class="col-num">Ціна (₴)</th>
+            <th class="col-num">Сесій / співр.</th>
+            <th class="col-status">Статус</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of contracts" [class.row-active]="c.is_active">
+            <td class="col-name">
+              <span class="contract-name">{{ c.name || '—' }}</span>
+              <span class="contract-id" *ngIf="c.creatio_contract_id">{{ c.creatio_contract_id | slice:0:8 }}…</span>
+            </td>
+            <td class="col-date">{{ c.start_date }}</td>
+            <td class="col-date">{{ c.end_date }}</td>
+            <td class="col-num">{{ c.session_price ? (c.session_price | number:'1.0-0') + ' ₴' : '—' }}</td>
+            <td class="col-num">{{ c.free_sessions_per_employee || '—' }}</td>
+            <td class="col-status">
+              <span class="ct-badge" [class.ct-badge--active]="c.is_active" [class.ct-badge--inactive]="!c.is_active">
+                {{ c.is_active ? 'Активний' : 'Неактивний' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="modal-footer contracts-footer">
+    <button class="btn-cancel" (click)="closeContracts()">Закрити</button>
+    <button class="btn-primary btn-sync" (click)="syncContracts()" [disabled]="contractsSyncing">
+      <span *ngIf="contractsSyncing" class="btn-spinner"></span>
+      <svg *ngIf="!contractsSyncing" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      <span *ngIf="!contractsSyncing">Синхронізувати з Creatio</span>
     </button>
   </div>
 </div>

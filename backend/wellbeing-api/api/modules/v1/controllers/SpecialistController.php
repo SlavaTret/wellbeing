@@ -46,7 +46,7 @@ class SpecialistController extends Controller
         $rows = $db->createCommand("
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
-                s.categories, s.avatar_initials, s.avatar_url, s.price,
+                s.categories, s.avatar_initials, s.avatar_url,
                 COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating,    0) AS avg_rating,
                 COALESCE(rv.reviews_count, 0) AS reviews_count,
@@ -159,7 +159,6 @@ class SpecialistController extends Controller
                 'avatar_initials'  => $s['avatar_initials'],
                 'avatar_url'       => $s['avatar_url'] ?? null,
                 'type_name'        => $s['type_name'],
-                'price'            => (float)$s['price'],
                 'available_slots'  => $slots,
             ];
         }

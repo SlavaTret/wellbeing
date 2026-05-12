@@ -230,6 +230,13 @@ return [
                 'POST   v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/link-specialist-user',
                 'DELETE v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/unlink-specialist-user',
 
+                // Creatio webhooks (public, authenticated via shared secret)
+                'POST v1/creatio/webhook/contract' => 'v1/creatio-webhook/contract',
+
+                // Admin: contracts
+                'GET    v1/admin/companies/<id:\d+>/contracts'      => 'v1/admin/company-contracts',
+                'POST   v1/admin/companies/<id:\d+>/contracts/sync' => 'v1/admin/sync-company-contracts',
+
                 // OPTIONS preflight for CORS
                 'OPTIONS <path:.*>' => 'v1/default/options',
             ],

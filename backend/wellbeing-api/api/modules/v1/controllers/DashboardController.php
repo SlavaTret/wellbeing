@@ -4,6 +4,7 @@ namespace api\modules\v1\controllers;
 
 use common\models\Appointment;
 use common\models\Company;
+use common\models\Contract;
 use Yii;
 use yii\rest\Controller;
 
@@ -42,28 +43,21 @@ class DashboardController extends Controller
             ->andWhere(['status' => Appointment::STATUS_CANCELLED])
             ->count();
 
-        // ── Free sessions ──────────────────────────────────────
-        $freeTotal = 0;
-        if ($user->company_id) {
-            $company = Company::findOne($user->company_id);
-            if ($company && $company->free_sessions_per_user > 0) {
-                $freeTotal = (int)$company->free_sessions_per_user;
-            }
+        // ── Free sessions via active contract ──────────────────
+        $today    = date('Y-m-d');
+        $contract = $user->company_id ? Contract::findForDate($user->company_id, $today) : null;
+
+        $freeTotal     = 0;
+        $remainingFree = 0;
+        $usedFree      = 0;
+        $freeProgressPct = 0;
+
+        if ($contract && $contract->free_sessions_per_employee > 0) {
+            $freeTotal = $contract->free_sessions_per_employee;
+            $usedFree  = $this->countUsedSubscriptionSessions($userId, $contract->start_date, $contract->end_date);
+            $remainingFree   = max(0, $freeTotal - $usedFree);
+            $freeProgressPct = round(($usedFree / $freeTotal) * 100);
         }
-
-        // "Used" = subscription-covered appointments this calendar month (no payment record = subscription)
-        $usedFree = (int)Yii::$app->db->createCommand(
-            "SELECT COUNT(*) FROM appointment a
-             WHERE a.user_id = :uid
-               AND a.status NOT IN (:cancelled)
-               AND a.payment_status = :paid
-               AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
-               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)",
-            [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
-        )->queryScalar();
-
-        $remainingFree     = max(0, $freeTotal - $usedFree);
-        $freeProgressPct   = $freeTotal > 0 ? round(($usedFree / $freeTotal) * 100) : 0;
 
         // ── Next 2 upcoming appointments ───────────────────────
         $nextAppointments = Appointment::find()
@@ -76,7 +70,6 @@ class DashboardController extends Controller
         $ukMonths = ['', 'січня','лютого','березня','квітня','травня','червня',
                          'липня','серпня','вересня','жовтня','листопада','грудня'];
 
-        // Pre-fetch specialization names for all unique types in one query
         $typeKeys = array_unique(array_column(
             array_map(fn($a) => ['type' => $a->specialist_type], $nextAppointments),
             'type'
@@ -134,10 +127,10 @@ class DashboardController extends Controller
                 'free_remaining' => $remainingFree,
             ],
             'free_sessions' => [
-                'total'       => $freeTotal,
-                'used'        => (int)$usedFree,
-                'remaining'   => $remainingFree,
-                'percent'     => $freeProgressPct,
+                'total'     => $freeTotal,
+                'used'      => (int)$usedFree,
+                'remaining' => $remainingFree,
+                'percent'   => $freeProgressPct,
             ],
             'upcoming_appointments' => $upcomingFormatted,
         ];
@@ -149,32 +142,58 @@ class DashboardController extends Controller
         $user   = Yii::$app->user->identity;
         $userId = $user->id;
 
-        $freeTotal = 0;
-        if ($user->company_id) {
-            $company = Company::findOne($user->company_id);
-            if ($company && $company->free_sessions_per_user > 0) {
-                $freeTotal = (int)$company->free_sessions_per_user;
-            }
+        $today    = date('Y-m-d');
+        $contract = $user->company_id ? Contract::findForDate($user->company_id, $today) : null;
+
+        if (!$contract) {
+            // No active contract today — subscription unavailable
+            return [
+                'total'         => 0,
+                'used'          => 0,
+                'remaining'     => 0,
+                'percent'       => 0,
+                'session_price' => null,
+                'no_contract'   => true,
+            ];
         }
 
-        $usedFree = (int)Yii::$app->db->createCommand(
-            "SELECT COUNT(*) FROM appointment a
-             WHERE a.user_id = :uid
-               AND a.status NOT IN (:cancelled)
-               AND a.payment_status = :paid
-               AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
-               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)",
-            [':uid' => $userId, ':cancelled' => Appointment::STATUS_CANCELLED, ':paid' => 'paid']
-        )->queryScalar();
-
+        $freeTotal = $contract->free_sessions_per_employee;
+        $usedFree  = $this->countUsedSubscriptionSessions($userId, $contract->start_date, $contract->end_date);
         $remaining = max(0, $freeTotal - $usedFree);
         $percent   = $freeTotal > 0 ? round(($usedFree / $freeTotal) * 100) : 0;
 
         return [
-            'total'     => $freeTotal,
-            'used'      => $usedFree,
-            'remaining' => $remaining,
-            'percent'   => $percent,
+            'total'         => $freeTotal,
+            'used'          => $usedFree,
+            'remaining'     => $remaining,
+            'percent'       => $percent,
+            'session_price' => $contract->session_price > 0 ? (float)$contract->session_price : null,
+            'no_contract'   => false,
+            'contract_start'=> $contract->start_date,
+            'contract_end'  => $contract->end_date,
         ];
+    }
+
+    /**
+     * Count subscription (free) appointments within a contract period.
+     * Subscription = payment_status=paid AND no row in payment table.
+     */
+    private function countUsedSubscriptionSessions(int $userId, string $startDate, string $endDate): int
+    {
+        return (int)Yii::$app->db->createCommand(
+            "SELECT COUNT(*) FROM appointment a
+             WHERE a.user_id = :uid
+               AND a.status NOT IN (:cancelled)
+               AND a.payment_status = :paid
+               AND a.appointment_date::date BETWEEN :start AND :end
+               AND NOT EXISTS (SELECT 1 FROM payment p WHERE p.appointment_id = a.id)",
+            [
+                ':uid'       => $userId,
+                ':cancelled' => Appointment::STATUS_CANCELLED,
+                ':paid'      => 'paid',
+                ':start'     => $startDate,
+                ':end'       => $endDate,
+            ]
+        )->queryScalar();
     }
 }

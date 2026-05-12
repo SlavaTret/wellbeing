@@ -4,6 +4,7 @@ namespace api\modules\v1\controllers;
 
 use common\models\Appointment;
 use common\models\Company;
+use common\models\Contract;
 use common\models\NotificationSetting;
 use common\models\Payment;
 use common\models\SpecialistReview;
@@ -119,14 +120,11 @@ class AppointmentController extends Controller
         }
 
         if ($appointment->save()) {
-            // Pull price from specialist record if not provided by client
-            if ((float)$appointment->price <= 0 && $appointment->specialist_id) {
-                $specialistPrice = (float)Yii::$app->db->createCommand(
-                    'SELECT price FROM specialist WHERE id = :id',
-                    [':id' => $appointment->specialist_id]
-                )->queryScalar();
-                if ($specialistPrice > 0) {
-                    $appointment->price = $specialistPrice;
+            // Pull price from the contract active on the appointment date
+            if ((float)$appointment->price <= 0 && $user->company_id) {
+                $priceContract = Contract::findForDate($user->company_id, $appointment->appointment_date);
+                if ($priceContract && $priceContract->session_price > 0) {
+                    $appointment->price = $priceContract->session_price;
                     $appointment->save(false);
                 }
             }
@@ -370,22 +368,33 @@ class AppointmentController extends Controller
         }
 
         if ($paymentVia === 'subscription' || $paymentVia === 'auto') {
-            $freeTotal = 0;
-            if ($user->company_id) {
-                $company = Company::findOne($user->company_id);
-                if ($company && $company->free_sessions_per_user > 0) {
-                    $freeTotal = (int)$company->free_sessions_per_user;
+            // Find contract active on the appointment date (not today)
+            $contract = $user->company_id
+                ? Contract::findForDate($user->company_id, $appointment->appointment_date)
+                : null;
+
+            if ($paymentVia === 'subscription' && !$contract) {
+                // Client explicitly chose subscription but no contract covers this date
+                Yii::$app->response->statusCode = 422;
+                throw new \yii\web\HttpException(422, 'Корпоративна підписка недоступна для обраної дати');
+            }
+
+            if ($contract && $contract->free_sessions_per_employee > 0) {
+                $usedFree      = $this->countSubscriptionSessions($user->id, $appointment->id, $contract->start_date, $contract->end_date);
+                $freeRemaining = max(0, $contract->free_sessions_per_employee - $usedFree);
+
+                if ($freeRemaining > 0) {
+                    $appointment->payment_status = 'paid';
+                    $appointment->status = Appointment::STATUS_CONFIRMED;
+                    $appointment->save(false);
+                    return;
                 }
             }
 
-            $usedFree = $this->countSubscriptionSessions($user->id, $appointment->id);
-            $freeRemaining = max(0, $freeTotal - $usedFree);
-
-            if ($freeRemaining > 0) {
-                $appointment->payment_status = 'paid';
-                $appointment->status = Appointment::STATUS_CONFIRMED;
-                $appointment->save(false);
-                return;
+            // Subscription requested but limit exhausted — fall through to card only if auto
+            if ($paymentVia === 'subscription') {
+                Yii::$app->response->statusCode = 422;
+                throw new \yii\web\HttpException(422, 'Ліміт безкоштовних сесій за контрактом вичерпано');
             }
         }
 
@@ -483,14 +492,14 @@ class AppointmentController extends Controller
      * Count appointments paid via corporate subscription (no payment record = subscription).
      * Excludes the given appointment ID (used when creating a new one).
      */
-    private function countSubscriptionSessions(int $userId, int $excludeId = 0): int
+    private function countSubscriptionSessions(int $userId, int $excludeId, string $startDate, string $endDate): int
     {
         $sql = "SELECT COUNT(*) FROM appointment a
                 WHERE a.user_id = :uid
                   AND a.status NOT IN (:cancelled)
                   AND a.payment_status = :paid
                   AND (:excl = 0 OR a.id != :excl)
-                  AND DATE_TRUNC('month', a.appointment_date::date) = DATE_TRUNC('month', CURRENT_DATE)
+                  AND a.appointment_date::date BETWEEN :start AND :end
                   AND NOT EXISTS (
                       SELECT 1 FROM payment p
                       WHERE p.appointment_id = a.id
@@ -500,6 +509,8 @@ class AppointmentController extends Controller
             ':cancelled' => Appointment::STATUS_CANCELLED,
             ':paid'      => 'paid',
             ':excl'      => $excludeId,
+            ':start'     => $startDate,
+            ':end'       => $endDate,
         ])->queryScalar();
     }
 }

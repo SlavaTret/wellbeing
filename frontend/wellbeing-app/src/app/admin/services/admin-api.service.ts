@@ -65,6 +65,14 @@ export class AdminApiService {
     return this.http.delete(`${this.apiUrl}/admin/companies/${id}`);
   }
 
+  getCompanyContracts(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/companies/${id}/contracts`);
+  }
+
+  syncCompanyContracts(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/companies/${id}/contracts/sync`, {});
+  }
+
   // ==================== USERS ====================
   getAdminUsers(params: { search?: string; status?: string; page?: number; per_page?: number } = {}): Observable<any> {
     const parts: string[] = [];

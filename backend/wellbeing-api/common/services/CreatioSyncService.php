@@ -4,6 +4,8 @@ namespace common\services;
 
 use common\models\AppSettings;
 use common\models\Appointment;
+use common\models\Company;
+use common\models\Contract;
 use common\models\User;
 use Yii;
 
@@ -125,11 +127,10 @@ class CreatioSyncService
             $accountId = $company->creatio_account_id ?: $this->findAccountByName($company->name, $settings['base_url'], $token);
 
             $payload = [
-                'Name'                        => $company->name,
-                'TypeId'                      => '03a75490-53e6-df11-971b-001d60e938c6', // Клієнт
-                'WelNumberOfFreeConsultation' => (int)($company->free_sessions_per_user ?? 0),
-                'WelCurrencySymbolId'         => 'c1057119-53e6-df11-971b-001d60e938c6', // UAH ₴
-                'WelTimeZoneId'               => '97c71d34-55d8-df11-9b2a-001d60e938c6', // Kyiv UTC+2
+                'Name'               => $company->name,
+                'TypeId'             => '03a75490-53e6-df11-971b-001d60e938c6', // Клієнт
+                'WelCurrencySymbolId'=> 'c1057119-53e6-df11-971b-001d60e938c6', // UAH ₴
+                'WelTimeZoneId'      => '97c71d34-55d8-df11-9b2a-001d60e938c6', // Kyiv UTC+2
             ];
             if ($company->code !== null && $company->code !== '') {
                 $payload['Code'] = (string)$company->code;
@@ -344,6 +345,296 @@ class CreatioSyncService
             Yii::warning('[Creatio] syncAppointment completed OK', 'creatio');
         } catch (\Throwable $e) {
             Yii::warning('[Creatio] syncAppointment ERROR: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine(), 'creatio');
+        }
+    }
+
+    /**
+     * Sync WelContract records from Creatio → portal contract table.
+     *
+     * @param string|null $creatioAccountId  When set, fetches only contracts for that Account.
+     *                                       When null, iterates all portal companies that have a creatio_account_id.
+     */
+    public function syncContracts(?string $creatioAccountId = null): void
+    {
+        Yii::info('[Creatio] syncContracts called accountId=' . ($creatioAccountId ?? 'ALL'), 'creatio');
+        try {
+            if (!$this->isEnabled()) {
+                return;
+            }
+
+            $settings    = $this->getSettings();
+            $token       = $this->getToken($settings);
+            $allCreatio  = $this->fetchAllContracts($settings['base_url'], $token);
+            Yii::warning('[Creatio] syncContracts: total Creatio contracts fetched=' . count($allCreatio), 'creatio');
+
+            if ($creatioAccountId) {
+                $companies = Company::find()->where(['creatio_account_id' => $creatioAccountId])->all();
+                if (empty($companies)) {
+                    Yii::warning('[Creatio] syncContracts: no portal company for accountId=' . $creatioAccountId, 'creatio');
+                    return;
+                }
+            } else {
+                $companies = Company::find()
+                    ->where(['is_active' => true])
+                    ->andWhere(['not', ['creatio_account_id' => null]])
+                    ->andWhere(['<>', 'creatio_account_id', ''])
+                    ->all();
+            }
+
+            foreach ($companies as $company) {
+                $this->syncContractsForCompany($company, $allCreatio);
+            }
+
+            Yii::warning('[Creatio] syncContracts completed OK', 'creatio');
+        } catch (\Throwable $e) {
+            Yii::warning('[Creatio] syncContracts ERROR: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine(), 'creatio');
+        }
+    }
+
+    private function syncContractsForCompany(Company $company, array $allCreatio): void
+    {
+        // New contracts: match by account ID in Creatio
+        $byAccount = array_filter($allCreatio, fn($c) => ($c['WelAccountId'] ?? '') === $company->creatio_account_id);
+
+        // Existing portal contracts: update them by stored creatio_contract_id regardless of account
+        $existingIds = Contract::find()
+            ->select('creatio_contract_id')
+            ->where(['company_id' => $company->id])
+            ->andWhere(['not', ['creatio_contract_id' => null]])
+            ->column();
+        $byExistingId = array_filter($allCreatio, fn($c) => in_array($c['Id'] ?? '', $existingIds, true));
+
+        // Merge, deduplicate by Id
+        $toProcess = [];
+        foreach (array_merge(array_values($byAccount), array_values($byExistingId)) as $c) {
+            $toProcess[$c['Id']] = $c;
+        }
+
+        Yii::warning(
+            '[Creatio] syncContractsForCompany company=' . $company->name
+            . ' byAccount=' . count($byAccount)
+            . ' byExistingId=' . count($byExistingId)
+            . ' total=' . count($toProcess),
+            'creatio'
+        );
+
+        foreach ($toProcess as $c) {
+            $this->upsertContract($company->id, $c);
+        }
+    }
+
+    /**
+     * Upsert a single contract payload (from webhook or batch sync) into the portal DB.
+     * Payload keys match WelContract OData field names.
+     */
+    public function upsertContractPayload(array $payload): void
+    {
+        try {
+            $creatioAccountId = $payload['WelAccountId'] ?? null;
+            if (!$creatioAccountId) {
+                return;
+            }
+            $company = Company::find()->where(['creatio_account_id' => $creatioAccountId])->one();
+            if (!$company) {
+                Yii::warning('[Creatio] upsertContractPayload: no company for accountId=' . $creatioAccountId, 'creatio');
+                return;
+            }
+            $this->upsertContract($company->id, $payload);
+        } catch (\Throwable $e) {
+            Yii::warning('[Creatio] upsertContractPayload ERROR: ' . $e->getMessage(), 'creatio');
+        }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // Contract helpers
+    // ──────────────────────────────────────────────────────────────────────────
+
+    private function fetchAllContracts(string $baseUrl, string $token): array
+    {
+        $select = implode(',', [
+            'Id', 'WelName', 'WelAccountId',
+            'WelStartDate', 'WelEndDate',
+            'WelPriceConsultation', 'WelNumberOfFreeConsultation',
+            'WelActive',
+        ]);
+
+        $url = $baseUrl . '/0/odata/WelContract?$select=' . $select . '&$top=500';
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $token, 'Accept: application/json'],
+            CURLOPT_TIMEOUT        => 15,
+        ]);
+        $raw  = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($code !== 200) {
+            throw new \RuntimeException('fetchAllContracts HTTP ' . $code . ': ' . $raw);
+        }
+
+        return json_decode($raw, true)['value'] ?? [];
+    }
+
+    private function upsertContract(int $companyId, array $c): void
+    {
+        $creatioId = $c['Id'] ?? null;
+        if (!$creatioId) {
+            return;
+        }
+
+        $contract = Contract::find()->where(['creatio_contract_id' => $creatioId])->one()
+                 ?? new Contract();
+
+        $contract->company_id                 = $companyId;
+        $contract->creatio_contract_id        = $creatioId;
+        $contract->name                       = $c['WelName'] ?? '';
+        $contract->start_date                 = substr($c['WelStartDate'] ?? '', 0, 10);
+        $contract->end_date                   = substr($c['WelEndDate']   ?? '', 0, 10);
+        $contract->session_price              = (float)($c['WelPriceConsultation']        ?? 0);
+        $contract->free_sessions_per_employee = (int)($c['WelNumberOfFreeConsultation']   ?? 0);
+        $contract->is_active                  = (bool)($c['WelActive'] ?? false);
+        $contract->synced_at                  = date('Y-m-d H:i:s');
+
+        if (!$contract->save()) {
+            Yii::warning('[Creatio] upsertContract SAVE FAILED id=' . $creatioId . ' errors=' . json_encode($contract->errors), 'creatio');
+        }
+    }
+
+    /**
+     * Upload a portal document to Creatio ContactFile for the owning user.
+     * Requires user.creatio_contact_id to be set (populated on registration).
+     * Saves Creatio ContactFile GUID back into document.creatio_file_id.
+     * Safe to call from DocumentController — exceptions are caught internally.
+     */
+    public function syncDocument(\common\models\Document $doc, \common\models\User $user): void
+    {
+        Yii::info('[Creatio] syncDocument doc_id=' . $doc->id . ' user_id=' . $user->id, 'creatio');
+        try {
+            if (!$this->isEnabled()) {
+                return;
+            }
+
+            $contactId = $user->creatio_contact_id;
+            if (!$contactId) {
+                Yii::warning('[Creatio] syncDocument: user has no creatio_contact_id, skipping', 'creatio');
+                return;
+            }
+
+            $settings = $this->getSettings();
+            $token    = $this->getToken($settings);
+
+            // Resolve local file path from stored URL
+            $urlPath   = preg_replace('#^/api#', '', $doc->file_url ?? '');
+            $localPath = \Yii::getAlias('@webroot') . $urlPath;
+
+            if (!file_exists($localPath)) {
+                Yii::warning('[Creatio] syncDocument: local file not found at ' . $localPath, 'creatio');
+                return;
+            }
+
+            $fileData = file_get_contents($localPath);
+            if ($fileData === false) {
+                Yii::warning('[Creatio] syncDocument: cannot read file ' . $localPath, 'creatio');
+                return;
+            }
+
+            // Mime type map
+            $mimeMap = [
+                'pdf'  => 'application/pdf',
+                'jpg'  => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png'  => 'image/png',
+                'doc'  => 'application/msword',
+                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ];
+            $ext      = strtolower(pathinfo($doc->document_name ?? '', PATHINFO_EXTENSION));
+            $mimeType = $mimeMap[$ext] ?? 'application/octet-stream';
+
+            // 1. POST metadata to ContactFile
+            $meta = [
+                'Name'      => $doc->document_name,
+                'Notes'     => '',
+                'ContactId' => $contactId,
+                'TypeId'    => '529bc2f8-0ee0-df11-971b-001d60e938c6', // File type GUID from Creatio
+            ];
+
+            $result     = $this->postJsonReturn($settings['base_url'] . '/0/odata/ContactFile', $meta, $token, 'postContactFile');
+            $contactFileId = $result['Id'] ?? null;
+
+            if (!$contactFileId) {
+                Yii::warning('[Creatio] syncDocument: ContactFile created but no Id returned', 'creatio');
+                return;
+            }
+            Yii::warning('[Creatio] syncDocument: ContactFile created id=' . $contactFileId, 'creatio');
+
+            // 2. PUT binary data
+            $dataCh = curl_init($settings['base_url'] . '/0/odata/ContactFile(' . $contactFileId . ')/Data');
+            curl_setopt_array($dataCh, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST  => 'PUT',
+                CURLOPT_POSTFIELDS     => $fileData,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $token,
+                    'Content-Type: ' . $mimeType,
+                    'Content-Length: ' . strlen($fileData),
+                ],
+                CURLOPT_TIMEOUT => 30,
+            ]);
+            $dataRaw  = curl_exec($dataCh);
+            $dataCode = curl_getinfo($dataCh, CURLINFO_HTTP_CODE);
+            $dataErr  = curl_error($dataCh);
+            curl_close($dataCh);
+
+            if ($dataErr || $dataCode >= 400) {
+                Yii::warning('[Creatio] syncDocument: Data PUT failed HTTP=' . $dataCode . ' err=' . $dataErr . ' body=' . substr($dataRaw, 0, 200), 'creatio');
+                return;
+            }
+            Yii::warning('[Creatio] syncDocument: Data uploaded OK HTTP=' . $dataCode, 'creatio');
+
+            // 3. Save Creatio ID back to portal DB
+            \Yii::$app->db->createCommand()
+                ->update('{{%document}}', ['creatio_file_id' => $contactFileId], ['id' => $doc->id])
+                ->execute();
+            $doc->creatio_file_id = $contactFileId;
+            Yii::warning('[Creatio] syncDocument: saved creatio_file_id=' . $contactFileId . ' for doc_id=' . $doc->id, 'creatio');
+
+        } catch (\Throwable $e) {
+            Yii::warning('[Creatio] syncDocument ERROR: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine(), 'creatio');
+        }
+    }
+
+    /**
+     * Delete a ContactFile from Creatio when the portal document is deleted.
+     * Silent fail — deletion from Creatio is best-effort.
+     */
+    public function deleteDocument(\common\models\Document $doc): void
+    {
+        Yii::info('[Creatio] deleteDocument doc_id=' . $doc->id, 'creatio');
+        try {
+            if (!$this->isEnabled() || !$doc->creatio_file_id) {
+                return;
+            }
+
+            $settings = $this->getSettings();
+            $token    = $this->getToken($settings);
+
+            $ch = curl_init($settings['base_url'] . '/0/odata/ContactFile(' . $doc->creatio_file_id . ')');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST  => 'DELETE',
+                CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $token],
+                CURLOPT_TIMEOUT        => 10,
+            ]);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            Yii::warning('[Creatio] deleteDocument: ContactFile(' . $doc->creatio_file_id . ') DELETE HTTP=' . $code, 'creatio');
+        } catch (\Throwable $e) {
+            Yii::warning('[Creatio] deleteDocument ERROR: ' . $e->getMessage(), 'creatio');
         }
     }
 

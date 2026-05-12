@@ -3,6 +3,7 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Document;
+use common\services\CreatioSyncService;
 use Yii;
 use yii\rest\Controller;
 use yii\web\UploadedFile;
@@ -86,6 +87,12 @@ class DocumentController extends Controller
             return ['errors' => $doc->getErrors()];
         }
 
+        // Sync to Creatio ContactFile asynchronously (best-effort, does not block response)
+        try {
+            $user = Yii::$app->user->identity;
+            (new CreatioSyncService())->syncDocument($doc, $user);
+        } catch (\Throwable $e) {}
+
         Yii::$app->response->statusCode = 201;
         return $this->formatDoc($doc);
     }
@@ -100,9 +107,14 @@ class DocumentController extends Controller
             return ['error' => 'Document not found'];
         }
 
-        // Remove the local file too
+        // Remove from Creatio (best-effort)
+        try {
+            (new CreatioSyncService())->deleteDocument($doc);
+        } catch (\Throwable $e) {}
+
+        // Remove the local file
         if ($doc->file_url && str_contains($doc->file_url, '/uploads/documents/')) {
-            $urlPath = preg_replace('#^/api#', '', parse_url($doc->file_url, PHP_URL_PATH));
+            $urlPath   = preg_replace('#^/api#', '', parse_url($doc->file_url, PHP_URL_PATH));
             $localPath = Yii::getAlias('@webroot') . $urlPath;
             if (file_exists($localPath)) {
                 @unlink($localPath);

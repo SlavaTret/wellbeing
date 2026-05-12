@@ -14,7 +14,6 @@ use yii\db\ActiveRecord;
  * @property float       $rating
  * @property string      $categories
  * @property string      $avatar_initials
- * @property float       $price
  * @property bool        $is_active
  * @property string|null $email
  * @property string|null $avatar_url
@@ -39,7 +38,7 @@ class Specialist extends ActiveRecord
             [['name', 'type', 'avatar_initials'], 'string'],
             [['bio', 'categories'], 'string'],
             [['experience_years'], 'integer'],
-            [['rating', 'price'], 'number'],
+            [['rating'], 'number'],
             [['is_active'], 'boolean'],
             [['email'], 'email'],
             [['email', 'avatar_url'], 'string', 'max' => 512],

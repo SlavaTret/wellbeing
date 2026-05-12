@@ -9,6 +9,10 @@ export interface FreeSessions {
   used: number;
   remaining: number;
   percent: number;
+  session_price?: number | null;
+  no_contract?: boolean;
+  contract_start?: string;
+  contract_end?: string;
 }
 
 const USER_KEY          = 'wb_user';

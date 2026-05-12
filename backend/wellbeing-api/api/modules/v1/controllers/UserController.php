@@ -106,14 +106,14 @@ class UserController extends Controller
         $data = Yii::$app->request->post();
         $user = new User();
 
-        // Username is required by the schema; derive from email if not given.
-        if (empty($data['username']) && !empty($data['email'])) {
-            $data['username'] = $data['email'];
-        }
-
         if (!$user->load($data, '') || !$user->validate()) {
             Yii::$app->response->statusCode = 422;
             return ['errors' => $user->getErrors()];
+        }
+
+        // username is NOT NULL in schema but not a safe load() attribute — set explicitly
+        if (empty($user->username)) {
+            $user->username = $user->email;
         }
 
         $user->setPassword($data['password']);
