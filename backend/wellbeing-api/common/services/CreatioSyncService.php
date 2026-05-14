@@ -306,6 +306,7 @@ class CreatioSyncService
                 'TypeId'                     => 'fbe0acdc-cfc0-df11-b00f-001d60e938c6', // Консультація
                 'ActivityCategoryId'         => '6e7fa16e-7d4f-4a68-9ff7-b6086f7a4375',
                 'StatusId'                   => '384d4b84-58e6-df11-971b-001d60e938c6', // Не розпочато
+                'WelStatusId'                => '384d4b84-58e6-df11-971b-001d60e938c6',
                 'StartDate'                  => $startIso,
                 'DueDate'                    => $dueIso,
                 'WelClientTime'              => $startIso,
