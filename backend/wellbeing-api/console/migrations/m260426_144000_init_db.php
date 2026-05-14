@@ -124,6 +124,8 @@ class m260426_144000_init_db extends Migration
         $this->addForeignKey('fk_support_ticket_user_id', '{{%support_ticket}}', 'user_id', '{{%user}}', 'id', 'CASCADE');
         $this->createIndex('idx_support_ticket_user_id', '{{%support_ticket}}', 'user_id');
         $this->createIndex('idx_support_ticket_status', '{{%support_ticket}}', 'status');
+
+        // Seed admin removed — production DB already has real users.
     }
 
     public function down()

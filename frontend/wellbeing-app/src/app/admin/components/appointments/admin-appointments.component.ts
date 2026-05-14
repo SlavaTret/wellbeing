@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AdminApiService } from '../../services/admin-api.service';
 
 interface AdminAppointment {
@@ -38,6 +38,7 @@ interface AvailableSlot { date: string; slots: string[]; }
 
 @Component({
   selector: 'app-admin-appointments',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-appointments.component.html',
   styleUrls: ['./admin-appointments.component.css']
 })
@@ -91,7 +92,7 @@ export class AdminAppointmentsPageComponent implements OnInit {
   users: any[]       = [];
   listsLoaded        = false;
 
-  constructor(private adminApi: AdminApiService) {}
+  constructor(private adminApi: AdminApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void { this.load(); }
 
@@ -106,11 +107,13 @@ export class AdminAppointmentsPageComponent implements OnInit {
         this.pages        = res.pages;
         this.loading      = false;
         this.listLoading  = false;
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         if (!soft) this.error = err?.error?.error || 'Помилка завантаження';
         this.loading     = false;
         this.listLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }

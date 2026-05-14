@@ -26,13 +26,15 @@ export class AdminLoginComponent {
     this.error = '';
     this.adminApi.login(this.email, this.password).subscribe({
       next: (res: any) => {
-        if (!res?.user?.is_admin) {
+        const isAdmin      = !!res?.user?.is_admin;
+        const isSpecialist = res?.user?.role === 'specialist';
+        if (!isAdmin && !isSpecialist) {
           this.loading = false;
-          this.error = 'Доступ заборонено. У вас немає прав адміністратора.';
+          this.error = 'Доступ заборонено. У вас немає прав адміністратора або консультанта.';
           return;
         }
         this.adminApi.setAdminSession(res.access_token, res.user);
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(isSpecialist ? ['/admin/specialist/dashboard'] : ['/admin/dashboard']);
       },
       error: (err: any) => {
         this.loading = false;

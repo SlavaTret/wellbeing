@@ -37,6 +37,14 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
+# Local environment configs — managed manually on server, never commit
+/common/config/main-local.php
+/common/config/params-local.php
+/common/config/*-local.php
+
+# Caddy — managed manually on server
+Caddyfile
+
 # ignore generated files
 /frontend/web/index.php
 /frontend/web/index-test.php

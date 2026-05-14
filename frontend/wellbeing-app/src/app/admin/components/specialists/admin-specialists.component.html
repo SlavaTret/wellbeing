@@ -160,19 +160,13 @@
           </div>
         </div>
 
-        <!-- Price + Status -->
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label>Ціна за сесію (₴)</label>
-            <input type="number" [(ngModel)]="form.price" min="0" placeholder="0" />
-          </div>
-          <div class="form-field">
-            <label>Статус</label>
-            <select [(ngModel)]="form.status">
-              <option value="active">Активний</option>
-              <option value="inactive">Неактивний</option>
-            </select>
-          </div>
+        <!-- Status -->
+        <div class="form-field">
+          <label>Статус</label>
+          <select [(ngModel)]="form.status">
+            <option value="active">Активний</option>
+            <option value="inactive">Неактивний</option>
+          </select>
         </div>
 
         <!-- Email -->
@@ -181,11 +175,58 @@
           <input type="email" [(ngModel)]="form.email" placeholder="specialist@example.com" />
         </div>
 
+        <div class="section-divider"><span class="section-label">Інтеграції</span></div>
+
+        <!-- Creatio Contact ID -->
+        <div class="form-field">
+          <label>Creatio Contact ID</label>
+          <input class="creatio-id-input" type="text" [(ngModel)]="form.creatio_contact_id"
+                 placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" maxlength="36" />
+          <div class="field-hint">GUID контакту Creatio (тип Експерт). Якщо заповнено — синхронізація використовує цей ID замість пошуку за email.</div>
+        </div>
+
         <!-- Bio -->
         <div class="form-field">
           <label>Опис</label>
           <textarea [(ngModel)]="form.bio" rows="3" placeholder="Коротко про спеціаліста..."></textarea>
         </div>
+
+        <!-- ── Access ── -->
+        <ng-container *ngIf="modalSpec">
+          <div class="section-divider"><span class="section-label">Доступ до панелі</span></div>
+
+          <!-- Already linked -->
+          <div *ngIf="modalSpec.user_id" class="access-linked">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>{{ modalSpec.linked_email }}</span>
+            <button class="btn-unlink" (click)="unlinkAccount()" [disabled]="unlinking">
+              <span *ngIf="unlinking" class="btn-spinner btn-spinner--dark"></span>
+              {{ unlinking ? '...' : 'Відкликати' }}
+            </button>
+          </div>
+
+          <!-- Not linked yet -->
+          <div *ngIf="!modalSpec.user_id" class="access-form">
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label>Email для входу</label>
+                <input type="email" [(ngModel)]="linkEmail" placeholder="specialist@example.com" />
+              </div>
+              <div class="form-field">
+                <label>Пароль</label>
+                <input type="password" [(ngModel)]="linkPassword" placeholder="Мінімум 6 символів" />
+              </div>
+            </div>
+            <button class="btn btn--primary btn--sm" (click)="linkAccount()"
+                    [disabled]="linking || !linkEmail || !linkPassword">
+              <span *ngIf="linking" class="btn-spinner"></span>
+              {{ linking ? 'Збереження...' : 'Надати доступ' }}
+            </button>
+          </div>
+
+          <div *ngIf="linkError"   class="access-msg access-msg--error">{{ linkError }}</div>
+          <div *ngIf="linkSuccess" class="access-msg access-msg--ok">{{ linkSuccess }}</div>
+        </ng-container>
 
         <!-- ── Categories ── -->
         <div class="section-divider">

@@ -1,0 +1,20 @@
+[Unit]
+Description=Wellbeing API (php yii serve)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/wellbeing/backend/wellbeing-api
+ExecStart=/usr/bin/php yii serve 0.0.0.0 --docroot=api/web --port=8000
+Restart=always
+RestartSec=5
+MemoryMax=256M
+RuntimeMaxSec=10800
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wellbeing-api
+
+[Install]
+WantedBy=multi-user.target

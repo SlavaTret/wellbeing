@@ -1,14 +1,4 @@
 :host {
-  --green: #2DB928;
-  --green-dark: #1E9020;
-  --green-light: #E8F5E9;
-  --text: #1C2B20;
-  --text-muted: #6B8879;
-  --border: #DCE9DC;
-  --bg: #F2F7F3;
-  --card: #FFFFFF;
-  --sidebar-w: 256px;
-
   display: block;
   background: var(--bg);
   min-height: 100vh;
@@ -98,6 +88,18 @@
   letter-spacing: 0.5px;
 }
 
+.logo-img-wb-sidebar {
+  height: 46px;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.logo-img-wb-mobile {
+  height: 26px;
+  max-width: 130px;
+  object-fit: contain;
+}
+
 /* ───── Sidebar ───── */
 .desktop-sidebar {
   position: fixed;
@@ -146,7 +148,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2DB928, #1E9020);
+  background: var(--brand-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,7 +213,47 @@
   padding: 1px 7px;
 }
 
-.sidebar-footer { padding: 12px; }
+.sidebar-footer { padding: 12px; padding-bottom: 32px; display: flex; flex-direction: column; gap: 4px; }
+
+/* ── Sidebar book button ── */
+.sidebar-book-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 30px;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(var(--brand-primary-rgb), 0.30);
+  margin-bottom: 24px;
+}
+.sidebar-book-btn:hover { background: var(--green-dark); box-shadow: 0 4px 14px rgba(var(--brand-primary-rgb), 0.40); }
+
+/* ── Mobile book button (header) ── */
+.mobile-book-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.mobile-book-btn:hover { background: var(--green-dark); }
+
 .btn-logout {
   display: flex;
   align-items: center;
@@ -254,8 +296,10 @@
 /* ───── Mobile breakpoint ───── */
 @media (max-width: 768px) {
   .mobile-header { display: flex; }
+  .mobile-book-btn { display: inline-flex; }
 
   .desktop-sidebar {
+    width: 280px;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.4,0,.2,1);
     box-shadow: 4px 0 24px rgba(0,0,0,0.15);

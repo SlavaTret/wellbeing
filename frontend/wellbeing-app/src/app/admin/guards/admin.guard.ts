@@ -7,7 +7,7 @@ export class AdminGuard implements CanActivate {
   constructor(private adminApi: AdminApiService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.adminApi.isAdminLoggedIn()) return true;
+    if (this.adminApi.isAdmin() || this.adminApi.isSpecialist()) return true;
     this.router.navigate(['/admin/login']);
     return false;
   }

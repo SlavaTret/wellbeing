@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly Creatio contracts sync for Wellbeing
+Requires=creatio-sync.service
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

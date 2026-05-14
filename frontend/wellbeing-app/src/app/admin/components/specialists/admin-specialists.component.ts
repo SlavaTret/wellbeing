@@ -15,10 +15,12 @@ interface AdminSpecialist {
   categories_str: string;
   avatar_initials: string;
   avatar_url?: string | null;
-  price: number;
   is_active: boolean;
   created_at: string | number;
   email?: string;
+  user_id?: number | null;
+  linked_email?: string | null;
+  creatio_contact_id?: string | null;
 }
 
 interface SpecialistForm {
@@ -26,9 +28,9 @@ interface SpecialistForm {
   type: string;
   bio: string;
   experience_years: number | '';
-  price: number | '';
   status: 'active' | 'inactive';
   email: string;
+  creatio_contact_id: string;
 }
 
 interface Specialization {
@@ -66,6 +68,14 @@ export class AdminSpecialistsComponent implements OnInit {
   // Categories
   formCats: string[]   = [];
   allCats: string[]    = [];
+
+  // Link account
+  linkEmail    = '';
+  linkPassword = '';
+  linking      = false;
+  unlinking    = false;
+  linkError    = '';
+  linkSuccess  = '';
 
   constructor(private adminApi: AdminApiService) {}
 
@@ -127,18 +137,22 @@ export class AdminSpecialistsComponent implements OnInit {
   openEdit(s: AdminSpecialist): void {
     this.modalSpec    = s;
     this.form = {
-      name:             s.name,
-      type:             s.type || (this.specializations[0]?.key ?? 'psychologist'),
-      bio:              s.bio,
-      experience_years: s.experience_years || '',
-      price:            s.price || '',
-      status:           s.is_active ? 'active' : 'inactive',
-      email:            s.email || ''
+      name:               s.name,
+      type:               s.type || (this.specializations[0]?.key ?? 'psychologist'),
+      bio:                s.bio,
+      experience_years:   s.experience_years || '',
+      status:             s.is_active ? 'active' : 'inactive',
+      email:              s.email || '',
+      creatio_contact_id: s.creatio_contact_id || ''
     };
     this.formCats     = [...s.categories];
     this.modalError   = '';
     this.avatarFile   = null;
     this.avatarPreview = null;
+    this.linkEmail    = '';
+    this.linkPassword = '';
+    this.linkError    = '';
+    this.linkSuccess  = '';
     this.showModal    = true;
   }
 
@@ -149,14 +163,14 @@ export class AdminSpecialistsComponent implements OnInit {
     this.modalError = '';
 
     const payload: any = {
-      name:             this.form.name,
-      type:             this.form.type,
-      bio:              this.form.bio,
-      experience_years: this.form.experience_years || 0,
-      price:            this.form.price || 0,
-      categories:       this.formCats.join(', '),
-      is_active:        this.form.status === 'active',
-      email:            this.form.email || null
+      name:               this.form.name,
+      type:               this.form.type,
+      bio:                this.form.bio,
+      experience_years:   this.form.experience_years || 0,
+      categories:         this.formCats.join(', '),
+      is_active:          this.form.status === 'active',
+      email:              this.form.email || null,
+      creatio_contact_id: this.form.creatio_contact_id?.trim() || null
     };
 
     const obs = this.modalSpec
@@ -233,10 +247,60 @@ export class AdminSpecialistsComponent implements OnInit {
     this.formCats = this.formCats.filter(c => c !== cat);
   }
 
+  // ── Link account ──────────────────────────────────────────────────
+
+  linkAccount(): void {
+    if (!this.modalSpec || this.linking) return;
+    this.linkError   = '';
+    this.linkSuccess = '';
+    this.linking     = true;
+    this.adminApi.linkSpecialistUser(this.modalSpec.id, { email: this.linkEmail, password: this.linkPassword }).subscribe({
+      next: (res: any) => {
+        this.modalSpec!.user_id      = res.user_id;
+        this.modalSpec!.linked_email = res.email;
+        const idx = this.specialists.findIndex(s => s.id === this.modalSpec!.id);
+        if (idx !== -1) {
+          this.specialists[idx] = { ...this.specialists[idx], user_id: res.user_id, linked_email: res.email };
+        }
+        this.linkEmail   = '';
+        this.linkPassword = '';
+        this.linkSuccess = 'Доступ надано: ' + res.email;
+        this.linking     = false;
+      },
+      error: (err: any) => {
+        this.linkError = err?.error?.error || 'Помилка';
+        this.linking   = false;
+      }
+    });
+  }
+
+  unlinkAccount(): void {
+    if (!this.modalSpec || this.unlinking) return;
+    this.linkError   = '';
+    this.linkSuccess = '';
+    this.unlinking   = true;
+    this.adminApi.unlinkSpecialistUser(this.modalSpec.id).subscribe({
+      next: () => {
+        this.modalSpec!.user_id      = null;
+        this.modalSpec!.linked_email = null;
+        const idx = this.specialists.findIndex(s => s.id === this.modalSpec!.id);
+        if (idx !== -1) {
+          this.specialists[idx] = { ...this.specialists[idx], user_id: null, linked_email: null };
+        }
+        this.linkSuccess = 'Доступ відкликано';
+        this.unlinking   = false;
+      },
+      error: (err: any) => {
+        this.linkError  = err?.error?.error || 'Помилка';
+        this.unlinking  = false;
+      }
+    });
+  }
+
   // ── Helpers ───────────────────────────────────────────────────────
 
   private emptyForm(): SpecialistForm {
-    return { name: '', type: '', bio: '', experience_years: '', price: '', status: 'active', email: '' };
+    return { name: '', type: '', bio: '', experience_years: '', status: 'active', email: '', creatio_contact_id: '' };
   }
 
   initials(name: string): string {

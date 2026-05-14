@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 const LANG_KEY = 'wb_lang';
-const SUPPORTED = ['uk', 'en'] as const;
+const SUPPORTED = ['uk', 'en', 'ru'] as const;
 export type Lang = typeof SUPPORTED[number];
 
 @Injectable({ providedIn: 'root' })

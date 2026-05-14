@@ -3,104 +3,165 @@
   <div class="section-header">
     <div>
       <h2 class="section-title">Налаштування</h2>
-      <p class="section-sub">Інтеграції та параметри платформи</p>
+      <p class="section-sub">Налаштування порталу, платежів та інтеграцій</p>
     </div>
   </div>
 
   <div *ngIf="loading" class="loading-wrap"><div class="spinner"></div></div>
 
-  <div *ngIf="!loading" class="settings-grid">
+  <div *ngIf="!loading" class="settings-wrap">
 
-    <!-- Google OAuth Card -->
-    <div class="settings-card">
+    <!-- Tab nav -->
+    <div class="tab-nav">
+      <button class="tab-btn" [class.tab-btn--active]="activeTab === 'portal'"
+              (click)="activeTab = 'portal'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Основне
+      </button>
+      <button class="tab-btn" [class.tab-btn--active]="activeTab === 'payment'"
+              (click)="activeTab = 'payment'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+        Платежі
+      </button>
+      <button class="tab-btn" [class.tab-btn--active]="activeTab === 'integrations'"
+              (click)="activeTab = 'integrations'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        Інтеграції
+      </button>
+      <button class="tab-btn" [class.tab-btn--active]="activeTab === 'content'"
+              (click)="activeTab = 'content'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        Контент
+      </button>
+    </div>
+
+    <!-- ══ TAB: PORTAL ══ -->
+    <div *ngIf="activeTab === 'portal'" class="settings-card">
+
       <div class="settings-card-head">
-        <div class="settings-icon settings-icon--google">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        <div class="settings-icon settings-icon--portal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
         </div>
         <div>
-          <div class="settings-card-title">Google OAuth 2.0</div>
-          <div class="settings-card-sub">Необхідно для Google Calendar та Google Meet</div>
-        </div>
-        <div class="settings-status" [class.status--ok]="googleConfigured" [class.status--off]="!googleConfigured">
-          <span class="status-dot"></span>
-          {{ googleConfigured ? 'Налаштовано' : 'Не налаштовано' }}
+          <div class="settings-card-title">Основна інформація</div>
+          <div class="settings-card-sub">Назва, логотип, часовий пояс та мова інтерфейсу</div>
         </div>
       </div>
 
-      <div class="settings-hint">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        <span>Створіть проект у <strong>Google Cloud Console</strong>, увімкніть Google Calendar API та Google Meet API, створіть OAuth 2.0 credentials і вкажіть Redirect URI нижче.</span>
-      </div>
-
-      <div *ngIf="error" class="settings-error">{{ error }}</div>
-      <div *ngIf="saved" class="settings-success">
+      <div *ngIf="portalError" class="settings-error">{{ portalError }}</div>
+      <div *ngIf="portalSaved" class="settings-success">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Збережено успішно
       </div>
 
       <div class="form-fields">
+
+        <!-- Favicon upload -->
+        <div class="form-field">
+          <label>Favicon / логотип</label>
+          <div class="favicon-row">
+            <div class="favicon-preview">
+              <img *ngIf="faviconPreview" [src]="faviconPreview" alt="favicon" />
+              <svg *ngIf="!faviconPreview" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#C8DACF">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <div class="favicon-upload-area">
+              <button class="btn btn--ghost" type="button" (click)="triggerFaviconInput()" [disabled]="faviconUploading">
+                <span *ngIf="faviconUploading" class="btn-spinner btn-spinner--dark"></span>
+                <svg *ngIf="!faviconUploading" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                {{ faviconUploading ? 'Завантаження...' : 'Завантажити файл' }}
+              </button>
+              <span class="field-hint">PNG, ICO, SVG або JPG. Рекомендовано 32×32 або 64×64 px.</span>
+              <span *ngIf="faviconError" class="favicon-error">{{ faviconError }}</span>
+            </div>
+            <input #faviconInput type="file" accept=".png,.ico,.jpg,.jpeg,.svg,.gif"
+                   style="display:none" (change)="onFaviconChange($event)" />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Назва платформи (префікс тайтлу)</label>
+            <input type="text" [(ngModel)]="portalForm.site_title_prefix" placeholder="Wellbeing" />
+            <span class="field-hint">Відображається у вкладці браузера: «{{ portalForm.site_title_prefix }} — Дашборд»</span>
+          </div>
+          <div class="form-field">
+            <label>Назва компанії</label>
+            <input type="text" [(ngModel)]="portalForm.company_name" placeholder="Wellbeing Office" />
+          </div>
+        </div>
+
         <div class="form-field">
           <label>URL застосунку</label>
-          <input type="text" [(ngModel)]="form.app_url"
-                 placeholder="http://localhost:4200" />
-          <span class="field-hint">Базовий URL фронтенду. Використовується для побудови Redirect URI.</span>
+          <input type="text" [(ngModel)]="portalForm.app_url" placeholder="https://app.yourcompany.com" />
+          <span class="field-hint">Базовий URL фронтенду. Використовується для Google OAuth Redirect URI.</span>
         </div>
 
-        <div class="form-field">
-          <label>Google Client ID</label>
-          <input type="text" [(ngModel)]="form.google_client_id"
-                 placeholder="xxxxxxxx.apps.googleusercontent.com" />
-        </div>
-
-        <div class="form-field">
-          <label>Google Client Secret</label>
-          <div class="input-with-action">
-            <input [type]="showSecret ? 'text' : 'password'"
-                   [(ngModel)]="form.google_client_secret"
-                   placeholder="GOCSPX-..." />
-            <button class="btn-icon" (click)="showSecret = !showSecret" type="button">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <path *ngIf="!showSecret" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle *ngIf="!showSecret" cx="12" cy="12" r="3"/>
-                <path *ngIf="showSecret" d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>
-              </svg>
-            </button>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Часовий пояс</label>
+            <select [(ngModel)]="portalForm.timezone">
+              <option *ngFor="let tz of timezones" [value]="tz.value">{{ tz.label }}</option>
+            </select>
+            <span class="field-hint">Визначає доступні слоти запису.</span>
+          </div>
+          <div class="form-field">
+            <label>Мова інтерфейсу</label>
+            <select [(ngModel)]="portalForm.default_locale">
+              <option *ngFor="let loc of locales" [value]="loc.value">{{ loc.label }}</option>
+            </select>
           </div>
         </div>
 
+      </div>
+
+      <!-- Contacts -->
+      <div class="form-section-title">Контакти підтримки</div>
+      <div class="form-fields">
         <div class="form-field">
-          <label>Redirect URI</label>
-          <div class="input-with-action">
-            <input type="text" [value]="redirectUri" readonly class="input-readonly" />
-            <button class="btn-icon" (click)="copyRedirectUri()" type="button" title="Скопіювати">
-              <svg *ngIf="!copied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-              </svg>
-              <svg *ngIf="copied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </button>
+          <label>Телефон для зв'язку</label>
+          <input type="tel" [(ngModel)]="portalForm.support_phone" placeholder="+380XXXXXXXXX" />
+          <span class="field-hint">Відображається як кнопка «Екстрений зв'язок» в розділі Підтримка.</span>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Посилання Telegram</label>
+            <input type="url" [(ngModel)]="portalForm.support_tg_url" placeholder="https://t.me/username" />
           </div>
-          <span class="field-hint">Додайте цей URI в Google Cloud Console → Credentials → Authorized redirect URIs</span>
+          <div class="form-field">
+            <label>Посилання Viber</label>
+            <input type="url" [(ngModel)]="portalForm.support_viber_url" placeholder="viber://chat?number=380XXXXXXXXX" />
+          </div>
         </div>
       </div>
 
       <div class="settings-card-footer">
-        <button class="btn btn--primary" (click)="saveGoogle()" [disabled]="saving">
-          <span *ngIf="saving" class="btn-spinner"></span>
-          {{ saving ? 'Збереження...' : 'Зберегти' }}
+        <button class="btn btn--primary" (click)="savePortal()" [disabled]="portalSaving">
+          <span *ngIf="portalSaving" class="btn-spinner"></span>
+          {{ portalSaving ? 'Збереження...' : 'Зберегти' }}
         </button>
       </div>
     </div>
 
-    <!-- Payment Gateway Card -->
-    <div class="settings-card">
+    <!-- ══ TAB: PAYMENT ══ -->
+    <div *ngIf="activeTab === 'payment'" class="settings-card">
+
       <div class="settings-card-head">
         <div class="settings-icon settings-icon--pay">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -127,7 +188,6 @@
 
       <div *ngIf="!paymentLoading" class="form-fields">
 
-        <!-- Gateway toggle -->
         <div class="form-field">
           <label>Активний шлюз</label>
           <div class="gateway-toggle">
@@ -138,7 +198,6 @@
           </div>
         </div>
 
-        <!-- LiqPay fields -->
         <ng-container *ngIf="paymentForm.active_gateway === 'liqpay'">
           <div class="form-field">
             <label>LiqPay Public Key</label>
@@ -159,7 +218,6 @@
           </div>
         </ng-container>
 
-        <!-- UaPay fields -->
         <ng-container *ngIf="paymentForm.active_gateway === 'uapay'">
           <div class="form-field">
             <label>UaPay Merchant Key</label>
@@ -190,6 +248,230 @@
         <button class="btn btn--primary" (click)="savePayment()" [disabled]="paymentSaving || paymentLoading">
           <span *ngIf="paymentSaving" class="btn-spinner"></span>
           {{ paymentSaving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ TAB: INTEGRATIONS ══ -->
+    <div *ngIf="activeTab === 'integrations'" class="settings-card">
+
+      <div class="settings-card-head">
+        <div class="settings-icon settings-icon--google">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        </div>
+        <div>
+          <div class="settings-card-title">Google OAuth 2.0</div>
+          <div class="settings-card-sub">Необхідно для Google Calendar та Google Meet</div>
+        </div>
+        <div class="settings-status" [class.status--ok]="googleConfigured" [class.status--off]="!googleConfigured">
+          <span class="status-dot"></span>
+          {{ googleConfigured ? 'Налаштовано' : 'Не налаштовано' }}
+        </div>
+      </div>
+
+      <div class="settings-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>Створіть проект у <strong>Google Cloud Console</strong>, увімкніть Google Calendar API та Google Meet API, створіть OAuth 2.0 credentials і вкажіть Redirect URI нижче.</span>
+      </div>
+
+      <div *ngIf="googleError" class="settings-error">{{ googleError }}</div>
+      <div *ngIf="googleSaved" class="settings-success">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Збережено успішно
+      </div>
+
+      <div class="form-fields">
+        <div class="form-field">
+          <label>Google Client ID</label>
+          <input type="text" [(ngModel)]="googleForm.google_client_id"
+                 placeholder="xxxxxxxx.apps.googleusercontent.com" />
+        </div>
+
+        <div class="form-field">
+          <label>Google Client Secret</label>
+          <div class="input-with-action">
+            <input [type]="showSecret ? 'text' : 'password'"
+                   [(ngModel)]="googleForm.google_client_secret"
+                   placeholder="GOCSPX-..." />
+            <button class="btn-icon" (click)="showSecret = !showSecret" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path *ngIf="!showSecret" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle *ngIf="!showSecret" cx="12" cy="12" r="3"/>
+                <path *ngIf="showSecret" d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Redirect URI</label>
+          <div class="input-with-action">
+            <input type="text" [value]="redirectUri" readonly class="input-readonly" />
+            <button class="btn-icon" (click)="copyRedirectUri()" type="button" title="Скопіювати">
+              <svg *ngIf="!copied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              <svg *ngIf="copied" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-hint">Додайте цей URI в Google Cloud Console → Credentials → Authorized redirect URIs</span>
+        </div>
+      </div>
+
+      <div class="settings-card-footer">
+        <button class="btn btn--primary" (click)="saveGoogle()" [disabled]="googleSaving">
+          <span *ngIf="googleSaving" class="btn-spinner"></span>
+          {{ googleSaving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+
+      <!-- ── Creatio CRM ── -->
+      <div class="integration-divider"></div>
+
+      <div class="settings-card-head" style="margin-top:4px">
+        <div class="settings-icon settings-icon--crm">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <div class="settings-card-title">Creatio CRM</div>
+          <div class="settings-card-sub">OAuth 2.0 підключення для синхронізації контактів та записів</div>
+        </div>
+        <div class="settings-status" [class.status--ok]="crmConfigured" [class.status--off]="!crmConfigured">
+          <span class="status-dot"></span>
+          {{ crmConfigured ? 'Налаштовано' : 'Не налаштовано' }}
+        </div>
+      </div>
+
+      <div class="settings-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>В Creatio: <strong>System Designer → OAuth 2.0 → Add client</strong>. Grant type: <strong>Client credentials</strong>. Збережіть Client ID та Secret нижче.</span>
+      </div>
+
+      <div *ngIf="crmError" class="settings-error">{{ crmError }}</div>
+      <div *ngIf="crmSaved" class="settings-success">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Збережено успішно
+      </div>
+
+      <div class="form-fields">
+        <div class="form-field">
+          <label>Creatio Base URL</label>
+          <input type="url" [(ngModel)]="crmForm.creatio_base_url" placeholder="https://yourcompany.creatio.com" />
+          <span class="field-hint">URL вашого Creatio інстансу без слешу в кінці.</span>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Client ID</label>
+            <input type="text" [(ngModel)]="crmForm.creatio_client_id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+          </div>
+          <div class="form-field">
+            <label>Client Secret</label>
+            <div class="input-with-action">
+              <input [type]="showCrmSecret ? 'text' : 'password'"
+                     [(ngModel)]="crmForm.creatio_client_secret" placeholder="••••••••" />
+              <button class="btn-icon" (click)="showCrmSecret = !showCrmSecret" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path *ngIf="!showCrmSecret" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle *ngIf="!showCrmSecret" cx="12" cy="12" r="3"/>
+                  <path *ngIf="showCrmSecret" d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-field">
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Увімкнути синхронізацію з Creatio</div>
+              <div class="toggle-desc">При реєстрації та бронюванні записи автоматично потраплятимуть у CRM</div>
+            </div>
+            <div class="toggle" [class.on]="crmForm.creatio_enabled" (click)="crmForm.creatio_enabled = !crmForm.creatio_enabled">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-card-footer">
+        <button class="btn btn--primary" (click)="saveCrm()" [disabled]="crmSaving">
+          <span *ngIf="crmSaving" class="btn-spinner"></span>
+          {{ crmSaving ? 'Збереження...' : 'Зберегти' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ TAB: CONTENT ══ -->
+    <div *ngIf="activeTab === 'content'" class="settings-card">
+
+      <div class="settings-card-head">
+        <div class="settings-icon settings-icon--portal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <div class="settings-card-title">Юридичний контент</div>
+          <div class="settings-card-sub">Умови користування та політика конфіденційності</div>
+        </div>
+      </div>
+
+      <div *ngIf="contentError" class="settings-error">{{ contentError }}</div>
+      <div *ngIf="contentSaved" class="settings-success">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Збережено успішно
+      </div>
+
+      <!-- Language switcher -->
+      <div class="lang-switcher-row">
+        <button class="lang-btn" [class.lang-btn--active]="contentLang === 'uk'" (click)="contentLang = 'uk'" type="button">
+          🇺🇦 Українська
+        </button>
+        <button class="lang-btn" [class.lang-btn--active]="contentLang === 'en'" (click)="contentLang = 'en'" type="button">
+          🇬🇧 English
+        </button>
+      </div>
+
+      <div class="form-fields">
+        <ng-container *ngIf="contentLang === 'uk'">
+          <div class="form-field">
+            <label>Умови користування сервісом (UA)</label>
+            <app-wysiwyg [(ngModel)]="contentForm.terms_of_service_uk"></app-wysiwyg>
+          </div>
+          <div class="form-field" style="margin-top: 24px">
+            <label>Політика конфіденційності (UA)</label>
+            <app-wysiwyg [(ngModel)]="contentForm.privacy_policy_uk"></app-wysiwyg>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="contentLang === 'en'">
+          <div class="form-field">
+            <label>Terms of Service (EN)</label>
+            <app-wysiwyg [(ngModel)]="contentForm.terms_of_service_en"></app-wysiwyg>
+          </div>
+          <div class="form-field" style="margin-top: 24px">
+            <label>Privacy Policy (EN)</label>
+            <app-wysiwyg [(ngModel)]="contentForm.privacy_policy_en"></app-wysiwyg>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="settings-card-footer">
+        <button class="btn btn--primary" (click)="saveContent()" [disabled]="contentSaving">
+          <span *ngIf="contentSaving" class="btn-spinner"></span>
+          {{ contentSaving ? 'Збереження...' : 'Зберегти' }}
         </button>
       </div>
     </div>

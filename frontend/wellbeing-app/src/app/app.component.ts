@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
 import { ApiService } from './services/api/api.service';
 import { UserService } from './services/user/user.service';
@@ -25,6 +26,8 @@ export class AppComponent implements OnInit {
   isAuthPage = false;
   isAdminPage = false;
 
+  private siteTitlePrefix = 'Wellbeing';
+
   navItems: NavItem[] = [
     { id: 'dashboard',     label: 'Дашборд',       icon: 'dashboard' },
     { id: 'appointments',  label: 'Мої записи',    icon: 'calendar' },
@@ -42,7 +45,9 @@ export class AppComponent implements OnInit {
     public branding: BrandingService,
     public lang: LangService,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title
   ) {
     this.lang.init();
     this.sidebarOpen = window.innerWidth > 768;
@@ -56,6 +61,16 @@ export class AppComponent implements OnInit {
       this.isAuthPage = ['/login', '/register'].includes(e.urlAfterRedirects);
       const path = e.urlAfterRedirects.split('/')[1];
       if (path) this.activeTab = path;
+
+      // Update browser tab title from deepest route data
+      let route = this.activatedRoute;
+      while (route.firstChild) route = route.firstChild;
+      const pageTitle = route.snapshot.data?.['title'];
+      if (pageTitle) {
+        this.titleService.setTitle(
+          this.siteTitlePrefix ? `${this.siteTitlePrefix} — ${pageTitle}` : pageTitle
+        );
+      }
     });
   }
 
@@ -65,6 +80,23 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Load portal settings for page title prefix (public endpoint — no auth needed)
+    this.apiService.getPortalSettings().subscribe({
+      next: (data: any) => {
+        if (data?.site_title_prefix) {
+          this.siteTitlePrefix = data.site_title_prefix;
+          // Re-apply title to current route after prefix is loaded
+          let route = this.activatedRoute;
+          while (route.firstChild) route = route.firstChild;
+          const pageTitle = route.snapshot.data?.['title'];
+          if (pageTitle) {
+            this.titleService.setTitle(`${this.siteTitlePrefix} — ${pageTitle}`);
+          }
+        }
+      },
+      error: () => {}
+    });
+
     if (this.isAdminPage) return;
 
     if (this.apiService.isLoggedIn()) {
@@ -86,6 +118,12 @@ export class AppComponent implements OnInit {
   navigate(tabId: string): void {
     this.activeTab = tabId;
     this.router.navigate([`/${tabId}`]);
+    if (window.innerWidth <= 768) this.sidebarOpen = false;
+  }
+
+  bookAppointment(): void {
+    this.activeTab = 'appointments';
+    this.router.navigate(['/appointments'], { queryParams: { book: '1' } });
     if (window.innerWidth <= 768) this.sidebarOpen = false;
   }
 

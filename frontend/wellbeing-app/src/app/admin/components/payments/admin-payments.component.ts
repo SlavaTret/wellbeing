@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AdminApiService } from '../../services/admin-api.service';
 
 interface AdminPayment {
@@ -29,6 +29,7 @@ interface AdminPayment {
 
 @Component({
   selector: 'app-admin-payments',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-payments.component.html',
   styleUrls: ['./admin-payments.component.css']
 })
@@ -62,7 +63,7 @@ export class AdminPaymentsPageComponent implements OnInit {
   saving      = false;
   modalError  = '';
 
-  constructor(private adminApi: AdminApiService) {}
+  constructor(private adminApi: AdminApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void { this.load(); }
 
@@ -85,11 +86,13 @@ export class AdminPaymentsPageComponent implements OnInit {
         this.totalCount     = res.total_count || 0;
         this.loading        = false;
         this.listLoading    = false;
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         if (!soft) this.error = err?.error?.error || 'Помилка завантаження';
         this.loading     = false;
         this.listLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }

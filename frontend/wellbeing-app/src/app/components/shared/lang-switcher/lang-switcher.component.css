@@ -14,18 +14,18 @@
   border-radius: 20px;
   border: 1.5px solid transparent;
   background: none;
-  color: var(--text-muted, #6B8879);
+  color: var(--text-muted, var(--text-muted));
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .lang-btn:hover {
-  color: var(--green, #2DB928);
-  border-color: var(--border, #DCE9DC);
+  color: var(--green, var(--green));
+  border-color: var(--border, var(--border));
 }
 
 .lang-btn.active {
-  background: var(--green, #2DB928);
+  background: var(--green, var(--green));
   color: #fff;
-  border-color: var(--green, #2DB928);
+  border-color: var(--green, var(--green));
 }

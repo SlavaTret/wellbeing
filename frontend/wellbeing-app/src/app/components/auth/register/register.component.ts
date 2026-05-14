@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api/api.service';
 import { CompanyBranding } from '../../../services/branding/branding.service';
+import { UserService } from '../../../services/user/user.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangService, Lang } from '../../../services/lang/lang.service';
+import { RecaptchaService } from '../../../services/recaptcha/recaptcha.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   firstName = '';
   lastName = '';
   email = '';
@@ -21,9 +25,39 @@ export class RegisterComponent implements OnInit {
   showPassword = false;
   acceptedTerms = false;
 
-  constructor(private api: ApiService, private router: Router) {}
+  legalModal: 'terms' | 'privacy' | null = null;
+  private portalSettings: any = {};
+
+  get termsContent():   string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['terms_of_service_' + l] || this.portalSettings['terms_of_service_uk'] || ''; }
+  get privacyContent(): string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['privacy_policy_' + l]   || this.portalSettings['privacy_policy_uk']   || ''; }
+
+  constructor(
+    private api: ApiService,
+    private userService: UserService,
+    private router: Router,
+    private translate: TranslateService,
+    private langService: LangService,
+    private recaptcha: RecaptchaService
+  ) {}
 
   ngOnInit(): void {
+    document.body.classList.add('show-recaptcha');
+    const saved = localStorage.getItem('wb_lang');
+    if (!saved) {
+      const browser = navigator.language || '';
+      let detected: Lang = 'uk';
+      if (browser.startsWith('ru')) {
+        detected = 'ru';
+      } else if (browser.startsWith('en')) {
+        detected = 'en';
+      }
+      this.langService.use(detected);
+    }
+
+    this.api.getPortalSettings().subscribe({
+      next: (s: any) => { this.portalSettings = s; }
+    });
+
     this.api.getCompanies().subscribe({
       next: (list: CompanyBranding[]) => {
         this.companies = list || [];
@@ -33,6 +67,10 @@ export class RegisterComponent implements OnInit {
         this.loadingCompanies = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('show-recaptcha');
   }
 
   generatePassword(): void {
@@ -56,7 +94,7 @@ export class RegisterComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  submit(): void {
+  async submit(): Promise<void> {
     if (!this.firstName || !this.lastName || !this.email || !this.password) {
       this.error = 'Заповніть усі поля';
       return;
@@ -75,15 +113,24 @@ export class RegisterComponent implements OnInit {
     }
     this.loading = true;
     this.error = '';
+
+    const recaptchaToken = await this.recaptcha.execute('register');
+
     this.api.register({
       email: this.email,
       password: this.password,
       firstName: this.firstName,
       lastName: this.lastName,
       companyId: this.companyId,
-      acceptedTerms: true
+      acceptedTerms: true,
+      recaptchaToken
     }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: (resp: any) => {
+        if (resp?.user) {
+          this.userService.setUser(resp.user);
+        }
+        this.router.navigate(['/dashboard']);
+      },
       error: (err) => {
         this.loading = false;
         this.error = err?.error?.message || err?.error?.error || 'Помилка реєстрації. Спробуйте ще раз.';

@@ -1,40 +1,129 @@
-:host { --green: #2DB928; --green-light: #E8F5E9; --text: #1C2B20; --text-muted: #6B8879; --border: #DCE9DC; --bg: #F2F7F3; }
 .section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
-.card { background: #fff; border-radius: 16px; border: 1px solid var(--border); padding: 24px; }
 
-.mood-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-.mood-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
-.mood-row { display: flex; gap: 12px; justify-content: center; }
-.mood-btn {
-  font-size: 32px; background: none; border: 2px solid var(--border);
-  border-radius: 14px; padding: 10px 16px; cursor: pointer;
-  transition: all 0.15s; font-family: inherit;
+.card {
+  background: #fff; border-radius: 16px;
+  border: 1px solid var(--border); padding: 24px; margin-bottom: 16px;
 }
-.mood-btn:hover { border-color: var(--green); }
-.mood-btn.mood-active { border-color: var(--green); background: var(--green-light); }
-.mood-saved { text-align: center; margin-top: 12px; font-size: 13px; color: var(--green); font-weight: 500; }
 
-.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.q-title { font-weight: 600; font-size: 15px; }
+/* ── Mood card ── */
+.mood-card {}
+
+.mood-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; margin-bottom: 20px;
+}
+
+.mood-title { font-weight: 600; font-size: 16px; color: var(--text); margin-bottom: 2px; }
+.mood-sub   { font-size: 13px; color: var(--text-muted); }
+
+.mood-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-light); border-radius: 20px;
+  padding: 5px 12px; flex-shrink: 0;
+}
+.mood-badge-emoji { font-size: 18px; line-height: 1; }
+.mood-badge-label { font-size: 12px; font-weight: 600; color: var(--green-dark); white-space: nowrap; }
+
+.mood-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.mood-btn {
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 2px solid var(--border);
+  border-radius: 14px; padding: 12px 4px;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+  width: 100%;
+}
+.mood-btn:hover  { border-color: var(--green); background: var(--green-light); }
+.mood-btn.mood-active { border-color: var(--green); background: var(--green-light); box-shadow: 0 0 0 2px var(--green-light); }
+.mood-btn.mood-saving { opacity: 0.6; pointer-events: none; }
+
+.mood-emoji { font-size: 30px; line-height: 1; }
+
+.mood-status { min-height: 20px; margin-top: 12px; text-align: center; }
+.mood-saved-hint  { font-size: 13px; color: var(--green); font-weight: 500; }
+.mood-saving-hint { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.mood-error-hint  { font-size: 13px; color: #C62828; }
+
+.spinner-dot {
+  display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--border); border-top-color: var(--green);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Survey card ── */
+.survey-card {
+  background: #fff; border-radius: 16px;
+  border: 1px solid var(--border); padding: 24px; margin-bottom: 16px;
+}
+
+.q-header { display: flex; justify-content: space-between; margin-bottom: 14px; }
+.q-title   { font-weight: 700; font-size: 16px; color: var(--text); }
 .q-counter { font-size: 13px; color: var(--text-muted); }
-.q-progress-bar { height: 4px; background: var(--green-light); border-radius: 4px; margin-bottom: 24px; overflow: hidden; }
+
+.q-progress-bar  { height: 4px; background: var(--green-light); border-radius: 4px; margin-bottom: 24px; overflow: hidden; }
 .q-progress-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width 0.3s; }
-.q-text { font-weight: 500; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+.q-text { font-size: 16px; font-weight: 500; line-height: 1.55; margin-bottom: 20px; color: var(--text); }
+
 .q-options { display: flex; flex-direction: column; gap: 10px; }
 .q-option {
-  padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border);
+  width: 100%; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border);
   background: #fff; color: var(--text); font-size: 14px; text-align: left;
   cursor: pointer; font-family: inherit; transition: all 0.15s;
 }
-.q-option:hover { border-color: var(--green); }
-.q-option.q-selected { border: 1.5px solid var(--green); background: var(--green-light); font-weight: 600; }
+.q-option:hover   { border-color: var(--green); background: var(--green-light); }
+.q-option.selected { border: 2px solid var(--green); background: var(--green-light); font-weight: 600; }
 
-.done-card { text-align: center; padding: 40px !important; }
-.done-emoji { font-size: 48px; margin-bottom: 16px; }
-.done-title { font-weight: 700; font-size: 20px; margin-bottom: 8px; }
-.done-text { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; max-width: 440px; margin-left: auto; margin-right: auto; }
-.btn-restart {
-  padding: 12px 28px; border: 1px solid var(--green); border-radius: 12px;
-  background: transparent; color: var(--green); font-size: 14px; font-weight: 600;
+.q-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px; gap: 10px;
+}
+
+.btn-nav {
+  padding: 10px 20px; border-radius: 10px; border: 1px solid var(--border);
+  background: #fff; color: var(--text-muted); font-size: 14px; font-weight: 600;
   cursor: pointer; font-family: inherit;
+}
+.btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-submit {
+  padding: 11px 28px; border-radius: 10px; border: none;
+  background: var(--green); color: #fff; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+/* ── Empty / Done / Success ── */
+.empty-card, .done-card, .success-card {
+  background: #fff; border-radius: 16px;
+  border: 1px solid var(--border); padding: 40px 24px;
+  text-align: center; margin-bottom: 16px;
+}
+
+.done-title { font-weight: 700; font-size: 20px; margin-bottom: 8px; color: var(--text); }
+.done-text  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; max-width: 440px; margin-left: auto; margin-right: auto; }
+
+.btn-restart {
+  padding: 12px 28px; border: 1.5px solid var(--green); border-radius: 12px;
+  background: transparent; color: var(--green); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-restart:hover { background: var(--green-light); }
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .survey-card { padding: 16px; }
+  .q-text { font-size: 15px; }
+  .q-option { padding: 12px 14px; font-size: 14px; }
+  .card { padding: 16px; }
+  .mood-row { gap: 5px; }
+  .mood-btn  { padding: 10px 2px; border-radius: 10px; }
+  .mood-emoji { font-size: 24px; }
+  .mood-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .mood-badge { align-self: flex-start; }
 }

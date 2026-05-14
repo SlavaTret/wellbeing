@@ -12,18 +12,29 @@ export class AdminLayoutComponent {
   activePage = 'dashboard';
   drawerOpen = false;
 
-  readonly navItems = [
-    { id: 'dashboard',    label: 'Дашборд',      icon: 'dashboard' },
-    { id: 'companies',    label: 'Компанії',     icon: 'building' },
-    { id: 'users',        label: 'Користувачі',  icon: 'users' },
-    { id: 'payments',     label: 'Оплати',       icon: 'card' },
-    { id: 'specialists',     label: 'Спеціалісти',    icon: 'heart' },
-    { id: 'specializations', label: 'Спеціалізації', icon: 'award' },
-    { id: 'appointments',    label: 'Записи',         icon: 'calendar' },
-    { id: 'categories',      label: 'Категорії',      icon: 'tag' },
-    { id: 'slots',        label: 'Слоти',        icon: 'clock' },
-    { id: 'settings',     label: 'Налаштування', icon: 'settings' },
+  readonly adminNavItems = [
+    { id: 'dashboard',       label: 'Дашборд',        icon: 'dashboard', path: '/admin/dashboard' },
+    { id: 'companies',       label: 'Компанії',        icon: 'building',  path: '/admin/companies' },
+    { id: 'users',           label: 'Користувачі',     icon: 'users',     path: '/admin/users' },
+    { id: 'payments',        label: 'Оплати',          icon: 'card',      path: '/admin/payments' },
+    { id: 'specialists',     label: 'Спеціалісти',     icon: 'heart',     path: '/admin/specialists' },
+    { id: 'specializations', label: 'Спеціалізації',   icon: 'award',     path: '/admin/specializations' },
+    { id: 'appointments',    label: 'Записи',          icon: 'calendar',  path: '/admin/appointments' },
+    { id: 'categories',      label: 'Категорії',       icon: 'tag',       path: '/admin/categories' },
+    { id: 'slots',           label: 'Слоти',           icon: 'clock',     path: '/admin/slots' },
+    { id: 'surveys',         label: 'Опитування',      icon: 'list',      path: '/admin/surveys' },
+    { id: 'settings',        label: 'Налаштування',    icon: 'settings',  path: '/admin/settings' },
   ];
+
+  readonly specialistNavItems = [
+    { id: 'specialist/dashboard',    label: 'Дашборд',  icon: 'dashboard', path: '/admin/specialist/dashboard' },
+    { id: 'specialist/appointments', label: 'Записи',   icon: 'calendar',  path: '/admin/specialist/appointments' },
+    { id: 'specialist/slots',        label: 'Розклад',  icon: 'clock',     path: '/admin/specialist/slots' },
+  ];
+
+  get navItems() {
+    return this.adminApi.isSpecialist() ? this.specialistNavItems : this.adminNavItems;
+  }
 
   readonly iconPaths: { [key: string]: string | string[] } = {
     dashboard:   ['M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', 'M9 22V12h6v10'],
@@ -40,6 +51,7 @@ export class AdminLayoutComponent {
     logout:      ['M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'],
     menu:        ['M3 6h18', 'M3 12h18', 'M3 18h18'],
     x:           ['M6 18L18 6M6 6l12 12'],
+    list:        ['M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01'],
   };
 
   getIconPaths(icon: string): string[] {
@@ -59,26 +71,31 @@ export class AdminLayoutComponent {
 
   get adminName(): string {
     const u = this.adminUser;
-    if (!u) return 'Адміністратор';
-    return `${u.first_name || ''}  ${u.last_name || ''}`.trim() || 'Адміністратор';
+    if (!u) return this.adminApi.isSpecialist() ? 'Консультант' : 'Адміністратор';
+    return `${u.first_name || ''} ${u.last_name || ''}`.trim() || (this.adminApi.isSpecialist() ? 'Консультант' : 'Адміністратор');
   }
 
   constructor(public adminApi: AdminApiService, private router: Router) {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
-      const parts = e.urlAfterRedirects.split('/');
-      this.activePage = parts[2] || 'dashboard';
+      this.activePage = this.pageFromUrl(e.urlAfterRedirects);
     });
-    // Set initial active page
-    const parts = this.router.url.split('/');
-    this.activePage = parts[2] || 'dashboard';
+    this.activePage = this.pageFromUrl(this.router.url);
   }
 
   @HostListener('window:resize')
   onResize(): void { if (window.innerWidth > 768) this.drawerOpen = false; }
 
   navigate(id: string): void {
-    this.router.navigate(['/admin', id]);
+    const item = this.navItems.find(n => n.id === id);
+    this.router.navigate([item?.path ?? `/admin/${id}`]);
     this.drawerOpen = false;
+  }
+
+  private pageFromUrl(url: string): string {
+    // /admin/specialist/appointments → 'specialist/appointments'
+    // /admin/dashboard → 'dashboard'
+    const m = url.match(/^\/admin\/(.+?)(\?|$)/);
+    return m ? m[1] : 'dashboard';
   }
 
   get activeLabel(): string {

@@ -13,13 +13,12 @@ export class SettingsComponent implements OnInit {
   // ── Notifications ──────────────────────────────────────────────
   savingSettings = false;
   settings: { [key: string]: boolean } = {
-    email_enabled: true, calendar_enabled: true, sms_enabled: false, reminders_enabled: true
+    email_enabled: true, calendar_enabled: true, reminders_enabled: true
   };
 
   readonly settingsList = [
     { key: 'email_enabled',     labelKey: 'settings.notifications.email_label',    descKey: 'settings.notifications.email_desc' },
     { key: 'calendar_enabled',  labelKey: 'settings.notifications.calendar_label', descKey: 'settings.notifications.calendar_desc' },
-    { key: 'sms_enabled',       labelKey: 'settings.notifications.sms_label',      descKey: 'settings.notifications.sms_desc' },
     { key: 'reminders_enabled', labelKey: 'settings.notifications.reminder_label', descKey: 'settings.notifications.reminder_desc' },
   ];
 

@@ -35,9 +35,11 @@ export class AppointmentsComponent implements OnInit {
   specialists: any[] = [];
   specialistsLoading = false;
   catFilter = 'all';
+  specFilter = 'all';
   selectedSpec: any = null;
   selectedDay = '';
   selectedTime = '';
+  communicationMethod: 'google_meet' | 'zoom' | 'teams' | '' = '';
   paymentVia: 'card' | 'subscription' = 'card';
   bookingSaving = false;
   newAppt: any = null;
@@ -47,6 +49,7 @@ export class AppointmentsComponent implements OnInit {
     'appointments.booking.steps.catalog',
     'appointments.booking.steps.specialist',
     'appointments.booking.steps.slot',
+    'appointments.booking.steps.comm_method',
     'appointments.booking.steps.confirm',
   ];
 
@@ -65,6 +68,8 @@ export class AppointmentsComponent implements OnInit {
   readonly stars = [1, 2, 3, 4, 5];
 
   freeRemaining = 0;
+  sessionPrice: number | null = null;
+  noContract = false;
 
   constructor(
     private api: ApiService,
@@ -79,6 +84,11 @@ export class AppointmentsComponent implements OnInit {
     const paymentResult = params['payment'];
     const orderId = params['order'] || '';
 
+    if (params['book'] === '1') {
+      this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+      this.openBooking();
+    }
+
     if (paymentResult === 'success' && orderId) {
       // Clear URL immediately so refresh won't re-trigger toast
       this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
@@ -87,7 +97,10 @@ export class AppointmentsComponent implements OnInit {
       // Sync payment status first, then load — avoids showing stale "pending" state
       this.loading = true;
       this.api.syncPaymentByOrder(orderId).subscribe({
-        next: () => this.loadAppointments(),
+        next: () => {
+          this.userService.invalidateFreeSessions();
+          this.loadAppointments();
+        },
         error: () => this.loadAppointments()
       });
     } else if (paymentResult === 'failed') {
@@ -99,8 +112,12 @@ export class AppointmentsComponent implements OnInit {
       this.loadAppointments();
     }
     this.freeRemaining = this.userService.freeSessions?.remaining ?? 0;
+    this.sessionPrice  = this.userService.freeSessions?.session_price ?? null;
+    this.noContract    = this.userService.freeSessions?.no_contract ?? false;
     this.userService.freeSessions$.subscribe(fs => {
       this.freeRemaining = fs?.remaining ?? 0;
+      this.sessionPrice  = fs?.session_price ?? null;
+      this.noContract    = fs?.no_contract ?? false;
     });
     this.api.getCategories().subscribe({
       next: (list: any[]) => {
@@ -223,15 +240,19 @@ export class AppointmentsComponent implements OnInit {
     this.bookingOpen = true;
     this.bookingStep = 1;
     this.catFilter = 'all';
+    this.specFilter = 'all';
     this.selectedSpec = null;
     this.selectedDay = '';
     this.selectedTime = '';
+    this.communicationMethod = '';
     this.paymentVia = this.freeRemaining > 0 ? 'subscription' : 'card';
 
     // Always refresh free sessions count from server so payment method step is accurate
     this.userService.loadFreeSessions().subscribe(fs => {
       this.freeRemaining = fs?.remaining ?? 0;
-      this.paymentVia = this.freeRemaining > 0 ? 'subscription' : 'card';
+      this.sessionPrice  = fs?.session_price ?? null;
+      this.noContract    = fs?.no_contract ?? false;
+      this.paymentVia    = (!this.noContract && this.freeRemaining > 0) ? 'subscription' : 'card';
     });
 
     if (!this.specialists.length) {
@@ -248,11 +269,59 @@ export class AppointmentsComponent implements OnInit {
 
   closeBooking(): void { this.bookingOpen = false; }
 
+  get previousSpecialistIds(): Set<number> {
+    const withSpec = this.allAppts.filter(a => a.specialist_id);
+    if (withSpec.length === 0) return new Set();
+    const latest = [...withSpec].sort((a, b) => (b.date_raw || '').localeCompare(a.date_raw || ''))[0];
+    return new Set([latest.specialist_id]);
+  }
+
+  get specializations(): { type: string; label: string }[] {
+    const seen = new Set<string>();
+    const result: { type: string; label: string }[] = [];
+    for (const s of this.specialists) {
+      if (!seen.has(s.type)) {
+        seen.add(s.type);
+        result.push({ type: s.type, label: s.type_name || s.type });
+      }
+    }
+    return result.sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  get filteredCategories(): { id: string; label: string }[] {
+    if (this.specFilter === 'all') return this.categories;
+    const catSet = new Set<string>();
+    this.specialists
+      .filter(s => s.type === this.specFilter)
+      .forEach(s => (s.categories || []).forEach((c: string) => catSet.add(c)));
+    return [
+      { id: 'all', label: 'appointments.booking.step1.all_categories' },
+      ...this.categories.filter(c => c.id !== 'all' && catSet.has(c.id)),
+    ];
+  }
+
+  setSpecFilter(type: string): void {
+    this.specFilter = type;
+    this.catFilter = 'all';
+  }
+
   get filteredSpecialists() {
-    if (this.catFilter === 'all') return this.specialists;
-    return this.specialists.filter(s =>
-      s.categories && s.categories.some((c: string) => c === this.catFilter)
-    );
+    let list = this.specialists;
+    if (this.specFilter !== 'all') {
+      list = list.filter(s => s.type === this.specFilter);
+    }
+    if (this.catFilter !== 'all') {
+      list = list.filter(s => s.categories?.some((c: string) => c === this.catFilter));
+    }
+    const prevIds = this.previousSpecialistIds;
+    if (prevIds.size > 0) {
+      list = [...list].sort((a, b) => {
+        const ap = prevIds.has(a.id) ? 0 : 1;
+        const bp = prevIds.has(b.id) ? 0 : 1;
+        return ap - bp;
+      });
+    }
+    return list;
   }
 
   selectSpec(s: any): void {
@@ -280,8 +349,9 @@ export class AppointmentsComponent implements OnInit {
 
   get canGoNext(): boolean {
     if (this.bookingStep === 1) return !!this.selectedSpec;
-    if (this.bookingStep === 2) return !!this.paymentVia;
+    if (this.bookingStep === 2) return true;
     if (this.bookingStep === 3) return !!this.selectedTime;
+    if (this.bookingStep === 4) return !!this.paymentVia && !!this.communicationMethod;
     return true;
   }
 
@@ -291,7 +361,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   stepNext(): void {
-    if (this.bookingStep === 4) {
+    if (this.bookingStep === 5) {
       this.confirmBooking();
     } else if (this.canGoNext) {
       this.bookingStep++;
@@ -302,18 +372,24 @@ export class AppointmentsComponent implements OnInit {
     if (!this.selectedSpec || !this.selectedDay || !this.selectedTime) return;
     this.bookingSaving = true;
     this.api.createAppointment({
-      specialist_id:    this.selectedSpec.id,
-      specialist_name:  this.selectedSpec.name,
-      specialist_type:  this.selectedSpec.type,
-      appointment_date: this.selectedDay,
-      appointment_time: this.selectedTime,
-      payment_via:      this.paymentVia,
+      specialist_id:        this.selectedSpec.id,
+      specialist_name:      this.selectedSpec.name,
+      specialist_type:      this.selectedSpec.type,
+      appointment_date:     this.selectedDay,
+      appointment_time:     this.selectedTime,
+      payment_via:          this.paymentVia,
+      communication_method: this.communicationMethod || undefined,
     }).subscribe({
       next: (appt: any) => {
         this.newAppt = appt;
         this.allAppts.unshift(appt);
         this.bookingSaving = false;
         this.userService.invalidateFreeSessions();
+
+        // Підписка: одразу оновлюємо профіль — sessions_left зменшився
+        if (this.paymentVia === 'subscription') {
+          this.userService.load().subscribe();
+        }
 
         if (this.paymentVia === 'card' && appt.payment_status === 'pending') {
           this.initiatingPayment = true;
@@ -323,16 +399,16 @@ export class AppointmentsComponent implements OnInit {
               if (res?.checkout_url) {
                 window.location.href = res.checkout_url;
               } else {
-                this.bookingStep = 5;
+                this.bookingStep = 6;
               }
             },
             error: () => {
               this.initiatingPayment = false;
-              this.bookingStep = 5;
+              this.bookingStep = 6;
             }
           });
         } else {
-          this.bookingStep = 5;
+          this.bookingStep = 6;
         }
       },
       error: () => { this.bookingSaving = false; }
@@ -358,6 +434,15 @@ export class AppointmentsComponent implements OnInit {
     const ukMonths = ['','січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
     const parts = dateStr.split('-');
     return `${parseInt(parts[2])} ${ukMonths[parseInt(parts[1])]} ${parts[0]}`;
+  }
+
+  get communicationMethodLabel(): string {
+    const map: Record<string, string> = {
+      google_meet: 'Google Meet',
+      zoom: 'Zoom',
+      teams: 'MS Teams',
+    };
+    return map[this.communicationMethod] ?? '';
   }
 
   typeName(type: string, typeName?: string): string {

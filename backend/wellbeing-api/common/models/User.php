@@ -31,6 +31,8 @@ use common\models\Company;
  * @property string $avatar_url
  * @property bool $accepted_terms
  * @property bool $is_admin
+ * @property string $role  'user' | 'admin' | 'specialist'
+ * @property string|null $creatio_contact_id  Creatio Contact GUID for bidirectional sync
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -69,8 +71,12 @@ class User extends ActiveRecord implements IdentityInterface
             [['patronymic', 'phone', 'company', 'avatar_url'], 'string'],
             ['accepted_terms', 'boolean'],
             ['is_admin', 'boolean'],
+            ['role', 'string', 'max' => 20],
+            ['role', 'in', 'range' => ['user', 'admin', 'specialist']],
+            ['role', 'default', 'value' => 'user'],
             ['company_id', 'integer'],
             ['company_id', 'exist', 'targetClass' => Company::class, 'targetAttribute' => 'id', 'skipOnEmpty' => true],
+            [['creatio_contact_id'], 'string', 'max' => 36],
         ];
     }
 

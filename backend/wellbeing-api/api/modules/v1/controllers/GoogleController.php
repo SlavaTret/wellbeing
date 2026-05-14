@@ -70,7 +70,7 @@ class GoogleController extends Controller
         $state = Yii::$app->request->get('state', '');
         $error = Yii::$app->request->get('error', '');
 
-        $frontendBase = 'http://localhost:4200';
+        $frontendBase = rtrim(Yii::$app->params['frontendUrl'] ?? 'http://localhost:4200', '/');
 
         if ($error || !$code) {
             return Yii::$app->response->redirect($frontendBase . '/notifications?google=error');
@@ -163,8 +163,8 @@ class GoogleController extends Controller
         try {
             $events = $this->service()->getUpcomingEvents($token);
         } catch (\Throwable $e) {
-            // Token may have expired and refresh failed
-            return ['connected' => false, 'events' => [], 'error' => 'Необхідно перепідключити Google Calendar'];
+            Yii::error('Google upcoming-events failed: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(), 'google');
+            return ['connected' => true, 'events' => [], 'error' => $e->getMessage()];
         }
 
         // Only show events created by Wellbeing (identified by description marker)

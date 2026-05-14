@@ -16,17 +16,28 @@
 
 /* Global Wellbeing Styles */
 :root {
+  /* Brand colors — overridden at runtime by BrandingService */
   --green: #2DB928;
   --green-dark: #1E9020;
   --green-light: #E8F5E9;
   --green-mid: #C8E6C9;
+  --green-hover: #F0F7F1;
+  --green-hover-border: #B8D4BC;
+  --primary: #2DB928;
+  --brand-primary: #2DB928;
+  --brand-secondary: #1E9020;
+  --brand-accent: #E8F5E9;
+  --brand-primary-rgb: 45, 185, 40;
+  --brand-secondary-rgb: 30, 144, 32;
+  --brand-gradient: linear-gradient(135deg, #2DB928, #1E9020);
+
+  /* Neutral colors — static */
   --text: #1C2B20;
   --text-muted: #6B8879;
   --border: #DCE9DC;
   --bg: #F2F7F3;
   --card: #FFFFFF;
   --sidebar-w: 256px;
-  --primary: #2DB928;
   --success: #1B7A35;
   --warning: #8B6200;
   --danger: #C62828;
@@ -114,7 +125,7 @@ button {
 .btn-primary:hover {
   background: var(--green-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(45, 185, 40, 0.15);
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15);
 }
 
 .btn-secondary {
@@ -152,7 +163,7 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(45, 185, 40, 0.1);
+  box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.1);
 }
 
 input:disabled, textarea:disabled {
@@ -184,8 +195,8 @@ input:disabled, textarea:disabled {
 }
 
 .badge-success {
-  background: #E8F5E9;
-  color: #1B7A35;
+  background: var(--green-light);
+  color: var(--success);
 }
 
 .badge-warning {
@@ -281,3 +292,7 @@ input:disabled, textarea:disabled {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Hide reCAPTCHA badge globally — shown only on login/register via body class */
+.grecaptcha-badge { visibility: hidden !important; }
+body.show-recaptcha .grecaptcha-badge { visibility: visible !important; }

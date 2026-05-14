@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api/api.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ApiService } from '../../services/api/api.service';
   templateUrl: './support.component.html',
   styleUrls: ['./support.component.css']
 })
-export class SupportComponent {
+export class SupportComponent implements OnInit {
   title = '';
   msg = '';
   contactMethod = 'email';
@@ -14,12 +14,26 @@ export class SupportComponent {
   success = false;
   error = '';
 
+  supportPhone    = '';
+  supportTgUrl    = '';
+  supportViberUrl = '';
+
   readonly contactMethods = [
     { id: 'email', label: 'Email' },
     { id: 'phone', label: 'Телефон' },
   ];
 
   constructor(private api: ApiService) {}
+
+  ngOnInit(): void {
+    this.api.getPortalSettings().subscribe({
+      next: (s: any) => {
+        this.supportPhone    = s.support_phone     ?? '';
+        this.supportTgUrl    = s.support_tg_url    ?? '';
+        this.supportViberUrl = s.support_viber_url ?? '';
+      }
+    });
+  }
 
   get canSend(): boolean {
     return this.title.trim().length > 0 && this.msg.trim().length > 0 && !this.sending;

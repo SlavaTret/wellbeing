@@ -12,6 +12,9 @@ use yii\db\ActiveRecord;
  */
 class AppSettings extends ActiveRecord
 {
+    private const CACHE_KEY = 'app_settings_all';
+    private const CACHE_TTL = 300; // 5 хвилин
+
     public static function tableName(): string
     {
         return 'app_settings';
@@ -27,12 +30,7 @@ class AppSettings extends ActiveRecord
 
     public static function get(string $key, string $default = ''): string
     {
-        $row = Yii::$app->db->createCommand(
-            'SELECT value FROM app_settings WHERE key = :k',
-            [':k' => $key]
-        )->queryScalar();
-
-        return $row !== false ? (string)$row : $default;
+        return self::loadCached()[$key] ?? $default;
     }
 
     public static function set(string $key, string $value): void
@@ -45,22 +43,41 @@ class AppSettings extends ActiveRecord
             'value'      => $value,
             'updated_at' => time(),
         ])->execute();
+
+        // Скидаємо кеш — наступний запит підтягне свіжі дані
+        Yii::$app->cache->delete(self::CACHE_KEY);
     }
 
     public static function getAll(array $keys): array
     {
         if (!$keys) return [];
-        $placeholders = implode(',', array_map(fn($k) => "'$k'", $keys));
+        $all    = self::loadCached();
+        $result = [];
+        foreach ($keys as $k) {
+            $result[$k] = $all[$k] ?? '';
+        }
+        return $result;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+
+    private static function loadCached(): array
+    {
+        $cached = Yii::$app->cache->get(self::CACHE_KEY);
+        if ($cached !== false) {
+            return $cached;
+        }
+
         $rows = Yii::$app->db->createCommand(
-            "SELECT key, value FROM app_settings WHERE key IN ($placeholders)"
+            'SELECT key, value FROM app_settings'
         )->queryAll();
+
         $map = [];
         foreach ($rows as $r) {
             $map[$r['key']] = $r['value'];
         }
-        foreach ($keys as $k) {
-            if (!isset($map[$k])) $map[$k] = '';
-        }
+
+        Yii::$app->cache->set(self::CACHE_KEY, $map, self::CACHE_TTL);
         return $map;
     }
 }

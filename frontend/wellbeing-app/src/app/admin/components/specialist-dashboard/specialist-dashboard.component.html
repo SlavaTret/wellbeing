@@ -1,0 +1,56 @@
+<div class="admin-page">
+
+  <div *ngIf="loading" class="loading-wrap"><div class="spinner"></div></div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error">
+
+    <!-- Header -->
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Дашборд</h2>
+        <p class="section-sub" *ngIf="specialist">{{ specialist.name }}</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" *ngIf="stats">
+      <div class="stat-card card">
+        <div class="stat-value">{{ stats.upcoming }}</div>
+        <div class="stat-label">Майбутніх записів</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-value">{{ stats.today }}</div>
+        <div class="stat-label">Сьогодні</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-value">{{ stats.pending }}</div>
+        <div class="stat-label">Очікують підтвердження</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Всього консультацій</div>
+      </div>
+    </div>
+
+    <!-- Recent appointments -->
+    <div class="card recent-card" *ngIf="recent.length > 0">
+      <div class="recent-title">Останні записи</div>
+      <div class="recent-list">
+        <div class="recent-row" *ngFor="let a of recent">
+          <div class="recent-avatar">{{ initials(a.user_name) }}</div>
+          <div class="recent-info">
+            <div class="recent-name">{{ a.user_name }}</div>
+            <div class="recent-meta">{{ formatDate(a.appointment_date) }} · {{ a.appointment_time }}</div>
+          </div>
+          <span class="badge" [ngClass]="statusClass(a.status)">{{ statusLabel(a.status) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="recent.length === 0">
+      <p>Ще немає записів</p>
+    </div>
+
+  </ng-container>
+</div>

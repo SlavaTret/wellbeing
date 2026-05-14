@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { ApiService } from '../../services/api/api.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,24 @@ export class ProfileComponent implements OnInit {
   avatarError = '';
   termsSaving = false;
 
+  legalModal: 'terms' | 'privacy' | null = null;
+
+  // Change password modal
+  pwdModalOpen = false;
+  pwdModalVisible = false;
+  pwdOld = '';
+  pwdNew = '';
+  pwdConfirm = '';
+  pwdShowOld = false;
+  pwdShowNew = false;
+  pwdSaving = false;
+  pwdError = '';
+  pwdSuccess = false;
+  private portalSettings: any = {};
+
+  get termsContent():   string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['terms_of_service_' + l] || this.portalSettings['terms_of_service_uk'] || ''; }
+  get privacyContent(): string { const l = this.translate.currentLang || 'uk'; return this.portalSettings['privacy_policy_' + l]   || this.portalSettings['privacy_policy_uk']   || ''; }
+
   companyName = '';
 
   form = {
@@ -28,9 +47,13 @@ export class ProfileComponent implements OnInit {
     acceptedTerms: false
   };
 
-  constructor(public userService: UserService, private api: ApiService) {}
+  constructor(public userService: UserService, private api: ApiService, private translate: TranslateService) {}
 
   ngOnInit(): void {
+    this.api.getPortalSettings().subscribe({
+      next: (s: any) => { this.portalSettings = s; }
+    });
+
     this.userService.user$.subscribe(user => {
       if (user) {
         this.loading = false;
@@ -101,6 +124,54 @@ export class ProfileComponent implements OnInit {
       error: () => {
         this.form.acceptedTerms = !this.form.acceptedTerms; // revert on failure
         this.termsSaving = false;
+      }
+    });
+  }
+
+  openPwdModal(): void {
+    this.pwdOld = ''; this.pwdNew = ''; this.pwdConfirm = '';
+    this.pwdShowOld = false; this.pwdShowNew = false;
+    this.pwdError = ''; this.pwdSuccess = false;
+    this.pwdModalOpen = true;
+    setTimeout(() => this.pwdModalVisible = true, 10);
+  }
+
+  closePwdModal(): void {
+    this.pwdModalVisible = false;
+    setTimeout(() => this.pwdModalOpen = false, 280);
+  }
+
+  generatePassword(): void {
+    const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const lower = 'abcdefghijkmnpqrstuvwxyz';
+    const digits = '23456789';
+    const symbols = '!@#$%&*?';
+    const all = upper + lower + digits + symbols;
+    const pick = (set: string) => set[Math.floor(Math.random() * set.length)];
+    let pwd = pick(upper) + pick(lower) + pick(digits) + pick(symbols);
+    for (let i = 0; i < 8; i++) pwd += pick(all);
+    pwd = pwd.split('').sort(() => Math.random() - 0.5).join('');
+    this.pwdNew = pwd;
+    this.pwdConfirm = pwd;
+    this.pwdShowNew = true;
+  }
+
+  submitPwd(): void {
+    this.pwdError = '';
+    if (!this.pwdOld) { this.pwdError = 'Введіть поточний пароль'; return; }
+    if (!this.pwdNew) { this.pwdError = 'Введіть новий пароль'; return; }
+    if (this.pwdNew.length < 6) { this.pwdError = 'Мінімум 6 символів'; return; }
+    if (this.pwdNew !== this.pwdConfirm) { this.pwdError = 'Паролі не співпадають'; return; }
+    this.pwdSaving = true;
+    this.api.changePassword(this.pwdOld, this.pwdNew).subscribe({
+      next: () => {
+        this.pwdSaving = false;
+        this.pwdSuccess = true;
+        setTimeout(() => this.closePwdModal(), 1800);
+      },
+      error: (err) => {
+        this.pwdSaving = false;
+        this.pwdError = err?.error?.error || 'Помилка зміни пароля';
       }
     });
   }

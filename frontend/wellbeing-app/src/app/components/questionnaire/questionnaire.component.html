@@ -1,39 +1,107 @@
-<h2 class="section-title">Анкета стану</h2>
+<h2 class="section-title">{{ 'questionnaire.title' | translate }}</h2>
 
-<!-- Mood quick -->
-<div class="card" style="margin-bottom: 24px">
-  <div class="mood-title">Як ви почуваєтесь сьогодні?</div>
-  <div class="mood-sub">Швидка оцінка вашого стану</div>
-  <div class="mood-row">
-    <button *ngFor="let m of moods; let i = index"
-      class="mood-btn" [class.mood-active]="mood === i"
-      (click)="mood = i">{{ m }}</button>
+<!-- ── Mood tracker ── -->
+<div class="card mood-card">
+  <div class="mood-header">
+    <div>
+      <div class="mood-title">{{ 'questionnaire.mood_title' | translate }}</div>
+      <div class="mood-sub">{{ todayFormatted }}</div>
+    </div>
+    <div class="mood-badge" *ngIf="moodSaved && savedMood">
+      <span class="mood-badge-emoji">{{ moodOptions[savedMood - 1].emoji }}</span>
+      <span class="mood-badge-label">{{ moodOptions[savedMood - 1].label }}</span>
+    </div>
   </div>
-  <div *ngIf="mood !== null" class="mood-saved">✓ Оцінку збережено</div>
+
+  <div class="mood-row">
+    <button
+      *ngFor="let m of moodOptions"
+      class="mood-btn"
+      [class.mood-active]="selectedMood === m.value"
+      [class.mood-saving]="moodSaving && selectedMood === m.value"
+      (click)="selectMood(m.value)"
+    >
+      <span class="mood-emoji">{{ m.emoji }}</span>
+    </button>
+  </div>
+
+  <div class="mood-status">
+    <div *ngIf="moodSaving" class="mood-saving-hint">
+      <span class="spinner-dot"></span> {{ 'questionnaire.mood_saving' | translate }}
+    </div>
+    <div *ngIf="moodSaved && !moodSaving" class="mood-saved-hint">
+      {{ 'questionnaire.mood_saved' | translate }}
+    </div>
+    <div *ngIf="moodError" class="mood-error-hint">
+      {{ 'questionnaire.mood_error' | translate }}
+    </div>
+  </div>
 </div>
 
-<!-- PHQ questionnaire -->
-<div class="card" *ngIf="!done">
+<!-- ── Loading ── -->
+<div class="card" *ngIf="loading" style="text-align:center;padding:32px">
+  <span class="spinner-dot" style="width:22px;height:22px;border-width:3px;display:inline-block"></span>
+</div>
+
+<!-- ── No active survey ── -->
+<div class="empty-card" *ngIf="!loading && !survey">
+  <div style="font-size:36px;margin-bottom:12px">📋</div>
+  <div style="font-weight:600;font-size:16px;color:#1C2B20;margin-bottom:8px">{{ 'questionnaire.no_survey_title' | translate }}</div>
+  <div style="font-size:13px;color:#6B8879">{{ 'questionnaire.no_survey_desc' | translate }}</div>
+</div>
+
+<!-- ── Already completed ── -->
+<div class="done-card" *ngIf="!loading && survey && alreadyCompleted && !submitted">
+  <div style="font-size:48px;margin-bottom:16px">✅</div>
+  <div class="done-title">{{ 'questionnaire.already_done_title' | translate }}</div>
+  <div class="done-text">{{ 'questionnaire.already_done_desc' | translate }}</div>
+</div>
+
+<!-- ── Survey ── -->
+<div class="survey-card" *ngIf="!loading && survey && !alreadyCompleted && !submitted">
   <div class="q-header">
-    <span class="q-title">Опитування PHQ-9</span>
-    <span class="q-counter">{{ step + 1 }} / {{ questions.length }}</span>
+    <span class="q-title">{{ survey.title }}</span>
+    <span class="q-counter">{{ currentStep + 1 }}&nbsp;/&nbsp;{{ survey.questions.length }}</span>
   </div>
   <div class="q-progress-bar">
     <div class="q-progress-fill" [style.width]="progress + '%'"></div>
   </div>
-  <div class="q-text">{{ questions[step].q }}</div>
-  <div class="q-options">
-    <button *ngFor="let opt of questions[step].options"
+
+  <div class="q-text" *ngIf="currentQuestion">{{ currentQuestion.question }}</div>
+
+  <div class="q-options" *ngIf="currentQuestion">
+    <button
+      *ngFor="let opt of currentQuestion.options; let i = index"
       class="q-option"
-      [class.q-selected]="answers[step] === opt"
-      (click)="answer(opt)">{{ opt }}</button>
+      [class.selected]="answers[currentQuestion.id] === i"
+      (click)="selectAnswer(currentQuestion.id, i)"
+    >{{ opt }}</button>
+  </div>
+
+  <div *ngIf="submitError" style="color:#C62828;font-size:13px;margin-top:12px;text-align:center">
+    {{ 'questionnaire.submit_error' | translate }}
+  </div>
+
+  <div class="q-nav">
+    <button class="btn-nav" (click)="prev()" [disabled]="currentStep === 0">{{ 'questionnaire.back' | translate }}</button>
+    <button
+      *ngIf="currentStep < survey.questions.length - 1"
+      class="btn-nav"
+      (click)="next()"
+    >{{ 'questionnaire.next' | translate }}</button>
+    <button
+      *ngIf="currentStep === survey.questions.length - 1"
+      class="btn-submit"
+      (click)="submit()"
+      [disabled]="!canSubmit || submitting"
+    >{{ submitting ? ('questionnaire.submitting' | translate) : ('questionnaire.submit' | translate) }}</button>
   </div>
 </div>
 
-<!-- Done screen -->
-<div class="card done-card" *ngIf="done">
-  <div class="done-emoji">🌱</div>
-  <div class="done-title">Дякуємо за відповіді!</div>
-  <div class="done-text">Ваші відповіді збережено. Вони допоможуть нашим спеціалістам краще підготуватись до консультації та запропонувати відповідну допомогу.</div>
-  <button class="btn-restart" (click)="restart()">Пройти ще раз</button>
+<!-- ── Success ── -->
+<div class="success-card" *ngIf="submitted">
+  <div style="font-size:48px;margin-bottom:16px">✅</div>
+  <div class="done-title">{{ 'questionnaire.success_title' | translate }}</div>
+  <div class="done-text">{{ 'questionnaire.success_desc' | translate }}</div>
+  <a routerLink="/dashboard" class="btn-restart" style="display:inline-block;text-decoration:none">{{ 'questionnaire.home' | translate }}</a>
 </div>

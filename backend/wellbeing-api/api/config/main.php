@@ -54,6 +54,9 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                // Portal settings (public)
+                'GET  v1/portal-settings'        => 'v1/portal-settings/index',
+
                 // Companies (public)
                 'GET  v1/company'               => 'v1/company/index',
 
@@ -71,6 +74,7 @@ return [
                 'GET  v1/user/profile'          => 'v1/user/profile',
                 'POST v1/user/update-profile'   => 'v1/user/update-profile',
                 'POST v1/user/upload-avatar'    => 'v1/user/upload-avatar',
+                'POST v1/user/change-password'  => 'v1/user/change-password',
 
                 // Dashboard
                 'GET v1/dashboard/free-sessions' => 'v1/dashboard/free-sessions',
@@ -156,6 +160,7 @@ return [
                 // Admin Settings
                 'GET    v1/admin/settings'                       => 'v1/admin/settings',
                 'POST   v1/admin/settings'                       => 'v1/admin/save-settings',
+                'POST   v1/admin/settings/upload-favicon'        => 'v1/admin/upload-favicon',
                 'GET    v1/admin/payment-settings'               => 'v1/admin/payment-settings',
                 'POST   v1/admin/payment-settings'               => 'v1/admin/save-payment-settings',
                 'POST   v1/admin/payments/<id:\d+>/check-status' => 'v1/admin/check-payment-status',
@@ -181,6 +186,11 @@ return [
                 'GET  v1/questionnaire/<id:\d+>' => 'v1/questionnaire/view',
                 'POST v1/questionnaire/<id:\d+>' => 'v1/questionnaire/update',
 
+                // Mood tracker
+                'GET  v1/mood/today'            => 'v1/mood/today',
+                'GET  v1/mood/history'          => 'v1/mood/history',
+                'POST v1/mood'                  => 'v1/mood/create',
+
                 // Support
                 'GET  v1/support-ticket'        => 'v1/support-ticket/index',
                 'POST v1/support-ticket'        => 'v1/support-ticket/create',
@@ -188,6 +198,44 @@ return [
                 'POST v1/support-ticket/<id:\d+>' => 'v1/support-ticket/update',
                 'POST v1/support-ticket/<id:\d+>/reply' => 'v1/support-ticket/reply',
                 'POST v1/support-ticket/<id:\d+>/close' => 'v1/support-ticket/close',
+
+                // Surveys (user)
+                'GET  v1/survey/active'         => 'v1/survey/active',
+                'GET  v1/survey/my-status'      => 'v1/survey/my-status',
+                'POST v1/survey/respond'        => 'v1/survey/respond',
+
+                // Admin Surveys
+                'GET    v1/admin/survey'                               => 'v1/admin-survey/index',
+                'POST   v1/admin/survey'                               => 'v1/admin-survey/create',
+                'POST   v1/admin/survey/<id:\d+>'                      => 'v1/admin-survey/update',
+                'DELETE v1/admin/survey/<id:\d+>'                      => 'v1/admin-survey/delete',
+                'POST   v1/admin/survey/<id:\d+>/activate'             => 'v1/admin-survey/activate',
+                'GET    v1/admin/survey/<id:\d+>/questions'            => 'v1/admin-survey/questions',
+                'POST   v1/admin/survey/<id:\d+>/questions'            => 'v1/admin-survey/create-question',
+                'POST   v1/admin/survey/<id:\d+>/questions/<qid:\d+>'  => 'v1/admin-survey/update-question',
+                'DELETE v1/admin/survey/<id:\d+>/questions/<qid:\d+>'  => 'v1/admin-survey/delete-question',
+                'GET    v1/admin/survey/<id:\d+>/results'              => 'v1/admin-survey/results',
+
+                // Specialist panel (role=specialist)
+                'GET    v1/specialist-panel/dashboard'           => 'v1/specialist-panel/dashboard',
+                'GET    v1/specialist-panel/appointments'        => 'v1/specialist-panel/appointments',
+                'POST   v1/specialist-panel/appointments/<id:\d+>' => 'v1/specialist-panel/update-appointment',
+                'GET    v1/specialist-panel/my-slots'            => 'v1/specialist-panel/my-slots',
+                'POST   v1/specialist-panel/my-slots'            => 'v1/specialist-panel/save-my-slots',
+                'GET    v1/specialist-panel/my-week-schedule'    => 'v1/specialist-panel/my-week-schedule',
+                'POST   v1/specialist-panel/block-date'          => 'v1/specialist-panel/block-my-date',
+                'DELETE v1/specialist-panel/block-date'          => 'v1/specialist-panel/unblock-my-date',
+
+                // Admin: link/unlink specialist user account
+                'POST   v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/link-specialist-user',
+                'DELETE v1/admin/specialists/<id:\d+>/link-user'   => 'v1/admin/unlink-specialist-user',
+
+                // Creatio webhooks (public, authenticated via shared secret)
+                'POST v1/creatio/webhook/contract' => 'v1/creatio-webhook/contract',
+
+                // Admin: contracts
+                'GET    v1/admin/companies/<id:\d+>/contracts'      => 'v1/admin/company-contracts',
+                'POST   v1/admin/companies/<id:\d+>/contracts/sync' => 'v1/admin/sync-company-contracts',
 
                 // OPTIONS preflight for CORS
                 'OPTIONS <path:.*>' => 'v1/default/options',

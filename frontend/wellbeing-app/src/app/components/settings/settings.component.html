@@ -18,6 +18,20 @@
 
 <!-- ═══════════ TAB: NOTIFICATIONS ═══════════ -->
 <div *ngIf="activeTab === 'notifications'" class="tab-content">
+
+  <!-- Language -->
+  <div class="card lang-card">
+    <div class="card-head">
+      <span class="card-title">{{ 'settings.lang_title' | translate }}</span>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <span class="setting-label">{{ 'settings.lang_label' | translate }}</span>
+      </div>
+      <app-lang-switcher></app-lang-switcher>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-head">
       <span class="card-title">{{ 'settings.notifications.channels_title' | translate }}</span>

@@ -84,7 +84,8 @@ class UaPayGateway implements PaymentGatewayInterface
 
     private function request(string $method, string $path, array $body = []): array
     {
-        $ch = curl_init($this->apiUrl . $path);
+        $url = $this->apiUrl . $path;
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -93,13 +94,30 @@ class UaPayGateway implements PaymentGatewayInterface
             'Accept: application/json',
         ]);
 
+        $jsonBody = '';
         if ($method === 'POST') {
+            $jsonBody = json_encode($body);
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonBody);
         }
 
-        $raw = curl_exec($ch);
+        $raw      = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr  = curl_error($ch);
         curl_close($ch);
+
+        \Yii::warning(
+            '[UaPay] ' . $method . ' ' . $url
+            . ' | body=' . $jsonBody
+            . ' | HTTP=' . $httpCode
+            . ' | curlErr=' . $curlErr
+            . ' | response=' . substr((string)$raw, 0, 500),
+            'payment'
+        );
+
+        if ($curlErr) {
+            throw new \RuntimeException('UaPay cURL error: ' . $curlErr);
+        }
 
         return json_decode($raw ?: '{}', true) ?? [];
     }

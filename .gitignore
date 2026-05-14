@@ -1,0 +1,17 @@
+# Local environment configs — never commit these
+backend/wellbeing-api/common/config/main-local.php
+backend/wellbeing-api/common/config/params-local.php
+backend/wellbeing-api/common/config/*-local.php
+
+# Caddy — managed manually on server
+Caddyfile
+
+# Utility scripts with credentials
+backend/wellbeing-api/create_test_user.php
+
+# Node
+frontend/wellbeing-app/node_modules/
+frontend/wellbeing-app/dist/
+
+# macOS
+.DS_Store

@@ -1,0 +1,80 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 1. Frontend Build ────────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/wellbeing-app/package-lock.json
+
+      - name: Install & Build Angular
+        working-directory: frontend/wellbeing-app
+        run: |
+          npm ci
+          npm run build -- --configuration=production
+
+      # ── 2. Sync to Server ────────────────────────────────────────────────
+      - name: Deploy frontend
+        uses: easingthemes/ssh-deploy@v5.0.3
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /var/www/wellbeing/frontend/
+          SOURCE: frontend/wellbeing-app/dist/wellbeing-app/
+          ARGS: "-avzr --delete"
+
+      # ── 3. Backend & Database ────────────────────────────────────────────
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add to Known Hosts
+        run: ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Remote Server Commands
+        run: |
+          ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'ENDSSH'
+            export COMPOSER_ALLOW_SUPERUSER=1
+            set -e
+            
+            cd /var/www/wellbeing/backend/wellbeing-api
+            
+            # Оновлюємо код
+            git config --global --add safe.directory /var/www/wellbeing
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Composer
+            composer install --no-dev --optimize-autoloader --no-interaction
+            
+            # ВАЖЛИВО: використовуємо локальний файл yii, а не vendor/bin/yii
+            # Він підтягне твій common/config/main-local.php з паролем
+            php yii cache/flush-all --interactive=0
+            php yii migrate --interactive=0
+
+            # Права доступу
+            chown -R www-data:www-data api/runtime
+            chmod -R 775 api/runtime
+
+            # Встановлюємо/перезапускаємо systemd сервіс
+            cp /var/www/wellbeing/scripts/wellbeing-api.service /etc/systemd/system/wellbeing-api.service
+            systemctl daemon-reload
+            systemctl enable wellbeing-api
+            systemctl restart wellbeing-api
+          ENDSSH

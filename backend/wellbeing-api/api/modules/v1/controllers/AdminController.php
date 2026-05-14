@@ -4,6 +4,8 @@ namespace api\modules\v1\controllers;
 
 use common\models\AppSettings;
 use common\models\Company;
+use common\models\Contract;
+use common\services\CreatioSyncService;
 use Yii;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
@@ -164,8 +166,8 @@ class AdminController extends Controller
             SELECT
                 c.id, c.code, c.name, c.logo_url,
                 c.primary_color, c.secondary_color, c.accent_color,
-                c.free_sessions_per_user, c.is_active,
-                c.created_at,
+                c.free_sessions_per_user, c.session_price, c.is_active,
+                c.creatio_account_id, c.created_at,
                 COUNT(DISTINCT u.id) AS total_users,
                 COUNT(DISTINCT a.id) AS total_appointments,
                 (
@@ -190,7 +192,9 @@ class AdminController extends Controller
             'secondary_color'      => $r['secondary_color'],
             'accent_color'         => $r['accent_color'],
             'free_sessions_per_user' => (int)$r['free_sessions_per_user'],
+            'session_price'        => $r['session_price'] !== null ? (float)$r['session_price'] : null,
             'is_active'            => (bool)$r['is_active'],
+            'creatio_account_id'   => $r['creatio_account_id'] ?: null,
             'created_at'           => $r['created_at'],
             'total_users'          => (int)$r['total_users'],
             'total_appointments'   => (int)$r['total_appointments'],
@@ -212,8 +216,10 @@ class AdminController extends Controller
         $company->primary_color         = $data['primary_color'] ?? '#2DB928';
         $company->secondary_color       = $data['secondary_color'] ?? '#1C2B20';
         $company->accent_color          = $data['accent_color'] ?? '#E8F5E9';
-        $company->free_sessions_per_user = (int)($data['free_sessions_per_user'] ?? 5);
         $company->is_active             = isset($data['is_active']) ? (bool)$data['is_active'] : true;
+        if (array_key_exists('creatio_account_id', $data)) {
+            $company->creatio_account_id = $data['creatio_account_id'] ?: null;
+        }
 
         if (!$company->validate()) {
             Yii::$app->response->statusCode = 422;
@@ -224,6 +230,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося зберегти компанію'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncCompany($company); } catch (\Throwable $e) {}
 
         return ['success' => true, 'company' => $this->companyRow($company)];
     }
@@ -244,8 +252,10 @@ class AdminController extends Controller
         if (isset($data['primary_color']))          $company->primary_color          = $data['primary_color'];
         if (isset($data['secondary_color']))        $company->secondary_color        = $data['secondary_color'];
         if (isset($data['accent_color']))           $company->accent_color           = $data['accent_color'];
-        if (isset($data['free_sessions_per_user'])) $company->free_sessions_per_user = (int)$data['free_sessions_per_user'];
         if (isset($data['is_active']))              $company->is_active              = (bool)$data['is_active'];
+        if (array_key_exists('creatio_account_id', $data)) {
+            $company->creatio_account_id = $data['creatio_account_id'] ?: null;
+        }
 
         if (!$company->validate()) {
             Yii::$app->response->statusCode = 422;
@@ -256,6 +266,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося оновити компанію'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncCompany($company); } catch (\Throwable $e) {}
 
         return ['success' => true, 'company' => $this->companyRow($company)];
     }
@@ -520,14 +532,16 @@ class AdminController extends Controller
         $rows = Yii::$app->db->createCommand("
             SELECT
                 s.id, s.name, s.type, s.bio, s.experience_years,
-                s.categories, s.avatar_initials, s.avatar_url, s.price,
-                s.is_active, s.created_at, s.email,
+                s.categories, s.avatar_initials, s.avatar_url,
+                s.is_active, s.created_at, s.email, s.creatio_contact_id,
+                s.user_id, u.email AS linked_email,
                 COALESCE(sp.name, s.type) AS type_name,
                 COALESCE(rv.avg_rating, 0)  AS computed_rating,
                 COALESCE(rv.cnt, 0)         AS reviews_count,
                 COALESCE(ac.cnt, 0)         AS sessions_count
             FROM specialist s
             LEFT JOIN specialization sp ON sp.key = s.type
+            LEFT JOIN \"user\" u ON u.id = s.user_id
             LEFT JOIN (
                 SELECT specialist_id,
                        ROUND(AVG(rating)::numeric, 1) AS avg_rating,
@@ -559,7 +573,6 @@ class AdminController extends Controller
         $s->type             = $data['type'] ?? 'psychologist';
         $s->bio              = $data['bio'] ?? '';
         $s->experience_years = (int)($data['experience_years'] ?? 0);
-        $s->price            = (float)($data['price'] ?? 0);
         $s->categories       = $data['categories'] ?? '';
         $s->is_active        = isset($data['is_active']) ? (bool)$data['is_active'] : true;
         $s->email            = $data['email'] ?? null;
@@ -578,6 +591,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося створити спеціаліста'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncSpecialist($s); } catch (\Throwable $e) {}
 
         if (!empty($data['slots'])) {
             $this->saveSpecialistSlots($s->id, $data['slots']);
@@ -601,10 +616,10 @@ class AdminController extends Controller
         if (isset($data['type']))             $s->type             = $data['type'];
         if (isset($data['bio']))              $s->bio              = $data['bio'];
         if (isset($data['experience_years'])) $s->experience_years = (int)$data['experience_years'];
-        if (isset($data['price']))            $s->price            = (float)$data['price'];
         if (isset($data['categories']))       $s->categories       = $data['categories'];
         if (isset($data['is_active']))        $s->is_active        = (bool)$data['is_active'];
         if (array_key_exists('email', $data)) $s->email            = $data['email'] ?: null;
+        if (array_key_exists('creatio_contact_id', $data)) $s->creatio_contact_id = $data['creatio_contact_id'] ?: null;
 
         $parts = preg_split('/\s+/', trim($s->name));
         $s->avatar_initials = mb_strtoupper(
@@ -619,6 +634,8 @@ class AdminController extends Controller
             Yii::$app->response->statusCode = 500;
             return ['error' => 'Не вдалося оновити спеціаліста'];
         }
+
+        try { (new \common\services\CreatioSyncService())->syncSpecialist($s); } catch (\Throwable $e) {}
 
         if (array_key_exists('slots', $data)) {
             $this->saveSpecialistSlots($s->id, $data['slots'] ?? []);
@@ -817,7 +834,8 @@ class AdminController extends Controller
         $this->requireAdmin();
 
         $db        = Yii::$app->db;
-        $kyivNow   = new \DateTime('now', new \DateTimeZone('Europe/Kyiv'));
+        $tz        = AppSettings::get('timezone', 'Europe/Kyiv');
+        $kyivNow   = new \DateTime('now', new \DateTimeZone($tz));
         $todayKyiv = $kyivNow->format('Y-m-d');
         $nowMin    = (int)$kyivNow->format('H') * 60 + (int)$kyivNow->format('i') + 30;
         $today     = \DateTime::createFromFormat('Y-m-d', $todayKyiv);
@@ -927,10 +945,12 @@ class AdminController extends Controller
             'categories_str'   => $r['categories'] ?? '',
             'avatar_initials'  => $r['avatar_initials'] ?: $initials,
             'avatar_url'       => $r['avatar_url'] ?? null,
-            'price'            => (float)$r['price'],
             'is_active'        => (bool)$r['is_active'],
             'created_at'       => $r['created_at'],
-            'email'            => $r['email'] ?? null,
+            'email'               => $r['email'] ?? null,
+            'user_id'             => $r['user_id'] ? (int)$r['user_id'] : null,
+            'linked_email'        => $r['linked_email'] ?? null,
+            'creatio_contact_id'  => $r['creatio_contact_id'] ?? null,
         ];
     }
 
@@ -938,14 +958,16 @@ class AdminController extends Controller
     {
         $row = Yii::$app->db->createCommand("
             SELECT s.id, s.name, s.type, s.bio, s.experience_years,
-                   s.categories, s.avatar_initials, s.avatar_url, s.price,
-                   s.is_active, s.created_at, s.email,
+                   s.categories, s.avatar_initials, s.avatar_url,
+                   s.is_active, s.created_at, s.email, s.creatio_contact_id,
+                   s.user_id, u.email AS linked_email,
                    COALESCE(sp.name, s.type) AS type_name,
                    (SELECT ROUND(AVG(r.rating)::numeric, 1) FROM specialist_review r WHERE r.specialist_id = s.id) AS computed_rating,
                    (SELECT COUNT(*) FROM specialist_review r WHERE r.specialist_id = s.id) AS reviews_count,
                    (SELECT COUNT(*) FROM appointment a WHERE a.specialist_name = s.name) AS sessions_count
             FROM specialist s
             LEFT JOIN specialization sp ON sp.key = s.type
+            LEFT JOIN \"user\" u ON u.id = s.user_id
             WHERE s.id = :id
         ", [':id' => $id])->queryOne();
         return $this->specialistRow($row);
@@ -959,6 +981,87 @@ class AdminController extends Controller
             'coach'        => 'Коуч',
             default        => $type,
         };
+    }
+
+    // ── Specialist account linking ────────────────────────────────────────
+
+    public function actionLinkSpecialistUser(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $s = \common\models\Specialist::findOne($id);
+        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+
+        $data     = Yii::$app->request->post();
+        $email    = trim($data['email'] ?? '');
+        $password = $data['password'] ?? '';
+
+        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Вкажіть коректний email'];
+        }
+        if (strlen($password) < 8) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Пароль має бути не менше 8 символів'];
+        }
+
+        $existing = \common\models\User::findOne(['email' => $email]);
+        if ($existing) {
+            // Link existing user if not already a specialist
+            if ($existing->role === 'specialist' && $existing->id !== $s->user_id) {
+                Yii::$app->response->statusCode = 422;
+                return ['error' => 'Цей email вже прив\'язаний до іншого спеціаліста'];
+            }
+            $existing->role = 'specialist';
+            if ($password) $existing->setPassword($password);
+            $existing->save(false);
+            $user = $existing;
+        } else {
+            $user             = new \common\models\User();
+            $user->email      = $email;
+            $user->username   = $email;
+            $user->first_name = explode(' ', $s->name)[0] ?? $s->name;
+            $user->last_name  = implode(' ', array_slice(explode(' ', $s->name), 1)) ?: '';
+            $user->role       = 'specialist';
+            $user->status     = \common\models\User::STATUS_ACTIVE;
+            $user->setPassword($password);
+            $user->generateAuthKey();
+            if (!$user->validate() || !$user->save()) {
+                Yii::$app->response->statusCode = 422;
+                return ['errors' => $user->getErrors()];
+            }
+        }
+
+        $s->user_id = $user->id;
+        $s->save(false);
+
+        return [
+            'success'  => true,
+            'user_id'  => $user->id,
+            'email'    => $user->email,
+        ];
+    }
+
+    public function actionUnlinkSpecialistUser(int $id)
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $s = \common\models\Specialist::findOne($id);
+        if (!$s) throw new NotFoundHttpException('Спеціаліста не знайдено');
+
+        if ($s->user_id) {
+            $user = \common\models\User::findOne($s->user_id);
+            if ($user) {
+                $user->role = 'user';
+                $user->save(false);
+            }
+            $s->user_id = null;
+            $s->save(false);
+        }
+
+        return ['success' => true];
     }
 
     // ── Specialist avatar upload ─────────────────────────────────────────
@@ -1163,7 +1266,9 @@ class AdminController extends Controller
             'secondary_color'        => $c->secondary_color,
             'accent_color'           => $c->accent_color,
             'free_sessions_per_user' => (int)$c->free_sessions_per_user,
+            'session_price'          => $c->session_price !== null ? (float)$c->session_price : null,
             'is_active'              => (bool)$c->is_active,
+            'creatio_account_id'     => $c->creatio_account_id ?: null,
             'created_at'             => $c->created_at,
             'total_users'            => 0,
             'total_appointments'     => 0,
@@ -1735,7 +1840,14 @@ class AdminController extends Controller
         Yii::$app->response->format = 'json';
         $this->requireAdmin();
 
-        $keys = ['app_url', 'google_client_id', 'google_client_secret'];
+        $keys = [
+            'app_url', 'google_client_id', 'google_client_secret',
+            'site_title_prefix', 'company_name', 'favicon_url', 'timezone', 'default_locale',
+            'terms_of_service_uk', 'terms_of_service_en',
+            'privacy_policy_uk', 'privacy_policy_en',
+            'support_phone', 'support_viber_url', 'support_tg_url',
+            'creatio_base_url', 'creatio_client_id', 'creatio_client_secret', 'creatio_enabled',
+        ];
         $raw  = AppSettings::getAll($keys);
 
         $secret = $raw['google_client_secret'];
@@ -1744,6 +1856,24 @@ class AdminController extends Controller
             'google_client_id'     => $raw['google_client_id'],
             'google_client_secret' => $secret ? ('••••' . mb_substr($secret, -4)) : '',
             'google_configured'    => $raw['google_client_id'] !== '' && $secret !== '',
+            'site_title_prefix'    => $raw['site_title_prefix'] ?: 'Wellbeing',
+            'company_name'         => $raw['company_name'],
+            'favicon_url'          => $raw['favicon_url'],
+            'timezone'             => $raw['timezone'] ?: 'Europe/Kyiv',
+            'default_locale'       => $raw['default_locale'] ?: 'uk',
+            'terms_of_service_uk'  => $raw['terms_of_service_uk'],
+            'terms_of_service_en'  => $raw['terms_of_service_en'],
+            'privacy_policy_uk'    => $raw['privacy_policy_uk'],
+            'privacy_policy_en'    => $raw['privacy_policy_en'],
+            'support_phone'           => $raw['support_phone'],
+            'support_viber_url'       => $raw['support_viber_url'],
+            'support_tg_url'          => $raw['support_tg_url'],
+            'creatio_base_url'        => $raw['creatio_base_url'],
+            'creatio_client_id'       => $raw['creatio_client_id'],
+            'creatio_client_secret'   => $raw['creatio_client_secret']
+                ? ('••••' . mb_substr($raw['creatio_client_secret'], -4)) : '',
+            'creatio_enabled'         => $raw['creatio_enabled'] === '1',
+            'creatio_configured'      => $raw['creatio_base_url'] !== '' && $raw['creatio_client_id'] !== '',
         ];
     }
 
@@ -1763,8 +1893,86 @@ class AdminController extends Controller
         if (isset($data['google_client_secret']) && !str_starts_with($data['google_client_secret'], '••••')) {
             AppSettings::set('google_client_secret', trim($data['google_client_secret']));
         }
+        if (isset($data['site_title_prefix'])) {
+            AppSettings::set('site_title_prefix', trim($data['site_title_prefix']));
+        }
+        if (isset($data['company_name'])) {
+            AppSettings::set('company_name', trim($data['company_name']));
+        }
+        if (isset($data['timezone'])) {
+            AppSettings::set('timezone', trim($data['timezone']));
+        }
+        if (isset($data['default_locale'])) {
+            AppSettings::set('default_locale', trim($data['default_locale']));
+        }
+        if (isset($data['terms_of_service_uk'])) {
+            AppSettings::set('terms_of_service_uk', $data['terms_of_service_uk']);
+        }
+        if (isset($data['terms_of_service_en'])) {
+            AppSettings::set('terms_of_service_en', $data['terms_of_service_en']);
+        }
+        if (isset($data['privacy_policy_uk'])) {
+            AppSettings::set('privacy_policy_uk', $data['privacy_policy_uk']);
+        }
+        if (isset($data['privacy_policy_en'])) {
+            AppSettings::set('privacy_policy_en', $data['privacy_policy_en']);
+        }
+        if (isset($data['support_phone'])) {
+            AppSettings::set('support_phone', trim($data['support_phone']));
+        }
+        if (isset($data['support_viber_url'])) {
+            AppSettings::set('support_viber_url', trim($data['support_viber_url']));
+        }
+        if (isset($data['support_tg_url'])) {
+            AppSettings::set('support_tg_url', trim($data['support_tg_url']));
+        }
+        if (isset($data['creatio_base_url'])) {
+            AppSettings::set('creatio_base_url', rtrim(trim($data['creatio_base_url']), '/'));
+        }
+        if (isset($data['creatio_client_id'])) {
+            AppSettings::set('creatio_client_id', trim($data['creatio_client_id']));
+        }
+        if (isset($data['creatio_client_secret']) && !str_starts_with($data['creatio_client_secret'], '••••')) {
+            AppSettings::set('creatio_client_secret', trim($data['creatio_client_secret']));
+        }
+        if (isset($data['creatio_enabled'])) {
+            AppSettings::set('creatio_enabled', $data['creatio_enabled'] ? '1' : '0');
+        }
 
         return ['success' => true];
+    }
+
+    public function actionUploadFavicon()
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $file = \yii\web\UploadedFile::getInstanceByName('favicon');
+        if (!$file) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Файл не знайдено'];
+        }
+
+        $ext = strtolower($file->extension);
+        if (!in_array($ext, ['png', 'ico', 'jpg', 'jpeg', 'svg', 'gif'], true)) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Дозволені формати: png, ico, jpg, jpeg, svg, gif'];
+        }
+
+        $dir = Yii::getAlias('@webroot/uploads/favicon');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+
+        $filename = 'favicon.' . $ext;
+        if ($file->saveAs($dir . '/' . $filename)) {
+            $url = '/uploads/favicon/' . $filename;
+            AppSettings::set('favicon_url', $url);
+            return ['success' => true, 'favicon_url' => $url . '?v=' . time()];
+        }
+
+        Yii::$app->response->statusCode = 500;
+        return ['error' => 'Не вдалось зберегти файл'];
     }
 
     /* ═══════════════════════════════════════════
@@ -1832,5 +2040,70 @@ class AdminController extends Controller
 
         $result = (new \common\services\PaymentService())->syncPaymentStatus((int)$id);
         return $result;
+    }
+
+    // ── Contracts ────────────────────────────────────────────────────────────
+
+    public function actionCompanyContracts(int $id): array
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $company = Company::findOne($id);
+        if (!$company) {
+            Yii::$app->response->statusCode = 404;
+            return ['error' => 'Company not found'];
+        }
+
+        $contracts = Contract::find()
+            ->where(['company_id' => $id])
+            ->orderBy(['start_date' => SORT_DESC])
+            ->all();
+
+        return array_map(fn(Contract $c) => $this->contractRow($c), $contracts);
+    }
+
+    public function actionSyncCompanyContracts(int $id): array
+    {
+        Yii::$app->response->format = 'json';
+        $this->requireAdmin();
+
+        $company = Company::findOne($id);
+        if (!$company) {
+            Yii::$app->response->statusCode = 404;
+            return ['error' => 'Company not found'];
+        }
+
+        if (!$company->creatio_account_id) {
+            Yii::$app->response->statusCode = 422;
+            return ['error' => 'Company has no Creatio account ID'];
+        }
+
+        (new CreatioSyncService())->syncContracts($company->creatio_account_id);
+
+        $contracts = Contract::find()
+            ->where(['company_id' => $id])
+            ->orderBy(['start_date' => SORT_DESC])
+            ->all();
+
+        return [
+            'ok'        => true,
+            'contracts' => array_map(fn(Contract $c) => $this->contractRow($c), $contracts),
+        ];
+    }
+
+    private function contractRow(Contract $c): array
+    {
+        return [
+            'id'                         => $c->id,
+            'creatio_contract_id'        => $c->creatio_contract_id,
+            'name'                       => $c->name,
+            'start_date'                 => $c->start_date,
+            'end_date'                   => $c->end_date,
+            'session_price'              => $c->session_price !== null ? (float)$c->session_price : null,
+            'free_sessions_per_employee' => (int)$c->free_sessions_per_employee,
+            'is_active'                  => (bool)$c->is_active,
+            'synced_at'                  => $c->synced_at,
+        ];
     }
 }

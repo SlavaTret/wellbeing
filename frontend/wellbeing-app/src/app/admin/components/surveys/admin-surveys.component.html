@@ -1,0 +1,206 @@
+<div class="admin-page">
+  <!-- Header -->
+  <div class="section-header">
+    <div>
+      <h1 class="section-title">Опитування</h1>
+      <p class="section-sub">Керування опитуваннями та питаннями</p>
+    </div>
+    <button class="btn-primary" (click)="openCreate()">+ Створити опитування</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-wrap" *ngIf="loading">
+    <span class="spinner"></span>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!loading && surveys.length === 0">
+    <div class="empty-icon">📋</div>
+    <div class="empty-title">Опитувань ще немає</div>
+    <div class="empty-sub">Створіть перше опитування, натиснувши кнопку вище</div>
+  </div>
+
+  <!-- Surveys list -->
+  <div class="surveys-list" *ngIf="!loading && surveys.length > 0">
+    <div class="survey-card" *ngFor="let s of surveys">
+      <div class="survey-card-top">
+        <div class="survey-info">
+          <div class="survey-title-row">
+            <span class="survey-title">{{ s.title }}</span>
+            <span class="badge-active" *ngIf="s.is_active">Активне</span>
+          </div>
+          <div class="survey-desc" *ngIf="s.description">{{ s.description }}</div>
+          <div class="survey-chips">
+            <span class="chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              {{ s.question_count ?? 0 }} питань
+            </span>
+            <span class="chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              {{ s.response_count ?? 0 }} відповідей
+            </span>
+          </div>
+        </div>
+        <div class="survey-actions">
+          <button class="btn-outline-sm" (click)="activate(s.id)" *ngIf="!s.is_active">Активувати</button>
+          <button class="btn-outline-sm" (click)="openQuestions(s)">Питання</button>
+          <button class="btn-outline-sm" (click)="openResults(s)">Результати</button>
+          <button class="btn-danger-sm" (click)="deleteSurvey(s.id)">Видалити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Create modal ── -->
+<div class="modal-overlay" *ngIf="showCreate" (click)="closeCreate()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Нове опитування</span>
+      <button class="modal-close" (click)="closeCreate()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Назва *</label>
+        <input class="form-input" [(ngModel)]="createTitle" placeholder="Введіть назву опитування" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Опис</label>
+        <textarea class="form-textarea" [(ngModel)]="createDesc" rows="3" placeholder="Необов'язково"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeCreate()">Скасувати</button>
+      <button class="btn-primary" (click)="createSurvey()" [disabled]="!createTitle.trim() || creating">
+        {{ creating ? 'Збереження...' : 'Створити' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Questions modal ── -->
+<div class="modal-overlay" *ngIf="questionsModal" (click)="closeQuestions()">
+  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Питання: {{ questionsModal.survey.title }}</span>
+      <button class="modal-close" (click)="closeQuestions()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Loading -->
+      <div class="loading-wrap" *ngIf="questionsModal.loading">
+        <span class="spinner"></span>
+      </div>
+
+      <!-- Questions list -->
+      <div *ngIf="!questionsModal.loading">
+        <div class="q-item" *ngFor="let q of questionsModal.questions; let i = index">
+          <div class="q-item-body">
+            <div class="q-item-num">{{ i + 1 }}</div>
+            <div class="q-item-content">
+              <div class="q-item-text">{{ q.question }}</div>
+              <div class="q-item-opts">
+                <span class="opt-chip" *ngFor="let o of q.options">{{ o }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="q-item-actions">
+            <button class="btn-icon" (click)="moveQuestion(q, -1)" [disabled]="i === 0" title="Вгору">↑</button>
+            <button class="btn-icon" (click)="moveQuestion(q, 1)" [disabled]="i === questionsModal.questions.length - 1" title="Вниз">↓</button>
+            <button class="btn-icon" (click)="editQuestion(q)" title="Редагувати">✎</button>
+            <button class="btn-icon btn-icon--danger" (click)="deleteQuestion(q.id)" title="Видалити">✕</button>
+          </div>
+        </div>
+
+        <div class="q-empty" *ngIf="questionsModal.questions.length === 0">
+          Питань ще немає. Додайте перше питання нижче.
+        </div>
+
+        <!-- Edit question form -->
+        <div class="add-q-form add-q-form--edit" *ngIf="editingQuestion">
+          <div class="add-q-title">Редагувати питання</div>
+          <div class="form-group">
+            <label class="form-label">Текст питання *</label>
+            <textarea class="form-textarea" [(ngModel)]="editForm.question" rows="2"></textarea>
+          </div>
+          <div class="form-group form-group--gap">
+            <label class="form-label">Варіанти відповідей *</label>
+            <div class="options-list">
+              <div class="option-row" *ngFor="let opt of editForm.options; let oi = index">
+                <input class="form-input" [(ngModel)]="editForm.options[oi]" [placeholder]="'Варіант ' + (oi + 1)" />
+                <button class="btn-icon btn-icon--danger" (click)="removeEditOption(oi)" [disabled]="editForm.options.length <= 2">✕</button>
+              </div>
+            </div>
+            <button class="btn-add-opt btn-add-opt--spaced" (click)="addEditOption()">+ Додати варіант</button>
+          </div>
+          <div class="edit-actions">
+            <button class="btn-cancel" (click)="cancelEdit()">Скасувати</button>
+            <button class="btn-primary" (click)="saveEditQuestion()" [disabled]="savingEdit || !editForm.question.trim()">
+              {{ savingEdit ? 'Збереження...' : 'Зберегти' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Add question form -->
+        <div class="add-q-form" *ngIf="!editingQuestion">
+          <div class="add-q-title">Додати питання</div>
+          <div class="form-group">
+            <label class="form-label">Текст питання *</label>
+            <textarea class="form-textarea" [(ngModel)]="newQuestion.question" rows="2" placeholder="Введіть питання"></textarea>
+          </div>
+          <div class="form-group form-group--gap">
+            <label class="form-label">Варіанти відповідей *</label>
+            <div class="options-list">
+              <div class="option-row" *ngFor="let opt of newQuestion.options; let oi = index">
+                <input class="form-input" [(ngModel)]="newQuestion.options[oi]" [placeholder]="'Варіант ' + (oi + 1)" />
+                <button class="btn-icon btn-icon--danger" (click)="removeOption(oi)" [disabled]="newQuestion.options.length <= 2">✕</button>
+              </div>
+            </div>
+            <button class="btn-add-opt btn-add-opt--spaced" (click)="addOption()">+ Додати варіант</button>
+          </div>
+          <button class="btn-primary" (click)="addQuestion()" [disabled]="addingQuestion || !newQuestion.question.trim()">
+            {{ addingQuestion ? 'Додавання...' : 'Додати питання' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Results modal ── -->
+<div class="modal-overlay" *ngIf="resultsModal" (click)="closeResults()">
+  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Результати: {{ resultsModal.survey.title }}</span>
+      <button class="modal-close" (click)="closeResults()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="loading-wrap" *ngIf="resultsModal.loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div *ngIf="!resultsModal.loading">
+        <div class="result-empty" *ngIf="resultsModal.results.length === 0">
+          Відповідей ще немає
+        </div>
+
+        <div class="result-q" *ngFor="let r of resultsModal.results; let i = index">
+          <div class="result-q-num">Питання {{ i + 1 }}</div>
+          <div class="result-q-text">{{ r.question }}</div>
+          <div class="result-total">Всього відповідей: {{ r.total }}</div>
+          <div class="result-bars">
+            <div class="result-bar-row" *ngFor="let opt of r.options; let oi = index">
+              <div class="result-bar-label">{{ opt }}</div>
+              <div class="result-bar-track">
+                <div class="result-bar-fill" [style.width]="percent(r.counts[oi], r.total) + '%'"></div>
+              </div>
+              <div class="result-bar-meta">
+                <span class="result-bar-pct">{{ percent(r.counts[oi], r.total) }}%</span>
+                <span class="result-bar-cnt">({{ r.counts[oi] }})</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

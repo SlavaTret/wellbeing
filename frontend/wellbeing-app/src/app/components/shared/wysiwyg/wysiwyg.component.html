@@ -1,0 +1,26 @@
+<div class="wysiwyg-wrap">
+  <div class="wysiwyg-toolbar">
+    <button type="button" (click)="exec('bold')" title="Жирний"><b>B</b></button>
+    <button type="button" (click)="exec('italic')" title="Курсив"><i>I</i></button>
+    <button type="button" (click)="exec('underline')" title="Підкреслення"><u>U</u></button>
+    <span class="wysiwyg-sep"></span>
+    <button type="button" (click)="exec('formatBlock', 'h2')" title="Заголовок">H2</button>
+    <button type="button" (click)="exec('formatBlock', 'h3')" title="Підзаголовок">H3</button>
+    <button type="button" (click)="exec('formatBlock', 'p')" title="Абзац">¶</button>
+    <span class="wysiwyg-sep"></span>
+    <button type="button" (click)="exec('insertUnorderedList')" title="Маркований список">• —</button>
+    <button type="button" (click)="exec('insertOrderedList')" title="Нумерований список">1.</button>
+    <span class="wysiwyg-sep"></span>
+    <button type="button" (click)="insertLink()" title="Посилання">🔗</button>
+    <button type="button" (click)="exec('unlink')" title="Видалити посилання">✂</button>
+    <span class="wysiwyg-sep"></span>
+    <button type="button" (click)="exec('removeFormat')" title="Очистити форматування">✕</button>
+  </div>
+  <div
+    #editor
+    class="wysiwyg-editor"
+    contenteditable="true"
+    (input)="onInput()"
+    (blur)="onBlur()"
+  ></div>
+</div>
